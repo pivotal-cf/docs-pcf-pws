@@ -1,0 +1,63 @@
+---
+title: Scaling an Application Using Autoscaler
+owner: PCF Autoscaler
+---
+
+This topic describes how to configure Autoscaler to automatically scale applications based on rules that you set. 
+
+Autoscaler is a marketplace service that...  
+
+## <a id="setup"></a>Set up Autoscaler
+
+### <a id="instance"></a>Create and Bind a Service Instance
+
+To use Autoscaler, you need to create an instance of the Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI):
+
+* **Apps Manager**:
+	1. [Create an instance](https://docs.run.pivotal.io/marketplace/use-console.html).
+	1. [Bind the service to an app](http://docs.pivotal.io/pivotalcf/console/manage-apps.html#bind-services).
+
+* **cf CLI**:
+	1. [Create an instance](http://docs.pivotal.io/pivotalcf/devguide/services/managing-services.html#marketplace).
+	1. [Bind the service to an app](http://docs.pivotal.io/pivotalcf/devguide/services/managing-services.html#bind).
+
+### <a id="ui"></a>Navigate to the Autoscaler UI
+
+1. Navigate to the Autoscaler UI by...
+
+1. Refer to the following image to familiarize yourself with the UI:
+
+	<%= image_tag '0-ui-intro.png'%>
+	* **A** - **App name and Autoscale status**: Enable/disable Autoscaler for the application
+	* **B** - **Instance Limits**: Current instance counts and allowed range
+	* **C** - **Scaling Rules**: Metrics-based instance scaling rules 
+	* **D** - **Scheduling**: Schedule-based changes of allowed instance range
+	* **E** - **Event History**: When the Autoscaler triggered
+
+## <a id="config"></a>Configure Autoscaling for an App
+
+Autoscaler works by adjusting the instance count for an app within an allowable range. See the following sections for instructions on configuring this range and setting rules for when Autoscaler scales your app.
+
+
+### <a id="limits"></a>Instance Limits
+
+Autoscaler keeps instance counts within an allowable range defined by user-settable minimum and maximum. See the following instructions...
+
+### <a id="metric"></a>Scaling Rules
+
+To keep your apps available without wasting resources, Autoscaler increments or decrements instance counts based on current metrics. See the following instructions...
+
+### <a id="schedule"></a>Scheduling
+
+Because app demand often follows a weekly, daily, or hourly schedule, you can schedule Autoscaler to change the allowable instance range to track expected surges or quiet periods. See the following instructions...
+
+
+### <a id="hist"></a>Event History
+
+Autoscaler logs every trigger it registers or change it makes as follows...
+
+## <a id="notifs"></a>Manage Autoscaler Notifications
+
+The Autoscaler service emails you event notifications by default. The type and format of the notifications are as follows...
+
+To subscribe or unsubscribe from notifications, follow these steps...
