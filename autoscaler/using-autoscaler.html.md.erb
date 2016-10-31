@@ -14,7 +14,7 @@ To balance app performance and cost, Space Developers and Space Managers can use
 * Configure rules that adjust instance counts based on metrics thresholds such as CPU Usage. 
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule.
 
-<p class="note"><strong>Note</strong>: To avoid conflict, if an app bound to the autoscaler is manually scaled the autoscaler binding for that app will be automatically disabled by the autoscaler.</b>
+<p class="note"><strong>Note</strong>: To avoid conflict, if you manually scale an app bound to the Autoscaler service, then Autoscaler automatically disables the binding for that app.</b>
 </p>
 
 ## <a id="setup"></a>Set up Autoscaler
@@ -140,12 +140,13 @@ Autoscaler logs all autoscaling events including scaling decisions and binding a
 
 ### View Event History
 
-To view view all autoscaling events in the past 24 hours click the list icon next to <strong>Last Event</strong> in the Autoscaler UI.
-	![Scaling Event History](event_history.png)
+To view all autoscaling events in the past 24 hours, click the list icon next to <strong>Last Event</strong> in the Autoscaler UI.
+
+![Scaling Event History](event_history.png)
 
 ### Manage Autoscaler Notifications
 
-Autoscaling event notifications are emailed to all space users by default.
+Autoscaler emails its event notifications to all space users by default.
 
 Follow these steps to subscribe or unsubscribe from autoscaling event notifications:
 
