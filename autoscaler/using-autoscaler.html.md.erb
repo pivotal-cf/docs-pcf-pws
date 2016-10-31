@@ -7,7 +7,12 @@ This topic describes how to configure Autoscaler to automatically scale applicat
 
 ## <a id="overview"></a> Autoscaler Overview 
 
-Autoscaler is a marketplace service that allows Space Developers and Space Managers to ensure performance and control cost of operating their applications.  By configuring rules based on metrics thresholds (such as CPU Usage) a user can ensure the application will perform within that range by instructing the Autoscaler to increase or decrease resources. 
+Autoscaler is a marketplace service that ensures app performance and helps control the cost of running apps. 
+
+To balance app performance and cost, Space Developers and Space Managers can use Autoscaler to:
+
+* Configure rules that adjust instance counts based on metrics thresholds such as CPU Usage. 
+* Modify the maximum and minimum number of instances for an app, either manually or following a schedule.
 
 ## <a id="setup"></a>Set up Autoscaler
 
@@ -23,37 +28,42 @@ To use Autoscaler, you need to create an instance of the Autoscaler service and 
 
 ## <a id="config"></a>Configure Autoscaling for an App
 
-Autoscaler works by adjusting the instance count for an app within an allowable range. Follow the procedure below to configure this range and set rules for when Autoscaler scales your app.
+Autoscaler keeps instance counts within an allowable range defined by user-settable minimum and maximum values called _instance limits_.
 
-1. In PWS, select the space in which you created the Autoscaler service and click **Services**. 
+Follow these steps to configure the instance limits and set rules for when Autoscaler scales your app.
+
+1. In PWS, select an app from the space in which you created the Autoscaler service and click **Services**. 
 
 1. Select the Autoscaler service from the list of services, and then click **Manage**.
 
-1. Follow the instructions in the sections below to set any of the following:
+1. Follow the procedures in the sections below to set any of the following:
+	![UI](full-autoscaler.png)
 	* [Instance Limits](#limits)
 	* [Scaling Rules](#metric)
 	* [Scheduled Limit Changes](#schedule)
 
 ### <a id="limits"></a>Instance Limits
 
-Autoscaler keeps instance counts within an allowable range defined by user-settable minimum and maximum.
+Follow these steps to manually modify instance limits:
 
-Follow these steps to modify instance limits:
+<p class="note"><strong>Note</strong>: You can also <a href="#schedule">schedule</a> changes to your instance limits for a specific date and time.</p>
 
 1. Click the edit icon next to **Instance Limits**. 
 
 1. Enter values for **Minimum** and **Maximum**. 
 
+	![Limits](instance-limits.png)
+
 1. Click **Save**.  
 
 ### <a id="metric"></a>Scaling Rules
 
-To keep your apps available without wasting resources, Autoscaler increments or decrements instance counts based on current metrics. 
+To keep your apps available without wasting resources, Autoscaler increments or decrements instance counts based on how current metrics compare with user-settable High and Low thresholds. 
 
-<p class="note"><strong>Note</strong>: All rules are active by default.</b>.
+<p class="note"><strong>Note</strong>: All rules are active by default.</b>
 </p>
 
-#### When Autoscaler Scales Apps
+#### How Autoscaler Determines When to Scale
 
 Autoscaler scales apps:
 
@@ -61,16 +71,24 @@ Autoscaler scales apps:
 * down by one instance only when all metrics fall below the **Low** value specified
 
 #### Set Metric High and Low Values
-Follow these steps to modify scaling rules:
+Follow these steps to modify scaling rules by setting high and low values for the available metrics:
 
 1. Click the edit icon next to **Scaling Rules**. 
 
 1. Activate or deactivate each rule using the toggles next to <b>Rule Status</b>.
 
+	![Scaling Rules](rules.png)
+
 1. Set the **Low** and **High** values for each metric using the table below as a guide.
 
 	<table>
-		<tr><th colspan="2">CPU</th></tr><tr><td>Average CPU percentage for all instances of the app.</td>
+		<tr>
+			<th>Metric</th>
+			<th>Description</th>
+		</tr>
+		<tr>
+			<td>CPU</td>
+			<td>Average CPU percentage for all instances of the app</td>
 		</tr>
 	</table>
 
@@ -81,33 +99,33 @@ Follow these steps to modify scaling rules:
 
 Because app demand often follows a weekly, daily, or hourly schedule, you can schedule Autoscaler to change the allowable instance range to track expected surges or quiet periods. 
 
-#### Example
+#### Create or Modify a Scheduled Limit Change
 
-To schedule applications to scale down for a time period such as a weekend you can enter two rules that instruct Autoscaler to reduce the allowable Instance range on Friday evening and increase the allowable instance range on Monday morning.
+1. Click the clock icon next to **Scheduled Limit Changes**. 
 
-First Change (to reduce instances):
-	* **on** and **at**: 28/10/2016 17:00
-	* **repeats every**: F
-	* **Min Instances** and **Max Instances**: 1 and 1
-
-Second Change (to increase instances):
-	* **on** and **at**: 31/10/2016 7:00
-	* **repeats every**: M
-	* **Min Instances** and **Max Instances**: 3 and 5
-
-#### Create or Modify and Scheduled Limit Change
-
-1. Click the edit icon next to **Scheduled Limit Changes**. 
-
-1. You can either click **+New** to add a new scheduled limit change or choose an existing entry to modify. 
-	* If you want to delete an existing entry, click the **X**.
+1. Click **+New** to add a new scheduled limit change or choose an existing entry to modify. 
+	* To delete an existing entry, click the **X**.
 
 1. Edit the following values:
-	* **on** and **at**: Sets the date and time of the first or single occurrence. 
-	* **repeats every**: Sets the day of the week to repeat the change.  
-	* **Min Instances** and **Max Instances**: Sets the allowable range for Autoscaler to adjust the instance count for an app.
+	![Scheduled limit changes](scheduled.png)
+	* **on** and **at**: Set the date and time of the change. 
+	* **repeats every**: Set the day of the week for which you want to repeat the change.  
+	* **Min Instances** and **Max Instances**: Set the allowable range within which Autoscaler can change the instance count for an app.
 
 1. Click **Save**. 
+
+#### Example: Scale Down for the Weekend
+
+To schedule an app to scale down for a weekend, you can enter two rules as follows:
+
+1. Scale down to a single instance on Friday evening:
+	* **on** and **at**: `28/10/2016` and `19:00`
+	* **repeats every**: `F`
+	* **Min Instances** and **Max Instances**: `1` and `1`
+2. Increase instances to between 3 and 5 on Monday morning:
+	* **on** and **at**: `31/10/2016` and `7:00`
+	* **repeats every**: `M`
+	* **Min Instances** and **Max Instances**: `3` and `5`
 
 ## <a id="notifs"></a>Manage Autoscaler Notifications
 
