@@ -14,6 +14,9 @@ To balance app performance and cost, Space Developers and Space Managers can use
 * Configure rules that adjust instance counts based on metrics thresholds such as CPU Usage. 
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule.
 
+<p class="note"><strong>Note</strong>: To avoid conflict, if an app bound to the autoscaler is manually scaled the autoscaler binding for that app will be automatically disabled by the autoscaler.</b>
+</p>
+
 ## <a id="setup"></a>Set up Autoscaler
 
 To use Autoscaler, you need to create an instance of the Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI):
@@ -127,13 +130,24 @@ To schedule an app to scale down for a weekend, you can enter two rules as follo
 	* **repeats every**: `M`
 	* **Min Instances** and **Max Instances**: `3` and `5`
 
-## <a id="notifs"></a>Manage Autoscaler Notifications
 
-Autoscaler logs events and emails you event notifications by default.
 
-<p class="note"><strong>Note</strong>: You can also view the event history for an app by clicking the list icon next to <strong>Last Event</strong> in the Autoscaler UI.</p>
 
-Follow these steps to subscribe or unsubscribe from Autoscaler event notifications:
+
+## <a id="notifs"></a>Autoscaler Events and Notifications
+
+Autoscaler logs all autoscaling events including scaling decisions and binding auto-disable events.
+
+### View Event History
+
+To view view all autoscaling events in the past 24 hours click the list icon next to <strong>Last Event</strong> in the Autoscaler UI.
+	![Scaling Event History](event_history.png)
+
+### Manage Autoscaler Notifications
+
+Autoscaling event notifications are emailed to all space users by default.
+
+Follow these steps to subscribe or unsubscribe from autoscaling event notifications:
 
 1. Navigate to the [Manage Notifications](https://notifications-ui.run.pivotal.io/preferences) page of PWS. 
 
