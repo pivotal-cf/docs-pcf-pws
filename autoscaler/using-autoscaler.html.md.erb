@@ -14,7 +14,7 @@ To balance app performance and cost, Space Developers and Space Managers can use
 * Configure rules that adjust instance counts based on metrics thresholds such as CPU Usage. 
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule.
 
-<p class="note"><strong>Note</strong>: Autoscaler cannot function properly if manual scaling occurs through the cf CLI or Apps Mananer.  If an app bound to the autoscaler is manually scaled the autoscaler binding for that app will be automatically disabled by the autoscaler.</b>
+<p class="note"><strong>Note</strong>: To avoid conflict, if an app bound to the autoscaler is manually scaled the autoscaler binding for that app will be automatically disabled by the autoscaler.</b>
 </p>
 
 ## <a id="setup"></a>Set up Autoscaler
