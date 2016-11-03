@@ -9,17 +9,17 @@ This topic describes how to configure Autoscaler to automatically scale applicat
 
 Autoscaler is a marketplace service that ensures app performance and helps control the cost of running apps. 
 
-To balance app performance and cost, Space Developers and Space Managers can use Autoscaler to:
+To balance app performance and cost, Space Developers and Space Managers can use Autoscaler to do the following:
 
-* Configure rules that adjust instance counts based on metrics thresholds such as CPU Usage. 
-* Modify the maximum and minimum number of instances for an app, either manually or following a schedule.
+* Configure rules that adjust instance counts based on metrics thresholds such as CPU Usage
+* Modify the maximum and minimum number of instances for an app, either manually or following a schedule
 
 <p class="note"><strong>Note</strong>: To avoid conflict, if you manually scale an app bound to the Autoscaler service, then Autoscaler automatically disables the binding for that app.</b>
 </p>
 
 ## <a id="setup"></a>Set up Autoscaler
 
-To use Autoscaler, you need to create an instance of the Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI):
+To use Autoscaler, you must create an instance of the Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI):
 
 * **Apps Manager**:
 	1. [Create an instance](https://docs.run.pivotal.io/marketplace/use-console.html).
@@ -31,19 +31,19 @@ To use Autoscaler, you need to create an instance of the Autoscaler service and 
 
 ## <a id="config"></a>Configure Autoscaling for an App
 
-Autoscaler keeps instance counts within an allowable range defined by user-settable minimum and maximum values called _instance limits_.
+Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values, or _instance limits_.
 
 Follow these steps to configure the instance limits and set rules for when Autoscaler scales your app.
 
-1. In PWS, select an app from the space in which you created the Autoscaler service and click **Services**. 
+1. In Pivotal Web Services (PWS), select an app from the space in which you created the Autoscaler service and click **Services**. 
 
 1. Select the Autoscaler service from the list of services, and then click **Manage**.
 
 1. Follow the procedures in the sections below to set any of the following:
-	![UI](full-autoscaler.png)
 	* [Instance Limits](#limits)
 	* [Scaling Rules](#metric)
-	* [Scheduled Limit Changes](#schedule)
+	* [Scheduled Limit Changes](#schedule)  
+	![UI](full-autoscaler.png)
 
 ### <a id="limits"></a>Instance Limits
 
@@ -55,26 +55,26 @@ Follow these steps to manually modify instance limits:
 
 1. Enter values for **Minimum** and **Maximum**. 
 
-	![Limits](instance-limits.png)
+1. Click **Save**. 
 
-1. Click **Save**.  
+	![Limits](instance-limits.png) 
 
 ### <a id="metric"></a>Scaling Rules
 
-To keep your apps available without wasting resources, Autoscaler increments or decrements instance counts based on how current metrics compare with user-settable High and Low thresholds. 
+To keep your apps available without wasting resources, Autoscaler increments or decrements instance counts based on how current metrics compare with configurable **High** and **Low** thresholds. 
 
 <p class="note"><strong>Note</strong>: All rules are active by default.</b>
 </p>
 
 #### How Autoscaler Determines When to Scale
 
-Autoscaler scales apps:
+Autoscaler scales apps as follows:
 
-* up by one instance when any metric exceeds the **High** value specified
-* down by one instance only when all metrics fall below the **Low** value specified
+* Increment by one instance when any metric exceeds the **High** value specified
+* Decrement by one instance only when all metrics fall below the **Low** value specified
 
 #### Set Metric High and Low Values
-Follow these steps to modify scaling rules by setting high and low values for the available metrics:
+Follow these steps to modify scaling rules by setting **High** and **Low** values for the available metrics:
 
 1. Click the edit icon next to **Scaling Rules**. 
 
