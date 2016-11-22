@@ -5,7 +5,7 @@ owner: Autoscaling
 
 <strong><%= modified_date %></strong>
 
-The App Autoscaling service scales bound applications in response to load.
+The App Autoscaling service, or Autoscaler, scales bound applications in response to load.
 
 An instance of the App Autoscaling service examines the CPU usage of an application bound to it every few minutes. In response to load changes, the service scales your app up and down according to the thresholds, minimums, and maximums that you provide.
 
@@ -42,11 +42,11 @@ changes.
 
 	![View Changes](images/3-view-changes.png)
 
-##<a id='config-options'></a>Configuration Options ##
+##<a id='config-options'></a>Configuring the Autoscaler ##
 
 You can set the absolute maximum and minimum number of instances for your app, as well as the CPU thresholds for an app that trigger the autoscaling service.
 
-###<a id='instance-counts'></a>Instance Counts ###
+###<a id='instance-counts'></a>Set Instance Counts ###
 
 The **Instances** values specify the absolute minimum and maximum number of instances autoscaling can set for an application.
 
@@ -60,7 +60,7 @@ Autoscaling never scales your application above this number of instances.
 
 <p class='note'><strong>Note</strong>: <strong>Min</strong> and <strong>Max</strong> cannot be set to less than <code>1</code>. <strong>Min</strong> must be less than or equal to <strong>Max</strong>.</p>
 
-###<a id='cpu-thresholds'></a>CPU Thresholds ###
+###<a id='cpu-thresholds'></a>Set CPU Thresholds ###
 
 The **CPU thresholds** values specify the upper and lower limits of CPU utilization that trigger the autoscaling service.
 
@@ -74,7 +74,7 @@ app by one.
 CPU utilization above below this threshold, it increases the number of instances
 of the app by one.
 
-##<a id='manual-scaling'></a>Manual Scaling ##
+##<a id='manual-scaling'></a>Scale Manually ##
 
 If you manually scale an application bound to an autoscaling service instance,
 the autoscaling service stops monitoring and autoscaling your application.
