@@ -21,6 +21,8 @@ To balance app performance and cost, Space Developers and Space Managers can use
 
 To use Autoscaler, you must create an instance of the Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI):
 
+  <p class="note"><strong>Note</strong>: Autoscaler has one standard service plan that enables the autoscaler to check metrics every 5 seconds on a 30 second window of data. When an autoscaling event occurs the autoscaler will allow a 30 second warm up time before any further scaling events.</p>
+
 * **Apps Manager**:
 	1. [Create an instance](https://docs.run.pivotal.io/marketplace/use-console.html).
 	1. [Bind the service to an app](http://docs.pivotal.io/pivotalcf/console/manage-apps.html#bind-services).
@@ -63,15 +65,16 @@ Follow these steps to manually modify instance limits:
 
 To keep your apps available without wasting resources, Autoscaler increments or decrements instance counts based on how current metrics compare with configurable **High** and **Low** thresholds. 
 
-<p class="note"><strong>Note</strong>: All rules are active by default.</b>
+<p class="note"><strong>Note</strong>: All rules are inactive by default.</b>
 </p>
 
 #### How Autoscaler Determines When to Scale
 
 Autoscaler scales apps as follows:
 
-* Increment by one instance when any metric exceeds the **High** value specified
-* Decrement by one instance only when all metrics fall below the **Low** value specified
+* Increment app instance count by one instance when any metric exceeds the **High** value specified
+* Decrement app instnace count by one instance only when all metrics fall below the **Low** value specified
+ * **HTTP Throughput - Only Decrement app instance count when the resulting requests/second/instance would not be above the *High** value specified.
 
 #### Set Metric High and Low Values
 Follow these steps to modify scaling rules by setting **High** and **Low** values for the available metrics:
@@ -134,7 +137,7 @@ To schedule an app to scale down for a weekend, you can enter two rules as follo
 
 
 
-## <a id="notifs"></a>Autoscaler Events and Notifications
+## <a id="notifs"></a>Autoscaler Event History and Notifications
 
 Autoscaler logs all autoscaling events including scaling decisions and binding auto-disable events.
 
