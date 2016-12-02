@@ -35,7 +35,7 @@ Autoscaler keeps instance counts within an allowable range defined by minimum an
 
 Follow these steps to configure the instance limits and set rules for when Autoscaler scales your app.
 
-1. In Pivotal Web Services (PWS), select an app from the space in which you created the Autoscaler service and click **Services**. 
+1. In PCF Apps Manager, select an app from the space in which you created the Autoscaler service and click **Services**. 
 
 1. Select the Autoscaler service from the list of services, and then click **Manage**.
 
@@ -163,11 +163,14 @@ To view all autoscaling events in the past 24 hours, click the **view more** ico
 
 ### Manage Autoscaler Notifications
 
-Autoscaler emails its event notifications to all space users by default.
+Autoscaler emails and/or tesxt its event notifications to all space users by default.
 
 Follow these steps to subscribe or unsubscribe from autoscaling event notifications:
 
-1. Navigate to the [Manage Notifications](https://notifications-ui.run.pivotal.io/preferences) page of PWS. 
+1. Navigate to the <b>Manage Notifications</b> page of PCF. 
+
+<p class="note"><strong>Note</strong>: If installed, Notifacitions Management should be available at `https://notifications-ui.system.domain/preferences`  
+</p>   
 
 1. Choose which notifications you want to receive from Autoscaler:
 
