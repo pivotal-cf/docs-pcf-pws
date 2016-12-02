@@ -72,20 +72,23 @@ To keep your apps available without wasting resources, Autoscaler increments or 
 
 Autoscaler scales apps as follows:
 
-* Increment app instance count by one instance when any metric exceeds the **High** value specified
-* Decrement app instnace count by one instance only when all metrics fall below the **Low** value specified
- * **HTTP Throughput - Only Decrement app instance count when the resulting requests/second/instance would not be above the *High** value specified.
+* Increment by one instance when any metric exceeds the **High** threshold specified
+* Decrement by one instance only when all metrics fall below the **Low** threshold specified
 
-#### Set Metric High and Low Values
-Follow these steps to modify scaling rules by setting **High** and **Low** values for the available metrics:
+####Add a Scaling Rule
+
+1. Click the **+ add rule** icon in the <b>Edit Scaling Rules</b> screen. 
+
+#### Set Metric High and Low Thresholds
+Follow these steps to modify scaling rules by setting **High** and **Low** thresholds for the available metrics:
 
 1. Click the edit icon next to **Scaling Rules**. 
 
-1. Activate or deactivate each rule using the toggles next to <b>Rule Status</b>.
+1. Enable or disable each rule using the toggle next to <b>Rule Type</b>.
 
 	![Scaling Rules](rules.png)
 
-1. Set the **Low** and **High** values for each metric using the table below as a guide.
+1. Set the **Low** and **High** thresholds for each metric using the table below as a guide.
 
 	<table>
 		<tr>
@@ -93,13 +96,27 @@ Follow these steps to modify scaling rules by setting **High** and **Low** value
 			<th>Description</th>
 		</tr>
 		<tr>
-			<td>CPU</td>
+			<td>CPU Utilization</td>
 			<td>Average CPU percentage for all instances of the app</td>
 		</tr>
-	</table>
-
+		<tr>
+			<td>HTTP Latency</td>
+			<td>Average Latency of applications response to HTTP requests.  This does not include GoRouter processing time or other network latency.  
+</br>Average is calculated on the middle 99% or middle 95% of all HTTP requests.
+</td>
+		</tr>
+		<tr>
+			<td>HTTP Throughput</td>
+			<td>Total HTTP Requests per second (divided by total app instances).</td>
+		</tr>
+        </table>
 1. Click **Save**.
 
+#### Delete a Scaling Rule
+
+1. Click the **x delete** icon next to the <b>Rule Type</b>.
+
+1. Click **Save**.
 
 ### <a id="schedule"></a>Scheduled Limit Changes
 
@@ -109,29 +126,29 @@ Because app demand often follows a weekly, daily, or hourly schedule, you can sc
 
 1. Click the clock icon next to **Scheduled Limit Changes**. 
 
-1. Click **+New** to add a new scheduled limit change or choose an existing entry to modify. 
-	* To delete an existing entry, click the **X**.
+1. Click **+ ADD NEW** to add a new scheduled limit change or choose an existing entry to modify by clicking the edit icon next to an existing entry. 
+	* To delete an existing entry, click the delete icon **X** next to an existing entry.
 
-1. Edit the following values:
+1. Edit the following values:	
 	![Scheduled limit changes](scheduled.png)
-	* **on** and **at**: Set the date and time of the change. 
-	* **repeats every**: Set the day of the week for which you want to repeat the change.  
-	* **Min Instances** and **Max Instances**: Set the allowable range within which Autoscaler can change the instance count for an app.
+	* Date: **Month**, **Day**, **Year** and **Time**: Set the date and time of the change. 
+	* **Repeat** (optional): Set the day of the week for which you want to repeat the change.  
+	* **Min** and **Max**: Set the allowable range within which Autoscaler can change the instance count for an app.
 
-1. Click **Save**. 
+1. Click **SAVE**. 
 
 #### Example: Scale Down for the Weekend
 
 To schedule an app to scale down for a weekend, you can enter two rules as follows:
 
 1. Scale down to a single instance on Friday evening:
-	* **on** and **at**: `28/10/2016` and `19:00`
-	* **repeats every**: `F`
-	* **Min Instances** and **Max Instances**: `1` and `1`
+	* **Month**, **Day**, **Year** and **Time**: `Dec`, `2`, `2016` and `7:00 PM`
+	* **Repeats**: `Fr`
+	* **Min** and **Max**: `1` and `1`
 2. Increase instances to between 3 and 5 on Monday morning:
-	* **on** and **at**: `31/10/2016` and `7:00`
-	* **repeats every**: `M`
-	* **Min Instances** and **Max Instances**: `3` and `5`
+	* **Month**, **Day**, **Year** and **Time**: `Dec`, `5`, `2016` and `7:00 AM`
+	* **Repeats**: `M`
+	* **Min** and **Max**: `3` and `5`
 
 
 
@@ -140,10 +157,9 @@ To schedule an app to scale down for a weekend, you can enter two rules as follo
 ## <a id="notifs"></a>Autoscaler Event History and Notifications
 
 Autoscaler logs all autoscaling events including scaling decisions and binding auto-disable events.
-
 ### View Event History
 
-To view all autoscaling events in the past 24 hours, click the list icon next to <strong>Last Event</strong> in the Autoscaler UI.
+To view all autoscaling events in the past 24 hours, click the **view more** icon in the Event History section of the Autoscaler UI.
 
 ![Scaling Event History](event_history.png)
 
