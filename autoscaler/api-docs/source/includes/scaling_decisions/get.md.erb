@@ -1,0 +1,41 @@
+### GET Scaling Decisions
+Get all scaling decisions for a service binding
+
+```shell
+<%=
+  CurlHelper.new(verb: 'GET',
+      endpoint: '/bindings/540f43bc-b9cc-4126-97a4-a56b64052da4/decisions',
+      authenticated: true
+  ).render
+%>
+```
+
+```
+Example Response
+```
+
+```http
+HTTP/1.1 200 OK
+[
+  {
+    "guid": "scaling-decision-guid-1",
+    "created_at": "2021-01-01T00:00:00Z",
+    "updated_at": "2021-01-01T00:00:00Z",
+    "reading_id": 1,
+    "service_binding_guid": "540f43bc-b9cc-4126-97a4-a56b64052da4",
+    "scaling_factor": 1,
+    "description": "Did not scale"
+  }
+]
+```
+
+#### HTTP Request
+
+`GET /api/bindings/{binding_guid}/decisions`
+
+
+#### URI Parameters
+
+Parameter  | Type | Example | Description
+---------- | ----------- | ----------- | -----------
+binding_guid  | `string` (required) | `540f43bc-b9cc-4126-97a4-a56b64052da4` | GUID of the service binding

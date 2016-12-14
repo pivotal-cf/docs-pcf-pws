@@ -1,0 +1,62 @@
+<h2 id="status-codes">Status Codes</h2>
+
+<p>Autoscaling uses conventional HTTP response codes to indicate the success or failure of an API request. Generally, codes in the 2xx range indicate success, codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted), and codes in the 5xx range indicate an error with the Autoscaling server.</p>
+
+<table><thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200 - OK</td>
+<td>Everything worked as expected</td>
+</tr>
+<tr>
+<td>400 - bad request</td>
+<td>The request is syntactically incorrect</td>
+</tr>
+<tr>
+<td>401 - unauthorized</td>
+<td>The access token has expired or is invalid</td>
+</tr>
+<tr>
+<td>404 - not found</td>
+<td>The route requested does not exist</td>
+</tr>
+<tr>
+<td>422 - unprocessable entity</td>
+<td>The request is syntactically correct but the supplied values do not work</td>
+</tr>
+</tbody></table>
+<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">400</span> <span class="ne">bad request</span>
+<span class="s">{</span>
+<span class="s">  "description": "Malformed request.",</span>
+<span class="s">  "errors": [</span>
+<span class="s">    {</span>
+<span class="s">      "resource": "scheduled_limit_change",</span>
+<span class="s">      "messages": [</span>
+<span class="s">        "Unexpected token 9 in JSON at position 1."</span>
+<span class="s">      ]</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre>
+<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">404</span> <span class="ne">not found</span>
+<span class="s">{</span>
+<span class="s">   "description": "Unable to find scheduled limit change with guid: 4ff80e73-5cde-4430-936a-dcbc7f0b7c18",</span>
+<span class="s">}</span>
+</code></pre>
+<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">422</span> <span class="ne">unprocessable entity</span>
+<span class="s">{</span>
+<span class="s">  "description": "Validation of resource failed.",</span>
+<span class="s">  "errors": [</span>
+<span class="s">    {</span>
+<span class="s">      "resource": "scheduled_limit_change",</span>
+<span class="s">      "messages": [</span>
+<span class="s">        "Scheduled limit changes cannot conflict."</span>
+<span class="s">      ]</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre>
