@@ -1,0 +1,32 @@
+### DELETE Scheduled Limit Change
+Delete a scheduled limit change from a service binding
+
+```shell
+<%=
+  CurlHelper.new(verb: 'DELETE',
+      endpoint: '/bindings/540f43bc-b9cc-4126-97a4-a56b64052da4/scheduled_limit_changes/4ff80e73-5cde-4430-936a-dcbc7f0b7c18',
+      authenticated: true
+  ).render
+%>
+```
+
+```
+Example Response
+```
+
+```http
+HTTP/1.1 200 OK
+{}
+```
+
+#### HTTP Request
+
+`DELETE /api/bindings/{binding_guid}/scheduled_limit_changes/{change_guid}`
+
+
+#### URI Parameters
+
+Parameter  | Type | Example | Description
+---------- | ----------- | ----------- | -----------
+binding_guid  | `string` (required) | `540f43bc-b9cc-4126-97a4-a56b64052da4` | GUID of the service binding
+change_guid  | `string` (required) | `4ff80e73-5cde-4430-936a-dcbc7f0b7c18` | GUID of the scaling limit change
