@@ -1,45 +1,45 @@
 ---
-title: Scaling an Application Using Autoscaler
+title: Scaling an Application Using App Autoscaler
 owner: PCF Autoscaler
 ---
 
-This topic describes how to configure Autoscaler to automatically scale applications based on rules that you set. 
+This topic describes how to configure App Autoscaler to automatically scale applications based on rules that you set. 
 
-## <a id="overview"></a> Autoscaler Overview 
+## <a id="overview"></a> App Autoscaler Overview 
 
-Autoscaler is a marketplace service that ensures app performance and helps control the cost of running apps. 
+App Autoscaler is a marketplace service that ensures app performance and helps control the cost of running apps. 
 
-To balance app performance and cost, Space Developers and Space Managers can use Autoscaler to do the following:
+To balance app performance and cost, Space Developers and Space Managers can use App Autoscaler to do the following:
 
 * Configure rules that adjust instance counts based on metrics thresholds such as CPU Usage
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule
 
-<p class="note"><strong>Note</strong>: To avoid conflict, if you manually scale an app bound to the Autoscaler service, then Autoscaler automatically disables the binding for that app.
+<p class="note"><strong>Note</strong>: To avoid conflict, if you manually scale an app bound to the App Autoscaler service, then App Autoscaler automatically disables the binding for that app.
 </p>
 
-## <a id="setup"></a>Set up Autoscaler
+## <a id="setup"></a>Set up App Autoscaler
 
-To use Autoscaler, you must create an instance of the Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI).
+To use App Autoscaler, you must create an instance of the App Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI).
 
-<p class="note"><strong>Note</strong>: Autoscaler has one standard service plan that enables the Autoscaler to check metrics every 5 seconds on a 30 second window of data. When an autoscaling event occurs, the Autoscaler allows a 30-second warm-up time before any further scaling events.</p>
+<p class="note"><strong>Note</strong>: App Autoscaler has one standard service plan that enables the App Autoscaler to check metrics every 5 seconds on a 30 second window of data. When an autoscaling event occurs, the App Autoscaler allows a 30-second warm-up time before any further scaling events.</p>
 
 * **Apps Manager**:
-	1. [Create an instance](https://docs.run.pivotal.io/marketplace/use-console.html).
-	1. [Bind the service to an app](http://docs.pivotal.io/pivotalcf/console/manage-apps.html#bind-services).
+	1. [Create an instance of the service](../../marketplace/use-console.html).
+	1. [Bind the service to an app](../../marketplace/use-console.html#bind-instance).
 
 * **cf CLI**:
-	1. [Create an instance](http://docs.pivotal.io/pivotalcf/devguide/services/managing-services.html#marketplace).
-	1. [Bind the service to an app](http://docs.pivotal.io/pivotalcf/devguide/services/managing-services.html#bind).
+	1. [Create an instance of the service](../../devguide/services/managing-services.html#marketplace).
+	1. [Bind the service to an app](../../devguide/services/managing-services.html#bind).
 
 ## <a id="config"></a>Configure Autoscaling for an App
 
-Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values, or _instance limits_.
+App Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values, or _instance limits_.
 
-Follow these steps to configure the instance limits and set rules for when Autoscaler scales your app.
+Follow these steps to configure the instance limits and set rules for when App Autoscaler scales your app.
 
-1. In Pivotal Web Services (PWS), select an app from the space in which you created the Autoscaler service and click **Services**. 
+1. In Pivotal Web Services (PWS), select an app from the space in which you created the App Autoscaler service and click **Services**. 
 
-1. Select the Autoscaler service from the list of services, and then click **Manage**.
+1. Select the App Autoscaler service from the list of services, and then click **Manage**.
 
 1. Follow the procedures in the sections below to set any of the following:
 	* [Instance Limits](#limits)
@@ -63,13 +63,13 @@ Follow these steps to manually modify instance limits:
 
 ### <a id="metric"></a>Scaling Rules
 
-To keep your apps available without wasting resources, Autoscaler increments or decrements instance counts based on how current metrics compare with configurable **High** and **Low** thresholds. 
+To keep your apps available without wasting resources, App Autoscaler increments or decrements instance counts based on how current metrics compare with configurable **High** and **Low** thresholds. 
 
 <p class="note"><strong>Note</strong>: All rules are inactive by default.</p>
 
-#### How Autoscaler Determines When to Scale
+#### How App Autoscaler Determines When to Scale
 
-Autoscaler scales apps as follows:
+App Autoscaler scales apps as follows:
 
 * Increment by one instance when any metric exceeds the **High** threshold specified
 * Decrement by one instance only when all metrics fall below the **Low** threshold specified
@@ -79,6 +79,7 @@ Autoscaler scales apps as follows:
 1. Click the **+ add rule** icon in the <b>Edit Scaling Rules</b> screen. 
 
 #### Set Metric High and Low Thresholds
+
 Follow these steps to modify scaling rules by setting **High** and **Low** thresholds for the available metrics:
 
 1. Click the edit icon next to **Scaling Rules**. 
@@ -119,7 +120,7 @@ Follow these steps to modify scaling rules by setting **High** and **Low** thres
 
 ### <a id="schedule"></a>Scheduled Limit Changes
 
-Because app demand often follows a weekly, daily, or hourly schedule, you can schedule Autoscaler to change the allowable instance range to track expected surges or quiet periods. 
+Because app demand often follows a weekly, daily, or hourly schedule, you can schedule App Autoscaler to change the allowable instance range to track expected surges or quiet periods. 
 
 #### Create or Modify a Scheduled Limit Change
 
@@ -149,27 +150,23 @@ To schedule an app to scale down for a weekend, you can enter two rules as follo
 	* **Repeats**: `M`
 	* **Min** and **Max**: `3` and `5`
 
+## <a id="notifs"></a>App Autoscaler Event History and Notifications
 
-
-
-
-## <a id="notifs"></a>Autoscaler Event History and Notifications
-
-Autoscaler logs all autoscaling events including scaling decisions and binding auto-disable events.
+App Autoscaler logs all autoscaling events including scaling decisions and binding auto-disable events.
 ### View Event History
 
 To view all autoscaling events in the past 24 hours, click the **view more** icon in the Event History section of the Autoscaler UI.
 
 ![Scaling Event History](event_history.png)
 
-### Manage Autoscaler Notifications
+### Manage App Autoscaler Notifications
 
-Autoscaler emails its event notifications to all space users by default.
+App Autoscaler emails its event notifications to all space users by default.
 
 Follow these steps to subscribe or unsubscribe from autoscaling event notifications:
 
 1. Navigate to the [Manage Notifications](https://notifications-ui.run.pivotal.io/preferences) page of PWS. 
 
-1. Choose which notifications you want to receive from Autoscaler:
+1. Choose which notifications you want to receive from App Autoscaler:
 
 	![Notifications](manage-notifications.png)
