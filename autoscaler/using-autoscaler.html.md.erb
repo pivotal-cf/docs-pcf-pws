@@ -3,19 +3,18 @@ title: Scaling an Application Using App Autoscaler
 owner: PCF Autoscaler
 ---
 
-This topic describes how to configure the App Autoscaler service to automatically scale applications based on rules that you set. 
+This topic describes how Pivotal Cloud Foundry (PCF) users with the Space Developer [role](../../concepts/roles.html#roles) can set up and configure the App Autoscaler service to automatically scale apps based on rules that they set. 
+
+<p class='note'><strong>NOTE</strong>: Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using the Apps Manager</a>.</p> 
 
 ## <a id="overview"></a> App Autoscaler Overview
 
-App Autoscaler is a marketplace service that ensures app performance and helps control the cost of running apps. 
+App Autoscaler is a marketplace service that helps control the cost of running apps while maintaining app performance. 
 
-To balance app performance and cost, Space Developers and Space Managers can use App Autoscaler to do the following:
+To balance app performance and cost, Space Developers can use App Autoscaler to do the following:
 
 * Configure rules that adjust instance counts based on metrics thresholds such as CPU Usage
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule
-
-<p class="note"><strong>Note</strong>: To avoid conflict, if you manually scale an app bound to the App Autoscaler service, then App Autoscaler automatically disables the binding for that app.</b>
-</p>
 
 ## <a id="setup"></a>Set Up App Autoscaler
 
@@ -38,20 +37,20 @@ Follow these steps to enable App Autoscaler for the app:
 
 1. Click **Manage Autoscaling** to [configure](#config) instance limits, scaling rules, and scheduled limit changes for the app.
 
-    <p class='note'><strong>Note</strong>: You must have the role of Space Developer to access the <strong>Manage Autoscaling</strong> link for the app autoscaling service. 
+### <id="auto-vs-manual"> Manual Scaling Overrides Autoscaler
+
+If you [manually scale](../../console/manage-apps.html) an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting.
 
 ## <a id="config"></a>Configure Autoscaling for an App
 
 App Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values, or _instance limits_.
 
-Space Managers, Space Auditors, and all Org roles do not have the permission to make changes to App Autoscaling. 
-For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using the Apps Manager</a>.</p> 
+Follow the procedures in the sections below to set any of the following:
 
-1. Follow the procedures in the sections below to set any of the following:
-	* [Instance Limits](#limits)
-	* [Scaling Rules](#metric)
-	* [Scheduled Limit Changes](#schedule)  
-	![UI](full-autoscaler.png)
+* [Instance Limits](#limits)
+* [Scaling Rules](#metric)
+* [Scheduled Limit Changes](#schedule)  
+![UI](full-autoscaler.png)
 
 ### <a id="limits"></a>Instance Limits
 
