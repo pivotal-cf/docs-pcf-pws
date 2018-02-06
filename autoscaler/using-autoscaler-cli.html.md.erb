@@ -1,0 +1,141 @@
+---
+title: Using the Autoscaler CLI plugin
+owner: PCF Autoscaler
+---
+
+This topic provides instructions for using the cli plugin for the App Autoscaler.
+
+## <a id="manage-autoscaler"></a>Manage Autoscaler
+
+You can use the App Autoscaler to automatically scale your app in response to demand. See the following sections to learn more about editing your autoscaling settings
+
+<p class="note"><strong>Note</strong>: If you want to use the Cloud Foundry Command Line Interface (cf CLI) for managing calls, you must install the App Autoscaler CLI plugin on your local machine. This plugin is on <a href="INSERT CORRECT LINK HERE">Pivotal Network</a>.</p>
+
+### <a id="view-apps"></a>Viewing apps
+
+You can view all the apps that are bound to an autoscaler service instance in a space, their instance limits, and whether or not they are enabled using `cf autoscaling-apps` command.
+
+<pre class="terminal">
+$ cf autoscaling-apps<br>
+Presenting autoscaler apps in org my-org / my-space autoscaling as user
+Name                  Guid            Enabled   Min Instances   Max Instances
+test-app              guid            true      1               4
+test-app-2            guid-2          false     10              40
+OK
+</pre>
+
+### <a id="enable-autoscaling"></a>Enabling Autoscaling
+
+You can enable autoscaling on your application by calling `cf enable-autoscaling APP-NAME`.
+
+<pre class="terminal">
+$ cf enable-autoscaling test-app-2<br>
+Enabled autoscaling for app test-app-2 for org my-org / my-space testing as admin
+OK
+</pre>
+
+### <a id="disable-autoscaling"></a>Disable Autoscaling
+
+You can disable autoscaling on your application by calling `cf disable-autoscaling APP-NAME`.
+
+<pre class="terminal">
+$ cf disable-autoscaling test-app<br>
+Disabled autoscaling for app test-app for org my-org / my-space testing as admin
+OK
+</pre>
+
+### <a id="updating-instance-limits"></a>Updating Instance Limits
+
+You can update the upper and lower application instance limits which the autoscaler will not attempt to scale beyond using the cli. The command is `cf update-autoscaling-limits APP_NAME MIN_INSTANCE_LIMIT MAX_INSTANCE_LIMIT`
+
+<pre class="terminal">
+$ cf update-autoscaling-limits test-app 10 40<br>
+Updated autoscaling instance limits for app test-app for org my-org / my-space testing as admin
+OK
+</pre>
+
+### <a id="viewing-rules"></a>Viewing Rules
+
+You can view the rules that the autoscaler uses to determine when to scale your application using `cf autoscaling-rules APP_NAME`
+
+<pre class="terminal">
+$ cf autoscaling-rules test-app<br>
+Presenting autoscaler rules for app test-app for org my-org / my-space autoscaling as user
+Rule Guid      Rule Type         Rule Sub Type   Min Threshold   Max Threshold
+guid           cpu                               10              20
+guid-2         http_throughput                   20              30
+OK
+</pre>
+
+### <a id="create-rule"></a>Create a Rule
+
+You can create a new autoscaling rule by running `create-autoscaling-rule APP_NAME RULE_TYPE MIN_THRESHOLD MAX_THRESHOLD  [--subtype SUBTYPE]`
+
+<pre class="terminal">
+$ cf create-autoscaling-rule test-app http_latency 10 20 -s avg_99th<br>
+Created autoscaler rule for app test-app for org my-org / space my-space as user
+Rule Guid             Rule Type         Rule Sub Type   Min Threshold   Max Threshold
+guid-3                http_latency      avg_99th        10              20
+</pre>
+
+### <a id="delete-rule"></a>Deleting a rule
+
+You can delete a single autoscaling rule by using it's guid by running `delete-autoscaling-rule APP_NAME RULE_GUID [--force]`
+
+<pre class="terminal">
+$ cf delete-autoscaling-rule test-app guid-2<br>
+Really delete rule guid-2 for app test-app?> [yN]:y
+Deleted rule guid-2 for autoscaler app test-app for org my-org / space my-space as admin
+OK
+</pre>
+
+### <a id="delete-rules"></a>Deleting all rules
+
+You can delete all autoscaling rules by running `delete-autoscaling-rules APP_NAME [--force]`
+
+<pre class="terminal">
+$ cf delete-autoscaling-rules test-app<br>
+Really delete ALL rules for app test-app?> [yN]:y
+Deleted rules for autoscaler app test-app for org my-org / space my-space as admin
+OK
+</pre>
+
+### <a id="autoscaling-events"></a>Viewing autoscaling events
+
+You can view recent events related to autoscaling for your application by running `cf autoscaling-events APP_NAME`
+
+<pre class="terminal">
+$ cf autoscaling-events test-app<br>
+Time                  Description
+2032-01-01T00:00:00Z  Scaled up from 3 to 4 instances. Current cpu of 20 is above upper threshold of 10.
+</pre>
+
+### <a id="configure-autoscaling"></a>Configuring with a manifest
+
+You can configure your rules, and instance limits, and set scheduled limit changes at the same time by using a service manifest with `configure-autoscaling APP_NAME MANIFEST_FILE_PATH`
+
+An example manifest:
+<pre class="terminal">
+---
+instance_limits:
+  min: 1
+  max: 2
+rules:
+  - rule_type: "http_latency"
+    rule_sub_type: "avg_99th"
+    threshold:
+      min: 10
+      max: 20
+scheduled_limit_changes:
+  - recurrence: 10
+    executes_at: "2032-01-01T00:00:00Z"
+    instance_limits:
+      min: 10
+      max: 20
+</pre>
+
+<pre class="terminal">
+$ cf configure-autoscaling test-app manifest.yml<br>
+Setting autoscaler settings for app test-app for org my-org / space my-space as user
+OK
+</pre>
