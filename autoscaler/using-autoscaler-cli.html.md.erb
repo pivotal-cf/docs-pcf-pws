@@ -3,17 +3,13 @@ title: Using the Autoscaler CLI plugin
 owner: PCF Autoscaler
 ---
 
-This topic provides instructions for using the cli plugin for the App Autoscaler.
+This topic provides instructions for using the CLI plugin for the App Autoscaler. Use the App Autoscaler to automatically scale your app in response to demand. 
 
-## <a id="manage-autoscaler"></a>Manage Autoscaler
+<p class="note"><strong>Note</strong>: If you want to use the Cloud Foundry Command Line Interface (cf CLI) for managing calls, you must install the App Autoscaler CLI plugin on your local machine. Download this plugin from <a href="INSERT CORRECT LINK HERE">Pivotal Network</a>.</p>
 
-You can use the App Autoscaler to automatically scale your app in response to demand. See the following sections to learn more about editing your autoscaling settings
+## <a id="view-apps"></a>View Apps
 
-<p class="note"><strong>Note</strong>: If you want to use the Cloud Foundry Command Line Interface (cf CLI) for managing calls, you must install the App Autoscaler CLI plugin on your local machine. This plugin is on <a href="INSERT CORRECT LINK HERE">Pivotal Network</a>.</p>
-
-### <a id="view-apps"></a>Viewing apps
-
-You can view all the apps that are bound to an autoscaler service instance in a space, their instance limits, and whether or not they are enabled using `cf autoscaling-apps` command.
+Run `cf autoscaling-apps` to view all the apps that are bound to an autoscaler service instance in a space, their instance limits, and whether or not they are enabled.
 
 <pre class="terminal">
 $ cf autoscaling-apps<br>
@@ -24,9 +20,9 @@ test-app-2            guid-2          false     10              40
 OK
 </pre>
 
-### <a id="enable-autoscaling"></a>Enabling Autoscaling
+## <a id="enable-autoscaling"></a>Enable Autoscaling
 
-You can enable autoscaling on your application by calling `cf enable-autoscaling APP-NAME`.
+Run `cf enable-autoscaling APP-NAME` to enable autoscaling on your app. Replace `APP-NAME` with the name of your app.
 
 <pre class="terminal">
 $ cf enable-autoscaling test-app-2<br>
@@ -34,9 +30,9 @@ Enabled autoscaling for app test-app-2 for org my-org / my-space testing as admi
 OK
 </pre>
 
-### <a id="disable-autoscaling"></a>Disable Autoscaling
+## <a id="disable-autoscaling"></a>Disable Autoscaling
 
-You can disable autoscaling on your application by calling `cf disable-autoscaling APP-NAME`.
+Run `cf disable-autoscaling APP-NAME` to disable autoscaling on your app. Replace `APP-NAME` with the name of your app.
 
 <pre class="terminal">
 $ cf disable-autoscaling test-app<br>
@@ -44,19 +40,19 @@ Disabled autoscaling for app test-app for org my-org / my-space testing as admin
 OK
 </pre>
 
-### <a id="updating-instance-limits"></a>Updating Instance Limits
+## <a id="updating-instance-limits"></a>Update Instance Limits
 
-You can update the upper and lower application instance limits which the autoscaler will not attempt to scale beyond using the cli. The command is `cf update-autoscaling-limits APP_NAME MIN_INSTANCE_LIMIT MAX_INSTANCE_LIMIT`
-
+Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT` to update the upper and lower app instance limits. The autoscaler will not attempt to scale beyond these limits. Replace `APP-NAME` with the name of your app. Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps, and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
+ 
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
 Updated autoscaling instance limits for app test-app for org my-org / my-space testing as admin
 OK
 </pre>
 
-### <a id="viewing-rules"></a>Viewing Rules
+## <a id="viewing-rules"></a>View Rules
 
-You can view the rules that the autoscaler uses to determine when to scale your application using `cf autoscaling-rules APP_NAME`
+Run `cf autoscaling-rules APP-NAME` to view the rules that the autoscaler uses to determine when to scale your app. Replace `APP-NAME` with the name of your app.
 
 <pre class="terminal">
 $ cf autoscaling-rules test-app<br>
@@ -67,9 +63,9 @@ guid-2         http_throughput                   20              30
 OK
 </pre>
 
-### <a id="create-rule"></a>Create a Rule
+## <a id="create-rule"></a>Create a Rule
 
-You can create a new autoscaling rule by running `create-autoscaling-rule APP_NAME RULE_TYPE MIN_THRESHOLD MAX_THRESHOLD  [--subtype SUBTYPE]`
+Run `create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE]` to create a new autoscaling rule. 
 
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app http_latency 10 20 -s avg_99th<br>
@@ -78,9 +74,9 @@ Rule Guid             Rule Type         Rule Sub Type   Min Threshold   Max Thre
 guid-3                http_latency      avg_99th        10              20
 </pre>
 
-### <a id="delete-rule"></a>Deleting a rule
+## <a id="delete-rule"></a>Delete a Rule
 
-You can delete a single autoscaling rule by using it's guid by running `delete-autoscaling-rule APP_NAME RULE_GUID [--force]`
+Run `delete-autoscaling-rule APP-NAME RULE-GUID [--force]` to delete a single autoscaling rule. Replace `APP-NAME` with the name of your app, and replace `RULE-GUID` with the GUID.
 
 <pre class="terminal">
 $ cf delete-autoscaling-rule test-app guid-2<br>
@@ -89,9 +85,9 @@ Deleted rule guid-2 for autoscaler app test-app for org my-org / space my-space 
 OK
 </pre>
 
-### <a id="delete-rules"></a>Deleting all rules
+## <a id="delete-rules"></a>Delete All Rules
 
-You can delete all autoscaling rules by running `delete-autoscaling-rules APP_NAME [--force]`
+Run `delete-autoscaling-rules APP-NAME [--force]` to delete all autoscaling rules. Replace `APP-NAME` with the name of your app.
 
 <pre class="terminal">
 $ cf delete-autoscaling-rules test-app<br>
@@ -100,9 +96,9 @@ Deleted rules for autoscaler app test-app for org my-org / space my-space as adm
 OK
 </pre>
 
-### <a id="autoscaling-events"></a>Viewing autoscaling events
+## <a id="autoscaling-events"></a>View Autoscaling Events
 
-You can view recent events related to autoscaling for your application by running `cf autoscaling-events APP_NAME`
+Run `cf autoscaling-events APP-NAME` to view recent events related to autoscaling for your app. Replace `APP-NAME` with the name of your app.
 
 <pre class="terminal">
 $ cf autoscaling-events test-app<br>
@@ -110,28 +106,29 @@ Time                  Description
 2032-01-01T00:00:00Z  Scaled up from 3 to 4 instances. Current cpu of 20 is above upper threshold of 10.
 </pre>
 
-### <a id="configure-autoscaling"></a>Configuring with a manifest
+## <a id="configure-autoscaling"></a>Configure with a Manifest
 
-You can configure your rules, and instance limits, and set scheduled limit changes at the same time by using a service manifest with `configure-autoscaling APP_NAME MANIFEST_FILE_PATH`
+Run `configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest to configure your rules, add instance limits, and set scheduled limit changes at the same time. Replace `APP-NAME` with the name of your app, and replace `MANIFEST-FILE-PATH` with the path and name of your manifest.
 
 An example manifest:
-<pre class="terminal">
----
-instance_limits:
-  min: 1
-  max: 2
-rules:
-  - rule_type: "http_latency"
-    rule_sub_type: "avg_99th"
-    threshold:
-      min: 10
-      max: 20
-scheduled_limit_changes:
-  - recurrence: 10
-    executes_at: "2032-01-01T00:00:00Z"
-    instance_limits:
-      min: 10
-      max: 20
+
+<pre>
+  ---
+  instance_limits:
+    min: 1
+    max: 2
+  rules:
+    - rule_type: "http_latency"
+      rule_sub_type: "avg_99th"
+      threshold:
+        min: 10
+        max: 20
+  scheduled_limit_changes:
+    - recurrence: 10
+      executes_at: "2032-01-01T00:00:00Z"
+      instance_limits:
+        min: 10
+        max: 20
 </pre>
 
 <pre class="terminal">
