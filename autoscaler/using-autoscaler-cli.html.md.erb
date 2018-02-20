@@ -1,11 +1,19 @@
 ---
-title: Using the Autoscaler CLI plugin
+title: Using the App Autoscaler CLI
 owner: PCF Autoscaler
 ---
 
-This topic provides instructions for using the CLI plugin for the App Autoscaler. Use the App Autoscaler to automatically scale your app in response to demand. 
+This topic explains how to use the App Autoscaler command-line interface (CLI).
 
-<p class="note"><strong>Note</strong>: If you want to use the Cloud Foundry Command Line Interface (cf CLI) for managing calls, you must install the App Autoscaler CLI plugin on your local machine. Download this plugin from <a href="https://network.pivotal.io/">Pivotal Network</a>.</p>
+The App Autoscaler automatically scales Cloud Foundry apps in response to demand. The App Autoscaler CLI lets you control the App Autoscaler from your local command line by extending the Cloud Foundry command-line interface (cf CLI).
+
+To use the App Autoscaler CLI, you must first [install](#install) the App Autoscaler CLI plugin.
+
+## <a id="install"></a>Install the App Autoscaler CLI Plugin
+
+Before you can run App Autoscaler CLI commands on your local machine, you must install the App Autoscaler CLI plugin.
+
+To install the App Autoscaler CLI plugin, download it from <a href="https://network.pivotal.io/">Pivotal Network</a>.
 
 ## <a id="view-apps"></a>View Apps
 
@@ -42,7 +50,7 @@ OK
 
 ## <a id="updating-instance-limits"></a>Update Instance Limits
 
-Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT` to update the upper and lower app instance limits. The autoscaler will not attempt to scale beyond these limits. Replace `APP-NAME` with the name of your app. Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps, and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
+Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT` to update the upper and lower app instance limits. The App Autoscaler will not attempt to scale beyond these limits. Replace `APP-NAME` with the name of your app. Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps, and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
  
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
@@ -52,7 +60,7 @@ OK
 
 ## <a id="viewing-rules"></a>View Rules
 
-Run `cf autoscaling-rules APP-NAME` to view the rules that the autoscaler uses to determine when to scale your app. Replace `APP-NAME` with the name of your app.
+Run `cf autoscaling-rules APP-NAME` to view the rules that the App Autoscaler uses to determine when to scale your app. Replace `APP-NAME` with the name of your app.
 
 <pre class="terminal">
 $ cf autoscaling-rules test-app<br>

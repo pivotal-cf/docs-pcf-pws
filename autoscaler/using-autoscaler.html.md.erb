@@ -3,7 +3,9 @@ title: Scaling an Application Using App Autoscaler
 owner: PCF Autoscaler
 ---
 
-This topic describes how to configure App Autoscaler to automatically scale applications based on rules that you set. 
+This topic describes how to configure App Autoscaler to automatically scale applications based on rules that you set.
+
+You can control the App Autoscaler from your local machine's command line. See [Using the App Autoscaler CLI](./using-autoscaler-cli.html) for details.
 
 ## <a id="overview"></a> App Autoscaler Overview 
 
@@ -145,7 +147,7 @@ Because app demand often follows a weekly, daily, or hourly schedule, you can sc
 	![Scheduled limit changes](scheduled.png)
 	* Date: **Month**, **Day**, **Year** and **Time**: Set the date and time of the change. 
 	* **Repeat** (optional): Set the day of the week for which you want to repeat the change.  
-	* **Min** and **Max**: Set the allowable range within which Autoscaler can change the instance count for an app.
+	* **Min** and **Max**: Set the allowable range within which App Autoscaler can change the instance count for an app.
 
 1. Click **SAVE**. 
 
