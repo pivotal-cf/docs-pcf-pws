@@ -70,9 +70,6 @@ Follow these steps to manually modify instance limits:
 
 To keep your apps available without wasting resources, App Autoscaler increments or decrements instance counts based on how current metrics compare with configurable **High** and **Low** thresholds. 
 
-<p class="note"><strong>Note</strong>: All rules are active by default.</b>
-</p>
-
 #### How App Autoscaler Determines When to Scale
 
 App Autoscaler scales apps as follows:
@@ -80,46 +77,55 @@ App Autoscaler scales apps as follows:
 * Increment by one instance when any metric exceeds the **High** threshold specified
 * Decrement by one instance only when all metrics fall below the **Low** threshold specified
 
-####Add a Scaling Rule
+#### Scaling Rule Metrics
 
-1. Click the **+ add rule** icon in the <b>Edit Scaling Rules</b> screen. 
+The table below lists the metrics that you can base App Autoscaler rules on:
 
-#### Set Metric High and Low Thresholds
-Follow these steps to modify scaling rules by setting **High** and **Low** thresholds for the available metrics:
+<table id='scaling-rule-metrics' border="1" class="nice" >
+	<tr>
+		<th>Metric</th>
+		<th>Description</th>
+	</tr><tr>
+		<td>CPU Utilization</td>
+		<td>Average CPU percentage for all instances of the app.</td>
+	</tr><tr>
+		<td>Memory Utilization</td>
+		<td>Average Memory percentage for all instances of the app.</td>
+	</tr><tr>
+		<td>HTTP Throughput</td>
+		<td>Total HTTP Requests per second (divided by total app instances).</td>
+	</tr><tr>
+		<td>HTTP Latency</td>
+		<td>Average Latency of applications response to HTTP requests.  This does not include Gorouter processing time or other network latency.<br>
+		Average is calculated on the middle 99% or middle 95% of all HTTP requests.</td>
+	</tr><tr>
+		<td>RabbitMQ Depth</td>
+		<td>The queue length of the specified queue.</td>
+	</tr>
+</table>
 
-1. Click the edit icon next to **Scaling Rules**. 
+#### Add a Scaling Rule
 
-1. Enable or disable each rule using the toggle next to <b>Rule Type</b>.
+1. Click the **edit** icon next to **Scaling Rules**. The **Edit Scaling Rules** pane appears.
+
+1. Click the **+ add rule** icon.
+
+1. In the **Select a Metric** dropdown, select the metric for the new scaling rule to threshold.
+
+1. Click the slider next to the **Select a Metric** dropdown to enable the new rule.
+  <p class="note"><strong>Note</strong>: All rules are disabled by default. The ability to enable and disable individual rules will be deprecated in PCF 2.2.</p>
+
+1. Set the **Low** and **High** thresholds for the metric using the [table above](#scaling-rule-metrics) as a guide.
 
 	![Scaling Rules](rules.png)
 
-1. Set the **Low** and **High** thresholds for each metric using the table below as a guide.
+1. Select or fill in any other fields that appear under the threshold fields. **HTTP Latency** rules need the middle percentage of traffic to apply to, and **RabbitMQ Depth** rules need the name of the queue to measure.
 
-	<table>
-		<tr>
-			<th>Metric</th>
-			<th>Description</th>
-		</tr>
-		<tr>
-			<td>CPU Utilization</td>
-			<td>Average CPU percentage for all instances of the app</td>
-		</tr>
-		<tr>
-			<td>HTTP Latency</td>
-			<td>Average Latency of applications response to HTTP requests.  This does not include Gorouter processing time or other network latency.  
-</br>Average is calculated on the middle 99% or middle 95% of all HTTP requests.
-</td>
-		</tr>
-		<tr>
-			<td>HTTP Throughput</td>
-			<td>Total HTTP Requests per second (divided by total app instances).</td>
-		</tr>
-        </table>
 1. Click **Save**.
 
 #### Delete a Scaling Rule
 
-1. Click the **x delete** icon next to the <b>Rule Type</b>.
+1. Click the **× delete** icon next to the **Select a Metric** dropdown.
 
 1. Click **Save**.
 
