@@ -3,7 +3,9 @@ title: Scaling an Application Using App Autoscaler
 owner: PCF Autoscaler
 ---
 
-This topic describes how Pivotal Cloud Foundry (PCF) users with the Space Developer [role](../../concepts/roles.html#roles) can set up and configure the App Autoscaler service to automatically scale apps based on rules that they set. 
+This topic describes how Pivotal Cloud Foundry (PCF) users with the Space Developer [role](../../concepts/roles.html#roles) can set up and configure the App Autoscaler service in the Apps Manager UI to automatically scale apps based on rules that they set. 
+
+You can use the [App Autoscaler command-line interface (CLI)](./using-autoscaler-cli.html) plugin to configure App Autoscaler rules from the command line.
 
 <p class='note'><strong>NOTE</strong>: Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using the Apps Manager</a>.</p> 
 
@@ -131,7 +133,7 @@ The table below lists the metrics that you can base App Autoscaler rules on:
 
 ### <a id="schedule"></a>Scheduled Limit Changes
 
-Because app demand often follows a weekly, daily, or hourly schedule, you can schedule Autoscaler to change the allowable instance range to track expected surges or quiet periods. 
+Because app demand often follows a weekly, daily, or hourly schedule, you can schedule App Autoscaler to change the allowable instance range to track expected surges or quiet periods. 
 
 #### Create or Modify a Scheduled Limit Change
 
@@ -161,7 +163,6 @@ To schedule an app to scale down for a weekend, you can enter two rules as follo
 	* **Repeats**: `M`
 	* **Min** and **Max**: `3` and `5`
 
-
 ## <a id="notifs"></a>App Autoscaler Events and Notifications
 
 App Autoscaler logs all autoscaling events including scaling decisions and binding auto-disable events.
@@ -171,9 +172,9 @@ To view all autoscaling events in the past 24 hours, click the **view more** ico
 
 ![Scaling Event History](event_history.png)
 
-### Manage Autoscaler Notifications
+### Manage App Autoscaler Notifications
 
-Autoscaler emails and/or texts its event notifications to all space users by default.
+Autoscaler emails or texts its event notifications to all space users by default.
 
 Follow these steps to subscribe or unsubscribe from autoscaling event notifications:
 
