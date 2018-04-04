@@ -154,7 +154,7 @@ The App Autoscaler CLI has the following known issues:
 
 * The CLI cannot enable and disable individual scaling rules.
   - Use the the App Autoscaler UI in Apps Manager or the App Autoscaler API to enable and disable individual scaling rules.
-  - Future versions of the CLI may deprecate the ability to enable and disable scaling rules.
+  - Note that the ability to enable and disable individual rules via the UI and API will also be deprecated in a future release.
 
 * The CLI cannot create scheduled limit changes.
   - Use the the App Autoscaler UI in Apps Manager or the App Autoscaler API to create and manage scheduled limit changes.
@@ -162,5 +162,5 @@ The App Autoscaler CLI has the following known issues:
 
 * The CLI may output odd characters in Windows shells that do not support text color.
   - To prevent this error, run `SET CF_COLOR=false` in your Windows shell pane before you run App Autoscaler CLI commands.
-  - But note that some Windows shells do not support the `CF_COLOR` setting.
+  - Note that some Windows shells do not support the `CF_COLOR` setting.
 
