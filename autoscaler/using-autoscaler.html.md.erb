@@ -18,6 +18,8 @@ To balance app performance and cost, Space Developers can use App Autoscaler to 
 * Configure rules that adjust instance counts based on metrics thresholds, such as CPU Usage
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule
 
+<p class="note breaking"><strong>Breaking Change</strong>: App Autoscaler relies on API endpoints from Loggregator's Log Cache. If you disable Log Cache, App Autoscaler will fail. For more information about Log Cache, see <a href="https://docs.pivotal.io/pivotalcf/2-2/pcf-release-notes/runtime-rn.html#log-cache"></a>.</p>
+
 ## <a id="setup"></a>Set Up App Autoscaler
 
 To use App Autoscaler, you must create an instance of the App Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI):
