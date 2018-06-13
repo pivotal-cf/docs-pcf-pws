@@ -73,13 +73,34 @@ OK
 
 ## <a id="create-rule"></a>Create a Rule
 
-Run `create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE]` to create a new autoscaling rule. 
+Run `create-autoscaling-rule APP_NAME RULE_TYPE MIN_THRESHOLD MAX_THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule. 
+
+OPTIONS:
+--metric, -m   Metric for the rule
+--comparison-metric, -c   Comparison Metric for the rule
+--subtype, -s   Rule subtype
 
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app http_latency 10 20 -s avg_99th<br>
 Created autoscaler rule for app test-app for org my-org / space my-space as user
 Rule Guid             Rule Type         Rule Sub Type   Min Threshold   Max Threshold
 guid-3                http_latency      avg_99th        10              20
+</pre>
+
+<pre class="terminal">
+$ cf create-autoscaling-rule test-app custom 9380 9381 --metric jvm.classes.loaded
+Created autoscaler rule for app test-app in org my-org / space my-space as user
+OK
+Guid     Type     Metric               Sub Type   Min Threshold   Max Threshold
+guid-7   custom   jvm.classes.loaded              9380.00         9381.00
+</pre>
+
+<pre class="terminal">
+$ cf create-autoscaling-rule test-app compare .79 .8  --metric jvm.memory.used --comparison-metric jvm.memory.max
+Created autoscaler rule for app test-app in org my-org / space my-space as user
+OK
+Guid     Type      Metric                             Sub Type   Min Threshold   Max Threshold
+guid-8   compare   jvm.memory.used / jvm.memory.max              0.79            0.80
 </pre>
 
 ## <a id="delete-rule"></a>Delete a Rule
@@ -112,6 +133,39 @@ Run `cf autoscaling-events APP-NAME` to view recent events related to autoscalin
 $ cf autoscaling-events test-app<br>
 Time                  Description
 2032-01-01T00:00:00Z  Scaled up from 3 to 4 instances. Current cpu of 20 is above upper threshold of 10.
+</pre>
+
+## <a id="autoscaling-slcs"></a>View Autoscaler Scheduled Instance Limit Changes
+
+Run `cf autoscaling-slcs APP-NAME` to view all scheduled instance limit changes. Replace `APP-NAME` with the name of your app.
+
+<pre class="terminal">
+$ cf autoscaling-slcs test-app<br>
+Guid     First Execution        Min Instances   Max Instances   Recurrence
+guid-5   2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
+</pre>
+
+## <a id="create-autoscaling-slc"></a>Create Autoscaler Scheduled Instance Limit Change
+
+Run `create-autoscaling-slc APP_NAME DATE_TIME MIN_INSTANCES MAX_INSTANCES  [--recurrence RECURRENCE]` to create a new scheduled instance limit change.
+
+<pre class="terminal">
+$ cf create-autoscaling-slc test-app 2018-06-14T15:00:00Z 1 2 --recurrence Sa<br>
+Created scheduled autoscaler instance limit change for app test-app in org my-org / space my-space as user
+OK
+Guid     First Execution        Min Instances   Max Instances   Recurrence
+guid-6   2018-06-14T15:00:00Z   1               2               Sa
+</pre>
+
+## <a id="delete-autoscaling-slc"></a>Delete Autoscaler Scheduled Instance Limit Change
+
+Run `delete-autoscaling-slc APP_NAME GUID [--force]` to delete a scheduled instance limit change.
+
+<pre class="terminal">
+$ cf delete-autoscaling-slc test-app slc-guid<br>
+Really delete scheduled limit change slc-guid for app test-app?> [yN]:y
+Deleted scheduled limit change slc-guid for app test-app in org my-org / space my-space as user
+OK
 </pre>
 
 ## <a id="configure-autoscaling"></a>Configure with a Manifest
@@ -151,14 +205,6 @@ The App Autoscaler CLI has the following known issues:
 
 * The CLI returns an error message if you have more than one instance of the App Autoscaler service running in the same space.
   - To prevent this error, delete all but one App Autoscaler service instance from any space that the App Autoscaler service runs in.
-
-* The CLI cannot enable and disable individual scaling rules.
-  - Use the the App Autoscaler UI in Apps Manager or the App Autoscaler API to enable and disable individual scaling rules.
-  - Note that the ability to enable and disable individual rules via the UI and API will also be deprecated in a future release.
-
-* The CLI cannot create scheduled limit changes.
-  - Use the the App Autoscaler UI in Apps Manager or the App Autoscaler API to create and manage scheduled limit changes.
-  - Future versions of the CLI may support creating and managing scheduled limit changes.
 
 * The CLI may output odd characters in Windows shells that do not support text color.
   - To prevent this error, run `SET CF_COLOR=false` in your Windows shell pane before you run App Autoscaler CLI commands.
