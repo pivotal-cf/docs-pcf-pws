@@ -73,12 +73,15 @@ OK
 
 ## <a id="create-rule"></a>Create a Rule
 
-Run `create-autoscaling-rule APP_NAME RULE_TYPE MIN_THRESHOLD MAX_THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule. 
+Run `create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule. 
 
-OPTIONS:
---metric, -m   Metric for the rule
---comparison-metric, -c   Comparison Metric for the rule
---subtype, -s   Rule subtype
+Command options:
+
+* `--metric`, `-m`. Metric for your rule.
+* `--comparison-metric`, `-c`. Comparison metric for your rule.
+* `--subtype`, `-s`. Rule subtype.
+
+For example:
 
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app http_latency 10 20 -s avg_99th<br>
@@ -139,6 +142,8 @@ Time                  Description
 
 Run `cf autoscaling-slcs APP-NAME` to view all scheduled instance limit changes. Replace `APP-NAME` with the name of your app.
 
+For example:
+
 <pre class="terminal">
 $ cf autoscaling-slcs test-app<br>
 Guid     First Execution        Min Instances   Max Instances   Recurrence
@@ -147,7 +152,9 @@ guid-5   2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
 
 ## <a id="create-autoscaling-slc"></a>Create Autoscaler Scheduled Instance Limit Change
 
-Run `create-autoscaling-slc APP_NAME DATE_TIME MIN_INSTANCES MAX_INSTANCES  [--recurrence RECURRENCE]` to create a new scheduled instance limit change.
+Run `create-autoscaling-slc APP-NAME DATE-TIME MIN-INSTANCES MAX-INSTANCES  [--recurrence RECURRENCE]` to create a new scheduled instance limit change.
+
+For example:
 
 <pre class="terminal">
 $ cf create-autoscaling-slc test-app 2018-06-14T15:00:00Z 1 2 --recurrence Sa<br>
@@ -159,7 +166,9 @@ guid-6   2018-06-14T15:00:00Z   1               2               Sa
 
 ## <a id="delete-autoscaling-slc"></a>Delete Autoscaler Scheduled Instance Limit Change
 
-Run `delete-autoscaling-slc APP_NAME GUID [--force]` to delete a scheduled instance limit change.
+Run `delete-autoscaling-slc APP-NAME GUID [--force]` to delete a scheduled instance limit change.
+
+For example:
 
 <pre class="terminal">
 $ cf delete-autoscaling-slc test-app slc-guid<br>
