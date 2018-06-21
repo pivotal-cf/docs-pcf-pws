@@ -73,13 +73,20 @@ OK
 
 ## <a id="create-rule"></a>Create a Rule
 
-Run `create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule. 
+Run `create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule.
 
-Command options:
+Replace the placeholders as follows:
 
-* `--metric`, `-m`. Metric for your rule.
-* `--comparison-metric`, `-c`. Comparison metric for your rule.
-* `--subtype`, `-s`. Rule subtype.
+* `APP-NAME` is the name of your app.
+* `RULE-TYPE` is the type of your scaling rule.
+* `MIN-THRESHOLD` is the minimum threshold for the metric.
+* `MAX-THRESHOLD` is the maximum threshold for the metric.
+
+You can use the following command options:
+
+* `--metric`, `-m` is the metric for your rule.
+* `--comparison-metric`, `-c` is the comparison metric for your rule.
+* `--subtype`, `-s` is the rule subtype.
 
 For example:
 
@@ -154,6 +161,13 @@ guid-5   2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
 
 Run `create-autoscaling-slc APP-NAME DATE-TIME MIN-INSTANCES MAX-INSTANCES  [--recurrence RECURRENCE]` to create a new scheduled instance limit change.
 
+Replace the placeholders as follows:
+
+* `APP-NAME` is the name of your app.
+* `DATE-TIME` is the date and time of the change.
+* `MIN-INSTANCES` and `MAX-INSTANCES` are the minimum and maximum values of the range within which App Autoscaler can change the instance count for an app.
+* `RECURRENCE` (optional) is the day of the week for which you want to repeat the change.
+
 For example:
 
 <pre class="terminal">
@@ -166,7 +180,8 @@ guid-6   2018-06-14T15:00:00Z   1               2               Sa
 
 ## <a id="delete-autoscaling-slc"></a>Delete Autoscaler Scheduled Instance Limit Change
 
-Run `delete-autoscaling-slc APP-NAME GUID [--force]` to delete a scheduled instance limit change.
+Run `delete-autoscaling-slc APP-NAME SLC-GUID [--force]` to delete a scheduled instance limit change.
+Replace `APP-NAME` with the name of your app and `SLC-GUID` with the GUID of your scheduled instance limit change.
 
 For example:
 
