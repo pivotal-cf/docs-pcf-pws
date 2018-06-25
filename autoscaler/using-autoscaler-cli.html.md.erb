@@ -116,7 +116,7 @@ Time                  Description
 
 ## <a id="configure-autoscaling"></a>Configure with a Manifest
 
-Run `configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest to configure your rules, add instance limits, and set scheduled limit changes at the same time. Replace `APP-NAME` with the name of your app, and replace `MANIFEST-FILE-PATH` with the path and name of your manifest.
+Run `configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest to configure your rules, add instance limits, and set scheduled limit changes at the same time. Replace `APP-NAME` with the name of your app, and replace `MANIFEST-FILE-PATH` with the path and name of your Autoscaler manifest.
 
 An example manifest:
 
@@ -140,9 +140,25 @@ An example manifest:
 </pre>
 
 <pre class="terminal">
-$ cf configure-autoscaling test-app manifest.yml<br>
+$ cf configure-autoscaling test-app autoscaler-manifest.yml<br>
 Setting autoscaler settings for app test-app for org my-org / space my-space as user
 OK
+</pre>
+
+Please note that a `scheduled_limit_changes` block must be present in your Autoscaler manifest. If your app does not require any scheduled instance limit changes, please include an empty block:
+
+<pre>
+  ---
+  instance_limits:
+    min: 1
+    max: 2
+  rules:
+    - rule_type: "http_latency"
+      rule_sub_type: "avg_99th"
+      threshold:
+        min: 10
+        max: 20
+  scheduled_limit_changes: []
 </pre>
 
 ## <a id="issues"></a>App Autoscaler CLI Known Issues
