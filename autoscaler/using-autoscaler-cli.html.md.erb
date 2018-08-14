@@ -115,6 +115,20 @@ Guid     Type      Metric                             Sub Type   Min Threshold  
 guid-8   compare   jvm.memory.used / jvm.memory.max              0.79            0.80
 </pre>
 
+## <a id="rule-types"></a>Valid Rule Types and Subtypes
+
+* type `CPU`
+* type `memory`
+* type `http_throughput`
+* type `http_latency`
+* type `rabbit-mq`
+  * queue_name `<queue-name>`
+* type custom
+  * metric `<metric-name>`
+* type compare
+  * metric `<metric-name>`
+  * comparison_metric `<metric-name>`
+
 ## <a id="delete-rule"></a>Delete a Rule
 
 Run `delete-autoscaling-rule APP-NAME RULE-GUID [--force]` to delete a single autoscaling rule. Replace `APP-NAME` with the name of your app, and replace `RULE-GUID` with the GUID.
