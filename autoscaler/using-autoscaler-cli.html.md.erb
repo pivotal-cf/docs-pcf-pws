@@ -217,22 +217,22 @@ Run `configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifes
 An example manifest:
 
 <pre>
-  ---
+---
+instance_limits:
+  min: 1
+  max: 2
+rules:
+- rule_type: "http_latency"
+  rule_sub_type: "avg_99th"
+  threshold:
+    min: 10
+    max: 20
+scheduled_limit_changes:
+- recurrence: 10
+  executes_at: "2032-01-01T00:00:00Z"
   instance_limits:
-    min: 1
-    max: 2
-  rules:
-    - rule_type: "http_latency"
-      rule_sub_type: "avg_99th"
-      threshold:
-        min: 10
-        max: 20
-  scheduled_limit_changes:
-    - recurrence: 10
-      executes_at: "2032-01-01T00:00:00Z"
-      instance_limits:
-        min: 10
-        max: 20
+    min: 10
+    max: 20
 </pre>
 
 <pre class="terminal">
@@ -241,20 +241,36 @@ Setting autoscaler settings for app test-app for org my-org / space my-space as 
 OK
 </pre>
 
+A `rules` block must be present in your Autoscaler manifest. If your app does not require any rules changes, include an empty block:
+
+<pre>
+---
+instance_limits:
+  min: 1
+  max: 1
+rules: []
+scheduled_limit_changes:
+- recurrence: 365
+  executes_at: "2032-01-01T00:00:00Z"
+  instance_limits:
+    min: 0
+    max: 0
+</pre>
+
 A `scheduled_limit_changes` block must be present in your Autoscaler manifest. If your app does not require any scheduled instance limit changes, include an empty block:
 
 <pre>
-  ---
-  instance_limits:
-    min: 1
-    max: 2
-  rules:
-    - rule_type: "http_latency"
-      rule_sub_type: "avg_99th"
-      threshold:
-        min: 10
-        max: 20
-  scheduled_limit_changes: []
+---
+instance_limits:
+  min: 1
+  max: 2
+rules:
+- rule_type: "http_latency"
+  rule_sub_type: "avg_99th"
+  threshold:
+     min: 10
+     max: 20
+scheduled_limit_changes: []
 </pre>
 
 ## <a id="issues"></a>App Autoscaler CLI Known Issues
