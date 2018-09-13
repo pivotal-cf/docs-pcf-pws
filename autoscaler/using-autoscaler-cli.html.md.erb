@@ -239,6 +239,11 @@ scheduled_limit_changes:
 $ cf configure-autoscaling test-app autoscaler-manifest.yml<br>
 Setting autoscaler settings for app test-app for org my-org / space my-space as user
 OK
+$ cf autoscaling-slcs test-app<br>
+Presenting scheduled autoscaler instance limit changes for app test-app in org my-org / space my-space as user
+OK
+Guid                                   First Execution        Min Instances   Max Instances   Recurrence
+722691b5-7547-47db-a741-aafc4630d744   2032-01-01T00:00:00Z   10              20              We,Fr
 </pre>
 
 A `rules` block must be present in your Autoscaler manifest. If your app does not require any rules changes, include an empty block:
