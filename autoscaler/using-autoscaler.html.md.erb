@@ -107,6 +107,14 @@ The table below lists the metrics that you can base App Autoscaler rules on:
 		<td>RabbitMQ Depth</td>
 		<td>The queue length of the specified queue.</td>
 	</tr>
+	<tr>
+		<td>Custom</td>
+		<td>Users can configure their apps to emit custom metrics out of the <a href="https://docs.pivotal.io/pivotalcf/loggregator/architecture.html#firehose">Loggregator Firehose</a>. For steps on how to set up your apps to emit custom metrics, refer to the <a href="https://docs.pivotal.io/metrics-forwarder/index.html">Metrics Forwarder Documentation</a>.</td>
+	</tr>
+	<tr>
+		<td>Compare</td>
+		<td>One custom metric divided by another. When you add a rule, the <b>Metric</b> field is the dividend and the <b>Comparison Metric</b> field is the divisor.</td>
+	</tr>
 </table>
 
 #### Add a Scaling Rule
@@ -124,6 +132,8 @@ The table below lists the metrics that you can base App Autoscaler rules on:
 1. Select or fill in any other fields that appear under the threshold fields:
     * If you are adding an **HTTP Latency** rule, configure **Percent of traffic to apply**.
     * If you are adding a **RabbitMQ** depth rule, provide the name of the queue to measure.
+    * If you are adding a **Custom** rule, enter your custom **Metric**.
+    * If you are adding a **Compare** rule, enter values in the **Metric** and **Comparison Metric** fields. 
 
 1. Click **SAVE**.
 
