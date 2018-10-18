@@ -190,9 +190,9 @@ The App Autoscaler CLI has the following known issues:
 * The CLI returns an error message if you have more than one instance of the App Autoscaler service running in the same space.
   - To prevent this error, delete all but one App Autoscaler service instance from any space that the App Autoscaler service runs in.
 
-* The CLI cannot enable and disable individual scaling rules.
-  - Use the the App Autoscaler UI in Apps Manager or the App Autoscaler API to enable and disable individual scaling rules.
-  - Note that the ability to enable and disable individual rules via the UI and API will also be deprecated in a future release.
+* The CLI removed the option to enable and disable individual scaling rules.
+  - The App Autoscaler UI in Apps Manager or the App Autoscaler API incorrectly shows an option to enable and disable individual scaling rules.
+  - Note that the ability to enable and disable individual rules via the UI and API will also be removed in a future release.
 
 * The CLI cannot create scheduled limit changes.
   - Use the the App Autoscaler UI in Apps Manager or the App Autoscaler API to create and manage scheduled limit changes.
