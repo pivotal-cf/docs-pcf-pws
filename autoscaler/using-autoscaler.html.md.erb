@@ -82,6 +82,8 @@ App Autoscaler scales apps as follows:
 * Increment by one instance when any metric exceeds the maximum threshold specified
 * Decrement by one instance only when all metrics fall below the minimum threshold specified
 
+App Autoscaler metrics are calculated within a fixed window of 120 seconds. Every 35 seconds, App Autoscaler shifts that window over and determines whether to scale up or down.
+
 #### Scaling Rule Metrics
 
 The table below lists the metrics that you can base App Autoscaler rules on:
