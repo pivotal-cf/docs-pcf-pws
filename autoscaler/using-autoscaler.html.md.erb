@@ -3,11 +3,12 @@ title: Scaling an App Using App Autoscaler
 owner: PCF Autoscaler
 ---
 
-This topic describes how Pivotal Cloud Foundry (PCF) users with the Space Developer [role](../../concepts/roles.html#roles) can set up and configure the App Autoscaler service in the Apps Manager UI to automatically scale apps based on rules that they set. 
+This topic describes how Pivotal Cloud Foundry (PCF) users with the Space Developer role can set up and configure the App Autoscaler service in the Apps Manager UI to automatically scale apps based on rules that they set. 
 
-You can use the [App Autoscaler command-line interface (CLI)](./using-autoscaler-cli.html) plugin to configure App Autoscaler rules from the command line.
+You can use the App Autoscaler command-line interface (CLI) plugin to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](./using-autoscaler-cli.html).
 
-<p class='note'><strong>NOTE</strong>: Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using the Apps Manager</a>.</p> 
+<p class='note'><strong>Note:</strong> Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using the Apps Manager</a>.</p> 
+
 
 ## <a id="overview"></a> App Autoscaler Overview
 
@@ -18,9 +19,10 @@ To balance app performance and cost, Space Developers can use App Autoscaler to 
 * Configure rules that adjust instance counts based on metrics thresholds, such as CPU Usage
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule
 
-<p class="note breaking"><strong>Breaking Change</strong>: App Autoscaler relies on API endpoints from Loggregator's Log Cache. If you disable Log Cache, App Autoscaler will fail. For more information about Log Cache, see <a href="https://docs.pivotal.io/pivotalcf/2-2/pcf-release-notes/runtime-rn.html#log-cache">Loggregator Introduces Log Cache</a>.</p>
+<p class="note breaking"><strong>Breaking Change:</strong> App Autoscaler relies on API endpoints from Loggregator's Log Cache. If you disable Log Cache, App Autoscaler will fail. For more information about Log Cache, see <a href="https://docs.pivotal.io/pivotalcf/2-2/pcf-release-notes/runtime-rn.html#log-cache">Loggregator Introduces Log Cache</a>.</p>
 
-## <a id="setup"></a>Set Up App Autoscaler
+
+## <a id="setup"></a> Set Up App Autoscaler
 
 To use App Autoscaler, you must create an instance of the App Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI):
 
@@ -32,22 +34,23 @@ To use App Autoscaler, you must create an instance of the App Autoscaler service
 	1. [Create an instance of the service](../../devguide/services/managing-services.html#marketplace).
 	1. [Bind the service to an app](../../devguide/services/managing-services.html#bind).
 
-Follow these steps to enable App Autoscaler for the app:
+To enable App Autoscaler for the app, do the following:
 
 1. In Apps Manager, select an app from the space in which you created the App Autoscaler service.
 
 1. Under **Processes and Instances**, enable **Autoscaling**. 
-<%= image_tag("scale-app.png", :alt => "In the 'Processes and Instances' section of the 'Overview' pane, find 'Autoscaling' two rows below the title of each process.") %>
+<%= image_tag("scale-app.png", :alt => "At the top of the image is the header 'Processes and Instances'. Below it is the subheader 'web', below which is a row of metrics: 'Instances: 2', 'Memory Allocated: 1 GB', and 'Disk Allocated: 512 MB'. To the right of these metrics is a grayed-out blue, rectangular button labeled 'Scale'. Below these metrics are a sliding button labeled 'Autoscaling' to the far left and the words 'Manage Autoscaling' in blue letters to the far right. Below these are a table with five columns labeled, from left to right, '#', 'CPU', 'Memory', 'Disk', and 'Uptime'. Below these are two rows. Under '#' are the number '0' in the first row and '1' in the second. Under 'CPU' is the text '0%' in both the first and second rows. Under 'Memory' is the text '6.63 MB' in the first row and '27.98 MB' in the second. Under 'Disk' is the text '51.07' in both the first and second rows. Under 'Uptime' is the text '4 d 21 hr 58 min' in the first row and '4 d 21 hr 56 min' in the second row.") %>
 
-1. Click **Manage Autoscaling** to [configure](#config) instance limits, scaling rules, and scheduled limit changes for the app.
+1. Click **Manage Autoscaling** to configure instance limits, scaling rules, and scheduled limit changes for the app. For more information, see [Configure Autoscaling for an App](#config).
 
       <%= image_tag('images/manage-autoscaling.png') %>
 
-### <id="auto-vs-manual"> Manual Scaling Overrides Autoscaler
+### <a id="auto-vs-manual"> Manual Scaling Overrides Autoscaler
 
-If you [manually scale](../../console/manage-apps.html) an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting.
+If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see [Managing Apps and Service Instances Using Apps Manager](../../console/manage-apps.html).
 
-## <a id="config"></a>Configure Autoscaling for an App
+
+## <a id="config"></a> Configure Autoscaling for an App
 
 App Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values, or _instance limits_.
 
@@ -57,21 +60,21 @@ Follow the procedures in the sections below to set any of the following:
 * [Scaling Rules](#metric)
 * [Scheduled Limit Changes](#schedule)
 
-### <a id="limits"></a>Instance Limits
+### <a id="limits"></a> Instance Limits
 
 Follow these steps to manually modify instance limits:
 
-<p class="note"><strong>Note</strong>: You can also <a href="#schedule">schedule</a> changes to your instance limits for a specific date and time.</p>
+<p class="note"><strong>Note</strong>: You can also schedule changes to your instance limits for a specific date and time. For more information, see <a href="#schedule">Scheduled Limit Changes</a>.</p>
 
 1. In Apps Manager, navigate to the **Overview** page for your app and click **Manage Autoscaling** under **Processes and Instances**.
 
-1. In the **INSTANCE LIMITS** section, set values for **Minimum** and **Maximum**.
+1. In the **Instance Limits** section, set values for **Minimum** and **Maximum**.
 
     <%= image_tag('images/instance-limits.png') %>
 
-1. Click **APPLY CHANGES**.
+1. Click **Apply Changes**.
 
-### <a id="metric"></a>Scaling Rules
+### <a id="metric"></a> Scaling Rules
 
 To keep your apps available without wasting resources, App Autoscaler increments or decrements instance counts based on how current metrics compare with configurable minimum and maximum thresholds.
 
@@ -82,7 +85,9 @@ App Autoscaler scales apps as follows:
 * Increment by one instance when any metric exceeds the maximum threshold specified
 * Decrement by one instance only when all metrics fall below the minimum threshold specified
 
-App Autoscaler metrics are calculated within a fixed window of 120 seconds. Every 35 seconds, App Autoscaler shifts that window over and determines whether to scale up or down.
+App Autoscaler averages the values of a given metric within a fixed window of 120 seconds. Every 35 seconds, App Autoscaler shifts that window over and determines whether to scale up or down.
+
+For example, if your app has an average latency of 300 for one 120-second window, App Autoscaler automatically scales up one instance. If the average latency is 70 for another window, App Autoscaler then scales down one instance.
 
 #### Scaling Rule Metrics
 
@@ -121,9 +126,9 @@ The table below lists the metrics that you can base App Autoscaler rules on:
 
 #### Add a Scaling Rule
 
-1. In the **Manage Autoscaling** pane, click **EDIT** next to **SCALING RULES**. The **Edit Scaling Rules** pane appears.
+1. In the **Manage Autoscaling** pane, click **Edit** next to **Scaling Rules**. The **Edit Scaling Rules** pane appears.
 
-1. Click **ADD RULE**.
+1. Click **Add Rule**.
 
 1. In the **Select type** dropdown, select the metric for the new scaling rule.
 
@@ -137,13 +142,13 @@ The table below lists the metrics that you can base App Autoscaler rules on:
     * If you are adding a **Custom** rule, enter your custom **Metric**.
     * If you are adding a **Compare** rule, enter values in the **Metric** and **Comparison Metric** fields. 
 
-1. Click **SAVE**.
+1. Click **Save**.
 
 #### Delete a Scaling Rule
 
 1. Click the **×** icon next to the rule you want to delete.
 
-1. Click **SAVE**.
+1. Click **Save**.
 
 ### <a id="schedule"></a>Scheduled Limit Changes
 
@@ -151,9 +156,9 @@ Because app demand often follows a weekly, daily, or hourly schedule, you can sc
 
 #### Create or Modify a Scheduled Limit Change
 
-1. Click **EDIT** next to **SCHEDULED LIMITS**.
+1. Click **Edit** next to **Scheduled Limits**.
 
-1. Click **ADD NEW** to add a new scheduled limit or select an existing entry to modify by clicking **EDIT** next to the entry.
+1. Click **Add New** to add a new scheduled limit or select an existing entry to modify by clicking **EDIT** next to the entry.
 
 1. Edit the following values:
 	* **Date** and **Time (local)**: Set the date and time of the change.
@@ -162,7 +167,7 @@ Because app demand often follows a weekly, daily, or hourly schedule, you can sc
 
 	    <%= image_tag('images/scheduled-changes.png') %>
 
-1. Click **SAVE**.
+1. Click **Save**.
 
 To delete an existing entry, click the **x** icon next to the entry you want to delete.
 
@@ -179,13 +184,14 @@ To schedule an app to scale down for a weekend, you can enter two rules as follo
 	* **Repeat (Optional)**: `M`
 	* **Min** and **Max**: `3` and `5`
 
-## <a id="notifs"></a>App Autoscaler Events and Notifications
+
+## <a id="notifs"></a> App Autoscaler Events and Notifications
 
 App Autoscaler logs all autoscaling events.
 
 ### View Event History
 
-To view all autoscaling events in the past 24 hours, click **VIEW MORE** in the **Event History** section of the **Manage Autoscaling** pane.
+To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane.
 
 <%= image_tag('images/event-history.png') %>
 
@@ -193,10 +199,10 @@ To view all autoscaling events in the past 24 hours, click **VIEW MORE** in the 
 
 Autoscaler emails or texts its event notifications to all space users by default.
 
-Follow these steps to subscribe or unsubscribe from autoscaling event notifications:
+To subscribe or unsubscribe from autoscaling event notifications, do the following:
 
 1. Navigate to the <b>Manage Notifications</b> page of PCF.
-	<p class="note"><strong>Note</strong>: If installed, Notifications Management should be available at <code>http<span>s</span>://notifications-ui.YOUR-SYSTEM-DOMAIN/preferences</code>.  
+	<p class="note"><strong>Note:</strong> If installed, Notifications Management should be available at <code>http<span>s</span>://notifications-ui.YOUR-SYSTEM-DOMAIN/preferences</code>.  
 	</p>   
 
 1. Choose which notifications you want to receive from App Autoscaler:
