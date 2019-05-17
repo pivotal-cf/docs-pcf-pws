@@ -45,7 +45,7 @@ To enable App Autoscaler for the app, do the following:
 
       <%= image_tag('images/manage-autoscaling.png') %>
 
-### <a id="auto-vs-manual"> Manual Scaling Overrides Autoscaler
+### <a id="auto-vs-manual"></a> Manual Scaling Overrides Autoscaler
 
 If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see [Managing Apps and Service Instances Using Apps Manager](../../console/manage-apps.html).
 
@@ -80,14 +80,16 @@ To keep your apps available without wasting resources, App Autoscaler increments
 
 #### How App Autoscaler Determines When to Scale
 
+Every 35 seconds, App Autoscaler makes a decision about whether to scale up, scale down, or keep the same number of instances. To make a scaling decision, App Autoscaler averages the values of a given metric for the most recent 120 seconds.
+
 App Autoscaler scales apps as follows:
 
 * Increment by one instance when any metric exceeds the maximum threshold specified
 * Decrement by one instance only when all metrics fall below the minimum threshold specified
 
-App Autoscaler averages the values of a given metric within a fixed window of 120 seconds. Every 35 seconds, App Autoscaler shifts that window over and determines whether to scale up or down.
+For example, an app may have a maximum threshold of 200 and a minimum threshold of 80 for a latency metric. If it has an average latency of 300 for one 120-second window, App Autoscaler automatically scales up one instance. If it has an average latency of 70 for another window, App Autoscaler then scales down one instance.
 
-For example, if your app has an average latency of 300 for one 120-second window, App Autoscaler automatically scales up one instance. If the average latency is 70 for another window, App Autoscaler then scales down one instance.
+You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of a given metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app.
 
 #### Scaling Rule Metrics
 
