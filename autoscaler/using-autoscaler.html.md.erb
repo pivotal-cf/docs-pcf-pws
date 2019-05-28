@@ -84,7 +84,7 @@ Every 35 seconds, App Autoscaler makes a decision about whether to scale up, sca
 
 App Autoscaler scales apps as follows:
 
-* Increment by one instance when any metric exceeds their maximum thresholds
+* Increment by one instance when any metric exceeds its maximum threshold
 * Decrement by one instance only when all metrics fall below their minimum thresholds
 
 For example, an app may have a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric. If HTTP latency averages 300 milliseconds over the past 120 seconds, App Autoscaler scales the app up one instance. If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
