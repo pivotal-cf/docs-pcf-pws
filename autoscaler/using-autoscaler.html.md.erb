@@ -64,7 +64,7 @@ Follow the procedures in the sections below to set any of the following:
 
 Follow these steps to manually modify instance limits:
 
-<p class="note"><strong>Note</strong>: You can also schedule changes to your instance limits for a specific date and time. For more information, see <a href="#schedule">Scheduled Limit Changes</a>.</p>
+<p class="note"><strong>Note:</strong> You can also schedule changes to your instance limits for a specific date and time. For more information, see <a href="#schedule">Scheduled Limit Changes</a>.</p>
 
 1. In Apps Manager, navigate to the **Overview** page for your app and click **Manage Autoscaling** under **Processes and Instances**.
 
@@ -84,12 +84,12 @@ Every 35 seconds, App Autoscaler makes a decision about whether to scale up, sca
 
 App Autoscaler scales apps as follows:
 
-* Increment by one instance when any metric exceeds the maximum threshold specified
-* Decrement by one instance only when all metrics fall below the minimum threshold specified
+* Increment by one instance when any metric exceeds their maximum thresholds
+* Decrement by one instance only when all metrics fall below their minimum thresholds
 
-For example, an app may have a maximum threshold of 200 and a minimum threshold of 80 for a latency metric. If it has an average latency of 300 for one 120-second window, App Autoscaler automatically scales up one instance. If it has an average latency of 70 for another window, App Autoscaler then scales down one instance.
+For example, an app may have a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric. If HTTP latency averages 300 milliseconds over the past 120 seconds, App Autoscaler scales the app up one instance. If HTTP latency then averages 70 milliseconds over 120 seconds and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
 
-You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of a given metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app.
+You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of a given metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app. For more information about setting a maximum and minimum number of instances, see [Instance Limits](#limits).
 
 #### Scaling Rule Metrics
 
