@@ -7,15 +7,27 @@ This topic explains how to use the App Autoscaler command-line interface (CLI).
 
 The App Autoscaler automatically scales Cloud Foundry apps in response to demand. The App Autoscaler CLI lets you control the App Autoscaler from your local command line by extending the Cloud Foundry command-line interface (cf CLI).
 
-To use the App Autoscaler CLI, you must first [install](#install) the App Autoscaler CLI plugin.
-
 ## <a id="install"></a>Install the App Autoscaler CLI Plugin
 
 Before you can run App Autoscaler CLI commands on your local machine, you must install the App Autoscaler CLI plugin.
 
-To install the App Autoscaler CLI plugin, download it from <a href="https://network.pivotal.io/products/pcf-app-autoscaler">Pivotal Network</a>.
+To install the plugin, do the following:
 
-<p class='note'><strong>NOTE:</strong> Ensure that you download the 2.0 release of the App Autoscaler CLI plugin. The App Autoscaler CLI is dependent on Pivotal Application Service 2.2</a>.</p> 
+1. Download the plugin from <a href="https://network.pivotal.io/products/pcf-app-autoscaler">Pivotal Network</a>.
+
+    <p class='note'><strong>Note:</strong> Ensure that you download the App Autoscaler CLI plugin v2.0 or later. In addition, the plugin requires Pivotal Application Service v2.2 or later.</a>.</p> 
+
+1. To install the App Autoscaler CLI plugin, run the following command:
+
+    ```
+    cf install-plugin LOCATION-OF-PLUGIN
+    ```
+    Where `LOCATION-OF-PLUGIN` is the path to the binary file you downloaded from Pivotal Network. 
+    For example:
+    <pre class="terminal">
+    $ cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
+    </pre> 
+    For more information about installing cf CLI plugins, see [Installing a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install). 
 
 ## <a id="view-apps"></a>View Apps
 
