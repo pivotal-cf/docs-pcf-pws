@@ -24,11 +24,17 @@ To balance app performance and cost, Space Developers can use App Autoscaler to 
 
 ## <a id="architecture"></a> App Autoscaler Architecture
 
-The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components interact with Cloud Foundry components.
+The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components interact with Cloud Foundry components to make app scaling decisions. 
 
 ![Two boxes represent the components of App Autoscaler. Several other boxes represent the Cloud Foundry components with which App Autoscaler interacts. The two boxes that represent App Autoscaler components are titled "Autoscale GO app" and "Autoscale api". "Autoscale GO app" and "Autoscale api" appear on the right side of the diagram. They are within a box called Autoscaling Space, which is within another box called System Org. This indicates that the App Autoscaler components run in a space that is within an org on your Cloud Foundry deployment. The diagram also includes several arrows. First, there is an arrow that points from "Autoscale GO app" to the Cloud Foundry Load Balancer and Gorouter. Additional arrows go from the load balancer and the Gorouter boxes to boxes titled Cloud Cache and Cloud Controller. These arrows indicate that the Autoscale app makes requests to the Log Cache and Cloud Controller for app metrics and that these requested are routed through the Load Balancer and Gorouter. There is also an arrow from "Autoscale GO app" that points to a box titled "MySQL proxy". The arrow pointing from the "Autoscale GO app" box to the MySQL proxy box indicates that the Autoscale app reads scaling rules that are stored in a MySQL databse. The diagram also includes arrows that point from "Autoscale api" to "MySQL proxy" and and box titled "UAA". These arrows indicate that the Autoscale API authenticates using UAA and that the API stores scaling rules in the MySQL database. There is also an arrow that points to "Autoscale api" from a box that represents both the Cloud Foundry Command Line Interface and Apps Manager. This arrow indicates that you can access the Autoscale API from either the Cloud Foundry command line interface or Apps Manager.](./images/app-autoscaler-architecture.png)
 
 [View a larger version of this image.](./images/app-autoscaler-architecture.png)
+
+As demonstrated in the architecture diagram above, App Autoscaler makes scaling decisions based on custom scaling rules that users configure through the Cloud Foundry Command Line Interface (cf CLI) or through Apps Manager. 
+
+The Autoscale API stores these custom scaling rules in a MySQL database. The App Autoscaler app reads the scaling rules and retrieves app metric data from the Loggregator Log Cache. Then, App Autoscaler makes a scaling decision and communicates with the Cloud Controller to scale the app, if necessary.
+
+For more information about Loggregator Log Cache, see [Loggregator Architecture](../../loggregator/architecture.html). For more information about the Cloud Controller, see [Cloud Controller](../../concepts/architecture/cloud-controller.html).
 
 ## <a id="setup"></a> Set Up App Autoscaler
 
