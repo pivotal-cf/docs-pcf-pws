@@ -30,9 +30,9 @@ The following diagram shows the components and architecture of App Autoscaler. I
 
 [View a larger version of this image.](./images/app-autoscaler-architecture.png)
 
-As demonstrated in the architecture diagram above, App Autoscaler makes scaling decisions based on custom scaling rules that users configure through the Cloud Foundry Command Line Interface (cf CLI) or through Apps Manager. 
+As demonstrated in the architecture diagram above, App Autoscaler makes scaling decisions based on auto-scaling rules that users configure through either the Cloud Foundry Command Line Interface (cf CLI) or through Apps Manager. The Autoscale API stores these auto-scaling rules in a MySQL database. 
 
-The Autoscale API stores these custom scaling rules in a MySQL database. The App Autoscaler app reads the scaling rules and retrieves app metric data from the Loggregator Log Cache. Then, App Autoscaler makes a scaling decision and communicates with the Cloud Controller to scale the app, if necessary.
+At a predefined interval, known as the scaling interval, the App Autoscaler app reads the scaling rules and retrieves app metric data from the Loggregator Log Cache. Then, App Autoscaler makes a scaling decision and communicates with the Cloud Controller to scale the app, if necessary.
 
 For more information about Loggregator Log Cache, see [Loggregator Architecture](../../loggregator/architecture.html). For more information about the Cloud Controller, see [Cloud Controller](../../concepts/architecture/cloud-controller.html).
 
