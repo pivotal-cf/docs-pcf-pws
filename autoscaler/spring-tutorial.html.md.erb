@@ -22,7 +22,7 @@ This tutorial shows you how to scale a Spring app based on a custom metric in <%
 	</tr>
 	<tr>
 		<td>Metric Registrar</td>
-		<td>The Metric Registrar is a component of <%= vars.product_short %> that allows app developers to export custom app metrics to the logging system. It has its own CLI plugin. For more information, see the <a href="../../metric-registrar/index.html#overview">Overview</a> section of <i>Configuring the Metric Registrar</i>.</td>
+		<td>The Metric Registrar is a component of <%= vars.product_short %> that allows app developers to export custom app metrics to the logging system. It has its own CLI plugin. <% if vars.product_short == "PWS" %>For more information, see the <a href="../../metric-registrar/index.html#overview">Overview</a> section of <i>Configuring the Metric Registrar</i><% end %>.</td>
 		<td><a href="#register-endpoint">Register a Custom Metrics Endpoint</a></td>
 	</tr>
 	<tr>
@@ -39,7 +39,7 @@ This tutorial shows you how to scale a Spring app based on a custom metric in <%
 
 This tutorial requires the following:
 
-* A PAS environment with the [Metric Registrar](../../metric-registrar/index.html) enabled. You can confirm this with your platform operator. 
+* A PAS environment with the Metric Registrar enabled. You can confirm this with your platform operator. 
 	<p class="note"><strong>Note</strong>: You can alternatively use <a href="https://run.pivotal.io">Pivotal Web Services (PWS)</a>.</p>
 * Access to Apps Manager in the PAS environment. 
 * The ability to push an app to the PAS environment. For example, you need space developer permissions in at least one space.  
