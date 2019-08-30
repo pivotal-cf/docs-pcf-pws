@@ -111,7 +111,7 @@ You can also set a maximum and minimum number of instances. For example, if an a
 
 Pivotal recommends that you define custom metrics for App Autoscaler scaling rules. Custom metrics allow you to define the metrics that are the best indicators of app performance for your environment.
 
-You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.pivotal.io/pivotalcf/2-5/metric-registrar/using.html)r.
+You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.pivotal.io/pivotalcf/2-5/metric-registrar/using.html).
 
 #### Comparison Metrics for Scaling Rules
 
@@ -160,6 +160,8 @@ The table below lists the default metrics for App Autoscaler:
 		<td></td>
 	</tr>
 </table>
+
+<p class="note"><b>Note:</b> CAPI v3 introduces the ability to push apps with multiple processes. For more information on multi-process apps, see [Push an App with Multiple Processes] (https://docs.pivotal.io/pivotalcf/2-4/devguide/multiple-processes.html#push-with-multiple-processes). On apps with multiple processes, Autoscaler will scale only the <code>web</code> process based exclusively on metrics calculated from the <code>web</code> process.</p> 
 
 #### Add a Scaling Rule
 
