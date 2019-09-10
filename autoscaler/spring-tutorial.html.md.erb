@@ -3,7 +3,7 @@ title: Tutorial&#58; Scaling a Spring App on a Custom Metric
 owner: Autoscaler
 ---
 
-This tutorial shows you how to scale a Spring app based on a custom metric in <%= vars.product_full %>. 
+This tutorial shows you how to scale a sample Spring app based on a custom metric in <%= vars.product_full %>. 
 
 ## <a id="overview"></a> Overview
 
@@ -22,7 +22,7 @@ This tutorial shows you how to scale a Spring app based on a custom metric in <%
 	</tr>
 	<tr>
 		<td>Metric Registrar</td>
-		<td>The Metric Registrar is a component of <%= vars.product_short %> that allows app developers to export custom app metrics to the logging system. It has its own CLI plugin. <% if vars.product_short == "PWS" %>For more information, see the <a href="../../metric-registrar/index.html#overview">Overview</a> section of <i>Configuring the Metric Registrar</i><% end %>.</td>
+		<td>The Metric Registrar is a component of <%= vars.product_short %> that allows app developers to export custom app metrics to the logging system. It has its own CLI plugin. <% if vars.product_short == "PWS" %>For more information, see the <a href="../../metric-registrar/index.html#overview">Overview</a> section of <i>Configuring the Metric Registrar</i>.<% end %></td>
 		<td><a href="#register-endpoint">Register a Custom Metrics Endpoint</a></td>
 	</tr>
 	<tr>
@@ -43,14 +43,14 @@ This tutorial requires the following:
 	<p class="note"><strong>Note</strong>: You can alternatively use <a href="https://run.pivotal.io">Pivotal Web Services (PWS)</a>.</p>
 * Access to Apps Manager in the PAS environment. 
 * The ability to push an app to the PAS environment. For example, you need space developer permissions in at least one space.  
-* The [Cloud Foundry Command Line Interface (cf CLI)](../../cf-cli/index.html).
+* The Cloud Foundry Command Line Interface (cf CLI). See [Installing the cf CLI](../../cf-cli/index.html).
 * Access to a command-line for running commands such as cf CLI and git commands. 
 
 ## <a id="review"></a> Review the Sample App
 
 The sample app code is in the [pivotal-cf/metric-registrar-examples](https://github.com/pivotal-cf/metric-registrar-examples/) GitHub repository. It is a Spring app with a simple UI that includes several buttons to call different endpoints. Some of these endpoints are instrumented to produce metrics. 
 
-You can see what the UI looks like in [Push the Sample App](#push). The following sections provide some details about the code. 
+You can see what the UI looks like in the [Push the Sample App](#sample-app-ui) section, which includes a screenshot. The following sections provide some details about the code. 
 
 ### <a id="dependencies"></a> Dependencies
 
@@ -77,9 +77,9 @@ The Spring Security dependency exposes the endpoints so they can be reached by M
 
 ### <a id="instrumentation"></a> Instrumentation
 
-This section describes how the app is instrumented, or how metrics have been added for a particular function. 
+This section describes how the app is _instrumented_. Instrumentation refers to how metrics have been added for a particular function. 
 
-See [ExampleController.java](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/src/main/java/io/pivotal/metric_registrar/examples/spring_security/ExampleController.java) file:
+See the [ExampleController.java](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/src/main/java/io/pivotal/metric_registrar/examples/spring_security/ExampleController.java) file from the sample app code:
 
 * The `ExampleController` class includes a `MeterRegistry` object, which is passed and set in the constructor.
 
@@ -151,13 +151,15 @@ To push the sample app:
 	last uploaded:     Wed 28 Aug 11:02:33 PDT 2019
 	</pre>
 
+<a id="sample-app-ui"></a>
 1. In a browser, navigate to the app URL. The app UI looks like what you see in the image below. 
-	![](sample-app-ui.png)
+	<img src="images/sample-app-ui.png" width="450px"><br>
 	It has the following buttons:
-	* **Increment Custom gauge** and **Decrement custom gauge**:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You will use these buttons later when you [Trigger Scaling](#trigger). 
-	* **See the metrics**:<br> This button opens `/actuator/prometheus` in your browser. You can use it to view values for `custom` and all the metrics produced by Micrometer. This page is important because Metric Registrar uses it to collect metrics.
-	* **Increment Simple counter** and **Call and endpoint with high latency**:<br> You can ignore these buttons, as they are not used in this tutorial. To learn more about what they do, see the app code. 
-
+	<ul>
+	<li> **Increment Custom gauge** and **Decrement custom gauge**:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You will use these buttons later when you [Trigger Scaling](#trigger).</li>
+	<li> **See the metrics**:<br> This button opens `/actuator/prometheus` in your browser. You can use it to view values for `custom` and all the metrics produced by Micrometer. This page is important because Metric Registrar uses it to collect metrics.</li>
+	<li> **Increment Simple counter** and **Call and endpoint with high latency**:<br> You can ignore these buttons, as they are not used in this tutorial. To learn more about what they do, see the app code.</li>
+	</ul>
 
 
 ## <a id="register-endpoint"></a> Register a Custom Metrics Endpoint
@@ -210,7 +212,8 @@ To create an autoscaling rule for the app and custom metric:
 1. Navigate to the app in Apps Manager. 
 
 1. Click **Enable Autoscaling**. 
-	![](enable-autoscaling.png)
+	
+	<img src="images/enable-autoscaling.png" width="450px">
 
 1. Click **Manage Autoscaling**. 
 
@@ -218,7 +221,8 @@ To create an autoscaling rule for the app and custom metric:
 	1. For **Minimum**, enter `1`. 
 	1. For **Maximum**, enter `5`. 
 	1. Click **Apply Changes**. 
-	![](manage-autoscaling.png)
+
+		<img src="images/manage-autoscaling.png" width="450px">
 
 1. Create an  autoscaling rule. <br>App Autoscaler increases or decreases instance counts based on how a current metric compares with configured **Scale up** and **Scale down** thresholds. 
 	1. In the **Scaling Rules** section, click **EDIT**. 
@@ -228,7 +232,8 @@ To create an autoscaling rule for the app and custom metric:
 	1. For **Scale up if more than**, enter `5`. 
 	1. For **Metric**, enter `custom`. This is the name of the metric specified in the app code. 
 	1. Click **Save**. 
-	![](add-rule.png)
+		
+		<img src="images/add-rule.png" width="450px">
 
 ## <a id="trigger"></a> Trigger Scaling
 
