@@ -153,7 +153,7 @@ To push the sample app:
 
 <a id="sample-app-ui"></a>
 1. In a browser, navigate to the app URL. The app UI looks like what you see in the image below. 
-	<img src="images/sample-app-ui.png" width="450px"><br>
+	<img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
 	It has the following buttons:
 	<ul>
 	<li> **Increment Custom gauge** and **Decrement custom gauge**:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You will use these buttons later when you [Trigger Scaling](#trigger).</li>
@@ -213,7 +213,7 @@ To create an autoscaling rule for the app and custom metric:
 
 1. Click **Enable Autoscaling**. 
 	
-	<img src="images/enable-autoscaling.png" width="450px">
+	<img src="images/enable-autoscaling.png" alt="The app page for an app named java-metric-registrar-demo shows the Enable Autoscaling button being clicked." width="600px">
 
 1. Click **Manage Autoscaling**. 
 
@@ -222,7 +222,7 @@ To create an autoscaling rule for the app and custom metric:
 	1. For **Maximum**, enter `5`. 
 	1. Click **Apply Changes**. 
 
-		<img src="images/manage-autoscaling.png" width="450px">
+		<img src="images/manage-autoscaling.png" alt="The Manage Autoscaling form includes an Instance Limits section. This section includes two textboxes, one for Minimum and one for Maximum. To the right of these textboxes is the Apply Changes button. 1 is entered for Minimum and 5 is entered for Maximum" width="450px">
 
 1. Create an  autoscaling rule. <br>App Autoscaler increases or decreases instance counts based on how a current metric compares with configured **Scale up** and **Scale down** thresholds. 
 	1. In the **Scaling Rules** section, click **EDIT**. 
@@ -233,7 +233,7 @@ To create an autoscaling rule for the app and custom metric:
 	1. For **Metric**, enter `custom`. This is the name of the metric specified in the app code. 
 	1. Click **Save**. 
 		
-		<img src="images/add-rule.png" width="450px">
+		<img src="images/add-rule.png" alt="The Edit Scaling Rules form includes a dropdown menu labeled Rule Type, a textbox labeled Scale down if less than, a textbox labeled scale up if more than, and a textbox labeled Metric. They are configured according the corresponding instructions. The form also includes buttons labeled Add Rule, Cancel, and Save." width="450px">
 
 ## <a id="trigger"></a> Trigger Scaling
 
