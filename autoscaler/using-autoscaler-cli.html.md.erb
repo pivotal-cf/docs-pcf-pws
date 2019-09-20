@@ -87,7 +87,7 @@ OK
 
 ## <a id="create-rule"></a>Create a Rule
 
-Run `create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule.
+Run `cf create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule.
 
 Replace the placeholders as follows:
 
@@ -145,7 +145,7 @@ For a list of valid types and subtypes, see the following:
 
 ## <a id="delete-rule"></a>Delete a Rule
 
-Run `delete-autoscaling-rule APP-NAME RULE-GUID [--force]` to delete a single autoscaling rule. Replace `APP-NAME` with the name of your app, and replace `RULE-GUID` with the GUID.
+Run `cf delete-autoscaling-rule APP-NAME RULE-GUID [--force]` to delete a single autoscaling rule. Replace `APP-NAME` with the name of your app, and replace `RULE-GUID` with the GUID.
 
 <pre class="terminal">
 $ cf delete-autoscaling-rule test-app guid-2<br>
@@ -156,7 +156,7 @@ OK
 
 ## <a id="delete-rules"></a>Delete All Rules
 
-Run `delete-autoscaling-rules APP-NAME [--force]` to delete all autoscaling rules. Replace `APP-NAME` with the name of your app.
+Run `cf delete-autoscaling-rules APP-NAME [--force]` to delete all autoscaling rules. Replace `APP-NAME` with the name of your app.
 
 <pre class="terminal">
 $ cf delete-autoscaling-rules test-app<br>
@@ -189,7 +189,7 @@ guid-5   2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
 
 ## <a id="create-autoscaling-slc"></a>Create Autoscaler Scheduled Instance Limit Change
 
-Run `create-autoscaling-slc APP-NAME DATE-TIME MIN-INSTANCES MAX-INSTANCES  [--recurrence RECURRENCE]` to create a new scheduled instance limit change.
+Run `cf create-autoscaling-slc APP-NAME DATE-TIME MIN-INSTANCES MAX-INSTANCES  [--recurrence RECURRENCE]` to create a new scheduled instance limit change.
 
 Replace the placeholders as follows:
 
@@ -210,7 +210,7 @@ guid-6   2018-06-14T15:00:00Z   1               2               Sa
 
 ## <a id="delete-autoscaling-slc"></a>Delete Autoscaler Scheduled Instance Limit Change
 
-Run `delete-autoscaling-slc APP-NAME SLC-GUID [--force]` to delete a scheduled instance limit change.
+Run `cf delete-autoscaling-slc APP-NAME SLC-GUID [--force]` to delete a scheduled instance limit change.
 Replace `APP-NAME` with the name of your app and `SLC-GUID` with the GUID of your scheduled instance limit change.
 
 For example:
@@ -224,7 +224,7 @@ OK
 
 ## <a id="configure-autoscaling"></a>Configure with a Manifest
 
-Run `configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest to configure your rules, add instance limits, and set scheduled limit changes at the same time. Replace `APP-NAME` with the name of your app, and replace `MANIFEST-FILE-PATH` with the path and name of your Autoscaler manifest.
+Run `cf configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest to configure your rules, add instance limits, and set scheduled limit changes at the same time. Replace `APP-NAME` with the name of your app, and replace `MANIFEST-FILE-PATH` with the path and name of your Autoscaler manifest.
 
 An example manifest:
 
