@@ -30,7 +30,8 @@ To install the plugin, do the following:
     For more information about installing cf CLI plugins, see [Installing a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install). 
 
 ## <a id="create-and-bind-service"></a>Create and Bind the Autoscaling Service
-Before you can use the App Autoscaler you need to have created an Autoscaling service and bound that service to your app. See the <a href="https://docs.pivotal.io/pivotalcf/2-6/devguide/services/managing-services.html">Managing Service Instances with the cf CLI</a> topic for more information.
+
+Before you can use the App Autoscaler, you must create an Autoscaling service and bind that service to your app. See the <a href="https://docs.pivotal.io/pivotalcf/2-6/devguide/services/managing-services.html">Managing Service Instances with the cf CLI</a> topic for more information.
 
 ## <a id="view-apps"></a>View Apps
 
@@ -65,7 +66,7 @@ Enabled autoscaling for app test-app-2 for org my-org / my-space testing as admi
 OK
 </pre>
 
-  <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code> by default. In order to enable autoscaling, you must first [update instance limits](#updating-instance-limits).</p> 
+  <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code>. To enable autoscaling, you must first <a href="#updating-instance-limits">Update Instance Limits</a>.</p> 
 
 ## <a id="disable-autoscaling"></a>Disable Autoscaling
 
@@ -140,7 +141,9 @@ For a list of valid types and subtypes, see the following:
 * type `memory`
 * type `http_throughput`
 * type `http_latency`
-  * sub_type `avg_99th` or `avg_95th`
+  * sub\_type `avg_99th` or `avg_95th`
+      <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p> 
+      <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
 * type `rabbit-mq`
   * queue_name `YOUR-QUEUE-NAME`
 * type `custom`
@@ -148,10 +151,6 @@ For a list of valid types and subtypes, see the following:
 * type `compare`
   * metric `METRIC-NAME`
   * comparison_metric `METRIC-NAME`
-
-  <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code> be applied.</p> 
-
-  <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
 
 ## <a id="delete-rule"></a>Delete a Rule
 
