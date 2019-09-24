@@ -17,7 +17,7 @@ To install the plugin, do the following:
 
 1. Download the plugin from <a href="https://network.pivotal.io/products/pcf-app-autoscaler">Pivotal Network</a>.
 
-1. To install the App Autoscaler CLI plugin, run the following command:
+1. Run the following command:
 
     ```
     cf install-plugin LOCATION-OF-PLUGIN
@@ -29,7 +29,8 @@ To install the plugin, do the following:
     </pre> 
 
 ## <a id="create-and-bind-service"></a> Create and Bind the Autoscaling Service
-Before you can use the App Autoscaler you need to have created an Autoscaling service and bound that service to your app. See the <a href="https://docs.run.pivotal.io/devguide/services/managing-services.html">Managing Service Instances with the cf CLI</a> topic for more information.
+
+Before you can use the App Autoscaler, you must create an Autoscaling service and bind that service to your app. See the <a href="https://docs.run.pivotal.io/devguide/services/managing-services.html">Managing Service Instances with the cf CLI</a> topic for more information.
 
 ## <a id="view-apps"></a>View Apps
 
@@ -46,7 +47,7 @@ OK
 
 ## <a id="updating-instance-limits"></a>Update Instance Limits
 
-Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT` to update the upper and lower app instance limits. The App Autoscaler will not attempt to scale beyond these limits. Replace `APP-NAME` with the name of your app. Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps, and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
+Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT` to update the upper and lower app instance limits. The App Autoscaler does not scale beyond these limits. Replace `APP-NAME` with the name of your app. Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps, and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
  
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
@@ -64,7 +65,7 @@ Enabled autoscaling for app test-app-2 for org my-org / my-space testing as admi
 OK
 </pre>
  
- <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code> by default. In order to enable autoscaling, you must first [update instance limits](#updating-instance-limits).</p> 
+ <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code>. To enable autoscaling, you must first <a href="#updating-instance-limits">Update Instance Limits</a>.</p> 
 
 ## <a id="disable-autoscaling"></a>Disable Autoscaling
 
@@ -94,12 +95,14 @@ OK
 Run `create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule.
 
 Replace the placeholders as follows:	
+
 * `APP-NAME` is the name of your app.	
 * `RULE-TYPE` is the type of your scaling rule.	
 * `MIN-THRESHOLD` is the minimum threshold for the metric.	
 * `MAX-THRESHOLD` is the maximum threshold for the metric.	
 
 You can use the following command options:
+
 * `--metric`, `-m` is the metric for a Custom rule.	
 * `--comparison-metric`, `-c` is the comparison metric for a Compare rule.	
 * `--subtype`, `-s` is the rule subtype.	
@@ -120,6 +123,8 @@ For a list of valid types and subtypes, see the following:
 * type `http_throughput`
 * type `http_latency`
   * sub_type `avg_99th` or `avg_95th`
+    <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p> 
+    <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
 * type `rabbit-mq`
   * queue_name `YOUR-QUEUE-NAME`
 * type `custom`
@@ -127,10 +132,6 @@ For a list of valid types and subtypes, see the following:
 * type `compare`
   * metric `METRIC-NAME`
   * comparison_metric `METRIC-NAME`
-
-  <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code> be applied.</p> 
-
-  <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
 
 ## <a id="delete-rule"></a>Delete a Rule
 
