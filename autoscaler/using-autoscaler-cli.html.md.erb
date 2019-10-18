@@ -262,7 +262,7 @@ instance_limits:
   max: 1
 rules: []
 scheduled_limit_changes:
-- recurrence: 365
+- recurrence: 42
   executes_at: "2032-01-01T00:00:00Z"
   instance_limits:
     min: 0
@@ -284,6 +284,8 @@ rules:
      max: 20
 scheduled_limit_changes: []
 </pre>
+
+<p class='note'><strong>Note:</strong> The App Autoscaler scheduled limit change requires recurrence schedule to be either a bit-masked value, or comma-separated days. For example, to run a scheduled limit change every Monday, Wednesday, and Friday, <code>recurrence</code> should be set to either <code>42</code> or <code>Mo,We,Fr</code> </p>
 
 ## <a id="issues"></a>App Autoscaler CLI Known Issues
 
