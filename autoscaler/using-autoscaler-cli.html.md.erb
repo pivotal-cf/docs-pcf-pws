@@ -298,7 +298,7 @@ scheduled_limit_changes: []
 
 #### Create a Scheduled Limit Change
 
-In order to create scheduled limit changes using the autoscaler manifest, it's important tuo understand how it is constructed. The `executes at` value is used in two ways. First, the date and time is used to set the first (or only) occurrence of a scheduled limit change. Secondly, the time component is used to set the time of day for each recurence in UTC. This time of day will be used in all subsequent scheduled limit changes. 
+In order to create scheduled limit changes using the autoscaler manifest, it's important to understand how it is constructed. The `executes at` value is used in two ways. First, the date and time is used to set the first (or only) occurrence of a scheduled limit change. Secondly, the time component is used to set the time of day for each recurence in UTC. This time of day will be used in all subsequent scheduled limit changes. 
 
 When setting a recurrence schedule, the days of the week are bit masked. To instruct Autoscaler when to execute a scheduled limit change, simply add together the bit masked values for each of the day(s) of the week that you wish to trigger the limit change using this table:
 
