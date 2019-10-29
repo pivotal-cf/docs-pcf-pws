@@ -40,9 +40,9 @@ Run `cf autoscaling-apps` to view all the apps that are bound to an autoscaler s
 <pre class="terminal">
 $ cf autoscaling-apps<br>
 Presenting autoscaler apps in org my-org / my-space autoscaling as user
-Name                  Guid            Enabled   Min Instances   Max Instances
-test-app              guid            true      1               4
-test-app-2            guid-2          false     10              40
+Name                  Guid                                      Enabled   Min Instances   Max Instances
+test-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4
+test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40
 OK
 </pre>
 
@@ -85,9 +85,9 @@ Run `cf autoscaling-rules APP-NAME` to view the rules that the App Autoscaler us
 <pre class="terminal">
 $ cf autoscaling-rules test-app<br>
 Presenting autoscaler rules for app test-app for org my-org / my-space autoscaling as user
-Rule Guid      Rule Type         Rule Sub Type   Min Threshold   Max Threshold
-guid           cpu                               10              20
-guid-2         http_throughput                   20              30
+Rule Guid                               Rule Type         Rule Sub Type   Min Threshold   Max Threshold
+45870b7f-f5c9-403f-9150-e79314f62f06    cpu                               10              20
+10a581c5-8fb4-48a2-b4de-8bc834aac146    http_throughput                   20              30
 OK
 </pre>
 
@@ -113,24 +113,24 @@ For example:
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app http_latency 10 20 -s avg_99th<br>
 Created autoscaler rule for app test-app for org my-org / space my-space as user
-Rule Guid             Rule Type         Rule Sub Type   Min Threshold   Max Threshold
-guid-3                http_latency      avg_99th        10              20
+Rule Guid                               Rule Type         Rule Sub Type   Min Threshold   Max Threshold
+a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    http_latency      avg_99th        10              20
 </pre>
 
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app custom 9380 9381 --metric jvm.classes.loaded
 Created autoscaler rule for app test-app in org my-org / space my-space as user
 OK
-Guid     Type     Metric               Sub Type   Min Threshold   Max Threshold
-guid-7   custom   jvm.classes.loaded              9380.00         9381.00
+Guid                                    Type     Metric               Sub Type   Min Threshold   Max Threshold
+59365c9d-6fe7-4195-b8c1-0f5b07afd636    custom   jvm.classes.loaded              9380.00         9381.00
 </pre>
 
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app compare .79 .8  --metric jvm.memory.used --comparison-metric jvm.memory.max
 Created autoscaler rule for app test-app in org my-org / space my-space as user
 OK
-Guid     Type      Metric                             Sub Type   Min Threshold   Max Threshold
-guid-8   compare   jvm.memory.used / jvm.memory.max              0.79            0.80
+Guid                                    Type      Metric                             Sub Type   Min Threshold   Max Threshold
+93c4b831-0155-4771-8842-3247816e71df    compare   jvm.memory.used / jvm.memory.max              0.79            0.80
 </pre>
 
 ## <a id="rule-types"></a>Valid Rule Types and Subtypes
@@ -157,9 +157,9 @@ For a list of valid types and subtypes, see the following:
 Run `cf delete-autoscaling-rule APP-NAME RULE-GUID [--force]` to delete a single autoscaling rule. Replace `APP-NAME` with the name of your app, and replace `RULE-GUID` with the GUID.
 
 <pre class="terminal">
-$ cf delete-autoscaling-rule test-app guid-2<br>
-Really delete rule guid-2 for app test-app?> [yN]:y
-Deleted rule guid-2 for autoscaler app test-app for org my-org / space my-space as admin
+$ cf delete-autoscaling-rule test-app 10a581c5-8fb4-48a2-b4de-8bc834aac146<br>
+Really delete rule 10a581c5-8fb4-48a2-b4de-8bc834aac146 for app test-app?> [yN]:y
+Deleted rule 10a581c5-8fb4-48a2-b4de-8bc834aac146 for autoscaler app test-app for org my-org / space my-space as admin
 OK
 </pre>
 
@@ -192,8 +192,8 @@ For example:
 
 <pre class="terminal">
 $ cf autoscaling-slcs test-app<br>
-Guid     First Execution        Min Instances   Max Instances   Recurrence
-guid-5   2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
+Guid                                      First Execution        Min Instances   Max Instances   Recurrence
+f08f9803-6e5d-4519-abc3-fea640300d01      2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
 </pre>
 
 ## <a id="create-autoscaling-slc"></a>Create Autoscaler Scheduled Instance Limit Change
@@ -213,9 +213,11 @@ For example:
 $ cf create-autoscaling-slc test-app 2018-06-14T15:00:00Z 1 2 --recurrence Sa<br>
 Created scheduled autoscaler instance limit change for app test-app in org my-org / space my-space as user
 OK
-Guid     First Execution        Min Instances   Max Instances   Recurrence
-guid-6   2018-06-14T15:00:00Z   1               2               Sa
+Guid                                      First Execution        Min Instances   Max Instances   Recurrence
+7a19a8a2-e435-4c67-b038-cc4add8be686      2018-06-14T15:00:00Z   1               2               Sa
 </pre>
+
+<p class="note"><b>Note:</b> App Autoscaler only supports times in UTC. App Autoscaler does not support setting alternate timezones or Daylight Saving Time</p> 
 
 ## <a id="delete-autoscaling-slc"></a>Delete Autoscaler Scheduled Instance Limit Change
 
@@ -225,13 +227,13 @@ Replace `APP-NAME` with the name of your app and `SLC-GUID` with the GUID of you
 For example:
 
 <pre class="terminal">
-$ cf delete-autoscaling-slc test-app slc-guid<br>
-Really delete scheduled limit change slc-guid for app test-app?> [yN]:y
-Deleted scheduled limit change slc-guid for app test-app in org my-org / space my-space as user
+$ cf delete-autoscaling-slc test-app d0077dc5-34bd-42c7-b377-e0fcb14d67f3<br>
+Really delete scheduled limit change d0077dc5-34bd-42c7-b377-e0fcb14d67f3 for app test-app?> [yN]:y
+Deleted scheduled limit change d0077dc5-34bd-42c7-b377-e0fcb14d67f3 for app test-app in org my-org / space my-space as user
 OK
 </pre>
 
-## <a id="configure-autoscaling"></a>Configure with a Manifest
+## <a id="configure-autoscaling"></a>Configure Autoscaling with a Manifest
 
 Run `cf configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest to configure your rules, add instance limits, and set scheduled limit changes at the same time. Replace `APP-NAME` with the name of your app, and replace `MANIFEST-FILE-PATH` with the path and name of your Autoscaler manifest.
 
@@ -271,7 +273,7 @@ instance_limits:
   max: 1
 rules: []
 scheduled_limit_changes:
-- recurrence: 365
+- recurrence: 42
   executes_at: "2032-01-01T00:00:00Z"
   instance_limits:
     min: 0
@@ -292,6 +294,69 @@ rules:
      min: 10
      max: 20
 scheduled_limit_changes: []
+</pre>
+
+#### Create a Scheduled Limit Change
+
+In order to create scheduled limit changes using the autoscaler manifest, it's important to understand how it is constructed. The `executes at` value is used in two ways. First, the date and time is used to set the first (or only) occurrence of a scheduled limit change. Secondly, the time component is used to set the time of day for each recurence in UTC. This time of day will be used in all subsequent scheduled limit changes. 
+
+When setting a recurrence schedule, the days of the week are bit masked. To instruct Autoscaler when to execute a scheduled limit change, simply add together the bit masked values for each of the day(s) of the week that you wish to trigger the limit change using this table:
+
+<table id='scaling-rule-metrics' border="1" class="nice" >
+	<tr>
+    <td>Day</td>
+		<td>Su</td>
+		<td>Mo</td>
+    <td>Tu</td>
+		<td>We</td>
+    <td>Th</td>
+		<td>Fr</td>
+	  <td>Sa</td>	
+	</tr>
+  <tr>
+		<td>Value</td>
+  	<td>64</td>
+		<td>32</td>
+    <td>16</td>
+		<td>8</td>
+    <td>4</td>
+		<td>2</td>
+		<td>1</td>	
+	</tr>
+</table>
+
+And set the `recurrence` field to that value. 
+
+Examples:
+1. Schedule on weekdays: (32+16+8+4+2)=62 so `recurrence: 62`
+1. Schedule on weekends: (64+1)=54 so `recurrence: 65`
+1. Schedule every day: (64+32+16+8+4+2+1)=127 so `recurrence: 127`
+1. Monday, Wednesday, Friday: (32+8+2)= 42 so `recurrence: 42`
+
+An example of a manifest to scale down every Friday at 8pm and back up every Monday at 4am (assuming UTC timezone):
+
+<pre>
+---
+instance_limits:
+  min: 6
+  max: 12
+rules:
+- rule_type: "http_latency"
+  rule_sub_type: "avg_99th"
+  threshold:
+    min: 10
+    max: 20
+scheduled_limit_changes:
+- recurrence: 32
+  executes_at: "2032-01-01T20:00:00Z"
+  instance_limits:
+    min: 1
+    max: 3
+- recurrence: 2
+  executes_at: "2032-01-01T04:00:00Z"
+  instance_limits:
+    min: 6
+    max: 12
 </pre>
 
 ## <a id="issues"></a>App Autoscaler CLI Known Issues
