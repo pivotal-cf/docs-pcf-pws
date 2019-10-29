@@ -296,25 +296,34 @@ rules:
 scheduled_limit_changes: []
 </pre>
 
-#### Create a Scheduled Limit Change
+### <a id="create-scheduled-limit"></a> Create a Scheduled Limit Change
 
-In order to create scheduled limit changes using the autoscaler manifest, it's important to understand how it is constructed. The `executes at` value is used in two ways. First, the date and time is used to set the first (or only) occurrence of a scheduled limit change. Secondly, the time component is used to set the time of day for each recurence in UTC. This time of day will be used in all subsequent scheduled limit changes. 
+To create a scheduled limit change using the autoscaler manifest, you must understand how 
+scheduled limit changes are constructed. Autoscaler uses the `executes at` value in two ways: 
 
-When setting a recurrence schedule, the days of the week are bit masked. To instruct Autoscaler when to execute a scheduled limit change, simply add together the bit masked values for each of the day(s) of the week that you wish to trigger the limit change using this table:
+1. Autoscaler uses date and time to set the first (or only) occurrence of a scheduled limit change. 
+1. Autoscaler then uses the time component to set the time of day in UTC for each recurrence.
+Autoscaler uses this time of day for all subsequent scheduled limit changes. 
+
+When setting a recurrence schedule, the days of the week are bitmasked. 
+
+To instruct Autoscaler when to execute a scheduled limit change, add together the 
+bitmasked values for each of the day(s) of the week that 
+you wish to trigger the scheduled limit change using this table.
 
 <table id='scaling-rule-metrics' border="1" class="nice" >
 	<tr>
-    <td>Day</td>
-		<td>Su</td>
-		<td>Mo</td>
-    <td>Tu</td>
-		<td>We</td>
-    <td>Th</td>
-		<td>Fr</td>
-	  <td>Sa</td>	
+    <th>Day</th>
+		<th>Su</th>
+		<th>Mo</th>
+    <th>Tu</th>
+		<th>We</th>
+    <th>Th</th>
+		<th>Fr</th>
+	  <th>Sa</th>	
 	</tr>
   <tr>
-		<td>Value</td>
+		<th>Value</th>
   	<td>64</td>
 		<td>32</td>
     <td>16</td>
@@ -325,15 +334,19 @@ When setting a recurrence schedule, the days of the week are bit masked. To inst
 	</tr>
 </table>
 
-And set the `recurrence` field to that value. 
+Then set the `recurrence` field to that value.
 
-Examples:
-1. Schedule on weekdays: (32+16+8+4+2)=62 so `recurrence: 62`
-1. Schedule on weekends: (64+1)=54 so `recurrence: 65`
-1. Schedule every day: (64+32+16+8+4+2+1)=127 so `recurrence: 127`
-1. Monday, Wednesday, Friday: (32+8+2)= 42 so `recurrence: 42`
+#### <a id="scheduled-limit-examples"></a> Examples of Recurrence Specification
 
-An example of a manifest to scale down every Friday at 8pm and back up every Monday at 4am (assuming UTC timezone):
+The following are examples of how to calculate a value for the `recurrence` field of a scheduled limit change:
+
+* To schedule on weekdays, you add **(32+16+8+4+2)=62**. Set `recurrence: 62`.
+* To schedule on weekends, you add **(64+1)=54**. Set `recurrence: 65`.
+* To schedule every day, you add **(64+32+16+8+4+2+1)=127**. Set `recurrence: 127`.
+* To schedule on Monday, Wednesday, and Friday, you add **(32+8+2)=42**. Set `recurrence: 42`.
+
+The following is an example manifest to scale down every Friday at 8pm 
+and back up every Monday at 4am assuming a UTC timezone:
 
 <pre>
 ---
