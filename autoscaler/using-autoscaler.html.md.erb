@@ -66,35 +66,13 @@ To enable App Autoscaler for the app, do the following:
       <%= image_tag('images/manage-autoscaling.png') %>
 
 
-## <a id="config"></a> Configure Autoscaling for an App
+## <a id="about-scaling"></a> About App Autoscaler Scaling Rules
 
-App Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values, or _instance limits_.
+This section describes how App Autoscaler determines when to scale an app up or down. 
 
-Follow the procedures in the sections below to set any of the following:
+It also provides information about the custom metrics, comparison metrics, and default metrics that you can use when you create scaling rules for an app in App Autoscaler. 
 
-* [Create or Modify Instance Limits](#limits)
-* [Add or Delete Scaling Rules](#metric)
-* [Create or Modify Scheduled Limit Changes](#schedule)
-
-### <a id="limits"></a> Create or Modify Instance Limits
-
-Follow these steps to manually modify instance limits:
-
-<p class="note"><strong>Note:</strong> You can also schedule changes to your instance limits for a specific date and time. For more information, see <a href="#schedule">Scheduled Limit Changes</a>.</p>
-
-1. In Apps Manager, navigate to the **Overview** page for your app and click **Manage Autoscaling** under **Processes and Instances**.
-
-1. In the **Instance Limits** section, set values for **Minimum** and **Maximum**.
-
-    <%= image_tag('images/instance-limits.png') %>
-
-1. Click **Apply Changes**.
-
-### <a id="metric"></a> Add or Delete Scaling Rules
-
-To keep your apps available without wasting resources, App Autoscaler increments or decrements instance counts based on how current metrics compare with configurable minimum and maximum thresholds.
-
-#### How App Autoscaler Determines When to Scale
+### <a id="about-scaling-decisions"></a> How App Autoscaler Determines When to Scale
 
 Every 35 seconds, App Autoscaler makes a decision about whether to scale up, scale down, or keep the same number of instances. To make a scaling decision, App Autoscaler averages the values of a given metric for the most recent 120 seconds.
 
@@ -103,23 +81,33 @@ App Autoscaler scales apps as follows:
 * Increment by one instance when any metric exceeds its maximum threshold
 * Decrement by one instance only when all metrics fall below their minimum thresholds
 
-For example, an app may have a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric. If HTTP latency averages 300 milliseconds over the past 120 seconds, App Autoscaler scales the app up one instance. If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
+The following diagram provides an example of how App Autoscaler makes scaling decisions:
 
-You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of a given metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app. For more information about setting a maximum and minimum number of instances, see [Create or Modify Instance Limits](#limits).
+![Read the description after this diagram for a description of the example shown in the diagram.](./images/autoscaler-scaling-decisions.png)
 
-#### Custom Metrics for Scaling Rules
+As shown in the diagram above, an app has a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric. 
+
+If HTTP latency averages 220 milliseconds for 120 seconds, App Autoscaler scales the app up one instance. 
+
+If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
+
+You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of a given metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app. 
+
+For more information about setting a maximum and minimum number of instances, see [Create or Modify Instance Limits](#limits).
+
+### <a id="custom-metrics"></a> Custom Metrics for Scaling Rules
 
 Pivotal recommends that you define custom metrics for App Autoscaler scaling rules. Custom metrics allow you to define the metrics that are the best indicators of app performance for your environment.
 
 You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.pivotal.io/pivotalcf/2-5/metric-registrar/using.html)r.
 
-#### Comparison Metrics for Scaling Rules
+### <a id="comparison-metrics"></a> Comparison Metrics for Scaling Rules
 
 You can use the **Comparison Metric** field in App Autoscaler to define a scaling rule that divides one custom metric by another. 
 
 When you add a scaling rule, the **Metric** field is the dividend and the **Comparison Metric** field is the divisor.
 
-#### Default Metrics for Scaling Rules
+### <a id="default-metrics"></a> Default Metrics for Scaling Rules
 
 App Autoscaler includes several default metrics for which you can create scaling rules.
 
@@ -160,6 +148,40 @@ The table below lists the default metrics for App Autoscaler:
 		<td></td>
 	</tr>
 </table>
+
+
+## <a id="config"></a> Configure Autoscaling for an App
+
+App Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values, or _instance limits_. 
+
+For more information about how App Autoscaler makes scaling decisions for an app, see [How App Autoscaler Determines When to Scale](#about-scaling-decisions).
+
+Follow the procedures in the sections below to set any of the following:
+
+* [Create or Modify Instance Limits](#limits)
+* [Add or Delete Scaling Rules](#metric)
+* [Create or Modify Scheduled Limit Changes](#schedule)
+
+### <a id="limits"></a> Create or Modify Instance Limits
+
+Follow these steps to manually modify instance limits:
+
+<p class="note"><strong>Note:</strong> You can also schedule changes to your instance limits for a specific date and time. For more information, see <a href="#schedule">Scheduled Limit Changes</a>.</p>
+
+1. In Apps Manager, navigate to the **Overview** page for your app and click **Manage Autoscaling** under **Processes and Instances**.
+
+1. In the **Instance Limits** section, set values for **Minimum** and **Maximum**.
+
+    <%= image_tag('images/instance-limits.png') %>
+
+1. Click **Apply Changes**.
+
+
+### <a id="metric"></a> Add or Delete Scaling Rules
+
+The following procedures describe how to add and delete scaling rules for your apps with App Autoscaler. 
+
+For more information about scaling rules and metrics in App Autoscaler, see [About App Autoscaler Scaling Rules](#about-scaling).
 
 #### Add a Scaling Rule
 
