@@ -137,17 +137,20 @@ Guid                                    Type      Metric                        
 
 For a list of valid types and subtypes, see the following:
 
-* type `CPU`
-* type `memory`
-* type `http_throughput`
-* type `http_latency`
-  * sub\_type `avg_99th` or `avg_95th`
-      <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p> 
-      <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
-* type `rabbitmq`
-  * sub\_type `YOUR-QUEUE-NAME`
 * type `custom`
   * metric `METRIC-NAME`
+* type `CPU`	* type `CPU`
+* type `memory`	* type `memory`
+* type `http_throughput`	* type `http_throughput`
+  <p class='note'><strong>Note:</strong> It is <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">not recommended</a> to use <code>http_throughput</code> as a scaling rule when logging volume is high in the system.</p>
+* type `http_latency`	* type `http_latency`
+  * sub\_type `avg_99th` or `avg_95th`	  * sub\_type `avg_99th` or `avg_95th`
+      <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p> 	      <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p> 
+      <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 	      <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
+* type `rabbitmq`	* type `rabbitmq`
+  * sub\_type `YOUR-QUEUE-NAME`	  * sub\_type `YOUR-QUEUE-NAME`
+* type `custom`	
+  * metric `METRIC-NAME`	
 * type `compare`
   * metric `METRIC-NAME`
   * comparison_metric `METRIC-NAME`
