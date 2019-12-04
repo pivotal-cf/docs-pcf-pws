@@ -50,7 +50,7 @@ This tutorial requires the following:
 
 The sample app code is in the [pivotal-cf/metric-registrar-examples](https://github.com/pivotal-cf/metric-registrar-examples/) GitHub repository. It is a Spring app with a simple UI that includes several buttons to call different endpoints. Some of these endpoints are instrumented to produce metrics. 
 
-You can see what the UI looks like in the [Push the Sample App](#sample-app-ui) section, which includes a screenshot. The following sections provide some details about the code. 
+You can see what the UI looks like in the [Push the Sample App](#push) section, which includes a screenshot. The following sections provide some details about the code. 
 
 ### <a id="dependencies"></a> Dependencies
 
@@ -151,9 +151,10 @@ To push the sample app:
 	last uploaded:     Wed 28 Aug 11:02:33 PDT 2019
 	</pre>
 
-<a id="sample-app-ui"></a>
+
+
 1. In a browser, navigate to the app URL. The app UI looks like what you see in the image below. 
-	<img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
+	<img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br><br>
 	It has the following buttons:
 	<ul>
 	<li> **Increment Custom gauge** and **Decrement custom gauge**:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You will use these buttons later when you [Trigger Scaling](#trigger).</li>
