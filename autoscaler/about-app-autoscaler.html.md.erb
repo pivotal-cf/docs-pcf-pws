@@ -16,7 +16,7 @@ You can use App Autoscaler to do the following:
 
 For example, you can configure App Autoscaler to automatically scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to automatically scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold. 
 
-<p class="note breaking"><strong>Breaking Change:</strong> App Autoscaler relies on API endpoints from Loggregator's Log Cache. If you disable Log Cache, App Autoscaler will fail. For more information about Log Cache, see <a href="https://docs.pivotal.io/pivotalcf/2-2/pcf-release-notes/runtime-rn.html#log-cache">Loggregator Introduces Log Cache</a>.</p>
+<p class="note breaking"><strong>Breaking Change:</strong> App Autoscaler relies on API endpoints from Loggregator's Log Cache. If you disable Log Cache, App Autoscaler fails. For more information about Log Cache, see <a href="https://docs.pivotal.io/pivotalcf/2-2/pcf-release-notes/runtime-rn.html#log-cache">Loggregator Introduces Log Cache</a>.</p>
 
 
 ## <a id="about-scaling"></a> About App Autoscaler Scaling Rules
@@ -31,7 +31,11 @@ Every 35 seconds, App Autoscaler makes a decision about whether to scale up, sca
 
 To make a scaling decision, App Autoscaler averages the values of a given metric for the most recent 120 seconds.
 
-<p class="note"><strong>Note:</strong> Operators can modify the 35 second scaling interval and the 120 second metric collection interval for all apps within the org. For more information, see <a href="https://docs.pivotal.io/platform/application-service/operating/configure-pas.html#config-autoscaler">(Optional) Configure App Autoscaler</a> in <em>Configuring PAS</em>.</p>
+<p class="note"><strong>Note:</strong> Operators can modify the 35 second scaling interval
+and the 120 second metric collection interval for all apps within the org.
+For more information, see <a href="https://docs.pivotal.io/platform/application-service/operating/configure-pas.html#config-autoscaler">
+(Optional) Configure App Autoscaler</a> in <em>Configuring <%= vars.app_runtime_abbr %></em>.
+</p>
 
 App Autoscaler scales apps as follows:
 
@@ -57,7 +61,11 @@ You can also set a maximum and minimum number of instances. For example, if an a
 
 App Autoscaler includes several default metrics for which you can create scaling rules.
 
-<p class="note"><b>Note:</b> Pivotal recommends that you define custom metrics for scaling rules instead of using the default metrics. Custom metrics allow you to more accurately monitor the performance of your apps based on your environment.</p> 
+<p class="note"><b>Note:</b> <%= vars.company_name %> recommends that you define custom metrics
+for scaling rules instead of using the default metrics.
+Custom metrics allow you to more accurately monitor the performance of your apps
+based on your environment.
+</p>
 
 The table below lists the default metrics for App Autoscaler:
 
@@ -73,7 +81,11 @@ The table below lists the default metrics for App Autoscaler:
 			Average CPU percentage for all instances of the app.
 		</td>
 		<td>
-			App CPU utilization data may vary greatly based on the number of CPU cores on Diego cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">Pivotal App Autoscaler advisory for scaling Apps based on the CPU utilization</a>.
+			App CPU utilization data may vary greatly based on the number
+                        of CPU cores on Diego Cells and app density.
+                        For more information,
+                        see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App
+                        Autoscaler advisory for scaling Apps based on the CPU utilization</a>.
 		</td>
 	</tr><tr>
 		<td>Container Memory Utilization</td>
@@ -82,7 +94,12 @@ The table below lists the default metrics for App Autoscaler:
 	</tr><tr>
 		<td>HTTP Throughput</td>
 		<td>Total HTTP requests per second (divided by the total number of app instances).</td>
-		<td>Pivotal does not recommend using <code>http_throughput</code> as a scaling rule when logging volume is high in the system. For more information, see <a href="https://community.pivotal.io/s/article/autoscaling-using-http-throughput-latency-metrics">Autoscaling using HTTP Throughput & Latency metrics</a> and <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based Autoscaling rules do not fire</a> in the Pivotal Support Knowledge base.</td>
+		<td><%= vars.company_name %> does not recommend using <code>http_throughput</code>
+                    as a scaling rule when logging volume is high in the system.
+                    For more information, see <a href="https://community.pivotal.io/s/article/autoscaling-using-http-throughput-latency-metrics">Autoscaling
+                    using HTTP Throughput & Latency metrics</a> and
+                    <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP
+                    throughput based Autoscaling rules do not fire</a> in the Knowledge Base.</td>
 	</tr><tr>
 		<td>HTTP Latency</td>
 		<td>Average latency of apps response to HTTP requests. This does not include Gorouter processing time or other network latency.<br>
@@ -97,7 +114,8 @@ The table below lists the default metrics for App Autoscaler:
 
 ### <a id="custom-metrics"></a> Custom Metrics for Scaling Rules
 
-Pivotal recommends that you define custom metrics for App Autoscaler scaling rules. Custom metrics allow you to define the metrics that are the best indicators of app performance for your environment.
+<%= vars.company_name %> recommends that you define custom metrics for App Autoscaler scaling rules.
+Custom metrics allow you to define the metrics that are the best indicators of app performance for your environment.
 
 You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.pivotal.io/pivotalcf/metric-registrar/using.html).
 
