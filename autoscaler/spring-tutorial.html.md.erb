@@ -3,11 +3,14 @@ title: Tutorial&#58; Scaling a Spring App on a Custom Metric
 owner: Autoscaler
 ---
 
-This tutorial shows you how to scale a sample Spring app based on a custom metric in <%= vars.app_runtime_full %>. 
+This tutorial shows you how to scale a sample Spring app based on a custom metric in
+<%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>).
 
 ## <a id="overview"></a> Overview
 
-<%= vars.product_short %> can automatically scale apps based on custom metrics. The following table describes the main components involved in this workflow and how they correspond to steps in this tutorial. 
+<%= vars.app_runtime_abbr %> can automatically scale apps based on custom metrics.
+The following table describes the main components involved in this workflow and
+how they correspond to steps in this tutorial.
 
 <table>
 	<tr>
@@ -22,7 +25,10 @@ This tutorial shows you how to scale a sample Spring app based on a custom metri
 	</tr>
 	<tr>
 		<td>Metric Registrar</td>
-		<td>The Metric Registrar is a component of <%= vars.product_short %> that allows app developers to export custom app metrics to the logging system. It has its own CLI plugin. <% if vars.product_short == "PWS" %>For more information, see the <a href="../../metric-registrar/index.html#overview">Overview</a> section of <i>Configuring the Metric Registrar</i>.<% end %></td>
+		<td>The Metric Registrar is a component of <%= vars.app_runtime_abbr %>
+                    that allows app developers to export custom app metrics to the logging system.
+                    It has its own CLI plugin.
+                    <% if vars.product_short == "PWS" %>For more information, see the <a href="../../metric-registrar/index.html#overview">Overview</a> section of <i>Configuring the Metric Registrar</i>.<% end %></td>
 		<td><a href="#register-endpoint">Register a Custom Metrics Endpoint</a></td>
 	</tr>
 	<tr>
@@ -39,10 +45,10 @@ This tutorial shows you how to scale a sample Spring app based on a custom metri
 
 This tutorial requires the following:
 
-* A PAS environment with the Metric Registrar enabled. You can confirm this with your platform operator. 
+* A <%= vars.app_runtime_abbr %> environment with the Metric Registrar enabled. You can confirm this with your platform operator.
 	<p class="note"><strong>Note</strong>: You can alternatively use <a href="https://run.pivotal.io">Pivotal Web Services (PWS)</a>.</p>
-* Access to Apps Manager in the PAS environment. 
-* The ability to push an app to the PAS environment. For example, you need space developer permissions in at least one space.  
+* Access to Apps Manager in the <%= vars.app_runtime_abbr %> environment.
+* The ability to push an app to the <%= vars.app_runtime_abbr %> environment. For example, you need space developer permissions in at least one space.
 * The Cloud Foundry Command Line Interface (cf CLI). See [Installing the cf CLI](../../cf-cli/index.html).
 * Access to a command-line for running commands such as cf CLI and git commands. 
 
@@ -70,7 +76,8 @@ dependencies {
 The dependencies include the [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus) library, which does the following:
 
 * Creates a metrics endpoint at `/actuator/prometheus` in a format supported by the Metric Registrar. 
-* Allows you to instrument the app by creating new metrics. See [Instrumentation](#instrumentation). 
+* Allows you to instrument the app by creating new metrics.
+  See [Instrumentation](#instrumentation) below.
 
 The Spring Security dependency exposes the endpoints so they can be reached by Metric Registrar.
 
@@ -104,7 +111,10 @@ See the [ExampleController.java](https://github.com/pivotal-cf/metric-registrar-
             customGauge.decrementAndGet();
         }
 	```
-	<p class="note"><strong>Note</strong>: The App Autoscaler only scales on a gauge, or metric that can go up and down. The standard metrics of CPU, disk, HTTP throughput, and HTTP latency are all gauges. </p>
+	<p class="note"><strong>Note</strong>: The App Autoscaler only scales on a gauge,
+           or metric, that can go up and down.
+           The standard metrics of CPU, disk, HTTP throughput, and HTTP latency are all gauges.
+        </p>
 
 
 ## <a id="push"></a> Push the Sample App
@@ -137,9 +147,9 @@ To push the sample app:
 
 	 <p class="note"><strong>Note</strong>: If you are deploying the app to Pivotal Web Services (PWS), the app name may already be taken. You can edit the name in the <code>manifest.yml</code> file.</p>
 
-1. Once the `push` command finishes, locate the app URL in the `routes:` section of the output. See the following example output:
-
-	<pre class="terminal">
+1. After the `push` command finishes, locate the app URL in the `routes:` section of the output.
+   See the following example output:
+   <pre class="terminal">
 	Waiting for app to start...
     	Uploaded droplet (60.5M)
     	Uploading complete
@@ -151,12 +161,13 @@ To push the sample app:
 	last uploaded:     Wed 28 Aug 11:02:33 PDT 2019
 	</pre>
 
-<a id="sample-app-ui"></a>
+    <a id="sample-app-ui"></a>
+
 1. In a browser, navigate to the app URL. The app UI looks like what you see in the image below. 
 	<img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
 	It has the following buttons:
 	<ul>
-	<li> **Increment Custom gauge** and **Decrement custom gauge**:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You will use these buttons later when you [Trigger Scaling](#trigger).</li>
+	<li> **Increment Custom gauge** and **Decrement custom gauge**:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You use these buttons later when you [Trigger Scaling](#trigger).</li>
 	<li> **See the metrics**:<br> This button opens `/actuator/prometheus` in your browser. You can use it to view values for `custom` and all the metrics produced by Micrometer. This page is important because Metric Registrar uses it to collect metrics.</li>
 	<li> **Increment Simple counter** and **Call an endpoint with high latency**:<br> You can ignore these buttons, as they are not used in this tutorial. To learn more about what they do, see the app code.</li>
 	</ul>
@@ -166,7 +177,7 @@ To push the sample app:
 
 When you want to your app to emit custom metrics, you register the app as a metric source with the _Metric Registrar_.  
 
-To register a custom metrics endpoint for the app: 
+To register a custom metrics endpoint for the app:
 
 1. Install the Metric Registrar CLI:
 
@@ -174,13 +185,18 @@ To register a custom metrics endpoint for the app:
 	cf install-plugin -r CF-Community "metric-registrar"
 	```
 
-1. Register the metrics endpoint of the app. Since the app dependencies include the Micrometer Prometheus library, there is automatically a metrics endpoint at `/actuator/prometheus`. Run the command below and replace `APP-NAME` with the name of your app. 
+1. Register the metrics endpoint of the app.
+   Because the app dependencies include the Micrometer Prometheus library,
+   there is automatically a metrics endpoint at `/actuator/prometheus`.
+   Run the command below and replace `APP-NAME` with the name of your app.
 
 	```
 	cf register-metrics-endpoint APP-NAME /actuator/prometheus
 	```
 
-1. Install the Log Cache CLI. Log Cache is a feature in <%= vars.product_short %> that lets you filter and query app logs. For more information, see [Example Uses of the Log Cache CLI Plugin](#log-cache-cli-examples).
+1. Install the Log Cache CLI.
+   Log Cache is a feature in <%= vars.app_runtime_abbr %> that lets you filter and query app logs.
+   For more information, see [Example Uses of the Log Cache CLI Plugin](#log-cache-cli-examples).
 
 	```
 	cf install-plugin -r CF-Community "log-cache"
