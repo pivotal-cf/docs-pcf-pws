@@ -3,11 +3,11 @@ title: Tutorial&#58; Scaling a Spring App on a Custom Metric
 owner: Autoscaler
 ---
 
-This tutorial shows you how to scale a sample Spring app based on a custom metric in <%= vars.app_runtime_full %>. 
+This tutorial shows you how to scale a sample Spring app based on a custom metric in <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>). 
 
 ## <a id="overview"></a> Overview
 
-<%= vars.product_short %> can automatically scale apps based on custom metrics. The following table describes the main components involved in this workflow and how they correspond to steps in this tutorial. 
+<%= vars.app_runtime_abbr %> can automatically scale apps based on custom metrics. The following table describes the main components involved in this workflow and how they correspond to steps in this tutorial. 
 
 <table>
 	<tr>
@@ -179,7 +179,7 @@ To register a custom metrics endpoint for the app:
 	cf register-metrics-endpoint APP-NAME /actuator/prometheus
 	```
 
-1. Install the Log Cache CLI. Log Cache is a feature in <%= vars.product_short %> that lets you filter and query app logs. For more information, see [Example Uses of the Log Cache CLI Plugin](#log-cache-cli-examples).
+1. Install the Log Cache CLI. Log Cache is a feature in <%= vars.app_runtime_abbr %> that lets you filter and query app logs. For more information, see [Example Uses of the Log Cache CLI Plugin](#log-cache-cli-examples).
 
 	```
 	cf install-plugin -r CF-Community "log-cache"
