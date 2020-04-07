@@ -5,6 +5,7 @@ owner: App Autoscaler
 
 This topic describes App Autoscaler. It includes information about default and custom scaling rules as well as App Autoscaler architecture.
 
+
 ## <a id="overview"></a> Overview
 
 App Autoscaler is a marketplace service that automatically scales apps in your environment based on app performance metrics or a schedule. This controls the cost of running apps while maintaining app performance.
@@ -16,7 +17,7 @@ You can use App Autoscaler to do the following:
 
 For example, you can configure App Autoscaler to automatically scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to automatically scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold. 
 
-<p class="note breaking"><strong>Breaking Change:</strong> App Autoscaler relies on API endpoints from Loggregator's Log Cache. If you disable Log Cache, App Autoscaler will fail. For more information about Log Cache, see <a href="https://docs.pivotal.io/pivotalcf/2-2/pcf-release-notes/runtime-rn.html#log-cache">Loggregator Introduces Log Cache</a>.</p>
+<p class="note breaking"><strong>Breaking Change:</strong> App Autoscaler relies on API endpoints from Loggregator's Log Cache. If you disable Log Cache, App Autoscaler fails. For more information about Log Cache, see <a href="https://docs.pivotal.io/pivotalcf/2-2/pcf-release-notes/runtime-rn.html#log-cache">Loggregator Introduces Log Cache</a> in <em><%= vars.app_runtime_full %> v2.2 Release Notes</em>.</p>
 
 
 ## <a id="about-scaling"></a> About App Autoscaler Scaling Rules
@@ -31,7 +32,7 @@ Every 35 seconds, App Autoscaler makes a decision about whether to scale up, sca
 
 To make a scaling decision, App Autoscaler averages the values of a given metric for the most recent 120 seconds.
 
-<p class="note"><strong>Note:</strong> Operators can modify the 35 second scaling interval and the 120 second metric collection interval for all apps within the org. For more information, see <a href="https://docs.pivotal.io/platform/application-service/operating/configure-pas.html#config-autoscaler">(Optional) Configure App Autoscaler</a> in <em>Configuring PAS</em>.</p>
+<p class="note"><strong>Note:</strong> Operators can modify the 35 second scaling interval and the 120 second metric collection interval for all apps within the org. For more information, see <a href="https://docs.pivotal.io/platform/application-service/operating/configure-pas.html#config-autoscaler">(Optional) Configure App Autoscaler</a> in <em>Configuring <%= vars.app_runtime_abbr %></em>.</p>
 
 App Autoscaler scales apps as follows:
 
@@ -49,7 +50,7 @@ If HTTP latency averages 220 milliseconds for 120 seconds, App Autoscaler scales
 
 If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
 
-If the average value for HTTP latency over a 120 second window is below the maximum threshold of 200 milliseconds and above the minimum threshold of 80 milliseconds, then App Autoscaler maintains the same number of instances for the app.  
+If the average value for HTTP latency over a 120 second window is below the maximum threshold of 200 milliseconds and above the minimum threshold of 80 milliseconds, App Autoscaler maintains the same number of instances for the app.  
 
 You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of a given metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app. 
 
@@ -57,7 +58,7 @@ You can also set a maximum and minimum number of instances. For example, if an a
 
 App Autoscaler includes several default metrics for which you can create scaling rules.
 
-<p class="note"><b>Note:</b> Pivotal recommends that you define custom metrics for scaling rules instead of using the default metrics. Custom metrics allow you to more accurately monitor the performance of your apps based on your environment.</p> 
+<p class="note"><strong>Note:</strong> <%= vars.recommended_by %> recommends that you define custom metrics for scaling rules instead of using the default metrics. Custom metrics allow you to more accurately monitor the performance of your apps based on your environment.</p>
 
 The table below lists the default metrics for App Autoscaler:
 
@@ -73,7 +74,7 @@ The table below lists the default metrics for App Autoscaler:
 			Average CPU percentage for all instances of the app.
 		</td>
 		<td>
-			App CPU utilization data may vary greatly based on the number of CPU cores on Diego cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">Pivotal App Autoscaler advisory for scaling Apps based on the CPU utilization</a>.
+			App CPU utilization data may vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the Knowledge Base.
 		</td>
 	</tr><tr>
 		<td>Container Memory Utilization</td>
@@ -82,7 +83,7 @@ The table below lists the default metrics for App Autoscaler:
 	</tr><tr>
 		<td>HTTP Throughput</td>
 		<td>Total HTTP requests per second (divided by the total number of app instances).</td>
-		<td>Pivotal does not recommend using <code>http_throughput</code> as a scaling rule when logging volume is high in the system. For more information, see <a href="https://community.pivotal.io/s/article/autoscaling-using-http-throughput-latency-metrics">Autoscaling using HTTP Throughput & Latency metrics</a> and <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based Autoscaling rules do not fire</a> in the Pivotal Support Knowledge base.</td>
+		<td><%= vars.recommended_by %> does not recommend using <code>http_throughput</code> as a scaling rule when logging volume is high in the system. For more information, see <a href="https://community.pivotal.io/s/article/autoscaling-using-http-throughput-latency-metrics">Autoscaling using HTTP Throughput & Latency metrics</a> and <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based Autoscaling rules do not fire</a> in the Knowledge Base.</td>
 	</tr><tr>
 		<td>HTTP Latency</td>
 		<td>Average latency of apps response to HTTP requests. This does not include Gorouter processing time or other network latency.<br>
@@ -97,7 +98,7 @@ The table below lists the default metrics for App Autoscaler:
 
 ### <a id="custom-metrics"></a> Custom Metrics for Scaling Rules
 
-Pivotal recommends that you define custom metrics for App Autoscaler scaling rules. Custom metrics allow you to define the metrics that are the best indicators of app performance for your environment.
+<%= vars.recommended_by %> recommends that you define custom metrics for App Autoscaler scaling rules. Custom metrics allow you to define the metrics that are the best indicators of app performance for your environment.
 
 You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.pivotal.io/pivotalcf/metric-registrar/using.html).
 
@@ -110,7 +111,7 @@ When you add a scaling rule, the **Metric** field is the dividend and the **Comp
 
 ## <a id="architecture"></a> App Autoscaler Architecture
 
-The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components interact with Cloud Foundry components to make app scaling decisions. 
+The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components interact with <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) components to make app scaling decisions. 
 
 ![Two boxes represent the components of App Autoscaler. Several other boxes represent the Cloud Foundry components with which App Autoscaler interacts. The two boxes that represent App Autoscaler components are titled "Autoscale GO app" and "Autoscale api". "Autoscale GO app" and "Autoscale api" appear on the right side of the diagram. They are within a box called Autoscaling Space, which is within another box called System Org. This indicates that the App Autoscaler components run in a space that is within an org on your Cloud Foundry deployment. The diagram also includes several arrows. First, there is an arrow that points from "Autoscale GO app" to the Cloud Foundry Load Balancer and Gorouter. Additional arrows go from the load balancer and the Gorouter boxes to boxes titled Cloud Cache and Cloud Controller. These arrows indicate that the Autoscale app makes requests to the Log Cache and Cloud Controller for app metrics and that these requested are routed through the Load Balancer and Gorouter. There is also an arrow from "Autoscale GO app" that points to a box titled "MySQL proxy". The arrow pointing from the "Autoscale GO app" box to the MySQL proxy box indicates that the Autoscale app reads scaling rules that are stored in a MySQL databse. The diagram also includes arrows that point from "Autoscale api" to "MySQL proxy" and and box titled "UAA". These arrows indicate that the Autoscale API authenticates using UAA and that the API stores scaling rules in the MySQL database. There is also an arrow that points to "Autoscale api" from a box that represents both the Cloud Foundry Command Line Interface and Apps Manager. This arrow indicates that you can access the Autoscale API from either the Cloud Foundry command line interface or Apps Manager.](./images/app-autoscaler-architecture.png)
 
