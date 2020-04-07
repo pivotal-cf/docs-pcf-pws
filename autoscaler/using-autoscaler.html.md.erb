@@ -1,19 +1,21 @@
 ---
 title: Scaling an App Using App Autoscaler
-owner: <%= vars.product_name %> Autoscaler
+owner: App Autoscaler
 ---
 
-This topic describes how <%= vars.product_name  %> users with the Space Developer role can set up and configure the App Autoscaler service in the Apps Manager UI to automatically scale apps based on rules that they set. 
+This topic describes how <%= vars.platform_name %> users with the Space Developer role can set up and configure the App Autoscaler service in the Apps Manager UI to automatically scale apps based on rules that they set. 
 
-You can use the App Autoscaler command-line interface (CLI) plugin to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](./using-autoscaler-cli.html).
+You can use the App Autoscaler command-line interface (CLI) plugin to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
-<p class='note'><strong>Note:</strong> Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using the Apps Manager</a>.</p>
+<p class='note'><strong>Note:</strong> Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.</p>
+
 
 ## <a id="overview"></a> Overview 
 
 To use App Automator to automatically scale your apps, you must create and bind the App Autoscaler service, then configure scaling rules for App Autoscaler. 
 
-For more information about App Autoscaler, including information about how to create scaling rules, see [About App Autoscaler](./about-app-autoscaler.html).
+For more information about App Autoscaler, including information about how to create scaling rules, see [About App Autoscaler](about-app-autoscaler.html).
+
 
 ## <a id="setup"></a> Configure App Autoscaler
 
@@ -35,7 +37,7 @@ To use App Autoscaler, you must create an instance of the App Autoscaler service
 	1. [Create an instance of the service](../../devguide/services/managing-services.html#marketplace).
 	1. [Bind the service to an app](../../devguide/services/managing-services.html#bind).
 
-<p class="note"><b>Note:</b> Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.</p>
+<p class="note"><strong>Note:</strong> Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.</p>
 
 To enable App Autoscaler for an app:
 
@@ -48,14 +50,13 @@ To enable App Autoscaler for an app:
 
       <%= image_tag('images/manage-autoscaling.png') %>
 
-
 ### <a id="config"></a> Configure Autoscaling for an App
 
 App Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values. The minimum and maximum values are called instance limits. 
 
-For more information about how App Autoscaler makes scaling decisions for an app, see [How App Autoscaler Determines When to Scale](./about-app-autoscaler.html#about-scaling-decisions) in _About App Autoscaler_.
+For more information about how App Autoscaler makes scaling decisions for an app, see [How App Autoscaler Determines When to Scale](about-app-autoscaler.html#about-scaling-decisions) in _About App Autoscaler_.
 
-Follow the procedures in the sections below to do the following:
+Follow the procedures in the sections below:
 
 * [Create or Modify Instance Limits](#limits)
 * [Add or Delete Scaling Rules](#metric)
@@ -75,14 +76,11 @@ To manually modify instance limits:
 
 1. Click **Apply Changes**.
 
-
 #### <a id="metric"></a> Add or Delete Scaling Rules
 
 The following procedures describe how to add and delete scaling rules for your apps with App Autoscaler. 
 
 For more information about scaling rules and metrics in App Autoscaler, see [About App Autoscaler Scaling Rules](#about-scaling).
-
-**Add a Scaling Rule**
 
 To add a scaling rule for an app:
 
@@ -104,11 +102,9 @@ To add a scaling rule for an app:
 
 1. Click **Save**.
 
-**Delete a Scaling Rule**
-
 To delete a scaling rule for an app:
 
-1. Click the **×** icon next to the rule you want to delete.
+1. Click the **x** icon next to the rule you want to delete.
 
 1. Click **Save**.
 
@@ -116,7 +112,7 @@ To delete a scaling rule for an app:
 
 Because app demand often follows a weekly, daily, or hourly schedule, you can schedule App Autoscaler to change the allowable instance range to track expected surges or quiet periods. 
 
-**Create or Modify a Scheduled Limit Change**
+To create or modify a scheduled limit change:
 
 1. Click **Edit** next to **Scheduled Limits**.
 
@@ -133,15 +129,14 @@ Because app demand often follows a weekly, daily, or hourly schedule, you can sc
 
 To delete an existing entry, click the **x** icon next to the entry you want to delete.
 
-**Example: Scale Down for the Weekend**
-
-To schedule an app to scale down for a weekend, you can enter two rules as follows:
+For example, to schedule an app to scale down for a weekend, you can enter two rules as follows:
 
 1. Scale down to a single instance on Friday evening:
 	* **Date** and **Time (local)**: `Dec`, `2`, `2018` and `7:00 PM`
 	* **Repeat (Optional)**: `Fr`
 	* **Min** and **Max**: `1` and `1`
-2. Increase instances to between 3 and 5 on Monday morning:
+
+1. Increase instances to between 3 and 5 on Monday morning:
 	* **Date** and **Time (local)**: `Dec`, `5`, `2018` and `7:00 AM`
 	* **Repeat (Optional)**: `M`
 	* **Min** and **Max**: `3` and `5`
@@ -151,21 +146,20 @@ To schedule an app to scale down for a weekend, you can enter two rules as follo
 
 App Autoscaler logs all autoscaling events. You can view event history and manage notifications for App Autoscaler. 
 
-### View Event History
+### <a id='view-event-history'></a> View Event History
 
 To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane.
 
 <%= image_tag('images/event-history.png') %>
 
-### Manage App Autoscaler Notifications
+### <a id='manage-notifications'></a> Manage App Autoscaler Notifications
 
 Autoscaler emails or texts its event notifications to all space users by default.
 
-To subscribe or unsubscribe from autoscaling event notifications, do the following:
+To subscribe or unsubscribe from autoscaling event notifications:
 
-1. Navigate to the <b>Manage Notifications</b> page of <%= vars.product_name %>.
-	<p class="note"><strong>Note:</strong> If installed, Notifications Management should be available at <code>http<span>s</span>://notifications-ui.YOUR-SYSTEM-DOMAIN/preferences</code>.  
-	</p>   
+1. Navigate to the **Manage Notifications** page in <%= vars.platform_name %>.
+	<p class="note"><strong>Note:</strong> If installed, Notifications Management should be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>, where <code>SYSTEM-DOMAIN</code> is your system domain.</p>   
 
 1. Choose which notifications you want to receive from App Autoscaler:
 
