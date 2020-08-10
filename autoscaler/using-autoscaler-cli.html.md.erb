@@ -22,11 +22,11 @@ To install the plugin, do the following:
     ```
     cf install-plugin LOCATION-OF-PLUGIN
     ```
-    Where `LOCATION-OF-PLUGIN` is the path to the binary file you downloaded from Pivotal Network. 
+    Where `LOCATION-OF-PLUGIN` is the path to the binary file you downloaded from Pivotal Network.
     For example:
     <pre class="terminal">
     $ cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
-    </pre> 
+    </pre>
 
 ## <a id="create-and-bind-service"></a> Create and Bind the Autoscaling Service
 
@@ -48,7 +48,7 @@ OK
 ## <a id="updating-instance-limits"></a>Update Instance Limits
 
 Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT` to update the upper and lower app instance limits. The App Autoscaler does not scale beyond these limits. Replace `APP-NAME` with the name of your app. Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps, and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
- 
+
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
 Updated autoscaling instance limits for app test-app for org my-org / my-space testing as admin
@@ -64,8 +64,8 @@ $ cf enable-autoscaling test-app-2<br>
 Enabled autoscaling for app test-app-2 for org my-org / my-space testing as admin
 OK
 </pre>
- 
- <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code>. To enable autoscaling, you must first <a href="#updating-instance-limits">Update Instance Limits</a>.</p> 
+
+ <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code>. To enable autoscaling, you must first <a href="#updating-instance-limits">Update Instance Limits</a>.</p>
 
 ## <a id="disable-autoscaling"></a>Disable Autoscaling
 
@@ -94,24 +94,40 @@ OK
 
 Run `create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule.
 
-Replace the placeholders as follows:	
+Replace the placeholders as follows:
 
-* `APP-NAME` is the name of your app.	
-* `RULE-TYPE` is the type of your scaling rule.	
-* `MIN-THRESHOLD` is the minimum threshold for the metric.	
-* `MAX-THRESHOLD` is the maximum threshold for the metric.	
+* `APP-NAME` is the name of your app.
+* `RULE-TYPE` is the type of your scaling rule.
+* `MIN-THRESHOLD` is the minimum threshold for the metric.
+* `MAX-THRESHOLD` is the maximum threshold for the metric.
 
 You can use the following command options:
 
-* `--metric`, `-m` is the metric for a Custom rule.	
-* `--comparison-metric`, `-c` is the comparison metric for a Compare rule.	
-* `--subtype`, `-s` is the rule subtype.	
+* `--metric`, `-m` is the metric for a Custom rule.
+* `--comparison-metric`, `-c` is the comparison metric for a Compare rule.
+* `--subtype`, `-s` is the rule subtype.
 
 <pre class="terminal">
-$ cf create-autoscaling-rule test-app http_latency 10 20 -s avg_99th<br>
+$ cf create-autoscaling-rule test-app http_latency 500 1000 -s avg_99th<br>
 Created autoscaler rule for app test-app for org my-org / space my-space as user
-Rule Guid             Rule Type         Rule Sub Type   Min Threshold   Max Threshold
-guid-3                http_latency      avg_99th        10              20
+Rule Guid                               Rule Type         Rule Sub Type   Min Threshold   Max Threshold
+a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    http_latency      avg_99th        500             1000
+</pre>
+
+<pre class="terminal">
+$ cf create-autoscaling-rule test-app custom 9380 9381 --metric jvm.classes.loaded
+Created autoscaler rule for app test-app in org my-org / space my-space as user
+OK
+Guid                                    Type     Metric               Sub Type   Min Threshold   Max Threshold
+59365c9d-6fe7-4195-b8c1-0f5b07afd636    custom   jvm.classes.loaded              9380.00         9381.00
+</pre>
+
+<pre class="terminal">
+$ cf create-autoscaling-rule test-app compare .79 .8  --metric jvm.memory.used --comparison-metric jvm.memory.max
+Created autoscaler rule for app test-app in org my-org / space my-space as user
+OK
+Guid                                    Type      Metric                             Sub Type   Min Threshold   Max Threshold
+93c4b831-0155-4771-8842-3247816e71df    compare   jvm.memory.used / jvm.memory.max              0.79            0.80
 </pre>
 
 ## <a id="rule-types"></a>Valid Rule Types and Subtypes
@@ -122,13 +138,18 @@ For a list of valid types and subtypes, see the following:
 * type `memory`
 * type `http_throughput`
 * type `http_latency`
-  * sub_type `avg_99th` or `avg_95th`
-    <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p> 
-    <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
-* type `rabbit-mq`
-  * queue_name `YOUR-QUEUE-NAME`
-* type `custom`
-  * metric `METRIC-NAME`
+  * sub\_type `avg_99th` or `avg_95th`
+  <p class='note'>
+    <strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.<br/>
+  </p>
+  <p class='note'>
+    <strong>Note:</strong> <code>http_latency</code> threshold units are in ms.<br/>
+    In general, the value for <code>MAX-THRESHOLD</code> should be at least twice the value for <code>MIN-THRESHOLD</code> to avoid excessive cycling.
+    Latency is calculated from the Gorouter to the app and back to the Gorouter.
+    Latency is not calculated between the user and the app.
+  </p>
+* type `rabbitmq`
+  * sub\_type `YOUR-QUEUE-NAME`
 * type `compare`
   * metric `METRIC-NAME`
   * comparison_metric `METRIC-NAME`
@@ -172,7 +193,19 @@ Run `configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifes
 An example manifest:
 
 <pre>
-  ---
+---
+instance_limits:
+  min: 1
+  max: 2
+rules:
+- rule_type: "http_latency"
+  rule_sub_type: "avg_99th"
+  threshold:
+    min: 500
+    max: 1000
+scheduled_limit_changes:
+- recurrence: 10
+  executes_at: "2032-01-01T00:00:00Z"
   instance_limits:
     min: 1
     max: 2
@@ -221,4 +254,3 @@ The App Autoscaler CLI has the following known issues:
 
 * The CLI may output odd characters in Windows shells that do not support text color.
   - To prevent this error, run `SET CF_COLOR=false` in your Windows shell pane before you run App Autoscaler CLI commands. But note that some Windows shells do not support the `CF_COLOR` setting.
-
