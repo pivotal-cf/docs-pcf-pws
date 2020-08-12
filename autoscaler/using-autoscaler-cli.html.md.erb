@@ -171,8 +171,9 @@ For a list of valid types and subtypes, see the following:
   </p>
   <p class='note'>
     <strong>Note:</strong> <code>http_latency</code> threshold units are in ms.<br/>
-    As a rule of thumb, <code>MAX-THRESHOLD</code> should be at least twice <code>MIN-THRESHOLD</code> to avoid excessive cycling.
-    Latency is calculated from the gorouter to the app and back, not from the user to the app and back.
+    In general, the value for <code>MAX-THRESHOLD</code> should be at least twice the value for <code>MIN-THRESHOLD</code> to avoid excessive cycling.
+    Latency is calculated from the Gorouter to the app and back to the Gorouter.
+    Latency is not calculated between the user and the app.
   </p>
 * type `rabbitmq`
   * sub\_type `YOUR-QUEUE-NAME`
