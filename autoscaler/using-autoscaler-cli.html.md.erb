@@ -342,6 +342,7 @@ App Autoscaler uses this time of day for all subsequent scheduled limit changes.
 When setting a recurrence schedule, the days of the week are bitmasked.
 
 To instruct App Autoscaler when to execute a scheduled limit change, add together the
+
 bitmasked values for each of the day(s) of the week that
 you wish to trigger the scheduled limit change using this table.
 
@@ -416,4 +417,3 @@ The App Autoscaler CLI has the following known issues:
 * The CLI may output odd characters in Windows shells that do not support text color.
   - To prevent this error, run `SET CF_COLOR=false` in your Windows shell pane before you run App Autoscaler CLI commands.
   - Note that some Windows shells do not support the `CF_COLOR` setting.
-
