@@ -15,19 +15,19 @@ To install the plugin, do the following:
 
 1. Download the plugin from <a href="https://network.pivotal.io/products/pcf-app-autoscaler">Pivotal Network</a>.
 
-    <p class='note'><strong>Note:</strong> Ensure that you download the App Autoscaler CLI plugin v2.0 or later. In addition, the plugin requires Pivotal Application Service v2.2 or later.</p> 
+    <p class='note'><strong>Note:</strong> Ensure that you download the App Autoscaler CLI plugin v2.0 or later. In addition, the plugin requires Pivotal Application Service v2.2 or later.</p>
 
 1. To install the App Autoscaler CLI plugin, run the following command:
 
     ```
     cf install-plugin LOCATION-OF-PLUGIN
     ```
-    Where `LOCATION-OF-PLUGIN` is the path to the binary file you downloaded from Pivotal Network. 
+    Where `LOCATION-OF-PLUGIN` is the path to the binary file you downloaded from Pivotal Network.
     For example:
     <pre class="terminal">
     $ cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
-    </pre> 
-    For more information about installing cf CLI plugins, see [Installing a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install). 
+    </pre>
+    For more information about installing cf CLI plugins, see [Installing a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install).
 
 ## <a id="create-and-bind-service"></a>Create and Bind the Autoscaling Service
 
@@ -49,7 +49,7 @@ OK
 ## <a id="updating-instance-limits"></a>Update Instance Limits
 
 Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT` to update the upper and lower app instance limits. The App Autoscaler will not attempt to scale beyond these limits. Replace `APP-NAME` with the name of your app. Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps, and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
- 
+
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
 Updated autoscaling instance limits for app test-app for org my-org / my-space testing as admin
@@ -66,7 +66,7 @@ Enabled autoscaling for app test-app-2 for org my-org / my-space testing as admi
 OK
 </pre>
 
-  <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code>. To enable autoscaling, you must first <a href="#updating-instance-limits">Update Instance Limits</a>.</p> 
+  <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code>. To enable autoscaling, you must first <a href="#updating-instance-limits">Update Instance Limits</a>.</p>
 
 ## <a id="disable-autoscaling"></a>Disable Autoscaling
 
@@ -145,8 +145,8 @@ For a list of valid types and subtypes, see the following:
   <p class='note'><strong>Note:</strong> It is <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">not recommended</a> to use <code>http_throughput</code> as a scaling rule when logging volume is high in the system.</p>
 * type `http_latency`
   * sub\_type `avg_99th` or `avg_95th`
-      <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p> 
-      <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
+      <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p>
+      <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p>
 * type `rabbitmq`
   * sub\_type `YOUR-QUEUE-NAME`
 * type `compare`
@@ -218,7 +218,7 @@ Guid                                      First Execution        Min Instances  
 7a19a8a2-e435-4c67-b038-cc4add8be686      2018-06-14T15:00:00Z   1               2               Sa
 </pre>
 
-<p class="note"><b>Note:</b> App Autoscaler only supports times in UTC. App Autoscaler does not support setting alternate timezones or Daylight Saving Time</p> 
+<p class="note"><b>Note:</b> App Autoscaler only supports times in UTC. App Autoscaler does not support setting alternate timezones or Daylight Saving Time</p>
 
 ## <a id="delete-autoscaling-slc"></a>Delete Autoscaler Scheduled Instance Limit Change
 
@@ -299,17 +299,17 @@ scheduled_limit_changes: []
 
 ### <a id="create-scheduled-limit"></a> Create a Scheduled Limit Change
 
-To create a scheduled limit change using the Autoscaler manifest, you must understand how 
-scheduled limit changes are constructed. Autoscaler uses the `executes at` value in two ways: 
+To create a scheduled limit change using the Autoscaler manifest, you must understand how
+scheduled limit changes are constructed. Autoscaler uses the `executes at` value in two ways:
 
-1. Autoscaler uses date and time to set the first (or only) occurrence of a scheduled limit change. 
+1. Autoscaler uses date and time to set the first (or only) occurrence of a scheduled limit change.
 1. Autoscaler then uses the time component to set the time of day in UTC for each recurrence.
-Autoscaler uses this time of day for all subsequent scheduled limit changes. 
+Autoscaler uses this time of day for all subsequent scheduled limit changes.
 
-When setting a recurrence schedule, the days of the week are bitmasked. 
+When setting a recurrence schedule, the days of the week are bitmasked.
 
-To instruct Autoscaler when to execute a scheduled limit change, add together the 
-bitmasked values for each of the day(s) of the week that 
+To instruct Autoscaler when to execute a scheduled limit change, add together the
+bitmasked values for each of the day(s) of the week that
 you wish to trigger the scheduled limit change using this table.
 
 <table id='scaling-rule-metrics' border="1" class="nice" >
@@ -321,7 +321,7 @@ you wish to trigger the scheduled limit change using this table.
 		<th>We</th>
     <th>Th</th>
 		<th>Fr</th>
-	  <th>Sa</th>	
+	  <th>Sa</th>
 	</tr>
   <tr>
 		<th>Value</th>
@@ -331,7 +331,7 @@ you wish to trigger the scheduled limit change using this table.
 		<td>8</td>
     <td>4</td>
 		<td>2</td>
-		<td>1</td>	
+		<td>1</td>
 	</tr>
 </table>
 
@@ -346,7 +346,7 @@ The following are examples of how to calculate a value for the `recurrence` fiel
 * To schedule every day, you add **(64+32+16+8+4+2+1)=127**. Set `recurrence: 127`.
 * To schedule on Monday, Wednesday, and Friday, you add **(32+8+2)=42**. Set `recurrence: 42`.
 
-The following is an example manifest to scale down every Friday at 8pm 
+The following is an example manifest to scale down every Friday at 8pm
 and back up every Monday at 4am assuming a UTC timezone:
 
 <pre>
@@ -383,4 +383,3 @@ The App Autoscaler CLI has the following known issues:
 * The CLI may output odd characters in Windows shells that do not support text color.
   - To prevent this error, run `SET CF_COLOR=false` in your Windows shell pane before you run App Autoscaler CLI commands.
   - Note that some Windows shells do not support the `CF_COLOR` setting.
-
