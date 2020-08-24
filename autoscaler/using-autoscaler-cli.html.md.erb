@@ -127,10 +127,10 @@ You can use the following command options:
 For example:
 
 <pre class="terminal">
-$ cf create-autoscaling-rule test-app http_latency 500 1000 -s avg_99th<br>
+$ cf create-autoscaling-rule test-app http_latency 10 20 -s avg_99th<br>
 Created autoscaler rule for app test-app for org my-org / space my-space as user
 Rule Guid                               Rule Type         Rule Sub Type   Min Threshold   Max Threshold
-a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    http_latency      avg_99th        500             1000
+a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    http_latency      avg_99th        10              20
 </pre>
 
 <pre class="terminal">
@@ -166,15 +166,8 @@ For a list of valid types and subtypes, see the following:
   </p>
 * type `http_latency`
   * sub\_type `avg_99th` or `avg_95th`
-  <p class='note'>
-    <strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.<br/>
-  </p>
-  <p class='note'>
-    <strong>Note:</strong> <code>http_latency</code> threshold units are in ms.<br/>
-    In general, the value for <code>MAX-THRESHOLD</code> should be at least twice the value for <code>MIN-THRESHOLD</code> to avoid excessive cycling.
-    Latency is calculated from the Gorouter to the app and back to the Gorouter.
-    Latency is not calculated between the user and the app.
-  </p>
+      <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p> 
+      <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p> 
 * type `rabbitmq`
   * sub\_type `YOUR-QUEUE-NAME`
 * type `compare`
@@ -280,8 +273,8 @@ rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
   threshold:
-    min: 500
-    max: 1000
+    min: 10
+    max: 20
 scheduled_limit_changes:
 - recurrence: 10
   executes_at: "2032-01-01T00:00:00Z"
@@ -325,8 +318,8 @@ rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
   threshold:
-     min: 500
-     max: 1000
+     min: 10
+     max: 20
 scheduled_limit_changes: []
 </pre>
 
@@ -391,8 +384,8 @@ rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
   threshold:
-    min: 500
-    max: 1000
+    min: 10
+    max: 20
 scheduled_limit_changes:
 - recurrence: 32
   executes_at: "2032-01-01T20:00:00Z"
