@@ -5,7 +5,10 @@ owner: <%= vars.product_name %> Autoscaler
 
 This topic explains how to use the App Autoscaler command-line interface (CLI).
 
-The App Autoscaler automatically scales Cloud Foundry apps in response to demand. The App Autoscaler CLI lets you control the App Autoscaler from your local command line by extending the Cloud Foundry command-line interface (cf CLI).
+The App Autoscaler automatically scales <%= vars.app_runtime_full %>
+(<%= vars.app_runtime_abbr %>) apps in response to demand.
+The App Autoscaler CLI lets you control the App Autoscaler from your local command line
+by extending the Cloud Foundry command-line interface (cf CLI).
 
 ## <a id="install"></a>Install the App Autoscaler CLI Plugin
 
@@ -13,16 +16,16 @@ Before you can run App Autoscaler CLI commands on your local machine, you must i
 
 To install the plugin, do the following:
 
-1. Download the plugin from <a href="https://network.pivotal.io/products/pcf-app-autoscaler">Pivotal Network</a>.
-
-    <p class='note'><strong>Note:</strong> Ensure that you download the App Autoscaler CLI plugin v2.0 or later. In addition, the plugin requires Pivotal Application Service v2.2 or later.</p>
+1. Download the plugin from <a href="https://network.pivotal.io/products/pcf-app-autoscaler"><%=
+   vars.product_network %></a>.
 
 1. To install the App Autoscaler CLI plugin, run the following command:
 
     ```
     cf install-plugin LOCATION-OF-PLUGIN
     ```
-    Where `LOCATION-OF-PLUGIN` is the path to the binary file you downloaded from Pivotal Network.
+    Where `LOCATION-OF-PLUGIN` is the path to the binary file you downloaded
+    from <%= vars.product_network %>.
     For example:
     <pre class="terminal">
     $ cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
@@ -31,11 +34,15 @@ To install the plugin, do the following:
 
 ## <a id="create-and-bind-service"></a>Create and Bind the Autoscaling Service
 
-Before you can use the App Autoscaler, you must create an Autoscaling service and bind that service to your app. See the <a href="https://docs.pivotal.io/pivotalcf/2-6/devguide/services/managing-services.html">Managing Service Instances with the cf CLI</a> topic for more information.
+Before you can use the App Autoscaler, you must create an Autoscaling service and
+bind that service to your app.
+For more information, see [Managing Service Instances with the cf
+CLI](https://docs.pivotal.io/pivotalcf/devguide/services/managing-services.html).
 
 ## <a id="view-apps"></a>View Apps
 
-Run `cf autoscaling-apps` to view all the apps that are bound to an autoscaler service instance in a space, their instance limits, and whether or not they are enabled.
+Run `cf autoscaling-apps` to view the apps that are bound to an autoscaler service instance
+in a space, their instance limits, and whether or not they are enabled.
 
 <pre class="terminal">
 $ cf autoscaling-apps<br>
@@ -48,7 +55,12 @@ OK
 
 ## <a id="updating-instance-limits"></a>Update Instance Limits
 
-Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT` to update the upper and lower app instance limits. The App Autoscaler will not attempt to scale beyond these limits. Replace `APP-NAME` with the name of your app. Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps, and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
+Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT`
+to update the upper and lower app instance limits.
+The App Autoscaler does not attempt to scale beyond these limits.
+Replace `APP-NAME` with the name of your app.
+Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps,
+and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
 
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
@@ -66,7 +78,11 @@ Enabled autoscaling for app test-app-2 for org my-org / my-space testing as admi
 OK
 </pre>
 
-  <p class='note'><strong>Note:</strong> By default, instance limits are set to <code>Min Instances:-1</code> and <code>Max Instances:-1</code>. To enable autoscaling, you must first <a href="#updating-instance-limits">Update Instance Limits</a>.</p>
+  <p class='note'><strong>Note:</strong> By default, instance limits are set to
+      <code>Min Instances:-1</code> and <code>Max Instances:-1</code>.
+      To enable autoscaling, you must first update instance limits.
+      See <a href="#updating-instance-limits">Update Instance Limits</a> above.
+  </p>
 
 ## <a id="disable-autoscaling"></a>Disable Autoscaling
 
@@ -111,10 +127,10 @@ You can use the following command options:
 For example:
 
 <pre class="terminal">
-$ cf create-autoscaling-rule test-app http_latency 10 20 -s avg_99th<br>
+$ cf create-autoscaling-rule test-app http_latency 500 1000 -s avg_99th<br>
 Created autoscaler rule for app test-app for org my-org / space my-space as user
 Rule Guid                               Rule Type         Rule Sub Type   Min Threshold   Max Threshold
-a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    http_latency      avg_99th        10              20
+a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    http_latency      avg_99th        500             1000
 </pre>
 
 <pre class="terminal">
@@ -142,11 +158,23 @@ For a list of valid types and subtypes, see the following:
 * type `CPU`
 * type `memory`
 * type `http_throughput`
-  <p class='note'><strong>Note:</strong> It is <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">not recommended</a> to use <code>http_throughput</code> as a scaling rule when logging volume is high in the system.</p>
+  <p class='note'><strong>Note:</strong> <%= vars.company_name %> does not recommend using
+     <code>http_throughput</code> as a scaling rule when logging volume is high in the system.
+     For more information,
+     see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">
+     HTTP throughput based Autoscaling rules do not fire</a> in the Knowledge Base.
+  </p>
 * type `http_latency`
   * sub\_type `avg_99th` or `avg_95th`
-      <p class='note'><strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.</p>
-      <p class='note'><strong>Note:</strong> <code>http_latency</code> threshold units are in ms.</p>
+  <p class='note'>
+    <strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.<br/>
+  </p>
+  <p class='note'>
+    <strong>Note:</strong> <code>http_latency</code> threshold units are in ms.<br/>
+    In general, the value for <code>MAX-THRESHOLD</code> should be at least twice the value for <code>MIN-THRESHOLD</code> to avoid excessive cycling.
+    Latency is calculated from the Gorouter to the app and back to the Gorouter.
+    Latency is not calculated between the user and the app.
+  </p>
 * type `rabbitmq`
   * sub\_type `YOUR-QUEUE-NAME`
 * type `compare`
@@ -185,7 +213,7 @@ Time                  Description
 2032-01-01T00:00:00Z  Scaled up from 3 to 4 instances. Current cpu of 20 is above upper threshold of 10.
 </pre>
 
-## <a id="autoscaling-slcs"></a>View Autoscaler Scheduled Instance Limit Changes
+## <a id="autoscaling-slcs"></a>View App Autoscaler Scheduled Instance Limit Changes
 
 Run `cf autoscaling-slcs APP-NAME` to view all scheduled instance limit changes. Replace `APP-NAME` with the name of your app.
 
@@ -197,7 +225,7 @@ Guid                                      First Execution        Min Instances  
 f08f9803-6e5d-4519-abc3-fea640300d01      2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
 </pre>
 
-## <a id="create-autoscaling-slc"></a>Create Autoscaler Scheduled Instance Limit Change
+## <a id="create-autoscaling-slc"></a>Create App Autoscaler Scheduled Instance Limit Change
 
 Run `cf create-autoscaling-slc APP-NAME DATE-TIME MIN-INSTANCES MAX-INSTANCES  [--recurrence RECURRENCE]` to create a new scheduled instance limit change.
 
@@ -220,7 +248,7 @@ Guid                                      First Execution        Min Instances  
 
 <p class="note"><b>Note:</b> App Autoscaler only supports times in UTC. App Autoscaler does not support setting alternate timezones or Daylight Saving Time</p>
 
-## <a id="delete-autoscaling-slc"></a>Delete Autoscaler Scheduled Instance Limit Change
+## <a id="delete-autoscaling-slc"></a>Delete App Autoscaler Scheduled Instance Limit Change
 
 Run `cf delete-autoscaling-slc APP-NAME SLC-GUID [--force]` to delete a scheduled instance limit change.
 Replace `APP-NAME` with the name of your app and `SLC-GUID` with the GUID of your scheduled instance limit change.
@@ -236,7 +264,10 @@ OK
 
 ## <a id="configure-autoscaling"></a>Configure Autoscaling with a Manifest
 
-Run `cf configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest to configure your rules, add instance limits, and set scheduled limit changes at the same time. Replace `APP-NAME` with the name of your app, and replace `MANIFEST-FILE-PATH` with the path and name of your Autoscaler manifest.
+Run `cf configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest
+to configure your rules, add instance limits, and set scheduled limit changes at the same time.
+Replace `APP-NAME` with the name of your app, and replace `MANIFEST-FILE-PATH` with the path
+and name of your App Autoscaler manifest.
 
 An example manifest:
 
@@ -249,8 +280,8 @@ rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
   threshold:
-    min: 10
-    max: 20
+    min: 500
+    max: 1000
 scheduled_limit_changes:
 - recurrence: 10
   executes_at: "2032-01-01T00:00:00Z"
@@ -265,7 +296,8 @@ Setting autoscaler settings for app test-app for org my-org / space my-space as 
 OK
 </pre>
 
-A `rules` block must be present in your Autoscaler manifest. If your app does not require any rules changes, include an empty block:
+A `rules` block must be present in your App Autoscaler manifest.
+If your app does not require any rules changes, include an empty block:
 
 <pre>
 ---
@@ -281,7 +313,8 @@ scheduled_limit_changes:
     max: 0
 </pre>
 
-A `scheduled_limit_changes` block must be present in your Autoscaler manifest. If your app does not require any scheduled instance limit changes, include an empty block:
+A `scheduled_limit_changes` block must be present in your App Autoscaler manifest.
+If your app does not require any scheduled instance limit changes, include an empty block:
 
 <pre>
 ---
@@ -292,23 +325,23 @@ rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
   threshold:
-     min: 10
-     max: 20
+     min: 500
+     max: 1000
 scheduled_limit_changes: []
 </pre>
 
 ### <a id="create-scheduled-limit"></a> Create a Scheduled Limit Change
 
-To create a scheduled limit change using the Autoscaler manifest, you must understand how
-scheduled limit changes are constructed. Autoscaler uses the `executes at` value in two ways:
+To create a scheduled limit change using the App Autoscaler manifest, you must understand how
+scheduled limit changes are constructed. App Autoscaler uses the `executes at` value in two ways:
 
-1. Autoscaler uses date and time to set the first (or only) occurrence of a scheduled limit change.
-1. Autoscaler then uses the time component to set the time of day in UTC for each recurrence.
-Autoscaler uses this time of day for all subsequent scheduled limit changes.
+1. App Autoscaler uses date and time to set the first (or only) occurrence of a scheduled limit change.
+1. App Autoscaler then uses the time component to set the time of day in UTC for each recurrence.
+App Autoscaler uses this time of day for all subsequent scheduled limit changes.
 
 When setting a recurrence schedule, the days of the week are bitmasked.
 
-To instruct Autoscaler when to execute a scheduled limit change, add together the
+To instruct App Autoscaler when to execute a scheduled limit change, add together the
 bitmasked values for each of the day(s) of the week that
 you wish to trigger the scheduled limit change using this table.
 
@@ -358,8 +391,8 @@ rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
   threshold:
-    min: 10
-    max: 20
+    min: 500
+    max: 1000
 scheduled_limit_changes:
 - recurrence: 32
   executes_at: "2032-01-01T20:00:00Z"
