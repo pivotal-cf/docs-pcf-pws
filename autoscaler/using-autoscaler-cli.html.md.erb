@@ -29,8 +29,8 @@ To install the plugin, do the following:
     For example:
     <pre class="terminal">
     $ cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
-    </pre> 
-    For more information about installing cf CLI plugins, see [Installing a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install). 
+    </pre>
+    For more information about installing cf CLI plugins, see [Installing a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install).
 
 ## <a id="create-and-bind-service"></a>Create and Bind the Autoscaling Service
 
@@ -61,7 +61,7 @@ The App Autoscaler does not attempt to scale beyond these limits.
 Replace `APP-NAME` with the name of your app.
 Replace `MIN-INSTANCE-LIMIT` with the minimum number of apps,
 and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
- 
+
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
 Updated autoscaling instance limits for app test-app for org my-org / my-space testing as admin
@@ -246,7 +246,7 @@ Guid                                      First Execution        Min Instances  
 7a19a8a2-e435-4c67-b038-cc4add8be686      2018-06-14T15:00:00Z   1               2               Sa
 </pre>
 
-<p class="note"><b>Note:</b> App Autoscaler only supports times in UTC. App Autoscaler does not support setting alternate timezones or Daylight Saving Time</p> 
+<p class="note"><b>Note:</b> App Autoscaler only supports times in UTC. App Autoscaler does not support setting alternate timezones or Daylight Saving Time</p>
 
 ## <a id="delete-autoscaling-slc"></a>Delete App Autoscaler Scheduled Instance Limit Change
 
@@ -332,17 +332,17 @@ scheduled_limit_changes: []
 
 ### <a id="create-scheduled-limit"></a> Create a Scheduled Limit Change
 
-To create a scheduled limit change using the App Autoscaler manifest, you must understand how 
-scheduled limit changes are constructed. App Autoscaler uses the `executes at` value in two ways: 
+To create a scheduled limit change using the App Autoscaler manifest, you must understand how
+scheduled limit changes are constructed. App Autoscaler uses the `executes at` value in two ways:
 
-1. App Autoscaler uses date and time to set the first (or only) occurrence of a scheduled limit change. 
+1. App Autoscaler uses date and time to set the first (or only) occurrence of a scheduled limit change.
 1. App Autoscaler then uses the time component to set the time of day in UTC for each recurrence.
-App Autoscaler uses this time of day for all subsequent scheduled limit changes. 
+App Autoscaler uses this time of day for all subsequent scheduled limit changes.
 
-When setting a recurrence schedule, the days of the week are bitmasked. 
+When setting a recurrence schedule, the days of the week are bitmasked.
 
-To instruct App Autoscaler when to execute a scheduled limit change, add together the 
-bitmasked values for each of the day(s) of the week that 
+To instruct App Autoscaler when to execute a scheduled limit change, add together the
+bitmasked values for each of the day(s) of the week that
 you wish to trigger the scheduled limit change using this table.
 
 <table id='scaling-rule-metrics' border="1" class="nice" >
@@ -354,7 +354,7 @@ you wish to trigger the scheduled limit change using this table.
 		<th>We</th>
     <th>Th</th>
 		<th>Fr</th>
-	  <th>Sa</th>	
+	  <th>Sa</th>
 	</tr>
   <tr>
 		<th>Value</th>
@@ -364,7 +364,7 @@ you wish to trigger the scheduled limit change using this table.
 		<td>8</td>
     <td>4</td>
 		<td>2</td>
-		<td>1</td>	
+		<td>1</td>
 	</tr>
 </table>
 
@@ -379,7 +379,7 @@ The following are examples of how to calculate a value for the `recurrence` fiel
 * To schedule every day, you add **(64+32+16+8+4+2+1)=127**. Set `recurrence: 127`.
 * To schedule on Monday, Wednesday, and Friday, you add **(32+8+2)=42**. Set `recurrence: 42`.
 
-The following is an example manifest to scale down every Friday at 8pm 
+The following is an example manifest to scale down every Friday at 8pm
 and back up every Monday at 4am assuming a UTC timezone:
 
 <pre>
