@@ -17,6 +17,33 @@ To use App Autoscaler to automatically scale your apps, you must create and bind
 For more information about App Autoscaler, including information about how to create scaling rules, see [About App Autoscaler](about-app-autoscaler.html).
 
 
+## <a id="prerequisite"></a> Prerequisite
+
+Before using the Autoscaler service in Apps Manager, you must configure the `search-server` app for any deployments that have restrictive networking policies around request proxying.
+
+Autoscaler controls may not appear for apps in Apps Manager if your <%= vars.app_runtime_abbr %> deployment has restrictive networking policies around request proxying.
+
+To resolve this issue and enable Autoscaler controls in Apps Manager:
+
+1. Using the cf CLI, log in to the system org and system space.
+2. Locate the `search-server` app.
+3. Update the `no_proxy` environment variable for the `search-server` app to include your system domain.
+
+    ```
+    cf set-env search-server no_proxy '*.SYSTEM-DOMAIN'
+    ```
+    where `SYSTEM-DOMAIN` is the system domain configured for your <%= vars.app_runtime_abbr %> deployment.
+    For example:
+    <pre class="terminal">
+    cf set-env search-server no_proxy '*.example.com'
+    </pre>
+
+4. Restage the `search-server` app.
+
+    ```
+    cf restage search-server
+    ```
+
 ## <a id="setup"></a> Configure App Autoscaler
 
 To configure App Autoscaler:
