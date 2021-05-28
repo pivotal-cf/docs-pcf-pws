@@ -41,7 +41,6 @@ how they correspond to steps in this tutorial.
 This tutorial requires the following:
 
 * A <%= vars.app_runtime_abbr %> environment with the Metric Registrar enabled. You can confirm this with your platform operator.
-	<p class="note"><strong>Note</strong>: You can alternatively use <a href="https://run.pivotal.io">Pivotal Web Services (PWS)</a>.</p>
 * Access to Apps Manager in the <%= vars.app_runtime_abbr %> environment.
 * The ability to push an app to the <%= vars.app_runtime_abbr %> environment. For example, you need space developer permissions in at least one space.
 * The Cloud Foundry Command Line Interface (cf CLI). See [Installing the cf CLI](../../cf-cli/index.html).
@@ -139,8 +138,6 @@ To push the sample app:
 	```
 	cf push --random-route
 	```
-
-	 <p class="note"><strong>Note</strong>: If you are deploying the app to Pivotal Web Services (PWS), the app name may already be taken. You can edit the name in the <code>manifest.yml</code> file.</p>
 
 1. After the `push` command finishes, locate the app URL in the `routes:` section of the output.
    See the following example output:
