@@ -47,9 +47,9 @@ in a space, their instance limits, and whether or not they are enabled.
 <pre class="terminal">
 $ cf autoscaling-apps<br>
 Presenting autoscaler apps in org my-org / my-space autoscaling as user
-Name                  Guid                                      Enabled   Min Instances   Max Instances
-test-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4
-test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40
+Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor
+test-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4               1
+test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40              5
 OK
 </pre>
 
@@ -65,6 +65,19 @@ and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
 Updated autoscaling instance limits for app test-app for org my-org / my-space testing as admin
+OK
+</pre>
+
+## <a id="updating-scale-up-factor"></a>Update Scale Up Factor
+
+Run `cf update-autoscaling-scale-up-factor APP-NAME SCALE-UP-FACTOR`
+to update the app scale up factor.
+The App Autoscaler will use this factor to determine how much to scale up your app by on scale up decisions.
+Replace `APP-NAME` with the name of your app, and `SCALE-UP-FACTOR` with the desired app scale up factor.
+
+<pre class="terminal">
+$ cf update-autoscaling-scale-up-factor test-app 3<br>
+Updated autoscaling scale up factor for app test-app for org my-org / my-space testing as admin
 OK
 </pre>
 
@@ -276,6 +289,7 @@ An example manifest:
 instance_limits:
   min: 1
   max: 2
+scale_up_factor: 1
 rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
@@ -387,6 +401,7 @@ and back up every Monday at 4am assuming a UTC timezone:
 instance_limits:
   min: 6
   max: 12
+scale_up_factor: 1
 rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
