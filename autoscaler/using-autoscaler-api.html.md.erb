@@ -1,0 +1,366 @@
+---
+title: Using the App Autoscaler API
+owner: App Autoscaler
+---
+
+This topic explains how to use the App Autoscaler API.
+
+While we recommend the [App Autoscaler cf CLI plugin](using-autoscaler-cli.html) as an interface to App Autoscaler – it uses the API to provide all the same functionality with less fuss – the API remains a valid option for clients who wish to interact with App Autoscaler.
+
+
+## <a id="api-endpoints"></a>API Endpoints
+The API will be exposed by the autoscale-api app running next to the autoscale app, in the autoscaling space of the system org. This will be the base URL of all the requests covered below, which we will omit for sake of brevity.
+
+If your system domain is `system-domain.com` then the autoscale app can likely be reached at `autoscale.sys.system-domain.com` and the API can likely be reached at `autoscale.sys.system-domain.com/api/v2`. Be sure to confirm that though before proceeding.
+
+
+## <a id="authentication"></a>Authentication
+You must pass an access token to each API endpoint. The access token is expected as-is on the `Authorization` header of each request.
+
+Get an access token with `cf oauth-token` (after pointing the cf CLI at your desired foundation and logging in).
+
+**Note:** the App Autoscaler API often returns a 404 error when a token is incorrect, so check your access token if you are being hit by a lot of 404s.
+
+
+## <a id="pagination"></a>Pagination
+Most list calls will use pagination. The App Autoscaler API uses a standard form of pagination that is very similar to how CAPI uses pagination.
+
+Here is an example of a paginated response from the App Autoscaler API:
+
+```
+{
+  "pagination": {
+    "total_results": 1,
+    "total_pages": 1,
+      "last": {
+        "href": "https://autoscale.sys.fakeurl.com/api/v2/apps?space_guid=676e592a-a4e8-43d9-8128-f583c0b45db8&page=1"
+      },
+      "next": null,
+      "first": {
+        "href": "https://autoscale.sys.fakeurl.com/api/v2/apps?space_guid=676e592a-a4e8-43d9-8128-f583c0b45db8&page=1"
+      },
+      "previous": null
+    },
+    "resources": [
+      ...list of objects...
+    ]
+}
+```
+
+
+## <a id="info"></a>Info
+`GET /api/v2/info`
+
+**Parameters**
+
+None
+
+**Returns**
+
+A string denoting the App Autoscaler API version.
+
+
+## <a id="apps"></a>App Bindings
+Operations for app bindings.
+
+Apps that are bound to App Autoscaler are represented by the App Autoscaler API as apps. In reality, the CAPI term, service binding, is probably more appropriate.
+
+### <a id="app-object"></a>App Binding Object
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| created_at | string | The timestamp for when this object was created |
+| enabled | boolean | Enables/disables scaling by App Autoscaler for this app |
+| guid | string | The app GUID (from CAPI) |
+| instance_limits.max | integer | The maximum instance count that this app is allowed |
+| instance_limits.min | integer | The minimum instance count that this app is allowed |
+| updated_at | string | The timestamp for when this object was last updated |
+
+### <a id="get-apps"></a>Get All Apps Bindings in a Space
+`GET /api/v2/apps`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| space_guid | query | string | true | The GUID of the space from which you want to get all app bindings |
+| page | query | integer | false | The page of events to get |
+
+**Returns**
+
+A paginated list of app bindings.
+
+### <a id="get-app"></a>Get an App Binding
+`GET /api/v2/apps/:app_guid`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to get the binding for |
+
+
+**Returns**
+
+An app binding.
+
+### <a id="update-app"></a>Update an App Binding
+`PUT /api/v2/apps/:app_guid`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to update the binding for |
+| enabled | body | boolean | Enables/disables scaling by App Autoscaler for this app |
+| instance_limits.max | body | integer | The maximum instance count that this app is allowed |
+| instance_limits.min | body | integer | The minimum instance count that this app is allowed |
+
+**Returns**
+
+An app binding.
+
+
+## <a id="events"></a>Events
+Operations to retrieve events.
+
+Scaling events include all scaling decisions made by App Autoscaler as well as some other relevant changes (eg. an app is enabled/disabled).
+
+### <a id="event-object"></a>Event Object
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| created_at | string | The timestamp for when this object was created |
+| description | string | A description of the event |
+| scaling_factor | integer | The number of instances that the app was scaled by |
+| updated_at | string | The timestamp for when this object was last updated |
+
+### <a id="get-events"></a>Get All Events for an App
+`GET /api/v2/apps/:app_guid/events`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to retrieve events for |
+| page | query | integer | false | The page of events to get |
+
+**Returns**
+
+A paginated list of events.
+
+
+## <a id="rules"></a>Rules
+Operations for rules.
+
+Rules are tied to individual apps, and no one app can have multiple rules of the same category.
+
+### <a id="rule-object"></a>Rule Object
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| created_at | string | The timestamp for when this object was created |
+| comparison_metric | string | The divisor to compare metrics against |
+| guid | string | The guid for this particular object |
+| metric | string | The metric on which scaling decisions will be made |
+| queue_name | string | The name of the queue to monitor (for RabbitMQ rules) |
+| rule_type | string | The type of Rule |
+| rule_sub_type | string | The subtype of Rule |
+| threshold.max | float | The threshold beyond which the app should be scaled up |
+| threshold.min | float | The threshold below which the app could be scaled down |
+| updated_at | string | The timestamp for when this object was last updated |
+
+### <a id="get-rules"></a>Get All Rules for an App
+`GET /api/v2/apps/:app_guid/rules`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to retrieve rules for |
+| page | query | integer | false | The page of events to get |
+
+**Returns**
+
+A paginated list of rules.
+
+### <a id="create-rule"></a>Create a Rule
+`POST /api/v2/apps/:app_guid/rules`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to create a rule for |
+| comparison_metric | body | string | false | The divisor to compare metrics against |
+| metric | body | string | false | The metric on which scaling decisions will be made |
+| queue_name | body | string | false | The name of the queue to monitor (for RabbitMQ rules) |
+| rule_type | body | string | true | The type of Rule |
+| rule_sub_type | body | string | false | The subtype of Rule |
+| threshold.max | body | float | true | The threshold beyond which the app should be scaled up |
+| threshold.min | body | float | true | The threshold below which the app could be scaled down |
+
+**Returns**
+
+A rule.
+
+### <a id="replace-rules"></a>Replace All Rules
+`PUT /api/v2/apps/:app_guid/rules`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to set rules for |
+| array of rules | body | array | true | An array of rule objects (see [Create a Rule](#create-rule)) |
+
+**Returns**
+
+A paginated list of rules.
+
+### <a id="delete-rules"></a>Delete All Rules
+`DELETE /api/v2/apps/:app_guid/rules`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to delete rules for |
+
+**Returns**
+
+A 204 status code and empty body indicating all rules were deleted.
+
+### <a id="get-rule"></a>Get a Rule
+`GET /api/v2/apps/:app_guid/rules/:guid`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to get a rule for |
+| guid | path | string | true | The GUID of the rule to get |
+
+**Returns**
+
+A rule.
+
+### <a id="delete-rule"></a>Delete a Rule
+`DELETE /api/v2/apps/:app_guid/rules/:rule_guid`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to delete a rule for |
+| rule_guid | path | string | true | The GUID of the rule to delete |
+
+**Returns**
+
+A 204 status code and empty body indicating the rule was deleted.
+
+
+## <a id="slcs"></a>Scheduled Limit Changes
+Operations for scheduled limit changes (SLCs).
+
+SLCs are jobs scheduled for the future that alter app status (ie. enabled, instance limits).
+
+### <a id="slc-object"></a>Scheduled Limit Change Object
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| created_at | string | The timestamp for when this object was created |
+| enabled | boolean | Whether or not the app will be enabled or disabled |
+| executes_at | string | The UTC timestamp indicating when this SLC will first be executed |
+| guid | string | The guid of this object |
+| instance_limits.max | integer | The maximum instance count that will be set on the app |
+| instance_limits.min | integer | The minimum instance count that will be set on the app |
+| recurrence | integer | A number that represents the days of the week that the change will execute on; each bit in the number represents a day in the following order: sun, mon, tue, wed, thur, fri, sat. Ex: repeat mon, wed, fri = 0101010 = 42 |
+| updated_at | string | The timestamp for when this object was last updated |
+
+### <a id="get-slcs"></a>Get All Scheduled Limit Changes for an App
+`GET /api/v2/apps/:app_guid/scheduled_limit_changes`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to retrieve SLCs for |
+| page | query | integer | false | The page of SLCs to get |
+
+**Returns**
+
+A paginated list of SLCs.
+
+### <a id="create-slc"></a>Create a Scheduled Limit Change
+`POST /api/v2/apps/:app_guid/scheduled_limit_changes`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to create an SLC for |
+| enabled | body | boolean | true | Whether or not the app will be enabled or disabled |
+| executes_at | body | string | true | The UTC timestamp indicating when this SLC will first be executed |
+| instance_limits.max | body | integer | true | The maximum instance count that will be set on the app |
+| instance_limits.min | body | integer | true | The minimum instance count that will be set on the app |
+| recurrence | body | string | true | A number that represents the days of the week that the change will execute on; each bit in the number represents a day in the following order: sun, mon, tue, wed, thur, fri, sat. Ex: repeat mon, wed, fri = 0101010 = 42 |
+
+**Returns**
+
+An SLC.
+
+### <a id="set-slcs"></a>Replace all Scheduled Limit Changes for an App
+`PUT /api/v2/apps/:app_guid/scheduled_limit_changes`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to replace SLCs for |
+| array of SLCs | body | array | true | An array of SLC objects (see [Create a Scheduled Limit Change](#create-slc)) |
+
+**Returns**
+
+A paginated list of SLCs.
+
+### <a id="delete-slcs"></a>Delete all Scheduled Limit Changes for an App
+`DELETE /api/v2/apps/:app_guid/scheduled_limit_changes`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to replace SLCs for |
+
+**Returns**
+
+A 204 status code and empty body indicating the SLCs were deleted.
+
+### <a id="get-slc"></a>Get a Scheduled Limit Change
+`GET /api/v2/apps/:app_guid/scheduled_limit_changes/:guid`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to get SLCs for |
+| guid | path | string | true | The GUID of the SLC to retrieve |
+
+**Returns**
+
+An SLC object.
+
+### <a id="delete-slc"></a>Delete a Scheduled Limit Change
+`DELETE /api/v2/apps/:app_guid/scheduled_limit_changes/:guid`
+
+**Parameters**
+
+| Parameter | In | Type | Required | Description |
+| --------- | -- | ---- | -------- | ----------- |
+| app_guid | path | string | true | The GUID of the app to delete SLCs for |
+| guid | path | string | true | The GUID of the SLC to delete |
+
+**Returns**
+
+A 204 status code and empty body indicating the SLC was deleted.
