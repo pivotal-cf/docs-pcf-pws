@@ -46,10 +46,10 @@ in a space, their instance limits, and whether or not they are enabled.
 
 <pre class="terminal">
 $ cf autoscaling-apps<br>
-Presenting autoscaler apps in org my-org / my-space autoscaling as user
-Name                  Guid                                      Enabled   Min Instances   Max Instances
-test-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4
-test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40
+Presenting autoscaler apps in org my-org / space my-space as user
+Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
+test-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4               1                 1
+test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40              5                 2
 OK
 </pre>
 
@@ -64,7 +64,22 @@ and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
 
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
-Updated autoscaling instance limits for app test-app for org my-org / my-space testing as admin
+Updated autoscaling instance limits for app test-app for org my-org / space my-space as user
+OK
+</pre>
+
+## <a id="updating-scaling-factors"></a>Update Scaling Factors
+
+Run `cf update-autoscaling-factors APP-NAME SCALE-UP-FACTOR SCALE-DOWN-FACTOR`
+to update the app scaling factors.
+The App Autoscaler will use these factors to determine how many instances your app should be scaled up or down.
+Replace `APP-NAME` with the name of your app.
+Replace `SCALE-UP-FACTOR` with the number of instances to scale up by at a time,
+and `SCALE-DOWN-FACTOR` with the number of instances to scale down by at a time.
+
+<pre class="terminal">
+$ cf update-autoscaling-factors test-app 3 2<br>
+Updated autoscaling factors for app hello-app in org my-org / space my-space as user
 OK
 </pre>
 
@@ -74,7 +89,7 @@ Run `cf enable-autoscaling APP-NAME` to enable autoscaling on your app. Replace 
 
 <pre class="terminal">
 $ cf enable-autoscaling test-app-2<br>
-Enabled autoscaling for app test-app-2 for org my-org / my-space testing as admin
+Enabled autoscaling for app test-app-2 for org my-org / space my-space as user
 OK
 </pre>
 
@@ -90,7 +105,7 @@ Run `cf disable-autoscaling APP-NAME` to disable autoscaling on your app. Replac
 
 <pre class="terminal">
 $ cf disable-autoscaling test-app<br>
-Disabled autoscaling for app test-app for org my-org / my-space testing as admin
+Disabled autoscaling for app test-app for org my-org / space my-space as user
 OK
 </pre>
 
@@ -100,7 +115,7 @@ Run `cf autoscaling-rules APP-NAME` to view the rules that the App Autoscaler us
 
 <pre class="terminal">
 $ cf autoscaling-rules test-app<br>
-Presenting autoscaler rules for app test-app for org my-org / my-space autoscaling as user
+Presenting autoscaler rules for app test-app for org my-org / space my-space as user
 Rule Guid                               Rule Type         Rule Sub Type   Min Threshold   Max Threshold
 45870b7f-f5c9-403f-9150-e79314f62f06    cpu                               10              20
 10a581c5-8fb4-48a2-b4de-8bc834aac146    http_throughput                   20              30
@@ -188,7 +203,7 @@ Run `cf delete-autoscaling-rule APP-NAME RULE-GUID [--force]` to delete a single
 <pre class="terminal">
 $ cf delete-autoscaling-rule test-app 10a581c5-8fb4-48a2-b4de-8bc834aac146<br>
 Really delete rule 10a581c5-8fb4-48a2-b4de-8bc834aac146 for app test-app?> [yN]:y
-Deleted rule 10a581c5-8fb4-48a2-b4de-8bc834aac146 for autoscaler app test-app for org my-org / space my-space as admin
+Deleted rule 10a581c5-8fb4-48a2-b4de-8bc834aac146 for autoscaler app test-app for org my-org / space my-space as user
 OK
 </pre>
 
@@ -199,7 +214,7 @@ Run `cf delete-autoscaling-rules APP-NAME [--force]` to delete all autoscaling r
 <pre class="terminal">
 $ cf delete-autoscaling-rules test-app<br>
 Really delete ALL rules for app test-app?> [yN]:y
-Deleted rules for autoscaler app test-app for org my-org / space my-space as admin
+Deleted rules for autoscaler app test-app for org my-org / space my-space as user
 OK
 </pre>
 
@@ -276,6 +291,9 @@ An example manifest:
 instance_limits:
   min: 1
   max: 2
+scaling_factors:
+  up: 3
+  down: 2
 rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
@@ -388,6 +406,9 @@ and back up every Monday at 4am assuming a UTC timezone:
 instance_limits:
   min: 6
   max: 12
+scaling_factors:
+  up: 3
+  down: 2
 rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
