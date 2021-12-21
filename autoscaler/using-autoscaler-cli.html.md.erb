@@ -5,8 +5,7 @@ owner: PCF Autoscaler
 
 This topic explains how to use the App Autoscaler command-line interface (CLI).
 
-The App Autoscaler automatically scales <%= vars.app_runtime_full %>
-(<%= vars.app_runtime_abbr %>) apps in response to demand.
+The App Autoscaler automatically scales <%= vars.app_runtime_first %> apps in response to demand.
 The App Autoscaler CLI lets you control the App Autoscaler from your local command line
 by extending the Cloud Foundry command-line interface (cf CLI).
 
@@ -72,7 +71,7 @@ OK
 
 Run `cf update-autoscaling-factors APP-NAME SCALE-UP-FACTOR SCALE-DOWN-FACTOR`
 to update the app scaling factors.
-The App Autoscaler will use these factors to determine how many instances your app should be scaled up or down.
+The App Autoscaler uses these factors to determine how many instances your app should be scaled up or down.
 Replace `APP-NAME` with the name of your app.
 Replace `SCALE-UP-FACTOR` with the number of instances to scale up by at a time,
 and `SCALE-DOWN-FACTOR` with the number of instances to scale down by at a time.
@@ -437,4 +436,3 @@ The App Autoscaler CLI has the following known issues:
 * The CLI may output odd characters in Windows shells that do not support text color.
   - To prevent this error, run `SET CF_COLOR=false` in your Windows shell pane before you run App Autoscaler CLI commands.
   - Note that some Windows shells do not support the `CF_COLOR` setting.
-
