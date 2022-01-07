@@ -27,6 +27,9 @@ When you are logged in to your foundation with the cf CLI, get an access token b
 
 <p class="note"><strong>Note:</strong> The App Autoscaler API often returns a 404 error when a token is incorrect. If you a receiving a lot of 404 errors, check your access token.</p>
 
+## <a id="content-type"></a>Content Type Header
+
+To make any PUT or POST requests, you must set the `Content-Type` header to `application/json` or you will get the error `"Your token is invalid or the autoscaled application does not exist"` regardless of the token used
 
 ## <a id="pagination"></a>Pagination
 
