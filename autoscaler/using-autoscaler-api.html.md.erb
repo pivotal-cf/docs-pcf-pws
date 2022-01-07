@@ -29,7 +29,14 @@ When you are logged in to your foundation with the cf CLI, get an access token b
 
 ## <a id="content-type"></a>Content Type Header
 
-To make any PUT or POST requests, you must set the `Content-Type` header to `application/json` or you will get the error `"Your token is invalid or the autoscaled application does not exist"` regardless of the token used
+To make any PUT or POST requests, you must set the `Content-Type` header to `application/json`.
+If you do not set this, you might see the following error:
+
+```console
+"Your token is invalid or the autoscaled application does not exist"
+```
+
+This error can appear regardless of the token you use.
 
 ## <a id="pagination"></a>Pagination
 
