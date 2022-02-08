@@ -72,10 +72,10 @@ OK
 
 Run `cf update-autoscaling-factors APP-NAME SCALE-UP-FACTOR SCALE-DOWN-FACTOR`
 to update the app scaling factors.
-The App Autoscaler will use these factors to determine how many instances your app should be scaled up or down.
+The App Autoscaler uses these factors to decide how many instances of your app to scale up or down.
 Replace `APP-NAME` with the name of your app.
-Replace `SCALE-UP-FACTOR` with the number of instances to scale up by at a time,
-and `SCALE-DOWN-FACTOR` with the number of instances to scale down by at a time.
+Replace `SCALE-UP-FACTOR` with the number of instances to scale up at a time,
+and `SCALE-DOWN-FACTOR` with the number of instances to scale down at a time.
 
 <pre class="terminal">
 $ cf update-autoscaling-factors test-app 3 2<br>
