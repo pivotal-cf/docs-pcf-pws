@@ -8,29 +8,29 @@ This topic describes App Autoscaler. It includes information about default and c
 
 ## <a id="overview"></a> Overview
 
-App Autoscaler is a marketplace service that automatically scales apps in your environment based on app performance metrics or a schedule. This controls the cost of running apps while maintaining app performance.
+App Autoscaler is a Marketplace service that scales apps in your environment based on app performance metrics or a schedule. This controls the cost of running apps while maintaining app performance.
 
 You can use App Autoscaler to do the following:
 
 * Configure scaling rules that adjust app instance counts based on metrics thresholds
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule
-* Configure scaling factors so that the app scales more quickly. Care should be taken when setting the scaling factors by which to scale your applications up or down.
+* Configure scaling factors so that the app scales more quickly. Use caution when setting the scaling factors by which to scale your applications up or down.
 
-For example, you can configure App Autoscaler to automatically scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to automatically scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold. 
+For example, you can configure App Autoscaler to scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold.
 
 ## <a id="about-scaling"></a> About App Autoscaler Scaling Rules
 
-This section describes how App Autoscaler determines when to scale an app up or down.
+This section describes how App Autoscaler decides when to scale an app up or down.
 
 It also provides information about the custom metrics, comparison metrics, and default metrics that you can use when you create scaling rules for an app in App Autoscaler.
 
-### <a id="about-scaling-decisions"></a> How App Autoscaler Determines When to Scale
+### <a id="about-scaling-decisions"></a> How App Autoscaler Decides When to Scale
 
 Every 35 seconds, App Autoscaler makes a decision about whether to scale up, scale down, or keep the same number of instances.
 
 To make a scaling decision, App Autoscaler averages the values of a given metric for the most recent 120 seconds.
 
-<p class="note"><strong>Note:</strong> Operators can modify the 35 second scaling interval and the 120 second metric collection interval for all apps within the org. For more information, see <a href="https://docs.pivotal.io/application-service/operating/configure-pas.html#config-autoscaler">(Optional) Configure App Autoscaler</a> in <em>Configuring <%= vars.app_runtime_abbr %></em>.</p>
+<p class="note"><strong>Note:</strong> Operators can edit the 35 second scaling interval and the 120 second metric collection interval for all apps within the org. For more information, see <a href="https://docs.pivotal.io/application-service/operating/configure-pas.html#config-autoscaler">(Optional) Configure App Autoscaler</a> in <em>Configuring <%= vars.app_runtime_abbr %></em>.</p>
 
 App Autoscaler scales apps as follows:
 
@@ -42,7 +42,7 @@ The following diagram provides an example of how App Autoscaler makes scaling de
 
 ![Read the description after this diagram for a description of the example shown in the diagram.](./images/autoscaler-scaling-decisions.png)
 
-As shown in the diagram above, an app has a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric. The scale up factor and scale down factor are not set in the scaling manifest, so they will be defaulted to one.
+As shown in the diagram, an app has a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric. The scale up factor and scale down factor are not set in the scaling manifest, so the default value is one.
 
 If HTTP latency averages 220 milliseconds for 120 seconds, App Autoscaler scales the app up one instance.
 
@@ -58,40 +58,39 @@ App Autoscaler includes several default metrics for which you can create scaling
 
 <p class="note"><strong>Note:</strong> <%= vars.company_name %> recommends that you define custom metrics for scaling rules instead of using the default metrics. Custom metrics allow you to more accurately monitor the performance of your apps based on your environment.</p>
 
-The table below lists the default metrics for App Autoscaler:
+The following table lists the default metrics for App Autoscaler:
 
 <table id='scaling-rule-metrics' border="1" class="nice" >
-	<tr>
-		<th>Metric</th>
-		<th>Description</th>
-		<th>Notes</th>
-	</tr>
-	<tr>
-		<td>CPU Utilization</td>
-		<td>
-			Average CPU percentage for all instances of the app.
-		</td>
-		<td>
-			App CPU utilization data may vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the Knowledge Base.
-		</td>
-	</tr><tr>
-		<td>Container Memory Utilization</td>
-		<td>Average memory percentage for all instances of the app.</td>
-		<td></td>
-	</tr><tr>
-		<td>HTTP Throughput</td>
-		<td>Total HTTP requests per second (divided by the total number of app instances).</td>
-		<td></td>
-	</tr><tr>
-		<td>HTTP Latency</td>
-		<td>Average latency of apps response to HTTP requests. This does not include Gorouter processing time or other network latency.<br>
-		Average is calculated on the middle 99% or middle 95% of all HTTP requests.</td>
-		<td></td>
-	</tr><tr>
-		<td>RabbitMQ Depth</td>
-		<td>The queue length of the specified queue.</td>
-		<td></td>
-	</tr>
+  <tr>
+    <th>Metric</th>
+    <th>Description</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>CPU Utilization</td>
+    <td>
+      Average CPU percentage for all instances of the app.
+    </td>
+    <td>
+      App CPU utilization data can vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the Knowledge Base.
+    </td>
+  </tr><tr>
+    <td>Container Memory Utilization</td>
+    <td>Average memory percentage for all instances of the app.</td>
+    <td></td>
+  </tr><tr>
+    <td>HTTP Throughput</td>
+    <td>Total HTTP requests per second (divided by the total number of app instances).</td>
+  </tr><tr>
+    <td>HTTP Latency</td>
+    <td>Average latency of apps response to HTTP requests. This does not include Gorouter processing time or other network latency.<br>
+    Average is calculated on the middle 99% or middle 95% of all HTTP requests.</td>
+    <td></td>
+  </tr><tr>
+    <td>RabbitMQ Depth</td>
+    <td>The queue length of the specified queue.</td>
+    <td></td>
+  </tr>
 </table>
 
 ### <a id="custom-metrics"></a> Custom Metrics for Scaling Rules
@@ -109,13 +108,13 @@ When you add a scaling rule, the **Metric** field is the dividend and the **Comp
 
 ## <a id="architecture"></a> App Autoscaler Architecture
 
-The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components interact with <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) components to make app scaling decisions. 
+The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components interact with <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) components to make app scaling decisions.
 
 ![Two boxes represent the components of App Autoscaler. Several other boxes represent the Cloud Foundry components with which App Autoscaler interacts. The two boxes that represent App Autoscaler components are titled "Autoscale GO app" and "Autoscale api". "Autoscale GO app" and "Autoscale api" appear on the right side of the diagram. They are within a box called Autoscaling Space, which is within another box called System Org. This indicates that the App Autoscaler components run in a space that is within an org on your Cloud Foundry deployment. The diagram also includes several arrows. First, there is an arrow that points from "Autoscale GO app" to the Cloud Foundry Load Balancer and Gorouter. Additional arrows go from the load balancer and the Gorouter boxes to boxes titled Cloud Cache and Cloud Controller. These arrows indicate that the Autoscale app makes requests to the Log Cache and Cloud Controller for app metrics and that these requested are routed through the Load Balancer and Gorouter. There is also an arrow from "Autoscale GO app" that points to a box titled "MySQL proxy". The arrow pointing from the "Autoscale GO app" box to the MySQL proxy box indicates that the Autoscale app reads scaling rules that are stored in a MySQL databse. The diagram also includes arrows that point from "Autoscale api" to "MySQL proxy" and and box titled "UAA". These arrows indicate that the Autoscale API authenticates using UAA and that the API stores scaling rules in the MySQL database. There is also an arrow that points to "Autoscale api" from a box that represents both the Cloud Foundry Command Line Interface and Apps Manager. This arrow indicates that you can access the Autoscale API from either the Cloud Foundry command line interface or Apps Manager.](./images/app-autoscaler-architecture.png)
 
 [View a larger version of this image.](./images/app-autoscaler-architecture.png)
 
-As demonstrated in the architecture diagram above, App Autoscaler makes scaling decisions based on autoscaling rules that users configure through either the Cloud Foundry Command Line Interface (cf CLI) or through Apps Manager. The Autoscale API stores these autoscaling rules in a MySQL database. 
+As demonstrated in the architecture diagram, App Autoscaler makes scaling decisions based on autoscaling rules that users configure by using either the Cloud Foundry Command Line Interface (cf CLI) or Apps Manager. The Autoscale API stores these autoscaling rules in a MySQL database.
 
 At a predefined interval, known as the scaling interval, the App Autoscaler app reads the scaling rules and retrieves app metric data from the Loggregator Log Cache. Then, App Autoscaler makes a scaling decision and communicates with the Cloud Controller to scale the app, if necessary.
 
