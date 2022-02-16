@@ -46,12 +46,11 @@ in a space, their instance limits, and whether or not they are enabled.
 
 <pre class="terminal">
 $ cf autoscaling-apps<br>
-Presenting autoscaler apps in org my-org / space my-space as user
-Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
-test-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4               1                 1
-test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40              5                 2
+Presenting autoscaler apps in org my-org / space my-space autoscaling as user
+Name                  Guid                                      Enabled   Min Instances   Max Instances
+test-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4
+test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40
 OK
-</pre>
 
 ## <a id="updating-instance-limits"></a>Update Instance Limits
 
@@ -65,21 +64,6 @@ and `MAX-INSTANCE-LIMIT` with the maximum number of apps.
 <pre class="terminal">
 $ cf update-autoscaling-limits test-app 10 40<br>
 Updated autoscaling instance limits for app test-app for org my-org / space my-space as user
-OK
-</pre>
-
-## <a id="updating-scaling-factors"></a>Update Scaling Factors
-
-Run `cf update-autoscaling-factors APP-NAME SCALE-UP-FACTOR SCALE-DOWN-FACTOR`
-to update the app scaling factors.
-The App Autoscaler uses these factors to decide how many instances of your app to scale up or down.
-Replace `APP-NAME` with the name of your app.
-Replace `SCALE-UP-FACTOR` with the number of instances to scale up at a time,
-and `SCALE-DOWN-FACTOR` with the number of instances to scale down at a time.
-
-<pre class="terminal">
-$ cf update-autoscaling-factors test-app 3 2<br>
-Updated autoscaling factors for app hello-app in org my-org / space my-space as user
 OK
 </pre>
 
@@ -291,9 +275,6 @@ An example manifest:
 instance_limits:
   min: 1
   max: 2
-scaling_factors:
-  up: 3
-  down: 2
 rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"
@@ -406,9 +387,6 @@ and back up every Monday at 4am assuming a UTC timezone:
 instance_limits:
   min: 6
   max: 12
-scaling_factors:
-  up: 3
-  down: 2
 rules:
 - rule_type: "http_latency"
   rule_sub_type: "avg_99th"

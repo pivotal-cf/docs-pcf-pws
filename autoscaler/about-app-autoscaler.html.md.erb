@@ -14,9 +14,10 @@ You can use App Autoscaler to do the following:
 
 * Configure scaling rules that adjust app instance counts based on metrics thresholds
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule
-* Configure scaling factors so that the app scales more quickly. Use caution when setting the scaling factors by which to scale your applications up or down.
 
 For example, you can configure App Autoscaler to scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold.
+
+<p class="note breaking"><strong>Breaking Change:</strong> App Autoscaler relies on API endpoints from Loggregator's Log Cache. If you disable Log Cache, App Autoscaler fails. For more information about Log Cache, see <a href="https://docs.pivotal.io/pivotalcf/2-2/pcf-release-notes/runtime-rn.html#log-cache">Loggregator Introduces Log Cache</a> in <em><%= vars.app_runtime_full_pivotal %> v2.2 Release Notes</em>.</p>
 
 ## <a id="about-scaling"></a> About App Autoscaler Scaling Rules
 
@@ -34,15 +35,15 @@ To make a scaling decision, App Autoscaler averages the values of a given metric
 
 App Autoscaler scales apps as follows:
 
-* Increment the instances by the app's scale up factor when any metric exceeds its maximum threshold.
-* Decrement the instances by the app's scale down factor when all metrics fall below their minimum thresholds.
+* Increment by one instance when any metric exceeds its maximum threshold.
+* Decrement by one instance only when all metrics fall below their minimum thresholds.
 * Keep the same number of instances when app metrics do not exceed thresholds.
 
 The following diagram provides an example of how App Autoscaler makes scaling decisions:
 
 ![Read the description after this diagram for a description of the example shown in the diagram.](./images/autoscaler-scaling-decisions.png)
 
-As shown in the diagram, an app has a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric. The scale up factor and scale down factor are not set in the scaling manifest, so the default value is one.
+As shown in the diagram, an app has a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric.
 
 If HTTP latency averages 220 milliseconds for 120 seconds, App Autoscaler scales the app up one instance.
 
