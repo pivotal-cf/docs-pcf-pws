@@ -1,0 +1,316 @@
+---
+title: Productionizing Autoscaler
+owner: App Autoscaler
+---
+
+Now that you have some familiarity with autoscaler, it's time to think about how to make use of autoscaler
+to scale your applications in a production environment.
+
+## <a id="scaling-goal"></a>Working back from your scaling goal
+
+The first step is often to think about the goal that you are trying to meet; for example
+it might be that your system should be capable of processing up to N business transactions per second.
+
+In the case of a web application each of those business transactions may be made up of multiple HTTP
+requests to a frontend service, potentially with calls to other backend services
+(also applications deployed to Tanzu Application Service) on the platform.
+
+With knowledge of the applications you can then extrapolate from your goal to determine the
+expected number of HTTP requests or enqueued messages to be generated per application.
+
+## <a id="application-teams"></a>Application teams and Autoscaler
+
+### <a id="autoscaling-limits"></a>Autoscaling Limits
+
+Once you have your scaling goal you can then think about the upper and lower bounds for the number
+of application instances for a given application. These are your autoscaling limits for that
+application. These numbers may initially be placeholders but you will refine these numbers as you
+load test your application and have increasing confidence in your understanding of how the overall
+application performs.
+
+In this example we set the autoscaling limits on the `example-app`, setting the lower bound
+(minimum application instances) to 20 and the upper bound (maximum application instances) to 100.
+
+```
+$ cf update-autoscaling-limits example-app 20 100
+```
+
+Setting appropriate minimum and maximum application instance limits ensures that autoscaler will not
+scale beyond boundaries that you define. It may be tempting to set the maximum application instance
+limit to a very large value but we suggest you define a value here that represents the maximum number
+of application instances you think may be both available and necessary.
+
+Applications will often have dependencies on an external application or service that may act as a constraint.
+As a result adding application instances past a certain point may have no effect without addressing other
+scaling bottlenecks. For example if your application instances all depend on a single shared MySQL service instance
+then you may hit the maximum number of connections allowed by MySQL and need to address that bottleneck
+before you can scale your application further.
+
+We recommend performing load testing of your application to confirm that your autoscaling limits are appropriate.
+See the "Load Testing" section below.
+
+### <a id="quotas"></a>Quotas
+
+You will also need to ensure that the quota available to the application is sufficient to allow the application
+to scale as necessary. If you set your maximum scaling limit to a high value but there is insufficient
+quota to scale then autoscaler will be unable to scale.
+
+Applications that are scaled by autoscaler are still subject to the existing quota scheme
+within the platform.
+
+#### <a id="quotas-limiting-scaling"></a>Determining when autoscaler is unable to scale due to quotas
+
+To determine if autoscaler has been unable to scale your application due to hitting the quota limit, review
+the resources in use by your application and the quota that is applicable to the space the application sits
+within.
+
+For example you might have your application configured with a memory limit of 1G per application instance. The
+effective memory usage will be *1G * number of application instances*. You can then determine which org and
+space quotas are assigned (with `cf org` and `cf space`) and view the total memory and instance memory available
+under that quota with `cf org-quota` or `cf space-quota`.
+
+#### <a id="setting-quotas"></a>Setting quotas
+
+When determining the appropriate quotas to define you should consider not just the scaling needs of an individual
+application but the potential scaling needs of other applications in the same space or org (which may also be managed
+by autoscaler).
+
+This can be more difficult to co-ordinate if other teams are making use of the same org or space.
+While you can address this by communicating with other teams to share expectations around resource available,
+it may be more appropriate to create a separate org or space.
+
+Refer to the documentation section [Creating and Modifying Quota Plans](https://docs.pivotal.io/application-service/2-13/adminguide/quota-plans.html)
+to learn how to create and modify quotas.
+
+You can apply quotas to orgs and spaces using the `set-org-quota` and `set-space-quota` commands. Reach out to your
+operator if you don't have permission to set quotas or if you need an existing quota increased.
+
+#### <a id="application-quotas"></a>Setting per-application limits
+
+We recommend for each application considering the individual resource limits for the application and whether they are
+appropriate - are you pushing an application with significantly more RAM or disk than it will choose to use? Reducing
+the per-instance requirements for an application should allow you to scale out to more application instances with the
+same underlying resources.
+
+There is a caveat here though: on TAS your application instance CPU entitlement is linked to memory allocated, so
+reducing the memory available to an application instance also reduces its CPU shares.
+
+### <a id="choosing-a-metric"></a>Choosing a metric to scale on
+
+For each application you then want to consider which metric is most appropriate to use to scale your application.
+Autoscaler supports defining rules for a variety of different types of built-in metrics and can be extended
+through the use of custom metrics.
+
+Initially we recommend that you choose a single built-in metric such as HTTP Latency or RabbitMQ queue depth
+and iterate from there. Avoid defining multiple autoscaling rules for the same application.
+
+**HTTP Latency** - Use this rule type if your application receives HTTP requests directly from the gorouter and you
+  want to scale out the number of application instances as the average latency of the requests increases.
+  A failure mode to consider is whether the scaling of your application might actually increase latency,
+  for example if your additional application instances are contending for the same external resource.
+
+**RabbitMQ Queue Depth** - Use this rule type if your application consumes work from a RabbitMQ queue and you want
+  to scale out the number of application instances to consume work from the queue more quickly.
+
+If your business application comprises multiple TAS applications (some of which may be acting as backend web services)
+then consider if it makes sense to standardize on the metric chosen for scaling across those applications. This
+will have the advantage of making it easier to reason about the scaling behaviour of your system.
+
+#### <a id="c2c-networking"></a>Autoscaler and C2C Networking
+
+Something to be aware of when defining your autoscaling rules is that HTTP Latency and HTTP Throughput are currently
+only supported for applications that receive requests directly via the gorouter.
+
+If your system includes backend HTTP services that are accessed directly from another application
+via Container to Container (C2C) networking then there will not be HTTP events generated by gorouter for
+those requests and autoscaler will be unable to scale on them. Currently for those cases you will need to
+use an alternative built-in metric or expose a custom metric.
+
+### <a id="scaling-factors"></a>Scaling Factors
+
+Autoscaler supports defining scale up and scale down factors to control how quickly it will scale your
+application in each direction. These are defined on the application itself rather than on specific autoscaling
+rules.
+
+Setting a larger scale up factor means that your application will scale up more responsively to a metric.
+For each metric you are scaling on you should ask yourself under what circumstances might scaling on that metric
+be unhelpful. For example could HTTP Latency be due to an unresponsive downstream service or networking issues?
+Could configuring autoscaler to aggressively scale up application instances exacerbate the issue?
+
+It is common to define a scale down factor that is lower than the scale up factor to allow your application
+to scale up faster, and then to return to some earlier baseline number of instances more slowly by stepping
+down in smaller increments.
+
+The following command sets the scaling factors for an example-app that will scale up by 20 instances at a time,
+but scale down by 10 instances at a time:
+
+```
+$ cf update-autoscaling-factors example-app 20 10
+```
+
+### <a id="load-testing"></a>Load Testing
+
+To have confidence that the autoscaling configuration for your application is correct we recommend that you
+perform load testing in order to demonstrate that your application scales as expected when the metric you are
+scaling changes.
+
+It's important to test in as representative an environment as possible so that you can be confident that your
+application will behave as expected when it is pushed to production.
+
+You should have a conversation with the operator running the platform to confirm that they are comfortable with
+the load you will be generating in advance of performing your testing. It's possible for testing to uncover
+bottlenecks in the platform itself so being able to work alongide the folks managing the platform when performing
+your testing is ideal.
+
+#### <a id="generating-load"></a>Generating load
+
+Organizations use a variety of tools for load testing. The method for generating load will vary but
+will be tied to the choice of metric that you have selected to scale on.
+
+You ideally want to ramp up the number of requests / messages in the queue step by step, confirming at each
+step that autoscaler is scaling as expected.
+
+It can be interesting to test an application with higher load than expected to identify constraints but
+it's good to remain focused on whatever your business goal for scaling is.
+
+The `cf autoscaling-events` command will allow you to monitor scaling events as the application is scaled.
+
+#### <a id="autoscaler-calculating-correctly"></a>Confirming that autoscaler sees the correct metric value
+
+For some rule types such as HTTP Throughput you will be able to compare the load that the load testing tool
+tells you is being generated against the calculated value reported by autoscaler to confirm that autoscaler is seeing
+similar numbers. If these diverge (for example if autoscaler reports a lower number of requests/second)
+then this may be an indication that the underlying platform may need to be scaled further and you should engage
+your operations team.
+
+#### <a id="confirm-scaling-out-is-effective"></a>Confirming that adding more application instances has effect
+
+For each scaling step that you are going to test at you want to confirm that:
+
+* the autoscaler has noticed that a metric has crossed the threshold
+* the autoscaler has successfully scaled your application instances
+* the subsequent scaling operation adding more application instances has brought the metric back to below
+  the threshold
+
+If autoscaler is continuing to scale your applications instances without effect that suggests that there is a
+bottleneck elsewhere in the system. You may be able to identify the issue with application monitoring (for example
+a slow external service) or you may need to work with your operations team to identify the issue.
+
+## <a id="operating-autoscaler"></a>Operating Autoscaler
+
+### <a id="dynamic-workload"></a>A more dynamic workload
+
+As an operator you need to be aware that Autoscaler can make the workload of your platform more dynamic than it has
+previously been. Autoscaler allows the number of application instances to be 'right sized' for the workload the
+platform is receiving, but you still need to ensure that the underlying platform is scaled appropriately to cope
+with the requests from autoscaler to provision more application instances.
+
+Autoscaler can make sizing your platform more challenging than a statically-provisioned (often overscaled) environment.
+
+### <a id="diego-cells"></a>Diego Cells
+
+One common operator consideration is whether you have sufficient headroom on your Diego Cells in order to meet the
+autoscaling demands of your applications.
+
+It's good practice to have observability tools (for example Healthwatch for VMware Tanzu or VMware Tanzu Observability
+by Wavefront) configured to give you insight into the resource usage of your Diego Cells and to alert you if you are likely
+to run out of resources.
+
+For memory and disk usage you should keep an eye on both the total available memory/disk and the available free chunks
+to ensure that you have sufficient room available.
+
+### <a id="operator-quotas"></a>Quotas
+
+Quotas are important as your mechanism for ensuring that a poorly configured autoscaling rule or malicious requests
+don't result in autoscaler attempting to scale beyond what your deployed platform is able to cope with. You should
+not attempt to encourage use of autoscaler without ensuring that sensible quotas are in place.
+
+#### <a id="underlying-capacity"></a>Quotas and underlying capacity
+
+A key decision is if you will provision sufficient resource to enable all applications to claim
+their maximum resource quotas simultaneously (and over-provision) or provision less resource with the risk
+that you may not be able to satisfy scaling requests.
+
+A factor here may be your confidence in the ability to provision more Diego Cells from the underlying IaaS on-demand
+in the event that you need to.
+
+#### <a id="identifying-apps-that-have-hit-their-quota"></a>Identifying applications that have hit their quota
+
+It can be useful to identify applications that may be configured for autoscaling, would like to scale further,
+but have hit the limits of their configured quota.
+
+One possibility is that autoscaling is configured correctly for the application and the metric chosen for scaling
+does indicate a need to scale out further but the quota prevented this. In that case it may be appropriate to
+increase the quota available.
+
+Alternatively the thresholds selected for autoscaling may be too low or the metric may be unaffected by scaling
+out application instances in which case it is appropriate to have a conversation with the team responsible for
+the application to look at how the configuration can be improved.
+
+Autoscaler does not emit a metric when unable to scale an application due to quota limits, however you can
+configure the logging for autoscaler so that you can see this event when it occurs.
+
+With operator privileges you can enable verbose logging for autoscaler and restart it to pick up the change:
+
+```
+$ cf target -o system -s autoscaling
+$ cf set-env autoscale LOG_LEVEL info
+$ cf set-env autoscale LOG_VERBOSE true
+$ cf restart autoscale
+```
+
+Note that this will briefly interrupt any work currently being performed by the autoscaler.
+
+You can then review the autoscaler logs to identify applications that are unable to scale due to hitting their quota:
+
+```
+Unable to scale. App instance quota has been reached. for app e74371c1-889c-4eb7-be36-ffbf4ec3de04 in space 7032988a-5f76-4c2d-b25c-bc1e19f44b9a
+```
+
+You can then curl the Cloud Controller API to learn more about the application, space and org and any applicable quotas.
+
+```
+$ cf curl /v3/apps/e74371c1-889c-4eb7-be36-ffbf4ec3de04
+$ cf curl /v3/spaces/7032988a-5f76-4c2d-b25c-bc1e19f44b9a
+```
+
+### <a id="existing-applications"></a>Adding autoscaling to existing applications
+
+It may be helpful if you are adding autoscaling to an existing system to look at previous patterns of demand
+to determine what number of application instances may be needed.
+
+If your overall platform traffic has a natural pattern (for example increased traffic during the local business
+day) then you will probably have a some idea of the peak number of requests and the current staticly
+configured number of application instances necessary to satisfy them.
+
+The minimum number of application instances needed outside of peak hours may be significantly lower and
+this is a potential motivation for adopting autoscaling; lowering your application instance count
+to avoid statically provisioning for your maximum expected traffic.
+
+### <a id="scaling-log-cache"></a>Scaling Log Cache to support Autoscaler
+
+As an operator you also need to be mindful of whether Log Cache is scaled up sufficiently to support
+autoscaler.
+
+Autoscaler relies predominantly on retrieving metric envelopes from Log Cache. You need to ensure that Log Cache
+will hold enough envelopes to allow autoscaler to make a sensible scaling decision.
+
+Typically Autoscaler is configured to look at the last 120 seconds of metrics when making decisions (this is the
+"Metric Collection Interval" configurable under "App Autoscaler" in the TAS configuration.
+
+Log Cache has a default maximum number of envelopes per source id (application) of 100,000. Given that several envelopes are
+generated by the platform for every request, and recent application logs are held in the same bucket it is possible
+for busy applications to have insufficient history present in Log Cache to make scaling decisions.
+
+We recommend using the [Log Cache cf CLI plugin](https://github.com/cloudfoundry/log-cache-cli) and specifically
+the `cf log-meta` command to view the number of envelopes held in Log Cache for an application and the cache duration.
+
+Should you determine that you need to you need to increase the maximum number of envelopes allowed per application
+you can increase this globally for all applications by changing the setting in the TAS configuration under
+"Advanced Features" -> "Maximum number of envelopes stored in Log Cache per source".
+
+Envelopes may also be evicted from the cache if Log Cache experiences memory pressure. You can alleviate this by
+deploying additional Log Cache nodes and/or vertically scaling Log Cache.
+
+Note that if you are scaling your applications based on metrics that are emitted less frequently (such as container metrics)
+they are more likely to be affected by cache eviction than per-request metrics.
