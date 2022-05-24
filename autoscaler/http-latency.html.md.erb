@@ -73,6 +73,9 @@ The above manifest defines a `http_latency` rule made up of three settings:
    autoscaling decision on. For example `avg_95th` will ignore requests that fall outside of the 95th percentile and
    average the remaining 95% of requests.
 
+In general, the value for maximum threshold should be at least twice the value of the minimum threshold to avoid
+excessive cycling.
+
 The manifest also specifies a minimum instance limit of 10 and a maximum instance limit of 100.
 
 You can then apply the autoscaler manifest for the example-app with the following command:
@@ -128,6 +131,9 @@ Apart from the application name you need to specify three settings:
    example `avg_95th` will ignore requests that fall outside of the 95th percentile and average the remaining 95% of
    requests.
 
+In general, the value for maximum threshold should be at least twice the value of the minimum threshold to avoid
+excessive cycling.
+
 We recommend that you perform load testing of your application in order to validate that your configured rules are
 correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
 
@@ -154,6 +160,9 @@ this number then autoscaler will scale your application up.
 on. For example choosing 95% will ignore requests that fall outside of the 95th percentile and average the remaining 95%
 of requests.
 1. Click **Save**.
+
+In general, the value for maximum threshold should be at least twice the value of the minimum threshold to avoid
+excessive cycling.
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
 correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
