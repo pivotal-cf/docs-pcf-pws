@@ -107,6 +107,8 @@ $ cf create-service app-autoscaler standard autoscaler
 $ cf bind-service example-app autoscaler
 ```
 
+You can skip the `cf create-service` command if you already have an instance of the autoscaler in that space.
+
 You can then update the autoscaling limits and enable autoscaling for the app. Here we have specified
 a minimum instance limit of 10 and a maximum instance limit of 100.
 
