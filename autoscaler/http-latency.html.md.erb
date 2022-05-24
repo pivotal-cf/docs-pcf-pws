@@ -1,0 +1,231 @@
+---
+title: Scaling on HTTP Latency
+owner: Autoscaler
+---
+
+## <a id="what-is-http-latency"></a> What is HTTP Latency?
+
+When a HTTP request is made to an application hosted on Tanzu Application Service the
+[gorouter](https://docs.pivotal.io/application-service/2-13/concepts/cf-routing-architecture.html) generates a number of
+metrics. One of these is a timer recording the time taken to handle the request including the time taken by the backend
+application to respond.
+
+## <a id="why-use-http-latency"></a> When should you scale on HTTP Latency?
+
+Let's say that you have a Service Level Agreement (SLA) that 95% of your application requests for a given application
+should be handled in less than 300ms.
+
+To help achieve this you can add an autoscaling rule to scale out additional application instances when the latency
+hits 250ms. This assumes that adding application instances will lower the HTTP Latency before your business goal is
+impacted.
+
+There are a number of caveats to scaling on HTTP Latency that are documented in the Caveats section elsewhere in this
+topic.
+
+## <a id="examples"></a> Examples
+
+### <a id="cf-cli-examples"></a> Configuring autoscaler with the cf CLI
+
+This documentation makes use of autoscaler-specific commands provided by the Autoscaler CLI plugin.
+
+To use these commands you will need to download and install the CLI plugin,
+which is [available on Tanzu
+Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
+
+You can choose to configure autoscaler declaratively with a manifest file, or with individual commands.
+
+#### <a id="cf-cli-manifest-example"></a> With a manifest file
+
+To declaratively specify the autoscaler configuration you can create an autoscaler manifest file. This is a separate file
+to any existing application manifest file, just for autoscaler.
+
+First, create an instance of the autoscaler service and bind it to the application you want to scale:
+
+```
+$ cf create-service app-autoscaler standard autoscaler
+$ cf bind-service example-app autoscaler
+```
+
+You can skip the `cf create-service` command if you already have an instance of the autoscaler in that space.
+
+Now create the autoscaler manifest file:
+
+```yaml
+---
+instance_limits:
+  min: 10
+  max: 100
+rules:
+- rule_type: http_latency
+  rule_sub_type: avg_95th
+  threshold:
+    min: 125
+    max: 250
+scheduled_limit_changes: []
+```
+
+The above manifest defines a `http_latency` rule made up of three settings:
+
+1. The minimum threshold in milliseconds (`min` in the manifest). If the average request latency drops below this number
+   then autoscaler will scale your application down. In the example the minimum threshold is set to 125 milliseconds.
+1. The maximum threshold in milliseconds (`max` in the manifest). If the average request latency goes above this number
+   then autoscaler will scale your application up. In the example the maximum threshold is set to 250 milliseconds.
+1. The percentile (`rule_sub_type` in the manifest). Either `avg_95th` or `avg_99th`. This is the percentile to base the
+   autoscaling decision on. For example `avg_95th` will ignore requests that fall outside of the 95th percentile and
+   average the remaining 95% of requests.
+
+The manifest also specifies a minimum instance limit of 10 and a maximum instance limit of 100.
+
+You can then apply the autoscaler manifest for the example-app with the following command:
+
+```
+$ cf configure-autoscaling example-app autoscaler-manifest.yml
+```
+
+We recommend that you perform load testing of your application in order to validate that your configured rules are
+correct. Refer to the "Productionizing Autoscaler" topic for more information.
+
+When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
+
+For example:
+
+```
+$ cf autoscaling-events example-app
+
+Time                   Description
+2022-05-23T21:47:45Z   Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
+```
+
+#### <a id="cf-cli-individual-commands-example"></a> Without a manifest file
+
+First, create an instance of the autoscaler service and bind it to the application you want to scale:
+
+```
+$ cf create-service app-autoscaler standard autoscaler
+$ cf bind-service example-app autoscaler
+```
+
+You can then update the autoscaling limits and enable autoscaling for the app. Here we have specified
+a minimum instance limit of 10 and a maximum instance limit of 100.
+
+```
+$ cf update-autoscaling-limits example-app 10 100
+$ cf enable-autoscaling example-app
+```
+
+Now you can add a `http_latency` rule:
+
+```
+$ cf create-autoscaling-rule example-app http_latency 125 250 --subtype avg_95th
+```
+
+Apart from the application name you need to specify three settings:
+
+1. The minimum threshold in milliseconds. If the average request latency drops below this number then autoscaler will
+   scale your application down. In the example the minimum threshold is set to 125 milliseconds.
+1. The maximum threshold in milliseconds. If the average request latency goes above this number then autoscaler will
+   scale your application up. In the example the maximum threshold is set to 250 milliseconds.
+1. The percentile (either `avg_95th` or `avg_99th`). This is the percentile to base the autoscaling decision on. For
+   example `avg_95th` will ignore requests that fall outside of the 95th percentile and average the remaining 95% of
+   requests.
+
+We recommend that you perform load testing of your application in order to validate that your configured rules are
+correct. Refer to the "Productionizing Autoscaler" topic for more information.
+
+When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
+
+For example:
+
+```
+$ cf autoscaling-events example-app
+
+Time                   Description
+2022-05-23T21:47:45Z   Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
+```
+
+### <a id="apps-manager-example"></a> Configuring autoscaler with Apps Manager
+
+1. Within Apps Manager navigate to the **Manage Autoscaling** -> **Edit Scaling Rules** dialog and select **Add Rule**.
+1. Select **Rule Type** HTTP Latency.
+1. For **Scale down if less than** enter the minimum threshold in milliseconds. If the average request latency drops below
+this number then autoscaler will scale your application down.
+1. For **Scale up if more than** enter the maximum threshold in milliseconds. If the average request latency goes above
+this number then autoscaler will scale your application up.
+1. For **Percent of traffic to apply** select either 95% or 99%. This is the percentile to base the autoscaling decision
+on. For example choosing 95% will ignore requests that fall outside of the 95th percentile and average the remaining 95%
+of requests.
+1. Click **Save**.
+
+We recommend that you perform load testing of your application in order to validate that your configured rules are
+correct. Refer to the "Productionizing Autoscaler" topic for more information.
+
+When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
+This is visible in Apps Manager in the Event History under **Manage Autoscaling**.
+
+> Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
+
+For more information refer to [Configure Autoscaling for an
+App](https://docs.pivotal.io/application-service/2-13/appsman-services/autoscaler/using-autoscaler.html#config)
+within the Apps Manager documentation.
+
+## <a id="caveats"></a> Caveats
+
+HTTP Latency is a useful metric to scale on, but there are a number of caveats around its use that you should consider.
+
+### <a id="caveat-multiple-endpoints"></a> Multiple endpoints with different latency characteristics
+
+You might have an application that exposes multiple endpoints, one of which is particularly slow. In this instance HTTP
+Latency may not be a good fit because the calculated latency will be an average of the latency across all the
+application endpoints.
+
+For example a large number of requests to a fast endpoint on the application will drag down the average HTTP Latency and
+may prevent the application from scaling up.
+
+### <a id="caveat-downstream-services"></a> Downstream services
+
+If your application makes use of downstream services then scaling out the number of application instances may have no
+effect on the latency without addressing other scaling bottlenecks.
+
+Latency can be more a factor of downstream dependencies (for example other microservices) than it is of the current
+application. If you have a slow downstream dependency this can increase the latency of your application as well. Scaling
+out your application will not help with performance as the downstream dependency is what really needs to be scaled up or
+improved.
+
+Latency added by other external factors like network congestion or database performance can also cause issues with HTTP
+Latency based scaling. Increased latency from these factors will not be improved by scaling out application instances.
+
+Note that adding additional application instances through scaling when the constraint is not the application could result in
+HTTP Latency *increasing* as the application instances may increase the load on the external service.
+
+### <a id="caveat-c2c-networking"></a> Container to Container (C2C) Networking
+
+Scaling on HTTP Latency is currently only supported for applications that receive requests directly via the gorouter.
+
+If your system includes backend HTTP services that are accessed directly from another application via Container to
+Container (C2C) networking then there will not be HTTP events generated by gorouter for those requests and autoscaler
+will be unable to scale on them. Currently for those cases you will need to use an alternative built-in metric or expose
+a custom metric.
+
+### <a id="caveat-log-cache-eviction"></a> High-traffic applications
+
+Autoscaler retrieves the HTTP metrics from Log Cache which has a default limit of 100,000 envelopes per application.
+
+If you are attempting to scale an application that receives a large number of HTTP requests (or has very verbose logging)
+it is possible for Autoscaler to only have access to a subset of the generated timer envelopes for the period, biasing
+the calculated HTTP Latency.
+
+In most cases the calculated latency should still approximate the request latency but this is a source of bias you
+should be aware of.
+
+Refer to the "Productionizing Autoscaler" topic for more information.
+
+### <a id="caveat-infrequent-access"></a> Infrequently accessed applications
+
+If your application is infrequently accessed and the latency for that response is high then it is possible for
+autoscaler to continue to scale up the application as there are no other HTTP Latency metrics available that would
+restore the average.
+
+In this case the scaling up should complete once the original request has fallen outside of the metric collection
+interval. Refer to the [About App
+Autoscaler](https://docs.pivotal.io/application-service/2-13/appsman-services/autoscaler/about-app-autoscaler.html#about-scaling-decisions)
+topic for more information about the metric collection interval.
