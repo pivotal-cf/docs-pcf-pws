@@ -19,8 +19,7 @@ To help achieve this you can add an autoscaling rule to scale out additional app
 hits 250ms. This assumes that adding application instances will lower the HTTP Latency before your business goal is
 impacted.
 
-There are a number of caveats to scaling on HTTP Latency that are documented in the Caveats section elsewhere in this
-topic.
+There are a number of caveats to scaling on HTTP Latency that are documented in the [Caveats section](#caveats).
 
 ## <a id="examples"></a> Examples
 
@@ -83,7 +82,7 @@ $ cf configure-autoscaling example-app autoscaler-manifest.yml
 ```
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the "Productionizing Autoscaler" topic for more information.
+correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
 
@@ -130,7 +129,7 @@ Apart from the application name you need to specify three settings:
    requests.
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the "Productionizing Autoscaler" topic for more information.
+correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
 
@@ -157,7 +156,7 @@ of requests.
 1. Click **Save**.
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the "Productionizing Autoscaler" topic for more information.
+correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
 This is visible in Apps Manager in the Event History under **Manage Autoscaling**.
@@ -217,7 +216,7 @@ the calculated HTTP Latency.
 In most cases the calculated latency should still approximate the request latency but this is a source of bias you
 should be aware of.
 
-Refer to the "Productionizing Autoscaler" topic for more information.
+Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
 
 ### <a id="caveat-infrequent-access"></a> Infrequently accessed applications
 
