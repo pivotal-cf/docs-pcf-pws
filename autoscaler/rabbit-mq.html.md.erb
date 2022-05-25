@@ -1,0 +1,205 @@
+---
+title: Scaling on RabbitMQ Queue Depth
+owner: Autoscaler
+---
+
+## <a id="what-is-queue-depth"></a> What is RabbitMQ Queue Depth?
+
+RabbitMQ is a popular choice of message broker to enable applications to communicate via message queues.
+
+Queue depth is the number of messages currently in the queue waiting to be dequeued.
+
+## <a id="why-use-queue-depth"></a> When should you scale on RabbitMQ Queue Depth?
+
+You should scale on RabbitMQ queue depth when you have an application (worker) that consumes messages from a queue for
+processing and additional worker application instances would allow the queue to be processed more quickly.
+
+There are a number of caveats to scaling on RabbitMQ queue depth that are documented in the [Caveats section](#caveats).
+
+## <a id="examples"></a> Examples
+
+### <a id="cf-cli-examples"></a> Configuring autoscaler with the cf CLI
+
+This documentation makes use of autoscaler-specific commands provided by the Autoscaler CLI plugin.
+
+To use these commands you will need to download and install the CLI plugin,
+which is [available on Tanzu
+Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
+
+You can choose to configure autoscaler declaratively with a manifest file, or with individual commands.
+
+#### <a id="cf-cli-manifest-example"></a> With a manifest file
+
+To declaratively specify the autoscaler configuration you can create an autoscaler manifest file. This is a separate file
+to any existing application manifest file, just for autoscaler.
+
+First, create an instance of the autoscaler service and bind it to the application you want to scale:
+
+```
+$ cf create-service app-autoscaler standard autoscaler
+$ cf bind-service example-app autoscaler
+```
+
+You can skip the `cf create-service` command if you already have an instance of the autoscaler in that space.
+
+Now create the autoscaler manifest file:
+
+```yaml
+---
+instance_limits:
+  min: 10
+  max: 100
+rules:
+- rule_type: rabbitmq
+  rule_sub_type: your_queue_name
+  threshold:
+    min: 10
+    max: 50
+scheduled_limit_changes: []
+```
+
+The above manifest defines a `rabbitmq` rule made up of three settings:
+
+1. The minimum queue depth threshold (threshold `min` in the manifest). If the average queue depth drops below this number
+   of messages then autoscaler will scale your application down. In the example the minimum threshold is set to 10 messages.
+1. The maximum queue depth threshold (threshold `max` in the manifest). If the average queue depth goes above this number
+   then autoscaler will scale your application up. In the example the maximum threshold is set to 50 messages.
+1. The queue name (`rule_sub_type` in the manifest) refers to the monitored queue. The queue must be on a RabbitMQ service
+   instance that is bound to the application.
+
+The manifest also specifies a minimum instance limit of 10 and a maximum instance limit of 100.
+
+You can then apply the autoscaler manifest for the example-app with the following command:
+
+```
+$ cf configure-autoscaling example-app autoscaler-manifest.yml
+```
+
+We recommend that you perform load testing of your application in order to validate that your configured rules are
+correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+
+When scaling Autoscaler will record in the scaling event the average queue depth it observed that caused the scaling decision.
+
+For example:
+
+```
+$ cf autoscaling-events example-app
+
+Time                   Description
+2022-05-24T20:47:34Z   Scaled up from 10 to 11 instances. The RabbitMQ message depth in your_queue_name is currently at an average of 50.35, which is above the maximum threshold of 50.00.
+```
+
+#### <a id="cf-cli-individual-commands-example"></a> Without a manifest file
+
+First, create an instance of the autoscaler service and bind it to the application you want to scale:
+
+```
+$ cf create-service app-autoscaler standard autoscaler
+$ cf bind-service example-app autoscaler
+```
+
+You can skip the `cf create-service` command if you already have an instance of the autoscaler in that space.
+
+You can then update the autoscaling limits and enable autoscaling for the app. Here we have specified
+a minimum instance limit of 10 and a maximum instance limit of 100.
+
+```
+$ cf update-autoscaling-limits example-app 10 100
+$ cf enable-autoscaling example-app
+```
+
+Now you can add a `rabbitmq` rule:
+
+```
+$ cf create-autoscaling-rule example-app rabbitmq 10 50 --subtype your_queue_name
+```
+
+Apart from the application name you need to specify three settings:
+
+1. The minimum queue depth threshold. If the average queue depth drops below this number of messages then autoscaler
+   will scale your application down. In the example the minimum threshold is set to 10 messages.
+1. The maximum queue depth threshold. If the average queue depth goes above this number then autoscaler will scale your
+   application up. In the example the maximum threshold is set to 50 messages.
+1. The queue name (provided via the `--subtype` flag) refers to the monitored queue. The queue must be on a RabbitMQ
+   service instance that is bound to the application.
+
+We recommend that you perform load testing of your application in order to validate that your configured rules are
+correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+
+When scaling Autoscaler will record in the scaling event the average queue depth it observed that caused the scaling decision.
+
+For example:
+
+```
+$ cf autoscaling-events example-app
+
+Time                   Description
+2022-05-24T20:47:34Z   Scaled up from 10 to 11 instances. The RabbitMQ message depth in your_queue_name is currently at an average of 50.35, which is above the maximum threshold of 50.00.
+```
+
+### <a id="apps-manager-example"></a> Configuring autoscaler with Apps Manager
+
+1. Within Apps Manager navigate to the **Manage Autoscaling** -> **Edit Scaling Rules** dialog and select **Add Rule**.
+1. Select **Rule Type** RabbitMQ.
+1. For **Scale down if less than** enter the minimum queue depth threshold. If the average queue depth drops below
+   this number then autoscaler will scale your application down.
+1. For **Scale up if more than** enter the maximum queue depth threshold. If the average queue depth goes above
+   this number then autoscaler will scale your application up.
+1. For **Queue name** enter the name of the queue to be monitored.
+1. Click **Save**.
+
+We recommend that you perform load testing of your application in order to validate that your configured rules are
+correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+
+When scaling Autoscaler will record in the scaling event the average queue depth it observed that caused the scaling decision.
+This is visible in Apps Manager in the Event History under **Manage Autoscaling**.
+
+> Scaled up from 10 to 11 instances. The RabbitMQ message depth in your_queue_name is currently at an average of 50.35, which is above the maximum threshold of 50.00.
+
+For more information refer to [Configure Autoscaling for an
+App](https://docs.pivotal.io/application-service/2-13/appsman-services/autoscaler/using-autoscaler.html#config)
+within the Apps Manager documentation.
+
+### <a id="user-provided-service-example"></a> Scaling when using a user-provided service
+
+You may want to scale on the queue depth of a queue hosted on an external RabbitMQ cluster. You can do this by creating
+a user provided service that represents the external RabbitMQ cluster.
+
+Autoscaler uses the RabbitMQ HTTP Management API to determine the queue depth of your configured queues, so you need to
+ensure that the [RabbitMQ management plugin](https://www.rabbitmq.com/management.html) is enabled on your RabbitMQ
+cluster.
+
+```
+$ cf create-user-provided-service <SERVICE_NAME> \
+  -p '{"uri":"amqp://<USERNAME>:<PASSWORD>@<RABBIT_MQ_FQDN>","http_api_uri":"http://<username>:<password>@<rabbit-mq-FQDN>:15672/api/","vhost":"<VHOST>"}' \
+  -t rabbitmq
+```
+
+* The `rabbitmq` tag must be set so that autoscaler knows this is a RabbitMQ service instance.
+* The credentials must include the `http_api_uri` field. These credentials are used by Autoscaler to talk to the
+  RabbitMQ HTTP Management API to determine the queue depth.
+* The credentials should include the `vhost` field. If this field is not present then Autoscaler will request the queue
+  metadata for all queues on the RabbitMQ cluster which is a very expensive operation.
+
+You can then bind the user-provided service to your application and setup autoscaling as described elsewhere in this
+topic.
+
+Note that your applications may expect additional fields to be available. See the [RabbitMQ for VMs
+documentation](https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html) for an
+example of the `VCAP_SERVICES` credentials normally provided on a RabbitMQ service binding.
+
+## <a id="caveats"></a> Caveats
+
+RabbitMQ queue depth is a useful metric to scale on, but there are a number of caveats around its use that you should
+consider.
+
+### <a id="caveat-secure-instance-credentials"></a> Autoscaler cannot scale on secure instance credentials
+
+Autoscaler does not currently support scaling on RabbitMQ queue depth when the service instance credentials are held in
+Runtime CredHub. Refer to the FAQ entry [Autoscaler does not support Runtime CredHub](faq.html#rabbitmq-runtime-credhub)
+for more information.
+
+### <a id="caveat-multiple-service-instances"></a> Autoscaler will query multiple service instances
+
+Currently if an application is bound to more than one RabbitMQ service instance, Autoscaler will query all bound
+RabbitMQ service instances for the named queue.
