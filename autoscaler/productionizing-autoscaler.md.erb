@@ -250,14 +250,11 @@ the application to look at how the configuration can be improved.
 Autoscaler does not emit a metric when unable to scale an application due to quota limits, however you can
 configure the logging for autoscaler so that you can see this event when it occurs.
 
-With operator privileges you can enable verbose logging for autoscaler and restart it to pick up the change:
+As an operator you can enable verbose logging in the configuration for Tanzu Application Service within Ops Manager.
 
-```
-$ cf target -o system -s autoscaling
-$ cf set-env autoscale LOG_LEVEL info
-$ cf set-env autoscale LOG_VERBOSE true
-$ cf restart autoscale
-```
+* Select **App Autoscaler** and then check the **Enable verbose logging** checkbox.
+* You will then need to save and apply your changes. Ensure that the **App Autoscaler Errand** is selected so that the
+  change has effect.
 
 Note that this will briefly interrupt any work currently being performed by the autoscaler.
 
