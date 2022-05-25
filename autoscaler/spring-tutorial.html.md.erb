@@ -183,8 +183,17 @@ To register a custom metrics endpoint for the app:
    Run the command below and replace `APP-NAME` with the name of your app.
 
 	```
-	cf register-metrics-endpoint APP-NAME /actuator/prometheus
+	cf register-metrics-endpoint APP-NAME /actuator/prometheus --insecure
 	```
+
+   <p class="warning note">
+     <strong>Warning</strong>:
+     The `--insecure` flag means that the metrics endpoint will be exposed and scraped on the default application port.
+     Exposing metrics on the default application port can make the metrics available to anyone who can access the
+     application. You should avoid use of this flag in a production setting and instead expose the metrics endpoint on an
+     alternative port in order to limit access to it. You can specify the alternative port with the `--internal-port`
+     flag.
+   </p>
 
 1. Install the Log Cache CLI.
    Log Cache is a feature in <%= vars.app_runtime_abbr %> that lets you filter and query app logs.
@@ -201,6 +210,8 @@ To register a custom metrics endpoint for the app:
 	``` 
 
 	The output looks similar to the following example. The `custom` metric displays in the output.
+
+	Note that you will need to click the **Increment Custom gauge** button at least once in order to have the `custom` metric emitted.
 
 	<pre class="terminal">
 	Retrieving logs for app tutorial-example in org sandbox / space development as example@user...
@@ -219,11 +230,11 @@ To create an autoscaling rule for the app and custom metric:
 
 1. Navigate to the app in Apps Manager. 
 
-1. Click **Enable Autoscaling**. 
+1. Click **Autoscaling Disabled**.
 	
-	<img src="images/enable-autoscaling.png" alt="The app page for an app named java-metric-registrar-demo shows the Enable Autoscaling button being clicked." width="600px">
+	<img src="images/enable-autoscaling.png" alt="The app page for an app named java-metric-registrar-demo shows the Autoscaling Disabled button being clicked." width="600px">
 
-1. Click **Manage Autoscaling**. 
+1. Click **Enable Autoscaling**.
 
 1. Modify the **Instance Limits**.<br>App Autoscaler keeps instance counts within a range defined by minimum and maximum values, or _instance limits_.
 	1. For **Minimum**, enter `1`. 
