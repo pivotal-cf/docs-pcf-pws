@@ -11,12 +11,13 @@ to scale your applications in a production environment.
 The first step is often to think about the goal that you are trying to meet; for example
 it might be that your system should be capable of processing up to N business transactions per second.
 
-In the case of a web application each of those business transactions may be made up of multiple HTTP
-requests to a frontend service, potentially with calls to other backend services
-(also applications deployed to Tanzu Application Service) on the platform.
+In the case of a web application each of those business transactions may be made up of multiple HTTP requests to a
+frontend service on the platform, potentially with calls to other backend services (also applications deployed to Tanzu
+Application Service).
 
-With knowledge of the applications you can then extrapolate from your goal to determine the
-expected number of HTTP requests or enqueued messages to be generated per application.
+With knowledge of your system you can then extrapolate a desired number of application instances for each application in
+the system, based on the number of HTTP requests or enqueued messages (or some other metric). That information can then
+be translated into concrete scaling rules with Autoscaler.
 
 ## <a id="application-teams"></a>Application teams and Autoscaler
 
