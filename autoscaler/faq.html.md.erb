@@ -56,7 +56,7 @@ under that quota with `cf org-quota` or `cf space-quota`.
 You can also try manually scaling the application to see if you encounter a quota-related error.
 
 Operators can also enable verbose logging for Autoscaler which will log if a scaling failure is due to a quota limit.
-See the "Productionizing Autoscaler" topic for more information.
+See the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
 
 #### <a id="autoscaling-disabled"></a> Autoscaling is disabled
 
@@ -85,7 +85,8 @@ typically because Log Cache is underscaled.
 
 You can see this in the output of `cf autoscaling-events` for your application, where scaling events will record the
 value of the metric being scaled on. If the value is lower than the actual load being placed on the system then this may
-be due to Log Cache evicting cache entries. Refer to the "Productionizing Autoscaler" topic for more information.
+be due to Log Cache evicting cache entries. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html)
+topic for more information.
 
 ### <a id="scale-to-zero"></a> Can I scale an application up from zero instances (scale to zero) with Autoscaler?
 
