@@ -3,9 +3,9 @@ title: Observability and Failure Modes
 owner: Autoscaler
 ---
 
-## Observability
+## <a id="observability"></a> Observability
 
-### Enabling debug log metrics
+### <a id="enabling-debug-log-metrics"></a> Enabling debug log metrics
 
 Autoscaler logs a number of useful operator metrics when the logging level is set to `debug`. As an operator you can
 choose to enable autoscaler debug logging by running the following commands:
@@ -20,7 +20,7 @@ Note that this will briefly interrupt any work currently being performed by the 
 
 These metrics appear as log lines and are not currently emitted to Loggregator.
 
-### Confirming that autoscaling is taking place
+### <a id="confirming-autoscaling"></a> Confirming that autoscaling is taking place
 
 If you have enabled autoscaler debug logging then autoscaler will log the following metrics:
 
@@ -39,7 +39,7 @@ can also overlay the number of Running App Instances with other metrics that dev
 [Latency recorded by the
 gorouter](https://docs.pivotal.io/application-service/2-13/operating/monitoring/kpi.html#latency).
 
-### Tracking adoption of Autoscaler
+### <a id="tracking-adoption"></a> Tracking adoption of Autoscaler
 
 If you have enabled autoscaler debug logging then autoscaler will log the metric `autoscale.enabled_bindings` which
 is a count of the number of enabled autoscaler service bindings. This metric appears as log lines and is not currently
@@ -49,7 +49,7 @@ You can also query the [Cloud Controller API /v3/service_instances
 endpoint](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-instances) filtering by service
 plans associated with the autoscaler.
 
-## Failure Modes
+## <a id="failure-modes"></a> Failure Modes
 
 Rather than provisioning application instances for the peak load that may be experienced, autoscaler enables you to
 provision only the application instances that are necessary based on metrics and your defined autoscaling rules.
@@ -67,7 +67,7 @@ Here we document some potential failure modes for Autoscaler by component, this 
 * Example messages that will appear in the output of `cf autoscaling-events`
 * Sample errors in the autoscaler log output
 
-### Log Cache
+### <a id="log-cache"></a> Log Cache
 
 Log Cache is a key dependency of Autoscaler as it is where the majority of metrics used for making scaling decisions are
 retrieved from.
@@ -75,14 +75,14 @@ retrieved from.
 Issues with Log Cache or failure to scale Log Cache sufficiently can result in Autoscaler being unable to retrieve
 metrics and therefore unable to make scaling decisions.
 
-#### Debug log metrics
+#### <a id="log-cache-debug-log-metrics"></a> Debug log metrics
 
 Autoscaler logs the following metrics as log lines (they are not currently emitted as metrics to loggregator):
 
 - `autoscale.logcache.read_errors` - Errors encountered reading from Log Cache
 - `autoscale.logcache_metric_fetch_duration` - The time taken to fetch metrics from Log Cache
 
-#### Failure Mode: Log Cache Gateway is unavailable
+#### <a id="log-cache-gateway-unavailable"></a> Failure Mode: Log Cache Gateway is unavailable
 
 Sample application scaling event:
 
@@ -96,7 +96,7 @@ Sample autoscale application logs:
 [APP/PROC/WEB/2] OUT logcache walker: unexpected status code 502
 ```
 
-#### Failure Mode: Failure of an individual Log Cache node
+#### <a id="log-cache-node-failure"></a> Failure Mode: Failure of an individual Log Cache node
 
 Log Cache holds the log and metric envelopes for an application on a single Log Cache node. This means that the failure
 of a given node can mean that envelopes for an application cannot be retrieved, preventing scaling.
@@ -113,7 +113,7 @@ Sample autoscale application logs:
 [APP/PROC/WEB/1] OUT logcache walker: unexpected status code 503
 ```
 
-#### Failure Mode: Unresponsive Log Cache nodes
+#### <a id="log-cache-node-unresponsive"></a> Failure Mode: Unresponsive Log Cache nodes
 
 Sample application scaling event:
 
@@ -127,7 +127,7 @@ Sample autoscale application logs:
 [APP/PROC/WEB/2] OUT logcache walker: Get "https://log-cache.sys.example.com/api/v1/read/85a6aff3-c739-4364-8df3-44f1aa50662b": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
 ```
 
-### Cloud Controller
+### <a id="cloud-controller"></a> Cloud Controller
 
 Autoscaler depends on Cloud Controller to determine the current number of application instances for an application, and
 to actually perform the scaling operation. It also uses Cloud Controller to retrieve the service binding information for
@@ -135,7 +135,7 @@ RabbitMQ queues.
 
 Log Cache also has a dependency on the Cloud Controller for authorization.
 
-#### Debug log metrics
+#### <a id="cloud-controller-debug-log-metrics"></a> Debug log metrics
 
 Autoscaler logs the following metrics as log lines (they are not currently emitted as metrics to loggregator):
 
@@ -143,7 +143,7 @@ Autoscaler logs the following metrics as log lines (they are not currently emitt
 - `autoscale.cloud_controller.request_errors` - The number of requests to Cloud Controller that have errored
 - `autoscale.cloud_controller.scale_errors` - The count of requests to scale an application that have errored
 
-#### Failure Mode: Cloud Controller API is stopped
+#### <a id="cloud-controller-api-stopped"></a> Failure Mode: Cloud Controller API is stopped
 
 Sample application scaling event, this is a generic error that may just indicate an application has hit its quota:
 
@@ -157,7 +157,7 @@ Sample autoscale application log:
 [APP/PROC/WEB/0] OUT level=error msg="[Cloud Controller - app summary] CloudController - route not found"`
 ```
 
-#### Failure Mode: Unresponsive Cloud Controller
+#### <a id="cloud-controller-unresponsive"></a> Failure Mode: Unresponsive Cloud Controller
 
 Sample application scaling event, this is a generic error that may just indicate an application has hit its quota:
 
@@ -172,7 +172,7 @@ Sample autoscale application log:
 [APP/PROC/WEB/1] OUT level=error msg="[Cloud Controller - app summary] CloudController - Failure"
 ```
 
-### MySQL
+### <a id="mysql"></a> MySQL
 
 Autoscaler persists information about the service bindings and configured autoscaling rules in a MySQL database.
 
@@ -187,12 +187,12 @@ Sample autoscale application log:
 [APP/PROC/WEB/2] ERR [mysql] packets.go:37: unexpected EOF
 ```
 
-### Diego Cells
+### <a id="diego-cells"></a> Diego Cells
 
 Autoscaler runs as an application pushed to the platform. This means that if the Diego Cells that host autoscaler were
 all to fail then autoscaling would not be performed.
 
-## Scaling autoscaler
+## <a id="scaling-autoscaler"></a> Scaling autoscaler
 
 By default there are 3 instances of the autoscaler application `autoscale` that perform the autoscaling. Each works
 independently to try to claim a set of applications that may need to be scaled and process them.
