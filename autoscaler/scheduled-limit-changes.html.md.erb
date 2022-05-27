@@ -121,7 +121,8 @@ Apart from the application name you need to specify the following things:
    instances is more than this maximum limit then the application will be scaled down to this limit.
 
 You can also specify an optional `--recurrence` flag to specify the days of the week that the
-scheduled limit changes should be re-applied.
+scheduled limit changes should be re-applied. Days are specified as two letter abbreviations (for
+example `Th` for Thursday). A day specified with an alternative syntax may be ignored.
 
 We recommend that you perform load testing of your application in order to validate that your
 configured scheduled limit changes are correct. Refer to the [Productionizing
