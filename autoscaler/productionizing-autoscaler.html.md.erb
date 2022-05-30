@@ -9,7 +9,7 @@ to scale your applications in a production environment.
 ## <a id="scaling-goal"></a>Working Back from your Scaling Goal
 
 The first step is often to think about the goal that you are trying to meet.
-For example, it might be that your system "must be capable of processing up to `N` business transactions per second.""
+For example, it might be that your system `"must be capable of processing up to N business transactions per second."`
 
 In the case of a web application, each of those business transactions might be made up of multiple HTTP requests to a
 frontend service on the platform.
@@ -30,7 +30,7 @@ These numbers can initially be placeholders but you refine these numbers as you 
 and have increasing confidence in your understanding of how the overall application performs.
 
 In this example, Autoscaler sets the autoscaling limits on the `example-app`, setting the lower bound
-(minimum application instances) to 20 and the upper bound (maximum application instances) to 100.
+(minimum application instances) to `20` and the upper bound (maximum application instances) to `100`.
 
 ```
 $ cf update-autoscaling-limits example-app 20 100
@@ -68,7 +68,7 @@ the resources in use by your application and the quota that is applicable to the
 within.
 
 For example, you might have your application configured with a memory limit of 1G per application instance.
-The effective memory use is *1G * number of application instances*.
+The effective memory use is `1G * number of application instances`.
 You can then discover which org and space quotas are assigned (with `cf org` and `cf space`) and view the
 total memory and instance memory available under that quota with `cf org-quota` or `cf space-quota`.
 
@@ -91,7 +91,8 @@ Reach out to your operator if you don't have permission to set quotas or if you 
 #### <a id="application-quotas"></a>Setting Per-Application Limits
 
 VMware recommends considering the individual resource limits for each application and whether they are
-appropriate - are you pushing an application with significantly more RAM or disk than it will use?
+appropriate.
+Are you pushing an application with significantly more RAM or disk than it will use?
 Reducing the per-instance requirements for an application should allow you to scale out to more application
 instances with the same underlying resources.
 
@@ -145,8 +146,8 @@ It is common to define a scale down factor that is lower than the scale up facto
 This allows your application to scale up faster, and then to return to an earlier baseline number of instances
 more slowly by stepping down in smaller increments.
 
-The following command sets the scaling factors for an example-app that will scale up by 20 instances at a time,
-but scale down by 10 instances at a time:
+The following command sets the scaling factors for an example-app that will scale up by `20` instances at a time,
+but scale down by `10` instances at a time:
 
 ```
 $ cf update-autoscaling-factors example-app 20 10
@@ -330,6 +331,4 @@ You can do this by changing the setting in the TAS configuration under **Advance
 Envelopes might also be evicted from the cache if Log Cache experiences memory pressure.
 You can alleviate this by deploying additional Log Cache nodes or vertically scaling Log Cache.
 
-	<p class="note"><strong>Note: </strong> If you are scaling your applications based on metrics that are
-  emitted less frequently, such as container metrics, they are more likely to be affected by cache removal
-  than the per-request metrics.</p>
+	<p class="note"><strong>Note: </strong> If you are scaling your applications based on metrics that are emitted less frequently, such as container metrics, they are more likely to be affected by cache removal than the per-request metrics.</p>
