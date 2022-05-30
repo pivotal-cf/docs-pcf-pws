@@ -1,0 +1,208 @@
+---
+title: Observability and Failure Modes
+owner: Autoscaler
+---
+
+## <a id="observability"></a> Observability
+
+### <a id="enabling-debug-log-metrics"></a> Enabling debug log metrics
+
+Autoscaler logs a number of useful operator metrics when the logging level is set to `debug`. As an operator you can
+choose to enable autoscaler debug logging by running the following commands:
+
+```
+$ cf target -o system -s autoscaling
+$ cf set-env autoscale LOG_LEVEL debug
+$ cf restart autoscale
+```
+
+Note that this will briefly interrupt any work currently being performed by the autoscaler.
+
+These metrics appear as log lines and are not currently emitted to Loggregator.
+
+### <a id="confirming-autoscaling"></a> Confirming that autoscaling is taking place
+
+If you have enabled autoscaler debug logging then autoscaler will log the following metrics:
+
+- `autoscale.scale_up` - Number of times the autoscaler instance has scaled up an application
+- `autoscale.scale_down` - Number of times the autoscaler instance has scaled down an application
+
+These metrics appear as log lines and are not currently emitted to Loggregator.
+
+Additionally you can review the overall number of [Running App Instances
+reported by
+Diego](https://docs.pivotal.io/application-service/2-13/operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning)
+to confirm that autoscaling is taking place.
+
+While it may be difficult to make generalizations given that application teams will use different autoscaling rules, you
+can also overlay the number of Running App Instances with other metrics that developers may be using to scale on such as
+[Latency recorded by the
+gorouter](https://docs.pivotal.io/application-service/2-13/operating/monitoring/kpi.html#latency).
+
+### <a id="tracking-adoption"></a> Tracking adoption of Autoscaler
+
+If you have enabled autoscaler debug logging then autoscaler will log the metric `autoscale.enabled_bindings` which
+is a count of the number of enabled autoscaler service bindings. This metric appears as log lines and is not currently
+emitted to Loggregator.
+
+You can also query the [Cloud Controller API /v3/service_instances
+endpoint](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-instances) filtering by service
+plans associated with the autoscaler.
+
+## <a id="failure-modes"></a> Failure Modes
+
+Rather than provisioning application instances for the peak load that may be experienced, autoscaler enables you to
+provision only the application instances that are necessary based on metrics and your defined autoscaling rules.
+
+However this introduces the possibility that a failure of autoscaler or one of its platform dependencies could prevent
+you from scaling up from a low level to meet the demands of your application usage.
+
+If you are not using autoscaler then issues with some of these components might only impact the control plane of your
+Tanzu Application Service foundation. It is important to be aware that use of autoscaler adds a harder dependency on
+these components being available.
+
+Here we document some potential failure modes for Autoscaler by component, this is a non-exhaustive list. For each we list:
+
+* Relevant autoscaler debug log metrics
+* Example messages that will appear in the output of `cf autoscaling-events`
+* Sample errors in the autoscaler log output
+
+### <a id="log-cache"></a> Log Cache
+
+Log Cache is a key dependency of Autoscaler as it is where the majority of metrics used for making scaling decisions are
+retrieved from.
+
+Issues with Log Cache or failure to scale Log Cache sufficiently can result in Autoscaler being unable to retrieve
+metrics and therefore unable to make scaling decisions.
+
+#### <a id="log-cache-debug-log-metrics"></a> Debug log metrics
+
+Autoscaler logs the following metrics as log lines (they are not currently emitted as metrics to loggregator):
+
+- `autoscale.logcache.read_errors` - Errors encountered reading from Log Cache
+- `autoscale.logcache_metric_fetch_duration` - The time taken to fetch metrics from Log Cache
+
+#### <a id="log-cache-gateway-unavailable"></a> Failure Mode: Log Cache Gateway is unavailable
+
+Sample application scaling event:
+
+```
+Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
+```
+
+Sample autoscale application logs:
+
+```
+[APP/PROC/WEB/2] OUT logcache walker: unexpected status code 502
+```
+
+#### <a id="log-cache-node-failure"></a> Failure Mode: Failure of an individual Log Cache node
+
+Log Cache holds the log and metric envelopes for an application on a single Log Cache node. This means that the failure
+of a given node can mean that envelopes for an application cannot be retrieved, preventing scaling.
+
+Sample application scaling event:
+
+```
+Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
+```
+
+Sample autoscale application logs:
+
+```
+[APP/PROC/WEB/1] OUT logcache walker: unexpected status code 503
+```
+
+#### <a id="log-cache-node-unresponsive"></a> Failure Mode: Unresponsive Log Cache nodes
+
+Sample application scaling event:
+
+```
+Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
+```
+
+Sample autoscale application logs:
+
+```
+[APP/PROC/WEB/2] OUT logcache walker: Get "https://log-cache.sys.example.com/api/v1/read/85a6aff3-c739-4364-8df3-44f1aa50662b": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+```
+
+### <a id="cloud-controller"></a> Cloud Controller
+
+Autoscaler depends on Cloud Controller to determine the current number of application instances for an application, and
+to actually perform the scaling operation. It also uses Cloud Controller to retrieve the service binding information for
+RabbitMQ queues.
+
+Log Cache also has a dependency on the Cloud Controller for authorization.
+
+#### <a id="cloud-controller-debug-log-metrics"></a> Debug log metrics
+
+Autoscaler logs the following metrics as log lines (they are not currently emitted as metrics to loggregator):
+
+- `autoscale.cloud_controller.calls` - The number of requests that have been made to Cloud Controller
+- `autoscale.cloud_controller.request_errors` - The number of requests to Cloud Controller that have errored
+- `autoscale.cloud_controller.scale_errors` - The count of requests to scale an application that have errored
+
+#### <a id="cloud-controller-api-stopped"></a> Failure Mode: Cloud Controller API is stopped
+
+Sample application scaling event, this is a generic error that may just indicate an application has hit its quota:
+
+```
+Unable to scale due to Cloud Controller error.
+```
+
+Sample autoscale application log:
+
+```
+[APP/PROC/WEB/0] OUT level=error msg="[Cloud Controller - app summary] CloudController - route not found"`
+```
+
+#### <a id="cloud-controller-unresponsive"></a> Failure Mode: Unresponsive Cloud Controller
+
+Sample application scaling event, this is a generic error that may just indicate an application has hit its quota:
+
+```
+Unable to scale due to Cloud Controller error.
+```
+
+Sample autoscale application log:
+
+```
+[APP/PROC/WEB/0] OUT level=error msg="[Cloud Controller - app summary] failure connecting to cloud controller. Error: Get \"https://api.sys.example.com/v2/apps/85a6aff3-c739-4364-8df3-44f1aa50662b/summary\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+[APP/PROC/WEB/1] OUT level=error msg="[Cloud Controller - app summary] CloudController - Failure"
+```
+
+### <a id="mysql"></a> MySQL
+
+Autoscaler persists information about the service bindings and configured autoscaling rules in a MySQL database.
+
+Failure to select from or update that database will mean that autoscaler is unable to scale your applications.
+
+#### Failure Mode: Database connection issues
+
+Sample autoscale application log:
+
+```
+[APP/PROC/WEB/0] OUT level=error msg="Unable to find any enabled service bindings by instance id" error="driver: bad connection" instance_id=0
+[APP/PROC/WEB/2] ERR [mysql] packets.go:37: unexpected EOF
+```
+
+### <a id="diego-cells"></a> Diego Cells
+
+Autoscaler runs as an application pushed to the platform. This means that if the Diego Cells that host autoscaler were
+all to fail then autoscaling would not be performed.
+
+## <a id="scaling-autoscaler"></a> Scaling autoscaler
+
+By default there are 3 instances of the autoscaler application `autoscale` that perform the autoscaling. Each works
+independently to try to claim a set of applications that may need to be scaled and process them.
+
+An autoscaler instance will consider applications in batches of 10 when making scaling decisions. The number of batches
+that each instance of autoscaler can process is mostly governed by the number of metrics being retrieved from Log Cache
+for the applications being scaled. An application with a large number of metrics will mean that autoscaler will not
+proceed on to the next batch until either all the metrics are retrieved or a timeout is hit.
+
+To ensure that all applications enabled for autoscaling are processed in a timely manner you may need to increase the
+number of autoscale instances.
+
+To do so modify the "Autoscaler instance count" property in the Tanzu Application Service "App Autoscaler" configuration.
