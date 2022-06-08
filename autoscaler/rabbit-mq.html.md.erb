@@ -51,6 +51,7 @@ instance_limits:
   max: 100
 rules:
 - rule_type: rabbitmq
+  rabbitmq_service: your_service_instance_name
   rule_sub_type: your_queue_name
   threshold:
     min: 10
@@ -58,12 +59,14 @@ rules:
 scheduled_limit_changes: []
 ```
 
-The above manifest defines a `rabbitmq` rule made up of three settings:
+The above manifest defines a `rabbitmq` rule made up of four settings:
 
 1. The minimum queue depth threshold (threshold `min` in the manifest). If the average queue depth drops below this number
    of messages then autoscaler will scale your application down. In the example the minimum threshold is set to 10 messages.
 1. The maximum queue depth threshold (threshold `max` in the manifest). If the average queue depth goes above this number
    then autoscaler will scale your application up. In the example the maximum threshold is set to 50 messages.
+1. The service instance name (`rabbitmq_service` in the manifest). This is optional but will ensure that autoscaler does
+   not unnecessarily query other RabbitMQ service instances bound to the application.
 1. The queue name (`rule_sub_type` in the manifest) refers to the monitored queue. The queue must be on a RabbitMQ service
    instance that is bound to the application.
 
@@ -111,15 +114,17 @@ $ cf enable-autoscaling example-app
 Now you can add a `rabbitmq` rule:
 
 ```
-$ cf create-autoscaling-rule example-app rabbitmq 10 50 --subtype your_queue_name
+$ cf create-autoscaling-rule example-app rabbitmq 10 50 --rabbitmq-instance your_service_instance_name --subtype your_queue_name
 ```
 
-Apart from the application name you need to specify three settings:
+Apart from the application name you should specify four settings:
 
 1. The minimum queue depth threshold. If the average queue depth drops below this number of messages then autoscaler
    will scale your application down. In the example the minimum threshold is set to 10 messages.
 1. The maximum queue depth threshold. If the average queue depth goes above this number then autoscaler will scale your
    application up. In the example the maximum threshold is set to 50 messages.
+1. The service instance name. This is optional but will ensure that autoscaler does not unnecessarily query other
+   RabbitMQ service instances bound to the application.
 1. The queue name (provided via the `--subtype` flag) refers to the monitored queue. The queue must be on a RabbitMQ
    service instance that is bound to the application.
 
@@ -199,7 +204,9 @@ Autoscaler does not currently support scaling on RabbitMQ queue depth when the s
 Runtime CredHub. Refer to the FAQ entry [Autoscaler does not support Runtime CredHub](faq.html#rabbitmq-runtime-credhub)
 for more information.
 
-### <a id="caveat-multiple-service-instances"></a> Autoscaler will query multiple service instances
+### <a id="caveat-multiple-service-instances"></a> Autoscaler can query multiple service instances
 
-Currently if an application is bound to more than one RabbitMQ service instance, Autoscaler will query all bound
-RabbitMQ service instances for the named queue.
+If an application is bound to more than one RabbitMQ service instance and the configured rules do not specify the
+RabbitMQ service instance name then Autoscaler will query all bound RabbitMQ service instances for the named queue. To
+avoid this specify the name of the service instance that will host the queue when defining your rules.
+
