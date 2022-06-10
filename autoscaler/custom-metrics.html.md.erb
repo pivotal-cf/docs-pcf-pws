@@ -1,0 +1,240 @@
+---
+title: Scaling on Custom Metrics
+owner: Autoscaler
+---
+
+## <a id="what-are-custom-metrics"></a> What are Custom Metrics?
+
+Autoscaler supports a useful set of default metrics. However customers may discover that these
+metrics fail to cover all of the specifics of their application autoscaling requirements.
+
+Custom Metrics fill this gap by enabling developers to choose their own metrics to expose from an
+application.
+
+This topic covers scaling on Custom Metrics in Autoscaler. For more information about how to emit
+Custom Metrics, refer to the [Using Metric
+Registrar](https://docs.pivotal.io/application-service/2-13/metric-registrar/using.html) topic.
+
+## <a id="why-use-custom-metrics"></a> When should you scale on Custom Metrics?
+
+Custom metrics allow you a lot of flexibility in defining how you scale. For example you can use
+Custom Metrics with Autoscaler to:
+
+- Scale on a metric specific to your business, for example number of business transactions per second
+- If you are using Spring Boot, scale on the [built-in supported
+metrics](https://docs.spring.io/spring-boot/docs/2.7.0/reference/html/actuator.html#actuator.metrics.supported)
+(such as JVM metrics)
+- Implement your own predictive logic for scaling demand and scale on that
+
+You may also consider scaling on Custom Metrics if you discover that your application's scaling
+needs are not adequately provided for by the default metrics.
+
+There are a number of caveats to scaling on Custom Metrics that are documented in the [Caveats
+section](#caveats).
+
+## <a id="examples"></a> Examples
+
+### <a id="cf-cli-examples"></a> Configuring autoscaler with the cf CLI
+
+This documentation makes use of autoscaler-specific commands provided by the Autoscaler CLI plugin.
+
+To use these commands you will need to download and install the CLI plugin,
+which is [available on Tanzu
+Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
+
+You can choose to configure autoscaler declaratively with a manifest file, or with individual
+commands.
+
+#### <a id="cf-cli-manifest-example"></a> With a manifest file
+
+To declaratively specify the autoscaler configuration you can create an autoscaler manifest file.
+This is a separate file to any existing application manifest file, just for autoscaler.
+
+First, create an instance of the autoscaler service and bind it to the application you want to
+scale:
+
+```
+$ cf create-service app-autoscaler standard autoscaler
+$ cf bind-service example-app autoscaler
+```
+
+You can skip the `cf create-service` command if you already have an instance of the autoscaler in that space.
+
+Now create the autoscaler manifest file:
+
+```yaml
+---
+instance_limits:
+  min: 10
+  max: 100
+rules:
+- rule_type: custom
+  metric: your_metric_name
+  threshold:
+    min: 20
+    max: 50
+scheduled_limit_changes: []
+```
+
+The above manifest defines a `custom` rule made up of three settings:
+
+1. The minimum threshold (threshold `min` in the manifest). If the average value of your custom
+   metric drops below this number then autoscaler will scale your application down. In the example the
+   minimum threshold is set to 20.
+1. The maximum threshold (threshold `max` in the manifest). If the average value of your custom
+   metric goes above this number then autoscaler will scale your application up. In the example the
+   maximum threshold is set to 50.
+1. The custom metric name (`metric` in the manifest) specifies the name of the metric. This should
+   match the name of the metric exposed by your application that you intend to scale on. You must have
+   registered your application's metrics endpoint with Metric Registrar.
+
+The manifest also specifies a minimum instance limit of 10 and a maximum instance limit of 100.
+
+You can then apply the autoscaler manifest for the example-app with the following command:
+
+```
+$ cf configure-autoscaling example-app autoscaler-manifest.yml
+```
+
+We recommend that you perform load testing of your application in order to validate that your
+configured rules are correct. Refer to the [Productionizing
+Autoscaler](productionizing-autoscaler.html) topic for more information.
+
+When scaling Autoscaler will record in the scaling event the average value of your metric that
+triggered the scaling decision.
+
+For example:
+
+```
+$ cf autoscaling-events example-app
+
+Time                   Description
+2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current your_metric_name of 60.83 is above upper threshold of 50.00.
+```
+
+#### <a id="cf-cli-individual-commands-example"></a> Without a manifest file
+
+First, create an instance of the autoscaler service and bind it to the application you want to
+scale:
+
+```
+$ cf create-service app-autoscaler standard autoscaler
+$ cf bind-service example-app autoscaler
+```
+
+You can skip the `cf create-service` command if you already have an instance of the autoscaler in
+that space.
+
+You can then update the autoscaling limits and enable autoscaling for the app. Here we have
+specified a minimum instance limit of 10 and a maximum instance limit of 100.
+
+```
+$ cf update-autoscaling-limits example-app 10 100
+$ cf enable-autoscaling example-app
+```
+
+Now you can add a `custom` rule:
+
+```
+$ cf create-autoscaling-rule example-app custom 10 50 --metric your_metric_name
+```
+
+Apart from the application name you need to specify three settings:
+
+1. The minimum threshold. If the average value of your custom metric drops below this number then
+   autoscaler will scale your application down. In the example the minimum threshold is set to 20.
+1. The maximum threshold. If the average value of your custom metric goes above this number then
+   autoscaler will scale your application up. In the example the maximum threshold is set to 50.
+1. The custom metric name (provided via the `--metric` flag) specifies the name of the metric. This
+   should match the name of the metric exposed by your application that you intend to scale on. You
+   must have registered your application's metrics endpoint with Metric Registrar.
+
+We recommend that you perform load testing of your application in order to validate that your
+configured rules are correct. Refer to the [Productionizing
+Autoscaler](productionizing-autoscaler.html) topic for more information.
+
+When scaling Autoscaler will record in the scaling event the average value of your metric that
+triggered the scaling decision.
+
+For example:
+
+```
+$ cf autoscaling-events example-app
+
+Time                   Description
+2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current your_metric_name of 60.83 is above upper threshold of 50.00.
+```
+
+### <a id="apps-manager-example"></a> Configuring autoscaler with Apps Manager
+
+1. Within Apps Manager navigate to the **Manage Autoscaling** -> **Edit Scaling Rules** dialog and
+   select **Add Rule**.
+1. Select **Rule Type** Custom.
+1. For **Scale down if less than** enter the minimum threshold. If the average value of your custom
+   metric drops below this number then autoscaler will scale your application down.
+1. For **Scale up if more than** enter the maximum threshold. If the average value of your custom
+   metric goes above this number then autoscaler will scale your application up.
+1. For **Metric** enter the name of the custom metric to be monitored.
+1. Click **Save**.
+
+We recommend that you perform load testing of your application in order to validate that your
+configured rules are correct. Refer to the [Productionizing
+Autoscaler](productionizing-autoscaler.html) topic for more information.
+
+When scaling Autoscaler will record in the scaling event the average value of your metric that
+triggered the scaling decision. This is visible in Apps Manager in the Event History under **Manage
+Autoscaling**.
+
+> Scaled up from 10 to 11 instances. Current your_metric_name of 60.83 is above upper threshold of 50.00.
+
+For more information refer to [Configure Autoscaling for an
+App](https://docs.pivotal.io/application-service/2-13/appsman-services/autoscaler/using-autoscaler.html#config)
+within the Apps Manager documentation.
+
+## <a id="caveats"></a> Caveats
+
+Custom metrics provide a great deal of flexibility for scaling, but there are a number of caveats
+around their use that you should consider.
+
+### <a id="caveat-metric-visibility"></a> Be careful to control who metrics are available to
+
+Your metric endpoints include potentially sensitive information about the state of your application.
+You should take care to ensure that they are not accessible to normal end users of your application.
+
+One approach to doing this is to have your metrics endpoint listen on a separate port. When registering
+the endpoint with the Metric Registrar CLI you can then specify the `--internal-port` option.
+
+### <a id="caveat-counters"></a> Autoscaler does not support scaling on counters
+
+A counter is a monotonically increasing number. If you register a metrics endpoint that includes counters
+they will be ingressed into the loggregator system but Autoscaler does not retrieve them when requesting
+metrics from Log Cache.
+
+### <a id="caveat-labels"></a> Autoscaler does not differentiate labels
+
+If your metrics endpoint features the same metric with different labels (for example to differentiate
+http latency based on application endpoint) Autoscaler does not recognize the labels.
+
+### <a id="caveat-metric-load"></a> Don't expose too many metrics
+
+It is tempting when adding instrumentation to your applications to emit a large number of metrics.
+This can be valuable but also imposes a cost on the platform that now needs to process and handle
+the additional metrics. If you are considering adding a large number of new metrics it may make
+sense to notify your platform operator.
+
+### <a id="caveat-cache-eviction"></a> Custom metrics can be evicted from Log Cache
+
+Custom Metrics are emitted by Metric Registrar which scrapes your application metrics endpoint. By
+default the interval between scrapes is 35 seconds. Operators can configure the scrape interval in the
+Tanzu Application Service [Metric Registration
+configuration](https://docs.pivotal.io/application-service/2-13/operating/configure-pas.html#metric-registrar)
+in Ops Manager.
+
+Each application has its own bucket within Log Cache which contains both application metrics and
+logs.
+
+Log Cache has a default maximum number of envelopes per source id (application) of 100,000. Given
+that several envelopes are generated by the platform for every request, and recent application logs
+are held in the same bucket it is possible for busy applications to have insufficient custom metric
+history present in Log Cache to make scaling decisions. Refer to the [Productionizing
+Autoscaler](productionizing-autoscaler.html) topic for more information.
