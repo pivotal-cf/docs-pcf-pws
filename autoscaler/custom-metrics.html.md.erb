@@ -12,8 +12,7 @@ Custom Metrics fill this gap by enabling developers to choose their own metrics 
 application.
 
 This topic covers scaling on Custom Metrics in Autoscaler. For more information about how to emit
-Custom Metrics, refer to the [Using Metric
-Registrar](https://docs.pivotal.io/application-service/2-13/metric-registrar/using.html) topic.
+Custom Metrics, refer to the [Using Metric Registrar](../../metric-registrar/using.html) topic.
 
 ## <a id="why-use-custom-metrics"></a> When should you scale on Custom Metrics?
 
@@ -187,9 +186,7 @@ Autoscaling**.
 
 > Scaled up from 10 to 11 instances. Current your_metric_name of 60.83 is above upper threshold of 50.00.
 
-For more information refer to [Configure Autoscaling for an
-App](https://docs.pivotal.io/application-service/2-13/appsman-services/autoscaler/using-autoscaler.html#config)
-within the Apps Manager documentation.
+For more information refer to [Configure Autoscaling for an App](using-autoscaler.html#config).
 
 ## <a id="caveats"></a> Caveats
 
@@ -226,9 +223,8 @@ sense to notify your platform operator.
 
 Custom Metrics are emitted by Metric Registrar which scrapes your application metrics endpoint. By
 default the interval between scrapes is 35 seconds. Operators can configure the scrape interval in the
-Tanzu Application Service [Metric Registration
-configuration](https://docs.pivotal.io/application-service/2-13/operating/configure-pas.html#metric-registrar)
-in Ops Manager.
+Tanzu Application Service [Metric Registration configuration](../../operating/configure-pas.html#metric-registrar) in
+Ops Manager.
 
 Each application has its own bucket within Log Cache which contains both application metrics and
 logs.
