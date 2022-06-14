@@ -77,8 +77,8 @@ For example:
 $ cf autoscaling-events example-app
 
 Time                   Description
-2022&ndash;05&ndash;26T21:32:17Z   Scaling from 10 to 20 instances: app below minimum instance limit
-2022&ndash;05&ndash;26T21:31:50Z   Rule Applied: Scaling Limits set to 20 to 100 instances
+2022-05-26T21:32:17Z   Scaling from 10 to 20 instances: app below minimum instance limit
+2022-05-26T21:31:50Z   Rule Applied: Scaling Limits set to 20 to 100 instances
 ```
 
 #### <a id="cf-cli-individual-commands-example"></a> Using Autoscaler Without a Manifest File
@@ -106,7 +106,7 @@ These initial limits are later overridden by the scheduled limit change that we 
 Now you can create a scheduled limit change:
 
 ```
-$ cf create&ndash;autoscaling&ndash;slc dora 2032&ndash;01&ndash;01T20:00:00Z 20 100 --recurrence Th,Fr
+$ cf create-autoscaling-slc dora 2032-01-01T20:00:00Z 20 100 --recurrence Th,Fr
 ```
 
 Apart from the application name, you must specify:
@@ -138,8 +138,8 @@ For example:
 $ cf autoscaling-events example-app
 
 Time                   Description
-2022&ndash;05&ndash;26T21:32:17Z   Scaling from 10 to 20 instances: app below minimum instance limit
-2022&ndash;05&ndash;26T21:31:50Z   Rule Applied: Scaling Limits set to 20 to 100 instances
+2022-05-26T21:32:17Z   Scaling from 10 to 20 instances: app below minimum instance limit
+2022-05-26T21:31:50Z   Rule Applied: Scaling Limits set to 20 to 100 instances
 ```
 
 ### <a id="apps-manager-example"></a> Configuring Autoscaler with Apps Manager
