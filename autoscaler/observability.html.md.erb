@@ -29,15 +29,12 @@ If you have enabled autoscaler debug logging then autoscaler will log the follow
 
 These metrics appear as log lines and are not currently emitted to Loggregator.
 
-Additionally you can review the overall number of [Running App Instances
-reported by
-Diego](https://docs.pivotal.io/application-service/2-13/operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning)
-to confirm that autoscaling is taking place.
+Additionally you can review the overall number of [Running App Instances reported by
+Diego](../../operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning) to confirm that autoscaling is taking place.
 
 While it may be difficult to make generalizations given that application teams will use different autoscaling rules, you
 can also overlay the number of Running App Instances with other metrics that developers may be using to scale on such as
-[Latency recorded by the
-gorouter](https://docs.pivotal.io/application-service/2-13/operating/monitoring/kpi.html#latency).
+[Latency recorded by the gorouter](../../operating/monitoring/kpi.html#latency).
 
 ### <a id="tracking-adoption"></a> Tracking adoption of Autoscaler
 

@@ -9,7 +9,7 @@ to scale your applications in a production environment.
 ## <a id="scaling-goal"></a>Working Back from your Scaling Goal
 
 The first step is often to think about the goal that you are trying to meet.
-For example, it might be that your system `"must be capable of processing up to N business transactions per second."`
+For example, it might be that your system must be capable of processing up to _N_ business transactions per second.
 
 In the case of a web application, each of those business transactions might be made up of multiple HTTP requests to a
 frontend service on the platform.
@@ -68,7 +68,7 @@ the resources in use by your application and the quota that is applicable to the
 within.
 
 For example, you might have your application configured with a memory limit of 1G per application instance.
-The effective memory use is `1G * number of application instances`.
+The effective memory use is _1G * number of application instances_.
 You can then discover which org and space quotas are assigned (with `cf org` and `cf space`) and view the
 total memory and instance memory available under that quota with `cf org-quota` or `cf space-quota`.
 
@@ -82,8 +82,8 @@ This might be more difficult to co-ordinate if other teams are making use of the
 Although you can address this by communicating with other teams to share expectations around resource available,
 it might be more appropriate to create a separate org or space.
 
-For learn more about creating and modifying quotas, see
-[Creating and Modifying Quota Plans](https://docs.pivotal.io/application-service/2-13/adminguide/quota-plans.html).
+For learn more about creating and modifying quotas, see [Creating and Modifying Quota
+Plans](../../adminguide/quota-plans.html).
 
 You can apply quotas to orgs and spaces using the `set-org-quota` and `set-space-quota` commands.
 Reach out to your operator if you don't have permission to set quotas or if you need an existing quota increased.
@@ -107,7 +107,7 @@ and can extend them by using custom metrics.
 
 Initially, VMware recommends that you choose a single built-in metric such as **HTTP Latency** or
 **RabbitMQ Queue Depth** and iterate from there.
-Avoid defining multiple autoscaling rules for the same application.
+Avoid starting by defining multiple autoscaling rules for the same application.
 
 **HTTP Latency:** Use this rule type if your application receives HTTP requests directly from the Gorouter,
   and you want to scale out the number of application instances as the average latency of the requests increases.
@@ -331,4 +331,6 @@ You can do this by changing the setting in the TAS configuration under **Advance
 Envelopes might also be evicted from the cache if Log Cache experiences memory pressure.
 You can alleviate this by deploying additional Log Cache nodes or vertically scaling Log Cache.
 
-	<p class="note"><strong>Note: </strong> If you are scaling your applications based on metrics that are emitted less frequently, such as container metrics, they are more likely to be affected by cache removal than the per-request metrics.</p>
+<p class="note"><strong>Note: </strong> If you are scaling your applications based on metrics that are emitted less
+frequently, such as container metrics, they are more likely to be affected by cache removal than the per-request
+metrics.</p>

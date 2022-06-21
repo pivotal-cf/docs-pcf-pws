@@ -6,7 +6,7 @@ owner: Autoscaler
 ## <a id="what-is-http-latency"></a> What is HTTP Latency?
 
 When a HTTP request is made to an application hosted on Tanzu Application Service the
-[gorouter](https://docs.pivotal.io/application-service/2-13/concepts/cf-routing-architecture.html) generates a number of
+[gorouter](../../concepts/cf-routing-architecture.html) generates a number of
 metrics. One of these is a timer recording the time taken to handle the request including the time taken by the backend
 application to respond.
 
@@ -85,7 +85,7 @@ $ cf configure-autoscaling example-app autoscaler-manifest.yml
 ```
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+correct. Refer to the [Using App Autoscaler in Production](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
 
@@ -137,7 +137,7 @@ In general, the value for maximum threshold should be at least twice the value o
 excessive cycling.
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+correct. Refer to the [Using App Autoscaler in Production](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
 
@@ -167,16 +167,14 @@ In general, the value for maximum threshold should be at least twice the value o
 excessive cycling.
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+correct. Refer to the [Using App Autoscaler in Production](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the latency it observed that caused the scaling decision.
 This is visible in Apps Manager in the Event History under **Manage Autoscaling**.
 
 > Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
 
-For more information refer to [Configure Autoscaling for an
-App](https://docs.pivotal.io/application-service/2-13/appsman-services/autoscaler/using-autoscaler.html#config)
-within the Apps Manager documentation.
+For more information refer to [Configure Autoscaling for an App](using-autoscaler.html#config).
 
 ## <a id="caveats"></a> Caveats
 
@@ -227,7 +225,7 @@ the calculated HTTP Latency.
 In most cases the calculated latency should still approximate the request latency but this is a source of bias you
 should be aware of.
 
-Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+Refer to the [Using App Autoscaler in Production](productionizing-autoscaler.html) topic for more information.
 
 ### <a id="caveat-infrequent-access"></a> Infrequently accessed applications
 
@@ -237,5 +235,5 @@ restore the average.
 
 In this case the scaling up should complete once the original request has fallen outside of the metric collection
 interval. Refer to the [About App
-Autoscaler](https://docs.pivotal.io/application-service/2-13/appsman-services/autoscaler/about-app-autoscaler.html#about-scaling-decisions)
-topic for more information about the metric collection interval.
+Autoscaler](about-app-autoscaler.html#about-scaling-decisions) topic for more information about the metric collection
+interval.

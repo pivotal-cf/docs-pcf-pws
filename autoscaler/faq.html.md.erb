@@ -3,25 +3,23 @@ title: Frequently Asked Questions
 owner: App Autoscaler
 ---
 
-## Frequently Asked Questions (FAQ)
-
-### <a id="no-scale-up"></a> My application didn't scale up when I expected it to. Why not?
+## <a id="no-scale-up"></a> My application didn't scale up when I expected it to. Why not?
 
 You've configured your autoscaling rules and your application is under load but is not scaling up as you expect. There
 are a number of reasons why this may be the case:
 
-#### <a id="scaling-threshold"></a> Your scaling threshold may not have been reached
+### <a id="scaling-threshold"></a> Your scaling threshold may not have been reached
 
 Validate that the autoscaling rules configured for the application *should* be triggered with the traffic that your
 application is experiencing. For example when scaling on RabbitMQ queue depth you can check the metrics emitted by
 RabbitMQ for that queue against the configured autoscaling rule.
 
-#### <a id="lower-average"></a> The average over the metric collection interval is lower
+### <a id="lower-average"></a> The average over the metric collection interval is lower
 
 Autoscaler averages metrics over the metric collection interval. If you have a sudden spike then it may not be
 reflected in a scaling event until the average for the metric has also increased.
 
-#### <a id="configured-autoscaling-limit"></a> The application is at the configured autoscaling limit
+### <a id="configured-autoscaling-limit"></a> The application is at the configured autoscaling limit
 
 Check that your application is not already at the maximum number of instances defined by your autoscaling limits.
 
@@ -40,7 +38,7 @@ Name          Guid                                   Enabled   Min Instances   M
 example-app   85a6aff3-c739-4364-8df3-44f1aa50662b   true      1               20              5                 1
 ```
 
-#### <a id="quota-reached"></a> Quota has been reached
+### <a id="quota-reached"></a> Quota has been reached
 
 Autoscaler does not record a scaling event when a quota is hit.
 
@@ -56,46 +54,46 @@ under that quota with `cf org-quota` or `cf space-quota`.
 You can also try manually scaling the application to see if you encounter a quota-related error.
 
 Operators can also enable verbose logging for Autoscaler which will log if a scaling failure is due to a quota limit.
-See the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+See the [Using App Autoscaler in Production](productionizing-autoscaler.html) topic for more information.
 
-#### <a id="autoscaling-disabled"></a> Autoscaling is disabled
+### <a id="autoscaling-disabled"></a> Autoscaling is disabled
 
 You can confirm if autoscaling is enabled for the application in the output of `cf autoscaling-apps`.
 
-#### <a id="platform-scale-out"></a> The platform may be experiencing issues or may need to be scaled out
+### <a id="platform-scale-out"></a> The platform may be experiencing issues or may need to be scaled out
 
 Refer to the documentation on Autoscaler Failure Modes to learn which components Autoscaler relies on.
 You operator may need to scale out these components in order for scaling to be reliably performed.
 
-### <a id="underscaling"></a> My application didn't scale up to the level I expected it to. Why not?
+## <a id="underscaling"></a> My application didn't scale up to the level I expected it to. Why not?
 
 Autoscaler may have performed some scaling for your application, but not scaled to the level that you expected.
 
-#### <a id="check-metrics"></a> Validate the metrics you are scaling on
+### <a id="check-metrics"></a> Validate the metrics you are scaling on
 
 It's possible that the metric you are scaling on actually has a lower value than what you expect.
 For example if you are performing load testing and the load testing tool has its own bottleneck then
 you may be generating less load on the application than expected. You can validate this with your
 platform observability tooling.
 
-#### <a id="platform-underscaled"></a> Your platform may be underscaled
+### <a id="platform-underscaled"></a> Your platform may be underscaled
 
 Underscaling can be caused by Autoscaler not having access to all of the metrics associated with your application,
 typically because Log Cache is underscaled.
 
 You can see this in the output of `cf autoscaling-events` for your application, where scaling events will record the
 value of the metric being scaled on. If the value is lower than the actual load being placed on the system then this may
-be due to Log Cache evicting cache entries. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html)
+be due to Log Cache evicting cache entries. Refer to the [Using App Autoscaler in Production](productionizing-autoscaler.html)
 topic for more information.
 
-### <a id="scale-to-zero"></a> Can I scale an application up from zero instances (scale to zero) with Autoscaler?
+## <a id="scale-to-zero"></a> Can I scale an application up from zero instances (scale to zero) with Autoscaler?
 
 Autoscaler does support scaling up from and down to zero instances when used with RabbitMQ.
 
 Autoscaler does not support scale to zero with other rule types as these are dependent on metrics that are not
 emitted when an application has zero instances.
 
-### <a id="healthchecks"></a> Autoscaler scales my applications but the new application instances are slow to respond to requests. How do I fix this?
+## <a id="healthchecks"></a> Autoscaler scales my applications but the new application instances are slow to respond to requests. How do I fix this?
 
 When a new application instance is started Tanzu Application Service will begin routing requests to the instance once
 the health checks have completed successfully. If your application listens on the port quickly but takes further time to
@@ -107,9 +105,9 @@ application.
 
 You can control when Diego considers an application instance healthy by configuring the health checks for
 the application. Refer to the documentation topic [Using App Health
-Checks](https://docs.pivotal.io/application-service/2-13/devguide/deploy-apps/healthchecks.html) for more information.
+Checks](../../devguide/deploy-apps/healthchecks.html) for more information.
 
-### <a id="oss-autoscaler"></a> Is this autoscaler the same autoscaler as the autoscaler under the Cloud Foundry project?
+## <a id="oss-autoscaler"></a> Is this autoscaler the same autoscaler as the autoscaler under the Cloud Foundry project?
 
 The Tanzu Application Service autoscaler is not based on the Open Source Cloud Foundry App Autoscaler project.
 
@@ -123,7 +121,7 @@ Error: Invalid AutoScaler API endpoint
 You should instead use the supported VMware Tanzu Autoscaler CLI plugin, [available on Tanzu
 Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
 
-### <a id="one-instance-per-space"></a> I can't create more than one instance of the autoscaler in a space. What should I do?
+## <a id="one-instance-per-space"></a> I can't create more than one instance of the autoscaler in a space. What should I do?
 
 Autoscaler enforces that only a single instance of the Autoscaler service should be present in a space at one time.
 
@@ -142,14 +140,14 @@ FAILED
 
 You should instead re-use the existing autoscaler service instance and bind it to the application you wish to scale.
 
-### <a id="rabbitmq-queue-depth"></a> I've tried to configure an application to scale on RabbitMQ queue depth but it's not working.
+## <a id="rabbitmq-queue-depth"></a> I've tried to configure an application to scale on RabbitMQ queue depth but it's not working.
 
-#### <a id="check-rabbitmq-rule"></a> Confirm that the queue specified in your autoscaling rule is correct
+### <a id="check-rabbitmq-rule"></a> Confirm that the queue specified in your autoscaling rule is correct
 
 Autoscaler will be unable to scale if the queue name specified in your autoscaling rule is incorrect. Double-check that
 you have provided the queue name correctly.
 
-#### <a id="rabbitmq-runtime-credhub"></a> Autoscaler does not support Runtime CredHub
+### <a id="rabbitmq-runtime-credhub"></a> Autoscaler does not support Runtime CredHub
 
 You may see scaling event such as the following:
 

@@ -79,7 +79,7 @@ $ cf configure-autoscaling example-app autoscaler-manifest.yml
 ```
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+correct. Refer to the [Using App Autoscaler in Production](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the average queue depth it observed that caused the scaling decision.
 
@@ -129,7 +129,7 @@ Apart from the application name you should specify four settings:
    service instance that is bound to the application.
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+correct. Refer to the [Using App Autoscaler in Production](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the average queue depth it observed that caused the scaling decision.
 
@@ -154,16 +154,14 @@ Time                   Description
 1. Click **Save**.
 
 We recommend that you perform load testing of your application in order to validate that your configured rules are
-correct. Refer to the [Productionizing Autoscaler](productionizing-autoscaler.html) topic for more information.
+correct. Refer to the [Using App Autoscaler in Production](productionizing-autoscaler.html) topic for more information.
 
 When scaling Autoscaler will record in the scaling event the average queue depth it observed that caused the scaling decision.
 This is visible in Apps Manager in the Event History under **Manage Autoscaling**.
 
 > Scaled up from 10 to 11 instances. The RabbitMQ message depth in your_queue_name is currently at an average of 50.35, which is above the maximum threshold of 50.00.
 
-For more information refer to [Configure Autoscaling for an
-App](https://docs.pivotal.io/application-service/2-13/appsman-services/autoscaler/using-autoscaler.html#config)
-within the Apps Manager documentation.
+For more information refer to [Configure Autoscaling for an App](using-autoscaler.html#config).
 
 ### <a id="user-provided-service-example"></a> Scaling when using a user-provided service
 
