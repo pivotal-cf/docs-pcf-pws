@@ -193,6 +193,7 @@ Rules are tied to individual apps, and no one app can have multiple rules of the
 | guid | string | The GUID for this particular object |
 | metric | string | The metric on which scaling decisions are made |
 | queue_name | string | The name of the queue to monitor for RabbitMQ rules |
+| rabbitmq_service_instance_guid | string | The guid of the RabbitMQ service instance |
 | rule_type | string | The type of rule |
 | rule_sub_type | string | The subtype of rule |
 | threshold.max | float | The threshold beyond which the app is scaled up |
@@ -226,6 +227,7 @@ A paginated list of rules.
 | comparison_metric | body | string | false | The divisor to compare metrics against |
 | metric | body | string | false | The metric on which scaling decisions are made |
 | queue_name | body | string | false | The name of the queue to monitor for RabbitMQ rules |
+| rabbitmq_service_instance_guid | string | The guid of the RabbitMQ service instance |
 | rule_type | body | string | true | The type of rule |
 | rule_sub_type | body | string | false | The subtype of rule |
 | threshold.max| body | float | true | The threshold beyond which the app is scaled up |

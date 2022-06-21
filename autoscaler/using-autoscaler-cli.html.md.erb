@@ -115,15 +115,15 @@ Run `cf autoscaling-rules APP-NAME` to view the rules that the App Autoscaler us
 <pre class="terminal">
 $ cf autoscaling-rules test-app<br>
 Presenting autoscaler rules for app test-app for org my-org / space my-space as user
-Rule Guid                               Rule Type         Rule Sub Type   Min Threshold   Max Threshold
-45870b7f-f5c9-403f-9150-e79314f62f06    cpu                               10              20
-10a581c5-8fb4-48a2-b4de-8bc834aac146    http_throughput                   20              30
+Guid                                    Type             Metric   Sub Type   Service Instance   Min Threshold   Max Threshold
+45870b7f-f5c9-403f-9150-e79314f62f06    cpu                                                     10              20
+10a581c5-8fb4-48a2-b4de-8bc834aac146    http_throughput                                         20              30
 OK
 </pre>
 
 ## <a id="create-rule"></a>Create a Rule
 
-Run `cf create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule.
+Run `cf create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC] [--rabbitmq-instance RABBITMQ-INSTANCE]` to create a new autoscaling rule.
 
 Replace the placeholders as follows:
 
@@ -134,33 +134,41 @@ Replace the placeholders as follows:
 
 You can use the following command options:
 
+* `--subtype`, `-s` is the rule subtype.
 * `--metric`, `-m` is the metric for a Custom rule.
 * `--comparison-metric`, `-c` is the comparison metric for a Compare rule.
-* `--subtype`, `-s` is the rule subtype.
+* `--rabbitmq-instance`, `-r` is the service instance for RabbitMQ rules
 
 For example:
 
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app http_latency 500 1000 -s avg_99th<br>
 Created autoscaler rule for app test-app for org my-org / space my-space as user
-Rule Guid                               Rule Type         Rule Sub Type   Min Threshold   Max Threshold
-a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    http_latency      avg_99th        500             1000
+Guid                                    Type             Metric   Sub Type   Service Instance   Min Threshold   Max Threshold
+a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    http_latency              avg_99th                      500.00          1000.00
+</pre>
+
+<pre class="terminal">
+$ cf create-autoscaling-rule test-app rabbitmq 500 1000 -s orders -r rmq-instance<br>
+Created autoscaler rule for app test-app for org my-org / space my-space as user
+Guid                                    Type             Metric   Sub Type   Service Instance   Min Threshold   Max Threshold
+a4a1292f-6f1d-486b-96f7-fc5b4bb9b27d    rabbitmq                  orders     rmq-instance       500.00          1000.00
 </pre>
 
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app custom 9380 9381 --metric jvm.classes.loaded
 Created autoscaler rule for app test-app in org my-org / space my-space as user
 OK
-Guid                                    Type     Metric               Sub Type   Min Threshold   Max Threshold
-59365c9d-6fe7-4195-b8c1-0f5b07afd636    custom   jvm.classes.loaded              9380.00         9381.00
+Guid                                    Type     Metric              Sub Type   Service Instance   Min Threshold   Max Threshold
+59365c9d-6fe7-4195-b8c1-0f5b07afd636    custom   jvm.classes.loaded                                9380.00         9381.00
 </pre>
 
 <pre class="terminal">
 $ cf create-autoscaling-rule test-app compare .79 .8  --metric jvm.memory.used --comparison-metric jvm.memory.max
 Created autoscaler rule for app test-app in org my-org / space my-space as user
 OK
-Guid                                    Type      Metric                             Sub Type   Min Threshold   Max Threshold
-93c4b831-0155-4771-8842-3247816e71df    compare   jvm.memory.used / jvm.memory.max              0.79            0.80
+Guid                                    Type      Metric                            Sub Type   Service Instance   Min Threshold   Max Threshold
+93c4b831-0155-4771-8842-3247816e71df    compare   jvm.memory.used / jvm.memory.max                                0.79            0.80
 </pre>
 
 ## <a id="rule-types"></a>Valid Rule Types and Subtypes
@@ -191,6 +199,7 @@ For a list of valid types and subtypes, see the following:
   </p>
 * type `rabbitmq`
   * sub\_type `YOUR-QUEUE-NAME`
+  * rabbitmq_service `YOUR-SERVICE-INSTANCE-NAME`
 * type `compare`
   * metric `METRIC-NAME`
   * comparison_metric `METRIC-NAME`
