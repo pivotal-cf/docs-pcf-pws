@@ -8,7 +8,7 @@ This topic describes how to troubleshoot App Autoscaler.
 
 ## <a id='no-scale-up'></a> Autoscaler Fails to Scale App
 
-This section describes possible causes for Autoscaler failing to scale an app that is under load. To determine the cause, see the following sections:
+This section describes possible causes for Autoscaler failing to scale an app that is under load [find a better way to say this]. To determine the cause, see the following sections:
 
 * [Scaling Threshold Not Reached](#scaling-threshold)
 
@@ -24,45 +24,108 @@ This section describes possible causes for Autoscaler failing to scale an app th
 
 ### <a id='scaling-threshold'></a> Scaling Threshold Not Reached
 
-Validate that the autoscaling rules configured for the app should be triggered with the traffic that your app is experiencing. For example when scaling on RabbitMQ queue depth you can check the metrics emitted by RabbitMQ for that queue against the configured autoscaling rule.
+Confirm that you configured the autoscaling rules for the app to respond to the traffic that the app is receiving as you expect. For example, when you use the
+RabbitMQ queue depth as your scaling metric, you can compare the metrics that RabbitMQ emits for the specified queue to the autoscaling rules you configured.
+If the autoscaling rules are not configured as expected, adjust them accordingly.
 
 ### <a id='lower-average'></a> Metrics Average Over Collection Interval is Too Low
 
-Autoscaler averages metrics over the metric collection interval. If you have a sudden spike then it may not be reflected in a scaling event until the average for the metric has also increased.
+Autoscaler averages metrics over the metric collection interval you configure in the **App Autoscaler** pane of the TAS for VMs tile.
+
+If the number of metrics suddenly increase, the increase may not be reflected in an autoscaling event until the average for the metric increases.
 
 ### <a id='autoscaling-limit'></a> App Has Reached Autoscaling Limit
 
-Check that your app is not already at the maximum number of instances defined by your autoscaling limits.
+The number of instances for the app may have already reached the upper scaling limit you configured.
 
-You can run `cf autoscaling-events example-app` to review recent scaling events which would record an event for this situation:
+To determine whether the app has reached the maximum number of instances:
 
-```
-Can not scale up. At max limit of 20 instances.
-```
+1. In a terminal window, run:
 
-The minimum and maximum number of app instances configured are visible in the output of `cf autoscaling-apps`.
+    ```
+    cf autoscaling-events APP-NAME
+    ```
+    Where `APP-NAME` is the name of your app.
+    <br>
+    <br>
+    If Autoscaler has attempted to scale the app above the configured upper scaling limit, an event description similar to the example below appears in the
+    terminal output:
+    <pre class='terminal'>Can not scale up. At max limit of 20 instances.</pre>
 
-```
-$ cf autoscaling-apps
-Name          Guid                                   Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
-example-app   85a6aff3-c739-4364-8df3-44f1aa50662b   true      1               20              5                 1
-```
+1. To review the upper and lower scaling limits you configured for the app, run:
+
+    ```
+    cf autoscaling-apps
+    ```
+    The above command returns output similar to the example below:
+    <pre class='terminal'>
+    Name          Guid                                   Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
+    example-app   85a6aff3-c739-4364-8df3-44f1aa50662b   true      1               20              5                 1
+    </pre>
+
+To resolve this issue, you can configure a higher upper scaling limit for the app. For more information, see [Setting Autoscaling
+Limits](productionizing-autoscaler#autoscaling-limits) in _Using App Autoscaler in Production_.
 
 ### <a id='quota-reached'></a> Space or Org Quota is Reached
 
-Autoscaler does not record a scaling event when a quota is hit.
+The app may have already reached the number of app instances or used the amount of memory that the quota plan for the space or org allows. When an app reaches a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. [Does "does not record an autoscaling event" mean that the autoscaling failure itself doesn't appear in the list of recorded events, or that Autoscaler doesn't even attempt to scale in the first place?]
 
-Review the usage of your org and space quotas to confirm that you still have quota available to launch new app instances. As well as the app Instances quota limit, make sure you check the Total Memory and Instance Memory quota limits.
+In order for Autoscaler to scale the number of app instances up to the upper scaling limit you configure, the quota plans for both the space and org must have enough of the following resources available for the app to use:
 
-For example you might have your app configured with a memory limit of 1G per app instance. The effective memory usage is _1G * number of app instances_. You can then determine which org and space quotas are assigned (with `cf org` and `cf space`) and view the total memory and instance memory available under that quota with `cf org-quota` or `cf space-quota`.
+* **App Instances:** The number of instances allowed per app.
 
-You can also try manually scaling the app to see if you encounter a quota-related error.
+* **Total Memory:** The total amount of memory allowed for all app instances in the space or org.
 
-Operators can also enable verbose logging for Autoscaler which logs if a scaling failure is due to a quota limit. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+* **Instance Memory:** The amount of memory allowed per app instance.
+
+For example, if your app is configured with a memory limit of 1G per app instance, and the upper scaling limit you configured is 20 app instances, 20G of memory must be available in your space or org quota. Otherwise, Autoscaler cannot scale the app up to the upper scaling limit.
+
+Review the quotas for your space and org and space to ensure that there are enough resources available in their quota plans for Autoscaler to create new app instances.
+
+To review the available resource quotas for your space and org:
+
+1. In a terminal window, review the available resource quotas for the space in which the app is deployed by running:
+
+    ```
+    cf space-quota
+    ```
+
+1. Review the available resource quotas for the org in which the app is deployed by running:
+
+    ```
+    cf org-quota
+    ```
+
+You can also try manually scaling the app to see if you encounter a quota-related error. [How?]
+
+Operators can also allow verbose logging for Autoscaler, which logs if an autoscaling failure occurs as a result of reaching a quota limit. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
 
 ### <a id='autoscaling-disallowed'></a> Autoscaling is Disallowed
 
-You can confirm if autoscaling is enabled for the app in the output of `cf autoscaling-apps`.
+In order for Autoscaler to function in a TAS for VMs deployment, the **App Autoscaler Errand** must be set to **On** in the **Errands** pane of the TAS for VMs tile, and autoscaling must be allowed for the apps you want to autoscale.
+
+To see whether autoscaling is allowed for the apps you want to scale:
+
+1. In a terminal window, run:
+
+    ```
+    cf autoscaling-apps
+    ```
+    The above command returns output similar to the following example:
+    <pre class=terminal>
+    Presenting autoscaler apps in org my-org / space my-space as user
+    Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale DownFactor
+    test-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4               1                 1
+    test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40              5                 2
+    OK
+    </pre>
+    If autoscaling is allowed for a particular app, the value shown in the `Enabled` column of the terminal output is `true`. If autoscaling is disallowed for a particular app, the value shown in the `Enabled` column of the terminal output is `false`.
+
+To allow autoscaling for an app, choose one of the following options:
+
+* Allow autoscaling for the app through either the App Autoscaler CLI or Apps Manager. To allow autoscaling for an app through the App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_ To allow autoscaling for an app through Apps Manager, see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
+
+* Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile. To configure the **App Autoscaler Errand** to allow Autoscaler to run, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.
 
 ### <a id='platform-scale-out'></a> TAS for VMs Components Are Failing
 
