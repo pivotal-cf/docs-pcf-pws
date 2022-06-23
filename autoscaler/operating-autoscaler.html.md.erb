@@ -67,9 +67,11 @@ As an operator, you can configure verbose logging in the configuration for TAS w
 
 1. Click **Review Pending Changes**.
 
-1. Ensure that the **App Autoscaler Errand** is selected and click **Apply Changes**.
+1. Ensure that the **App Autoscaler Errand** is selected.
 
-<p class="note"><strong>Note:</strong> This will briefly interrupt any work currently being performed by Autoscaler.</p>
+1. Click **Apply Changes**.
+
+<p class='note'><strong>Note:</strong> Re-deploying TAS for VMs briefly interrupts any work currently being performed by Autoscaler.</p>
 
 Now you can review the Autoscaler logs to identify apps that are unable to scale due to hitting their quota. For example:
 
@@ -102,7 +104,7 @@ The minimum number of app instances needed outside of peak hours might be signif
 
 As an operator you also must be mindful of whether Log Cache is scaled up sufficiently to support Autoscaler.
 
-Autoscaler relies mainly on retrieving metric envelopes from Log Cache. You must ensure that Log Cache will hold enough envelopes to allow Autoscaler to make a sensible scaling decision.
+Autoscaler relies mainly on retrieving metric envelopes from Log Cache. You must ensure that Log Cache can hold enough envelopes to allow Autoscaler to make a sensible scaling decision.
 
 Typically Autoscaler is configured to look at the last 120 seconds of metrics when making decisions. This refers to the **Metric Collection Interval** configuration under **App Autoscaler** in the TAS configuration.
 

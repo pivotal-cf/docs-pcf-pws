@@ -92,7 +92,7 @@ Setting a larger scale up factor means that your app scales up more responsively
 
 It is common to define a scale down factor that is lower than the scale up factor. This allows your app to scale up faster, and then to return to an earlier baseline number of instances more slowly by stepping down in smaller increments.
 
-The following command sets the scaling factors for `example-app` that will scale up by `20` instances at a time, but scale down by `10` instances at a time:
+The following command sets the scaling factors for `example-app` that scale up by `20` instances at a time, but scale down by `10` instances at a time:
 
 <pre class='terminal'>cf update-autoscaling-factors example-app 20 10</pre>
 
