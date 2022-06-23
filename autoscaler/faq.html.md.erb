@@ -6,9 +6,9 @@ owner: App Autoscaler
 This topic describes how to troubleshoot App Autoscaler.
 
 
-## <a id='no-scale-up'></a> Autoscaler Fails to Scale App
+## <a id='no-scale-up'></a> Autoscaler Fails to Scale an App When Expected
 
-This section describes possible causes for Autoscaler failing to scale an app that is under load [find a better way to say this]. To determine the cause, see the following sections:
+This section describes possible causes for Autoscaler failing to scale an app when you expect. To determine the cause, see the following sections:
 
 * [Scaling Threshold Not Reached](#scaling-threshold)
 
@@ -68,9 +68,11 @@ Limits](productionizing-autoscaler#autoscaling-limits) in _Using App Autoscaler 
 
 ### <a id='quota-reached'></a> Space or Org Quota is Reached
 
-The app may have already reached the number of app instances or used the amount of memory that the quota plan for the space or org allows. When an app reaches a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. [Does "does not record an autoscaling event" mean that the autoscaling failure itself doesn't appear in the list of recorded events, or that Autoscaler doesn't even attempt to scale in the first place?]
+The app may have already reached the number of app instances or used the amount of memory that the quota plan for the space or org allows. When an app reaches
+a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. [Does "does not record an autoscaling event" mean that the autoscaling failure itself doesn't appear in the list of recorded events, or that Autoscaler doesn't even attempt to scale in the first place?]
 
-In order for Autoscaler to scale the number of app instances up to the upper scaling limit you configure, the quota plans for both the space and org must have enough of the following resources available for the app to use:
+In order for Autoscaler to scale the number of app instances up to the upper scaling limit you configure, the quota plans for both the space and org must have
+enough of the following resources available for the app to use:
 
 * **App Instances:** The number of instances allowed per app.
 
@@ -78,9 +80,11 @@ In order for Autoscaler to scale the number of app instances up to the upper sca
 
 * **Instance Memory:** The amount of memory allowed per app instance.
 
-For example, if your app is configured with a memory limit of 1G per app instance, and the upper scaling limit you configured is 20 app instances, 20G of memory must be available in your space or org quota. Otherwise, Autoscaler cannot scale the app up to the upper scaling limit.
+For example, if your app is configured with a memory limit of 1G per app instance, and the upper scaling limit you configured is 20 app instances, 20G of
+memory must be available in your space or org quota. Otherwise, Autoscaler cannot scale the app up to the upper scaling limit.
 
-Review the quotas for your space and org and space to ensure that there are enough resources available in their quota plans for Autoscaler to create new app instances.
+Review the quotas for your space and org and space to ensure that there are enough resources available in their quota plans for Autoscaler to create new app
+instances.
 
 To review the available resource quotas for your space and org:
 
@@ -98,11 +102,13 @@ To review the available resource quotas for your space and org:
 
 You can also try manually scaling the app to see if you encounter a quota-related error. [How?]
 
-Operators can also allow verbose logging for Autoscaler, which logs if an autoscaling failure occurs as a result of reaching a quota limit. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+Operators can also allow verbose logging for Autoscaler, which logs if an autoscaling failure occurs as a result of reaching a quota limit. For more
+information, see [Configure Verbose Logging in Autoscaler](operating-autoscaler.html#verbose-logging) in _Operating Autoscaler_.
 
 ### <a id='autoscaling-disallowed'></a> Autoscaling is Disallowed
 
-In order for Autoscaler to function in a TAS for VMs deployment, the **App Autoscaler Errand** must be set to **On** in the **Errands** pane of the TAS for VMs tile, and autoscaling must be allowed for the apps you want to autoscale.
+In order for Autoscaler to function in a TAS for VMs deployment, the **App Autoscaler Errand** must be set to **On** in the **Errands** pane of the TAS for
+VMs tile, and autoscaling must be allowed for the apps you want to autoscale.
 
 To see whether autoscaling is allowed for the apps you want to scale:
 
@@ -119,13 +125,17 @@ To see whether autoscaling is allowed for the apps you want to scale:
     test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40              5                 2
     OK
     </pre>
-    If autoscaling is allowed for a particular app, the value shown in the `Enabled` column of the terminal output is `true`. If autoscaling is disallowed for a particular app, the value shown in the `Enabled` column of the terminal output is `false`.
+    If autoscaling is allowed for a particular app, the value shown in the `Enabled` column of the terminal output is `true`. If autoscaling is disallowed for
+    a particular app, the value shown in the `Enabled` column of the terminal output is `false`.
 
 To allow autoscaling for an app, choose one of the following options:
 
-* Allow autoscaling for the app through either the App Autoscaler CLI or Apps Manager. To allow autoscaling for an app through the App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_ To allow autoscaling for an app through Apps Manager, see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
+* Allow autoscaling for the app through either the App Autoscaler CLI or Apps Manager. To allow autoscaling for an app through the App Autoscaler CLI, see
+[Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_ To allow autoscaling for an app through Apps Manager, see
+[Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
 
-* Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile. To configure the **App Autoscaler Errand** to allow Autoscaler to run, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.
+* Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile. To configure the **App Autoscaler Errand** to
+allow Autoscaler to run, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.
 
 ### <a id='platform-scale-out'></a> TAS for VMs Components Are Failing
 
