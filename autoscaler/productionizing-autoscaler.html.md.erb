@@ -23,7 +23,7 @@ your app instances use a single shared MySQL service instance, scaling the numbe
 allowed by MySQL. You must address this constraint before you can scale your app further.
 
 VMware recommends load-testing your app to confirm that you have set appropriate scaling limits before pushing the app to a production environment. For more
-information, see [Load-Testing](#load-testing) below.
+information, see [Load-Testing Your App](#load-testing) below.
 
 ### <a id='configure-autoscaling-limits'></a> Configure Autoscaling Limits
 
@@ -113,7 +113,7 @@ The following command sets the scaling factors for `example-app` that scale up b
 
 
 
-## <a id='load-testing'></a> Load Testing
+## <a id='load-testing'></a> Load-Testing Your App
 
 To ensure that you have configured effective autoscaling for your app, VMware recommends that you load-test the app. This demonstrates that your app scales in most cases when the metric you are scaling changes.
 
