@@ -139,7 +139,7 @@ allow Autoscaler to run, see [Configure Errands](../../operating/configure-pas.h
 
 ### <a id='platform-scale-out'></a> TAS for VMs Components Are Failing
 
-Refer to the documentation on Autoscaler Failure Modes to learn which components Autoscaler relies on. You operator may need to scale out these components in order for scaling to be reliably performed.
+Refer to the documentation on [Autoscaler Failure Modes](./observability.html) to learn which components Autoscaler relies on. You operator may need to scale out these components in order for scaling to be reliably performed.
 
 
 ## <a id='underscaling'></a> App Does Not Scale to Expected Number of Instances
@@ -179,13 +179,13 @@ You can control when Diego considers an app instance healthy by configuring the 
 
 App Autoscaler for TAS for VMs is not the same as the Open Source Cloud Foundry App Autoscaler project.
 
-For example if you attempt to use the App Autoscaler CLI for Cloud Foundry [check actual name] with App Autoscaler for TAS for VMs [check actual name] you may see an error like the following:
+For example, if you attempt to use the Cloud Foundry App Auto-Scaler cf CLI plug-in with App Autoscaler for TAS for VMs, you may see an error like the following:
 
 ```
 Error: Invalid AutoScaler API endpoint
 ```
 
-You should instead use the supported VMware Tanzu Autoscaler CLI plugin, [available on Tanzu Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
+You should instead use the supported VMware Tanzu App Autoscaler CLI Plug-in, [available on Tanzu Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
 
 
 ## <a id='one-instance-per-space'></a> One Autoscaler Instance Allowed Per Space
@@ -228,7 +228,7 @@ You may see scaling event such as the following:
 Autoscaler did not receive any metrics for rabbitmq.queue-name during the scaling window. Scaling down is deferred until these metrics are available.
 ```
 
-If the operator has enabled the **On Demand - Secure Service Instance Credentials with Runtime CredHub** in the VMware Tanzu RabbitMQ for VMs configuration [which config pane?] and also enabled **Secure service instance credentials** in the TAS for VMs configuration [WHICH CONFIG PANE?!], Autoscaler is unable to scale on queue depth for RabbitMQ service instances.
+If the operator has enabled the **On Demand - Secure Service Instance Credentials with Runtime CredHub** in the **Global Settings for On-Demand Plans** pane of the VMware Tanzu RabbitMQ for VMs configuration and also enabled **Secure service instance credentials** in the **CredHub** pane of the TAS for VMs configuration, Autoscaler is unable to scale on queue depth for RabbitMQ service instances.
 
 This is because Autoscaler currently relies on being able to retrieve service binding credentials for the RabbitMQ HTTP Management API from the Cloud Controller, but those credentials are not available through Cloud Controller when credentials are held in Runtime CredHub.
 
