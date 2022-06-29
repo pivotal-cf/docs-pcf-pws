@@ -145,7 +145,9 @@ allow Autoscaler to run, see [Configure Errands](../../operating/configure-pas.h
 Autoscaler may fail to scale an app if one of the TAS for VMs components on which it depends is failing or underscaled. For more information about these
 components, see [Autoscaler Failure Modes](observability.html).
 
-These components may need to be restarted or scaled up before Autoscaler can scale your app.
+These components may need to be restarted or scaled up before Autoscaler can scale your app. To restart TAS for VMs components, see [Stopping and Starting
+Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Stopping and Starting Virtual Machines_. To scale TAS for VMs components up, see
+[Scaling Up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.
 
 
 ## <a id='underscaling'></a> App Does Not Scale to Expected Number of Instances
@@ -180,7 +182,8 @@ underscaled:
     The above command returns a list of scaling events that Autoscaler has recorded, which include the value of the scaling metric for your app. If the value
     is lower than the actual load that the app is processing, Log Cache may be evicting some metrics from its cache.
 
-To fix this issue, scale the number of Log Cache instances up in the **Resource Config** pane of the TAS for VMs tile.
+To fix this issue, scale the number of Log Cache instances up in the **Resource Config** pane of the TAS for VMs tile. To scale Log Cache up, see [Scaling Up
+TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.
 
 For more information about the TAS for VMs components on which Autoscaler depends, see [Autoscaler Failure Modes](observability.html).
 
