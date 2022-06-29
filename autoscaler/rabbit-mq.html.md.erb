@@ -199,12 +199,11 @@ consider.
 ### <a id="caveat-secure-instance-credentials"></a> Autoscaler cannot scale on secure instance credentials
 
 Autoscaler does not currently support scaling on RabbitMQ queue depth when the service instance credentials are held in
-Runtime CredHub. Refer to the FAQ entry [Autoscaler does not support Runtime CredHub](faq.html#rabbitmq-runtime-credhub)
-for more information.
+Runtime CredHub. For more information, see [Autoscaler Does Not Support Runtime CredHub](troubleshooting.html#rabbitmq-runtime-credhub) in _Troubleshooting
+App Autoscaler_.
 
 ### <a id="caveat-multiple-service-instances"></a> Autoscaler can query multiple service instances
 
 If an application is bound to more than one RabbitMQ service instance and the configured rules do not specify the
 RabbitMQ service instance name then Autoscaler will query all bound RabbitMQ service instances for the named queue. To
 avoid this specify the name of the service instance that will host the queue when defining your rules.
-
