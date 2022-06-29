@@ -134,8 +134,8 @@ To see whether autoscaling is allowed for the apps you want to scale:
 To allow autoscaling for an app, choose one of the following options:
 
 * Allow autoscaling for the app through either the App Autoscaler CLI or Apps Manager. To allow autoscaling for an app through the App Autoscaler CLI, see
-[Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_ To allow autoscaling for an app through Apps Manager, see
-[Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
+[Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_. To allow autoscaling for an app through Apps Manager,
+see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
 
 * Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile. To configure the **App Autoscaler Errand** to
 allow Autoscaler to run, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.
@@ -193,31 +193,52 @@ Because other scaling metrics are not emitted when an app has zero instance, Aut
 to use any scaling metric other than RabbitMQ queue depth.
 
 
-## <a id='healthchecks'></a> New App Instances Are Slow to Respond
+## <a id='slow-response'></a> New App Instances Are Slow to Respond to Requests
 
-When Autoscaler scales an app up, the new app instances may be slow to respond to requests.
+When Autoscaler scales an app up, the new app instances may be slow to respond to requests. As a result, if you have configured Autoscaler to use HTTP latency
+as its scaling metric, Autoscaler may scale the number of app instances up even more to compensate for the slow response time of the app instances it had
+previously created.
 
-When a new app instance is created, the Gorouter begins routing requests to the instance after all health checks have completed successfully. If the app
-instances that Autoscaler creates receive requests right away but are slow to respond to them, the Gorouter begins to route requests to app instances that are
-not fully started [is this what "coming up" means?].
+When a new app instance is created, Diego runs health checks for the app instance. After all health checks have been completed successfully, Diego considers
+the app instance to be healthy. Diego then registers a route to the app instance with the Gorouter, and the Gorouter begins routing requests to the app
+instance.
 
-If you have configured Autoscaler to use HTTP latency as its scaling metric, Autoscaler may scale the number of app instances up even more when newer app
-instances are slow to respond to requests.
+However, the app instance having passed all health checks may not indicate that the app instance is ready to respond to requests. Depending on the type of
+health check that you have configured for the app, the Gorouter may begin to route requests to app instances that are not ready to receive requests.
 
-For more information about app health checks, see [Using App Health Checks](../../devguide/deploy-apps/healthchecks.html).
+The following list describes when the Gorouter begins routing requests to an app instance after each type of health check:
+
+* If you have configured a `process` health check, the Gorouter can begin routing requests to the app instance when all processes within the app are running.
+
+* If you have configured a `port` health check, the Gorouter can begin routing requests to the app instance when the app instance is able to receive TCP
+connections, even if it is not fully initialized.
+
+* If you have configured an `http` health check, the Gorouter can begin routing requests to the app instance when the app instance can provide an `HTTP 200`
+response to the health check, which indicates that the app instance is ready to respond to HTTP requests from the Gorouter.
+
+If the new app instances that Autoscaler has created are slow to respond to requests, you can configure Diego to run `http` health checks for your app to
+ensure that the Gorouter cannot route requests to app instances before they are ready to respond.
+
+For more information about how Diego runs an app, see [How Diego Runs an App](../../concepts/diego/diego-architecture.html#diagram) in _Diego Components and
+Architecture_. For more information about app health checks, including how to configure health checks and the types of health checks you can configure, see
+[Using App Health Checks](../../devguide/deploy-apps/healthchecks.html).
 
 
 ## <a id='oss-autoscaler'></a> App Autoscaler for Cloud Foundry Does Not Work with TAS for VMs
 
-The version of App Autoscaler that you use in a TAS for VMs deployment is not the same as the Cloud Foundry App Auto-Scaler.
+There are two versions of the App Autoscaler Command-Line Interface (CLI) extension for the Cloud Foundry Command-Line Interface (cf CLI):
 
-If you attempt to use the Cloud Foundry App Auto-Scaler plugin for the Cloud Foundry Command-Line Interface (cf CLI) with the App Autoscaler instance in your
-TAS for VMs deployment, you see the following error:
+* The VMware Tanzu App Autoscaler CLI Plugin, used with TAS for VMs
+
+* The Cloud Foundry App Auto-Scaler plugin, used with Cloud Foundry
+
+If you attempt to use the Cloud Foundry App Auto-Scaler plugin to control the App Autoscaler instance in your TAS for VMs deployment, you see the following
+error:
 
 <pre class='terminal'>Error: Invalid AutoScaler API endpoint</pre>
 
-You must instead use the VMware Tanzu App Autoscaler CLI Plugin. To download the VMware Tanzu App Autoscaler CLI Plugin, go to the [VMware Tanzu App
-Autoscaler CLI Plugin](https://network.pivotal.io/products/pcf-app-autoscaler/) page on the VMware Tanzu Network site.
+You must instead use the VMware Tanzu App Autoscaler CLI Plugin. To download the VMware Tanzu App Autoscaler CLI Plugin, go to [VMware Tanzu
+Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
 
 
 ## <a id='one-instance-per-space'></a> One Autoscaler Instance Allowed Per Space
