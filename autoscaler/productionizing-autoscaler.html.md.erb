@@ -87,7 +87,7 @@ Initially, VMware recommends that you choose a single built-in metric such as **
 
 **RabbitMQ Queue Depth:** Use this rule type if your app consumes work from a RabbitMQ queue, and you want to scale out the number of app instances to consume work from the queue more quickly.
 
-If your app uses multiple TAS for VMs apps [as in services?], consider whether you should use the same scaling metric across those apps. Using the same scaling metric may allow you to better understand the scaling behavior of your deployment.
+If your app deployment is comprised of multiple TAS for VMs apps, consider whether you should use the same scaling metric across those apps. Using the same scaling metric across all of the apps that are part of your app deployment may allow you to better understand the scaling behavior and needs of your app deployment.
 
 
 ## <a id='c2c-networking'></a> Autoscaler and C2C Networking
