@@ -69,7 +69,7 @@ Limits](productionizing-autoscaler.html#autoscaling-limits) in _Using App Autosc
 ### <a id='quota-reached'></a> Space or Org Quota is Reached
 
 The app may have already reached the number of app instances or used the amount of memory that the quota plan for the space or org allows. When an app reaches
-a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. [Does "does not record an autoscaling event" mean that the autoscaling failure itself doesn't appear in the list of recorded events, or that Autoscaler doesn't even attempt to scale in the first place?]
+a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event.
 
 In order for Autoscaler to scale the number of app instances up to the upper scaling limit you configure, the quota plans for both the space and org must have
 enough of the following resources available for the app to use:
@@ -100,7 +100,10 @@ To review the available resource quotas for your space and org:
     cf org-quota
     ```
 
-You can also try manually scaling the app to see if you encounter a quota-related error. [How?]
+You can also try manually scaling the app to see if you still cannot scale the app up. If scaling the app manually does not create new app instances, it is
+more likely that the resource quota for your space or org has already been reached. To scale an app manually, see [Scale an App
+Manually](../../console/manage-apps.html#manual-scale) in _Managing Apps and Service Instances Using Apps Manager_ or [Scaling an App Using cf
+scale](../../devguide/deploy-apps/cf-scale.html).
 
 Operators can also allow verbose logging for Autoscaler, which logs if an autoscaling failure occurs as a result of reaching a quota limit. For more
 information, see [Configure Verbose Logging in Autoscaler](operating-autoscaler.html#verbose-logging) in _Operating Autoscaler_.
@@ -184,7 +187,7 @@ For more information about the TAS for VMs components on which Autoscaler depend
 
 ## <a id='scale-to-zero'></a> Scaling To and From Zero Instances
 
-Autoscaler can scale an app to and from zero instances only when it is configured to use RabbitMQ queue depth [or another RabbitMQ metric?] as its scaling metric.
+Autoscaler can scale an app to and from zero instances only when it is configured to use RabbitMQ queue depth as its scaling metric.
 
 Because other scaling metrics are not emitted when an app has zero instance, Autoscaler cannot scale an app to and from zero instances when it is configured
 to use any scaling metric other than RabbitMQ queue depth.
@@ -194,21 +197,22 @@ to use any scaling metric other than RabbitMQ queue depth.
 
 When Autoscaler scales an app up, the new app instances may be slow to respond to requests.
 
-When a new app instance is created, TAS for VMs begins routing requests to the instance after all health checks have completed successfully. If the app
-instances that Autoscaler creates receive requests right away but are slow to respond to them, TAS for VMs begins to route requests to app instances that are
+When a new app instance is created, the Gorouter begins routing requests to the instance after all health checks have completed successfully. If the app
+instances that Autoscaler creates receive requests right away but are slow to respond to them, the Gorouter begins to route requests to app instances that are
 not fully started [is this what "coming up" means?].
 
 If you have configured Autoscaler to use HTTP latency as its scaling metric, Autoscaler may scale the number of app instances up even more when newer app
 instances are slow to respond to requests.
 
-To control when Diego considers an app instance healthy [what does Diego have to do with anything, again?], you can configure health checks for the app. For more information, see [Using App Health Checks](../../devguide/deploy-apps/healthchecks.html).
+For more information about app health checks, see [Using App Health Checks](../../devguide/deploy-apps/healthchecks.html).
 
 
 ## <a id='oss-autoscaler'></a> App Autoscaler for Cloud Foundry Does Not Work with TAS for VMs
 
 The version of App Autoscaler that you use in a TAS for VMs deployment is not the same as the Cloud Foundry App Auto-Scaler.
 
-If you attempt to use the Cloud Foundry App Auto-Scaler plugin for the Cloud Foundry Command-Line Interface (cf CLI) with the App Autoscaler instance in your TAS for VMs deployment, you see the following error:
+If you attempt to use the Cloud Foundry App Auto-Scaler plugin for the Cloud Foundry Command-Line Interface (cf CLI) with the App Autoscaler instance in your
+TAS for VMs deployment, you see the following error:
 
 <pre class='terminal'>Error: Invalid AutoScaler API endpoint</pre>
 
