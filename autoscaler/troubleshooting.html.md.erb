@@ -69,19 +69,8 @@ Limits](productionizing-autoscaler.html#autoscaling-limits) in _Using App Autosc
 ### <a id='quota-reached'></a> Space or Org Quota is Reached
 
 The app may have already reached the number of app instances or used the amount of memory that the quota plan for the space or org allows. When an app reaches
-a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event.
-
-In order for Autoscaler to scale the number of app instances up to the upper scaling limit you configure, the quota plans for both the space and org must have
-enough of the following resources available for the app to use:
-
-* **App Instances:** The number of instances allowed per app.
-
-* **Total Memory:** The total amount of memory allowed for all app instances in the space or org.
-
-* **Instance Memory:** The amount of memory allowed per app instance.
-
-For example, if your app is configured with a memory limit of 1G per app instance, and the upper scaling limit you configured is 20 app instances, 20G of
-memory must be available in your space or org quota. Otherwise, Autoscaler cannot scale the app up to the upper scaling limit.
+a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. For more information, see [Reviewing Space and
+Org Quota Plans](productionizing-autoscaler.html#quotas-limiting-scaling) in _Using App Autoscaler in Production_.
 
 Review the quotas for your space and org and space to ensure that there are enough resources available in their quota plans for Autoscaler to create new app
 instances.
