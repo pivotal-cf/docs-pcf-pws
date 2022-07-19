@@ -136,19 +136,12 @@ To configure using the cf CLI:
     ```
     $ cf create-autoscaling-rule APP-NAME http_latency MIN MAX --subtype SUBTYPE
     ```
-
     Where:
-
     * `APP-NAME` is the name of the app that you want Autoscaler to scale.
-
     * `MIN` is the minimum threshold in milliseconds. If the average request latency drops below this number, Autoscaler scales the app down. 
-
     * `MAX` is the maximum threshold in milliseconds. If the average request latency rises above this number, Autoscaler scales your app up. In general, the value for maximum threshold should be at least twice the value of the minimum threshold to avoid excessive cycling.
-
     * `SUBTYPE` is the percentile on which Autoscaler bases scaling decisions, either `avg_95th` or `avg_99th`. For example, `avg_95th` ignores requests that fall outside of the 95th percentile and averages the remaining 95% of requests.
-
     For example:
-
     ```
     $ cf create-autoscaling-rule example-app http_latency 125 250 --subtype avg_95th
     ```
