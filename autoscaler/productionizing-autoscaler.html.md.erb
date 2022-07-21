@@ -93,7 +93,10 @@ amount of RAM allowed per app instance. This allows Autoscaler to create more ap
 <p class='note'><strong>Note:</strong> In a TAS for VMs deployment, the amount of memory allocated to an app instance determines the number of CPU shares
   available to it. Reducing the allocated memory to an app instance also reduces its CPU shares.</p>
 
-For more information about setting resource limits for individual apps, see []().
+To set resource limits for individual apps, you can deploy your apps with app manifests or vertically scale them  using the Cloud Foundry Command-Line
+Interface (cf CLI). For more information about app manifests, see [App Manifest Attribute Reference](../../devguide/deploy-apps/manifest-attributes.html). For
+more information about vertically scaling an app, see [Scaling Vertically](../../devguide/deploy-apps/cf-scale.html#vertical) in _Scaling an App Using cf
+scale_.
 
 
 ## <a id='choosing-a-metric'></a> Choosing a Scaling Metric
@@ -107,7 +110,7 @@ The following list describes two of the default scaling metrics you can select w
 
 * **HTTP Latency:** Use this rule type if your app receives HTTP requests directly from the Gorouter, and you want to scale the number of app instances up as
 the average latency of the requests increases. Before choosing this metric as your scaling metric, consider whether scaling your app might increase HTTP
-latency. For example, if additional app instances must use the same external resource [what does "external resource" mean?], this may increase HTTP latency. [And then what? Autoscaler may scale at inopportune times? What makes them inopportune?].
+latency. For example, if additional app instances must use the same external resource [what does "external resource" mean?], this may increase HTTP latency. [And then what? Autoscaler may scale at inopportune times? What makes them inopportune?]
 
 * **RabbitMQ Queue Depth:** Use this rule type if your app consumes work from [What does "consume work from" mean? Use? Receive metrics from? Depend on?] a RabbitMQ queue, and you want to scale the number of app instances up to consume work from the queue more quickly.
 
@@ -126,7 +129,7 @@ Rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 Autoscaler can only use **HTTP Latency** and **HTTP Throughput** as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler
 does not currently support using these two metrics for apps that receive requests through [load balancers? TCP routers?].
 
-If your system [TAS for VMs deployment? app deployment?] includes back-end HTTP services that [what?] access[es] directly from another app through container-to-container (C2C) networking, Autoscaler cannot scale them. This is because the Gorouter does not generate HTTP events for those requests. [Is this why HTTP Latency and HTTP Throughput can't be used for them?] In these cases, you must either use a different built-in scaling metric or create a custom scaling metric.
+If your [TAS for VMs? app?] deployment includes back-end HTTP services that [what?] access[es] directly from another app through container-to-container (C2C) networking, Autoscaler cannot scale them [the app, or the services?]. This is because the Gorouter does not generate HTTP events for those requests. [Is this why HTTP Latency and HTTP Throughput can't be used for them?] In these cases, you must either use a different default scaling metric or create a custom scaling metric.
 
 
 ## <a id='scaling-factors'></a> Scaling Factors
@@ -135,9 +138,9 @@ You can define scale-up and scale-down factors to control how quickly Autoscaler
 app with a scale-up factor of `20` and a scale-down factor of `10`, Autoscaler scales the number of app instances up by 20 instances at a time and down by 10
 instances at a time.
 
-When you define a larger scale-up factor for an app, Autoscaler scales the number of app instances up more responsively to the scaling metric you defined for the autoscaling rule for the app. [What does "more responsively" mean?] This means that there may be circumstances in which using a particular scaling metric for the app is unhelpful. For example, if networking issues or an unresponsive downstream services causes greater HTTP latency, configuring Autoscaler to scale app instances up by a larger number may cause HTTP latency to worsen even more.
+When you define a larger scale-up factor for an app, Autoscaler scales the number of app instances up more responsively to the scaling metric you defined for the autoscaling rule for the app. [What does "more responsively" mean?] This means that there may be circumstances in which using a particular scaling metric for the app causes or exacerbates performance issues for the app. For example, if networking issues or an unresponsive downstream services causes greater HTTP latency, configuring Autoscaler to scale app instances up by a larger number may cause HTTP latency to worsen even more.
 
-It is common to define a scale down factor that is lower than the scale up factor. This allows your app to scale up faster, and then to return to an earlier baseline number of instances more slowly by stepping down in smaller increments.
+In many production deployments, the scale-down factor for an app is lower than the scale-up factor. This allows an app to scale up faster, then return to an earlier baseline number of instances more slowly by stepping down in smaller increments. [Why is this desirable?]
 
 
 ### <a id='configure-scaling-factors'></a> Configure Scaling Factors
@@ -168,7 +171,13 @@ scales the number of app instances as expected when the scaling metric you defin
 
 To load-test an app effectively, you should do so in an environment that is as similar to your production deployment as possible.
 
-For information about
+For more information about load-testing to confirm the efficacy of Autoscaler for an app, see the sections below:
+
+* [Generating Load and Monitoring Scaling Events](#generate-load)
+
+* [Confirming Metric Values from Autoscaler](#confirm-correct-calculation)
+
+* [Confirming Scaling Efficacy](#confirm-efficacy)
 
 ### <a id='generate-load'></a> Generating Load and Monitoring Scaling Events
 
@@ -195,11 +204,12 @@ your load-testing tool generated, this may indicate that you need to scale the u
 
 For each autoscaling step that you test, you should confirm the following:
 
-* Autoscaler records when a scaling metric has crossed the maximum threshold
+* Autoscaler records when a scaling metric has crossed the maximum metric threshold
 
 * Autoscaler successfully scales the number of app instances up
 
-* Creating more app instances brings the scaling metric back to below the maximum threshold
+* Creating more app instances brings the scaling metric back to below the maximum metric threshold
 
 If Autoscaler continues to scale app instances up, but the increased number of app instances does not bring the scaling metric back to below the maximum
-threshold, another part of the system [TAS for VMs deployment? app deployment?] may be experiencing issues that are causing the value of the scaling metric to remain above the maximum threshold. You might be able to identify and troubleshoot the issue by monitoring the app or working with your operations team.
+metric threshold, another part of your TAS for VMs deployment may be experiencing issues that are causing the value of the scaling metric to remain above the
+maximum metric threshold. You might be able to identify and troubleshoot the issue by monitoring the app or working with your operations team.
