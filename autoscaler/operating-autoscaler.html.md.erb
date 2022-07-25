@@ -6,7 +6,7 @@ owner: App Autoscaler
 This topic describes considerations for operators of VMware Tanzu Application Service for VMs (TAS for VMs) when scaling app instances using App Autoscaler.
 
 
-## <a id='overview'></a> Overview
+## <a id='overview'></a> Overview of Autoscaling Considerations
 
 Autoscaler can ensure that an app always has the number of instances it needs to handle the amount of traffic that it receives. However, in order for
 Autoscaler to create more app instances, you must ensure that TAS for VMs is sufficiently scaled.
@@ -192,8 +192,8 @@ To view the number of envelopes that Log Cache stores and the cache duration for
     The command above returns output similar to the following example:
     <pre class='terminal'>
     Source ID                             Source                                Source Type  Count   Expired  Cache Duration
-    c2dd9a8f-28f4-4cbf-8408-0548c8573c66  example-app-1                         application  82142   79749    21h54m48s
-    8b3798cd-7a2b-40f6-9605-b7cae998b855  example-app-2                         application  21040   23694    21h54m47s
+    e2xa9m8p-28l4-4ebf-8408-0548c8573c66  example-app-1                         application  82142   79749    21h54m48s
+    8e3798xa-7m2p-40l6-9605-e7cae998b855  example-app-2                         application  21040   23694    21h54m47s
     </pre>
 
 1. Review the values in the `Count` and `Cache Duration` columns to view the number of envelopes that Log Cache stores and the cache duration for an app.

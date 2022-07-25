@@ -6,9 +6,26 @@ owner: App Autoscaler
 This topic describes how to use App Autoscaler for scaling your apps in a production environment.
 
 
-## <a id='overview'></a> Overview of
+## <a id='overview'></a> Overview of Autoscaling in a Production Environment
 
-[Insert something about scaling apps according to needs of the deployment, scaling goals, etcetera here.]
+When using Autoscaler to scale an app in a production environment, you should consider your goals for the app.
+
+For example, you may want your app to be capable of processing a certain number of business transactions per second. Each of those transactions may be
+comprised of multiple HTTP requests to the app itself, as well as to services and other apps in your TAS for VMs deployment. With this number of HTTP
+requests, you can determine how many instances of each app are necessary to allow your app to process your desired number of business transactions per
+seconds. You can then use this information to create effective autoscaling rules with Autoscaler.
+
+For information about how to create effective autoscaling rules with Autoscaler, see the sections below:
+
+* [Autoscaling Limits](#autoscaling-limits)
+
+* [Resource Quotas](#quotas)
+
+* [Choosing a Scaling Metric](#scaling-metric)
+
+* [Scaling Factors](#scaling-factors)
+
+* [Load-Testing Your App](#load-testing)
 
 
 ## <a id='autoscaling-limits'></a> Autoscaling Limits
@@ -98,7 +115,7 @@ more information about vertically scaling an app, see [Scaling Vertically](../..
 scale_.
 
 
-## <a id='choosing-a-metric'></a> Choosing a Scaling Metric
+## <a id='scaling-metric'></a> Choosing a Scaling Metric
 
 You can define rules for Autoscaler to scale your app instances up or down using a particular scaling metric.
 
