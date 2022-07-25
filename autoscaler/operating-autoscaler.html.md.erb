@@ -1,5 +1,5 @@
 ---
-title: Operating Autoscaler
+title: Operating App Autoscaler
 owner: App Autoscaler
 ---
 
@@ -8,52 +8,78 @@ This topic describes considerations for operators of VMware Tanzu Application Se
 
 ## <a id='overview'></a> Overview
 
-As an operator, Autoscaler can make the workload of your platform more dynamic than it has previously been. Autoscaler allows the number of app instances to be "right sized" for the workload the platform is receiving. You must still ensure that the underlying platform is scaled appropriately to handle the requests from Autoscaler to provision more app instances.
+Autoscaler can ensure that an app always has the number of instances it needs to handle the amount of traffic that it receives. However, in order for
+Autoscaler to create more app instances, you must ensure that TAS for VMs is sufficiently scaled.
 
-Autoscaler can make sizing your platform more challenging than a statically-provisioned (often over-scaled) environment.
+For information about the TAS for VMs components that you may need to adjust to accommodate autoscaling, see the sections below:
+
+* [Diego Cells](#diego-cells)
+
+* [Resource Quotas](#quotas)
+
+* [Traffic Patterns of Existing Apps](#existing-apps)
+
+* [Log Cache](#log-cache)
 
 
 ## <a id='diego-cells'></a> Diego Cells
 
-One common operator consideration is whether you have sufficient headroom on your Diego Cells to meet the autoscaling demands of your apps.
+One common consideration is whether you have sufficient headroom [what's this?] on your Diego Cells to meet the autoscaling demands of your apps.
 
-Best practice is to have observability tools configured to give you insight into the resource use of your Diego Cells, and to alert you if you are likely to run out of resources. Examples of these include Healthwatch for VMware Tanzu and VMware Tanzu Observability by Wavefront.
+Using observability tools such as Healthwatch for VMware Tanzu and VMware Tanzu Observability by Wavefront can help you monitor the resources that your Diego
+Cells use, as well as alert you if your Diego Cells are likely to run out of resources.
 
-For memory and disk use, keep an eye on both the total available memory/disk and the available free chunks to ensure that you have enough room available.
+To ensure that your Diego Cells can accommodate autoscaling, VMware recommends monitoring the total available memory, total available disk, and available free
+chunks. [Insert cross-reference here.]
 
 
-## <a id='operator-quotas'></a> Quotas
+## <a id='quotas'></a> Resource Quotas
 
-Quotas are important to ensure that a poorly configured autoscaling rule, or malicious requests, don't result in Autoscaler attempting to scale beyond what your deployed platform can handle. You should not use Autoscaler without ensuring that sensible quotas are in place.
+Quota plans ensure that inefficient autoscaling rules or malicious requests do not cause Autoscaler to attempt to scale beyond the capabilities of your TAS
+for VMs deployment. You should not configure Autoscaler to scale apps without ensuring that the space and org in which your app is deployed have quota plans
+that can accommodate your autoscaling needs.
 
-### <a id='underlying-capacity'></a> Quotas and Underlying Capacity
+When configuring Autoscaler to scale an app, you must ensure that the resource quotas allocated to the app are sufficient to allow Autoscaler to scale the
+app within those limits. If the resource quotas that are available for the app to use are lower than the resources required to meet the upper scaling limit
+you configured, Autoscaler cannot scale up to that upper scaling limit.
 
-An important decision to make is whether to:
+For more information about creating and modifying quota plans for your TAS for VMs deployment, see [Creating and Modifying Quota
+Plans](../../adminguide/quota-plans.html).
 
-* Provision sufficient resources to enable all apps to claim their maximum resource quotas simultaneously (and over-provision).
-* Provision less resources, with the risk that you cannot satisfy scaling requests.
+### <a id='platform-capacity'></a> Platform Capacity
 
-A factor in this decision is your ability to provision more Diego Cells from the underlying IaaS on-demand in the event that you require them.
+When creating or modifying quota plans for a space or org in your TAS for VMs deployment, you should choose one of the following strategies:
 
-### <a id='identifying-apps-that-have-hit-their-quota'></a> Identifying apps that have Hit their Quota
+* Provision enough resources to allow all apps to use their maximum allocated resource quotas simultaneously, at the risk of over-provisioning resources for
+your TAS for VMs deployment.
 
-It can be useful to identify apps that might be configured for autoscaling, want to scale further, but reach the limits of their configured quota.
+* Provision fewer resources, at the risk of Autoscaler being unable to accommodate scaling requests.
 
-Some examples of this include:
+When deciding whether to provision more or fewer resources, consider which scenario would allow you to provision more Diego Cells from the IaaS on which your
+Ops Manager foundation is deployed if you should require them.
 
-* **Quota is too low:** One possibility is that autoscaling is configured correctly for the app and the metric chosen for scaling does indicate a need to scale out further but the quota prevented this. In that case it may be appropriate to increase the quota available.
+### <a id='quota-reached'></a> Apps That Reach Resource Quotas
 
-* **Autoscaling Thresholds are too low:** Another possibility is that the thresholds selected for autoscaling may be too low or the metric may be unaffected by scaling out app instances in which case it is appropriate to have a conversation with the team responsible for the app to look at how the configuration can be improved.
+You might already have configured Autoscaler to scale apps that have reached the limits of the quota plan for the spaces or orgs in which they are deployed.
 
-Autoscaler does not emit a metric when it is unable to scale an app due to quota limits. However, you can configure logging for Autoscaler so that you can see this event when it occurs.
+The following examples describe scenarios in which you might need to modify the existing quota plan for a space or org:
 
-#### <a id='verbose-logging'></a> Configure Verbose Logging in Autoscaler
+* **Allocated resource quotas are too low:** If the scaling metric you configured Autoscaler to use for an app indicates that the number of app instances
+needs to be scaled up, but Autoscaler cannot scale the number of instances up further, the app may have reached its allocated quota limit for one or more
+resources.
 
-As an operator, you can configure verbose logging in the configuration for TAS within Ops Manager:
+* **Autoscaling thresholds are too low:** If the autoscaling metric thresholds you configured are too low, scaling the number of app instances up may not be enough to bring the scaling metric back below the maximum metric threshold. [How is this related to the quota plans in place?]
+
+Autoscaler does not record when resource quota limits prevent it from scaling an app. However, you can see when this occurs by configuring verbose logging for
+Autoscaler. To configure verbose logging for Autoscaler, see [Configure Verbose Logging for Autoscaler](#verbose-logging) below.
+
+#### <a id='verbose-logging'></a> Configure Verbose Logging for Autoscaler
+
+To configure verbose logging for Autoscaler:
 
 1. Navigate to the Ops Manager Installation Dashboard.
 
-1. Click the **VMware Tanzu Application Service for VMs** tile.
+1. Click the **VMware Tanzu Application Service** tile.
 
 1. Select **App Autoscaler**.
 
@@ -61,59 +87,124 @@ As an operator, you can configure verbose logging in the configuration for TAS w
 
 1. Click **Save**.
 
-1. Click **Apply Changes**.
-
 1. Return to the Ops Manager Installation Dashboard.
 
 1. Click **Review Pending Changes**.
 
-1. Ensure that the **App Autoscaler Errand** is selected.
+1. Under the **VMware Tanzu Application Service** tile, click **Errands**. The **Errands** menu expands.
+
+1. Ensure that the **App Autoscaler Errand** checkbox is activated.
 
 1. Click **Apply Changes**.
 
-<p class='note'><strong>Note:</strong> Re-deploying TAS for VMs briefly interrupts any work currently being performed by Autoscaler.</p>
+<p class='note'><strong>Note:</strong> Re-deploying TAS for VMs briefly interrupts Autoscaler processes.</p>
 
-Now you can review the Autoscaler logs to identify apps that are unable to scale due to hitting their quota. For example:
+Now you can review the Autoscaler logs to determine whether an app has reached one or more of its allocated resource quota limits. To review Autoscaler logs,
+see [Determine Whether an App Has Reached Its Resource Quota Limits](#view-app-logs) below.
 
-```
-Unable to scale. App instance quota has been reached. for app e74371c1-889c-4eb7-be36-ffbf4ec3de04 in space 7032988a-5f76-4c2d-b25c-bc1e19f44b9a
-```
+#### <a id='view-app-logs'></a> Determine Whether an App Has Reached Its Resource Quota Limits
 
-You can then curl the Cloud Controller API to learn more about the app, space and org and any applicable quotas:
+To determine whether an app has reached one or more of its allocated resource quota limits:
 
-```
-$ cf curl /v3/apps/e74371c1-889c-4eb7-be36-ffbf4ec3de04
-$ cf curl /v3/spaces/7032988a-5f76-4c2d-b25c-bc1e19f44b9a
-```
+1. In a terminal window, run:
 
+    ```
+    cf autoscaling-events APP-NAME
+    ```
+    Where APP-NAME is the name of the app for which you want to review logs.
+    <br>
+    <br>
+    If the app has reached one or more of its allocated resource quota limits, the command returns output similar to the following example:
+    <pre class='terminal'>
+    Time                  Description
+    2032-01-01T00:00:00Z  Unable to scale. App instance quota has been reached. for app e59357x1-395a-4mp7-le36-ffbf4ec3de04 in space 9482047e-5x58-7a2m-p25l-es1w19o44b9a
+    </pre>
 
-## <a id='existing-apps'></a> Adding Autoscaling to Existing apps
-
-If you are adding autoscaling to an existing system, it might be helpful to look at previous patterns of demand to discover what number of app instances might be needed.
-
-If your overall platform traffic has a natural pattern, such as increased traffic during the local business day, you should have:
-
-* An idea of the peak number of requests
-
-* The current staticly configured number of app instances necessary to satisfy them
-
-The minimum number of app instances needed outside of peak hours might be significantly lower. This is a reason to adopt autoscaling. Lowering your app instance count avoids statically provisioning for your maximum expected traffic.
+1. Record the the global unique identifiers (GUIDs) for the app and space that you viewed in the previous step. In the above example output, the GUID for the
+app is `e59357x1-395a-4mp7-le36-ffbf4ec3de04`, and the GUID for the space is `9482047e-5x58-7a2m-p25l-es1w19o44b9a`.
 
 
-## <a id='scaling-log-cache'></a> Scaling Log Cache to Support Autoscaler
+1. Send a `GET` request to the Cloud Controller API to learn more about the resource quotas allocated to the app and space.
+    * To review the resource quotas allocated to the app, run:
 
-As an operator you also must be mindful of whether Log Cache is scaled up sufficiently to support Autoscaler.
+        ```
+        cf curl /v3/apps/APP-GUID
+        ```
+        Where `APP-GUID` is the GUID for the app that you recorded in the previous step.
+    * To review the resource quotas allocated to the space, run:
 
-Autoscaler relies mainly on retrieving metric envelopes from Log Cache. You must ensure that Log Cache can hold enough envelopes to allow Autoscaler to make a sensible scaling decision.
+        ```
+        cf curl /v3/spaces/SPACE-GUID
+        ```
+        Where `SPACE-GUID` is the GUID for the space that you recorded in the previous step.
 
-Typically Autoscaler is configured to look at the last 120 seconds of metrics when making decisions. This refers to the **Metric Collection Interval** configuration under **App Autoscaler** in the TAS configuration.
 
-Log Cache has a default maximum number of envelopes per source id (app) of `100,000`. Given that several envelopes are generated by the platform for every request, and recent app logs are held in the same bucket, busy apps might have insufficient history present in Log Cache to make scaling decisions.
+## <a id='existing-apps'></a> Traffic Patterns of Existing Apps
 
-VMware recommends using the [Log Cache cf CLI plugin](https://github.com/cloudfoundry/log-cache-cli), and specifically the `cf log-meta` command, to view the number of envelopes held in Log Cache for an app and the cache duration.
+If you are adding autoscaling to an existing app, VMware recommends that you review historical request traffic patterns for the app to determine how many app
+instances are necessary to sufficiently handle future request traffic.
 
-If you discover that you need to increase the maximum number of envelopes allowed per app, you can increase this globally for all apps. You can do this by changing the setting in the TAS configuration under **Advanced Features** **>** **Maximum number of envelopes stored in Log Cache per source**.
+For example, if the overall app traffic follows a natural pattern, such as increased traffic during the local business day, review historical request traffic
+patterns for the app to see the following:
 
-Envelopes might also be evicted from the cache if Log Cache experiences memory pressure. You can alleviate this by deploying additional Log Cache nodes or vertically scaling Log Cache.
+* When the largest number of requests occurs each day
 
-<p class="note"><strong>Note:</strong> If you are scaling your apps based on metrics that are emitted less frequently, such as container metrics, they are more likely to be affected by cache removal than the per-request metrics.</p>
+* The current static number of app instances that are necessary to accommodate the largest number of requests
+
+The number of app instances needed to accommodate app traffic outside of peak hours might be significantly lower than the number of app instances needed to
+accommodate app traffic during peak hours. In cases like this, VMware recommends configuring Autoscaler for your app to avoid using resources when the app
+does not need them to accommodate the maximum amount of expected traffic.
+
+
+## <a id='log-cache'></a> Log Cache
+
+Autoscaler scales the number of app instances based primarily on the metric envelopes it receives from Log Cache. To ensure that Log Cache can support
+Autoscaler, you must ensure the following:
+
+* Autoscaler can evaluate enough metrics to make appropriate scaling decisions. For more information, see [Metric Collection
+Interval](#metric-collection-interval) below.
+
+* Log Cache can store enough metric envelopes that Autoscaler can make appropriate scaling decisions. For more information, see [Envelopes](#envelopes) below.
+
+### <a id='metric-collection-interval'></a> Metric Collection Interval
+
+By default, Autoscaler evaluates the last 120 seconds of metrics when making scaling decisions.
+
+You can change this interval by configuring the **Metric collection interval** field in the **App Autoscaler** pane of the TAS for VMs tile. You may want to
+increase this number if the metrics you use in the autoscaling rules for an app are emitted less frequently than the current metric collection interval.
+
+To configure the metric collection interval for Autoscaler, see [(Optional) Configure App Autoscaler](../../operating/configure-pas.html#config-autoscaler) in
+_Configuring TAS for VMs_.
+
+### <a id='envelopes'></a> Envelopes
+
+By default, Log Cache can store a maximum of 100,000 envelopes per app. Because the platform [app? TAS for VMs?] generates several envelopes for every request, and Log Cache stores recent app logs in the same bucket, the history that Log Cache stores for busy apps might be insufficient for Autoscaler to make appropriate scaling decisions.
+
+To view the number of envelopes that Log Cache stores and the cache duration for an app:
+
+1. Download the Log Cache cf CLI plugin from the [Log Cache cf CLI Plugin](https://github.com/cloudfoundry/log-cache-cli) repository on GitHub.
+
+1. In a terminal window, run:
+
+    ```
+    cf log-meta --source-type application
+    ```
+    The command above returns output similar to the following example:
+    <pre class='terminal'>
+    Source ID                             Source                                Source Type  Count   Expired  Cache Duration
+    c2dd9a8f-28f4-4cbf-8408-0548c8573c66  example-app-1                         application  82142   79749    21h54m48s
+    8b3798cd-7a2b-40f6-9605-b7cae998b855  example-app-2                         application  21040   23694    21h54m47s
+    </pre>
+
+1. Review the values in the `Count` and `Cache Duration` columns to view the number of envelopes that Log Cache stores and the cache duration for an app.
+
+If necessary, you can increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log
+Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.
+
+To configure the maximum number of envelopes that Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per
+Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.
+
+Additionally, Log Cache may evict envelopes if it has an insufficient amount of memory. To fix this issue, you can scale Log Cache horizontally or vertically.
+To scale Log Cache horizontally or vertically, see [Scaling an App Using cf scale](../../devguide/deploy-apps/cf-scale.html).
+
+Apps that use scaling metrics that are emitted less frequently, such as container metrics, are more likely to be affected by Log Cache evicting envelopes.

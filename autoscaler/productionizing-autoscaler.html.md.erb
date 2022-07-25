@@ -61,7 +61,6 @@ the operator for your Ops Manager deployment.
 When defining quotas for a space or org, you must consider not only the scaling needs of an individual app, but the potential scaling needs of other apps in
 the same space or org.
 
-
 For more information about creating and modifying quota plans for TAS for VMs deployments, see [Creating and Modifying Quota
 Plans](../../adminguide/quota-plans.html).
 
@@ -141,7 +140,6 @@ instances at a time.
 When you define a larger scale-up factor for an app, Autoscaler scales the number of app instances up more responsively to the scaling metric you defined for the autoscaling rule for the app. [What does "more responsively" mean?] This means that there may be circumstances in which using a particular scaling metric for the app causes or exacerbates performance issues for the app. For example, if networking issues or an unresponsive downstream services causes greater HTTP latency, configuring Autoscaler to scale app instances up by a larger number may cause HTTP latency to worsen even more.
 
 In many production deployments, the scale-down factor for an app is lower than the scale-up factor. This allows an app to scale up faster, then return to an earlier baseline number of instances more slowly by stepping down in smaller increments. [Why is this desirable?]
-
 
 ### <a id='configure-scaling-factors'></a> Configure Scaling Factors
 
