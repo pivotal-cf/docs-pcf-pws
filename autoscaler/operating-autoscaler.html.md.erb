@@ -11,6 +11,10 @@ This topic describes considerations for operators of VMware Tanzu Application Se
 Autoscaler can ensure that an app always has the number of instances it needs to handle the amount of traffic that it receives. However, in order for
 Autoscaler to create more app instances, you must ensure that TAS for VMs is sufficiently scaled.
 
+Using Autoscaler to scale your apps can cause the workload that your TAS for VMs deployment manages to fluctuate more widely and often. As a result,
+provisioning resources for a TAS for VMs deployment that includes Autoscaler is more challenging than provisioning resources for a TAS for VMs deployment in
+which apps are static or scaled manually.
+
 For information about the TAS for VMs components that you may need to adjust to accommodate autoscaling, see the sections below:
 
 * [Diego Cells](#diego-cells)
