@@ -73,11 +73,11 @@ When setting autoscaling limits for Autoscaler, you must ensure that the resourc
 app within those limits. If the resource quotas that are available for the app to use are lower than the resources required to meet the upper scaling limit
 you set, Autoscaler cannot scale up to that upper scaling limit.
 
-You can create quota plans for spaces and orgs. If you do not have permissions to create quota plans or you need an existing quota limit increased, contact
-the operator for your TAS for VMs deployment.
+You can create quota plans for spaces and orgs. If you do not have permissions to create quota plans or you need an existing resource quota limit increased,
+contact the operator for your TAS for VMs deployment.
 
-When defining quotas for a space or org, you must consider not only the scaling needs of an individual app, but the potential scaling needs of other apps in
-the same space or org.
+When defining resource quotas for a space or org, you must consider not only the scaling needs of an individual app, but the potential scaling needs of other
+apps in the same space or org.
 
 For more information about creating and modifying quota plans for spaces and orgs, see [Creating and Modifying Quota
 Plans](../../adminguide/quota-plans.html).
@@ -94,10 +94,10 @@ enough of the following resources available for the app to use:
 * **Instance Memory:** The amount of memory allowed per app instance.
 
 For example, if your app is configured with a memory limit of 1 G per app instance, and the upper scaling limit you configured is 20 app instances, 20 G of
-memory must be available in your space or org quota. Otherwise, Autoscaler cannot scale the app up to the upper scaling limit.
+memory must be available in your space or org quota plan. Otherwise, Autoscaler cannot scale the app up to the upper scaling limit.
 
-When an app reaches a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. You can review the quota
-plans for the space or org to determine if an app has reached a resource quota.
+When an app reaches a resource quota limit for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. You can review the
+quota plans for the space or org to determine if an app has reached a resource quota limits.
 
 For more information about reviewing space and org quota plans, see [Space or Org Quota is Reached](troubleshooting.html#quota-reached) in _Troubleshooting
 App Autoscaler_.
