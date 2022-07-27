@@ -24,7 +24,8 @@ For information about the TAS for VMs components that you may need to adjust to 
 
 ## <a id='diego-cells'></a> Diego Cells
 
-One common consideration is whether you have sufficient headroom [what's this?] on your Diego Cells to meet the autoscaling demands of your apps.
+Before you configure Autoscaler to scale your apps, you should ensure that your Diego Cells have enough resources to meet the autoscaling demands of your
+apps.
 
 Using observability tools such as Healthwatch for VMware Tanzu and VMware Tanzu Observability by Wavefront can help you monitor the resources that your Diego
 Cells use, as well as alert you if your Diego Cells are likely to run out of resources.
@@ -48,27 +49,20 @@ Plans](../../adminguide/quota-plans.html).
 
 ### <a id='platform-capacity'></a> Platform Capacity
 
-When creating or modifying quota plans for a space or org in your TAS for VMs deployment, you should choose one of the following strategies:
+When creating or modifying quota plans for a space or org in your TAS for VMs deployment, consider whether you want to provision more or fewer resources for
+the apps you want Autoscaler to scale. The following descriptions of each scenario include their benefits and drawbacks:
 
-* Provision enough resources to allow all apps to use their maximum allocated resource quotas simultaneously, at the risk of over-provisioning resources for
-your TAS for VMs deployment.
+* You could provision enough resources to allow all apps to use their maximum allocated resource quotas simultaneously. However, you risk over-provisioning
+resources for your TAS for VMs deployment.
 
-* Provision fewer resources, at the risk of Autoscaler being unable to accommodate scaling requests.
-
-When deciding whether to provision more or fewer resources, consider which scenario would allow you to provision more Diego Cells from the IaaS on which your
-Ops Manager foundation is deployed if you should require them.
+* You could provision fewer resources, which allows you to provision more Diego Cells from the IaaS on which your Ops Manager foundation is deployed if you
+should require them. However, you risk Autoscaler being unable to accommodate scaling requests.
 
 ### <a id='quota-reached'></a> Apps That Reach Resource Quotas
 
-You might already have configured Autoscaler to scale apps that have reached the limits of the quota plan for the spaces or orgs in which they are deployed.
-
-The following examples describe scenarios in which you might need to modify the existing quota plan for a space or org:
-
-* **Allocated resource quotas are too low:** If the scaling metric you configured Autoscaler to use for an app indicates that the number of app instances
-needs to be scaled up, but Autoscaler cannot scale the number of instances up further, the app may have reached its allocated quota limit for one or more
-resources.
-
-* **Autoscaling thresholds are too low:** If the autoscaling metric thresholds you configured are too low, scaling the number of app instances up may not be enough to bring the scaling metric back below the maximum metric threshold. [How is this related to the quota plans in place?]
+You may have already configured Autoscaler to scale some apps. However, if the scaling metric you configured Autoscaler to use for an app indicates that the
+number of app instances needs to be scaled up, but Autoscaler cannot scale the number of instances up further, the app may have reached its allocated quota
+limit for one or more resources.
 
 Autoscaler does not record when resource quota limits prevent it from scaling an app. However, you can see when this occurs by configuring verbose logging for
 Autoscaler. To configure verbose logging for Autoscaler, see [Configure Verbose Logging for Autoscaler](#verbose-logging) below.
@@ -178,7 +172,9 @@ _Configuring TAS for VMs_.
 
 ### <a id='envelopes'></a> Envelopes
 
-By default, Log Cache can store a maximum of 100,000 envelopes per app. Because the platform [app? TAS for VMs?] generates several envelopes for every request, and Log Cache stores recent app logs in the same bucket, the history that Log Cache stores for busy apps might be insufficient for Autoscaler to make appropriate scaling decisions.
+By default, Log Cache can store a maximum of 100,000 envelopes per app. Because TAS for VMs generates several envelopes for every request, and Log Cache
+stores recent app logs in the same bucket, the history that Log Cache stores for busy apps might be insufficient for Autoscaler to make appropriate scaling
+decisions.
 
 To view the number of envelopes that Log Cache stores and the cache duration for an app:
 
