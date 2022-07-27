@@ -25,13 +25,13 @@ For information about the TAS for VMs components that you may need to adjust to 
 ## <a id='diego-cells'></a> Diego Cells
 
 Before you configure Autoscaler to scale your apps, you should ensure that your Diego Cells have enough resources to meet the autoscaling demands of your
-apps.
+apps. To ensure that your Diego Cells can accommodate autoscaling, VMware recommends monitoring the total available memory, total available disk, and
+available free chunks across all Diego Cells in your TAS for VMs deployment.
 
 Using observability tools such as Healthwatch for VMware Tanzu and VMware Tanzu Observability by Wavefront can help you monitor the resources that your Diego
-Cells use, as well as alert you if your Diego Cells are likely to run out of resources.
-
-To ensure that your Diego Cells can accommodate autoscaling, VMware recommends monitoring the total available memory, total available disk, and available free
-chunks. [Insert cross-reference here.]
+Cells use, as well as alert you if your Diego Cells are likely to run out of resources. For more information, see the [Healthwatch
+documentation](https://docs.pivotal.io/healthwatch/metrics.html#svm-forwarder-platform) and the [Wavefront
+documentation](https://docs.wavefront.com/integrations_tas_alerts.html).
 
 
 ## <a id='quotas'></a> Resource Quotas
