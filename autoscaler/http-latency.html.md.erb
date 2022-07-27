@@ -206,11 +206,11 @@ For more information, see [Configure Autoscaling for an App](using-autoscaler.ht
 
 The following cases require special consideration when using HTTP latency as a metric for autoscaling.
 
-### <a id="multiple-endpoints"></a> Multiple endpoints with different latency characteristics
+### <a id="multiple-endpoints"></a> Multiple Endpoints with Different Latency Characteristics
 
 In an app that exposes multiple endpoints, one endpoint might be slower than the others. In this case, HTTP latency might not be an ideal autoscaling metric, because the calculated latency is an average of the latency across all app endpoints. For example, a large number of requests to a fast endpoint drags down the average HTTP latency, and can prevent Autoscaler from scaling up the app.
 
-### <a id="downstream-services"></a> Downstream services
+### <a id="downstream-services"></a> Downstream Services
 
 Sometimes HTTP request latency results from downstream dependencies (for example, other microservices). If the app has a slow downstream dependency, this can also increase the latency of the app. If this is the case, the downstream dependency must be scaled up or improved, and autoscaling your app does not improve performance.
 
@@ -224,13 +224,13 @@ Autoscaling based on HTTP latency is currently only supported for apps that rece
 
 If your system includes back end HTTP services that are accessed directly from another app using Container to Container (C2C) networking, the Gorouter does not generate HTTP events for these requests, and Autoscaler cannot scale based on the requests. In this case, configure Autoscaler to scale based on an alternative built-in metric or a custom metric.
 
-### <a id="log-cache-eviction"></a> High-traffic apps
+### <a id="log-cache-eviction"></a> High-Traffic Apps
 
 Autoscaler retrieves HTTP metrics from Log Cache, which has a default limit of 100,000 envelopes per app. If your app receives a large number of HTTP requests, or has very verbose logging, Autoscaler might only have access to a subset of the generated timer envelopes for the period. This causes a bias in the calculated HTTP latency. In most cases, the calculated latency still approximates the request latency.
 
 For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
 
-### <a id="infrequent-access"></a> Infrequently accessed apps
+### <a id="infrequent-access"></a> Infrequently Accessed Apps
 
 If your app is infrequently accessed and has a high-latency response, Autoscaler might continue to scale up the app because no other HTTP latency metrics are available to restore the average. In this case, Autoscaler usually finishes scaling up after the original request falls outside of the metric collection interval.
 
