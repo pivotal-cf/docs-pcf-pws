@@ -145,9 +145,9 @@ For more information about the Cloud Controller, see [Cloud Controller](../../co
 
 Autoscaler logs the following metrics:
 
-* `autoscale.cloud_controller.calls`: The number of requests that have been made to the Cloud Controller [just by Autoscaler and Log Cache, or other components, as well?]
-* `autoscale.cloud_controller.request_errors`: The number of requests to the Cloud Controller that resulted in an error [just by Autoscaler and Log Cache, or other components, as well?]
-* `autoscale.cloud_controller.scale_errors`: The number of requests to scale an app that have resulted in an error
+* `autoscale.cloud_controller.calls`: the number of requests that Autoscaler has made to the Cloud Controller
+* `autoscale.cloud_controller.request_errors`: the number of requests that Autoscaler has made to the Cloud Controller that resulted in an error
+* `autoscale.cloud_controller.scale_errors`: the number of requests to scale an app that have resulted in an error
 
 <p class='note'><strong>Note:</strong> These metrics appear as log lines and are not currently emitted to Loggregator.</p>
 
@@ -217,7 +217,7 @@ the Diego Cells that host [is this the right word?] Autoscaler fail, Autoscaler 
 
 ## <a id='scaling-Autoscaler'></a> Scaling Autoscaler
 
-By default, there are three instances of Autoscaler app `autoscale` that perform the autoscaling. [But wait -- the ~~Highlander~~ troubleshooting topic says there can be only one!] Each works independently to try to claim a set of apps that may need to be scaled and process them.
+By default, there are three instances of Autoscaler app `autoscale` that perform the autoscaling. [But wait -- the <s>Highlander</s> troubleshooting topic says there can be only one!] Each works independently to try to claim a set of apps that may need to be scaled and process them.
 
 An Autoscaler instance considers apps in batches of 10 when making scaling decisions. The number of batches that each instance of Autoscaler can process is mostly governed by the number of metrics for those apps it retrieves from Log Cache. If Log Cache holds a large number of metrics for an app, Autoscaler does not proceed to the next batch until either it retrieves all of those metrics or the request times out.
 
