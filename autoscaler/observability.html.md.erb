@@ -35,7 +35,7 @@ To configure debug logging for Autoscaler:
     ```
     <p class='note'><strong>Note:</strong> Re-starting Autoscaler briefly interrupts any processes it is currently performing.</p>
 
-[What about procedures for viewing debug logs and scaling events?]
+[What about procedures for viewing debug logs and autoscaling events?]
 
 ## <a id='observability'></a> Reviewing Autoscaler Usage
 
@@ -87,7 +87,7 @@ Autoscaler logs the following metrics:
 
 #### <a id='lc-gateway-unavailable'></a> Log Cache Gateway is Unavailable
 
-When the Log Cache gateway is unavailable [as in it's not there, or Autoscaler simply fails to connect to it?], you see a scaling event similar to the following example:
+When the Log Cache gateway is unavailable [as in it's not there, or Autoscaler simply fails to connect to it?], you see an autoscaling event similar to the following example:
 
 ```
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
@@ -103,7 +103,7 @@ You also see app logs similar to the following example:
 
 Log Cache holds the log and metric envelopes for an app on a single Log Cache node. ["Node" = just a VM? Or physical server, worker machine, and/or VM?] When that Log Cache node fails, Autoscaler cannot retrieve those envelopes, so it cannot determine when to scale an app.
 
-When the Log Cache node that holds the envelopes for an app fails, you see a scaling event similar to the following example:
+When the Log Cache node that holds the envelopes for an app fails, you see an autoscaling event similar to the following example:
 
 ```
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
@@ -117,7 +117,7 @@ You also see app logs similar to the following example:
 
 #### <a id='lc-node-unresponsive'></a> Log Cache Nodes are Unresponsive
 
-When Log Cache nodes do not respond to requests from Autoscaler, you see a scaling event similar to the following example:
+When Log Cache nodes do not respond to requests from Autoscaler, you see an autoscaling event similar to the following example:
 
 ```
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
@@ -153,7 +153,7 @@ Autoscaler logs the following metrics:
 
 #### <a id='cc-api-stopped'></a> Cloud Controller API is Stopped
 
-When the Cloud Controller API is stopped, you see a scaling event similar to the following example:
+When the Cloud Controller API is stopped, you see an autoscaling event similar to the following example:
 
 ```
 Unable to scale due to Cloud Controller error.
@@ -169,7 +169,7 @@ You also see app logs similar to the following example:
 
 #### <a id='cc-unresponsive'></a> Cloud Controller is Unresponsive
 
-When the Cloud Controller does not respond to requests from Autoscaler or Log Cache, you see a scaling event similar to the following example:
+When the Cloud Controller does not respond to requests from Autoscaler or Log Cache, you see an autoscaling event similar to the following example:
 
 ```
 Unable to scale due to Cloud Controller error.

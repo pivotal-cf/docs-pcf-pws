@@ -32,7 +32,8 @@ autoscaling rules you configured. If the autoscaling rules are not configured as
 
 Autoscaler averages metrics over the metric collection interval you configure in the **App Autoscaler** pane of the TAS for VMs tile.
 
-If the number of metrics suddenly increase, the increase may not be reflected in an autoscaling event until the average for the metric increases.
+If the values of the scaling metric for an app suddenly increase, the increase may not be reflected in an autoscaling event until the average for the metric
+increases.
 
 ### <a id='autoscaling-limit'></a> App Has Reached Autoscaling Limit
 
@@ -168,8 +169,8 @@ underscaled:
     ```
     cf autoscaling-events
     ```
-    The above command returns a list of scaling events that Autoscaler has recorded, which include the value of the scaling metric for your app. If the value
-    is lower than the actual load that the app is processing, Log Cache may be evicting some metrics from its cache.
+    The above command returns a list of autoscaling events that Autoscaler has recorded, which include the value of the scaling metric for your app. If the
+    value is lower than the actual load that the app is processing, Log Cache may be evicting some metrics from its cache.
 
 To fix this issue, scale the number of Log Cache instances up in the **Resource Config** pane of the TAS for VMs tile. To scale Log Cache up, see [Scaling Up
 TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.
@@ -268,7 +269,7 @@ autoscaling rule for the app is correct.
 
 ### <a id='rabbitmq-runtime-credhub'></a> Autoscaler Does Not Support Runtime CredHub
 
-You may see the following scaling event:
+You may see the following autoscaling event:
 
 <pre class='terminal'>Autoscaler did not receive any metrics for rabbitmq.queue-name during the scaling window. Scaling down is deferred until these metrics
   are available.</pre>
