@@ -6,8 +6,9 @@ owner: Autoscaler
 This topic describes how to monitor App Autoscaler and its supporting VMware Tanzu Application Service for VMs (TAS for VMs) components through debug logging.
 
 
-## <a id='overview'></a> Overview of
+## <a id='overview'></a> Overview of Debug Logging in Autoscaler
 
+[Insert summary of topic here.]
 
 
 ## <a id='allow-debug'></a> Configure Debug Logging for Autoscaler
@@ -53,7 +54,7 @@ You can also review the overall number of running app instances that Diego repor
 
 Because each team of developers may use different autoscaling rules for their apps, it may be difficult to make generalizations [about what?]. However, you can also overlay [compare?] the number of running app instances with other scaling metrics that the developers of your apps may be using [to determine what?]. For more information about various scaling metrics, see [Key Performance Indicators](../../operating/monitoring/kpi.html).
 
-You can also query the `/v3/service_instances` endpoint of the Cloud Foundry API (CAPI), filtering by service plans that are associated with Autoscaler [how do you do this?]. [What sort of information does this provide?] For more information, see the [CAPI documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-instances).
+You can also query the `/v3/service_instances` endpoint of the Cloud Foundry API (CAPI), filtering by service plans that are associated with Autoscaler [how do you do this?]. [What sort of information does this provide?] For more information, see the [CAPI documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-instances). [The original PR says "Cloud Controller API", but I've been having trouble finding out whether there really is a separate Cloud Controller API or it's part of the Cloud Foundry API.]
 
 
 ## <a id='failure-modes'></a> Failure Modes
