@@ -162,9 +162,9 @@ limit. For more information, see [Configure Verbose Logging in Autoscaler](opera
 In order for Autoscaler to function in a TAS for VMs deployment, you must set the **App Autoscaler Errand** to **On** in the **Errands** pane of the TAS for
 VMs tile, and you must configure Autoscaler to scale the apps you want to autoscale.
 
-#### <a id='confirm-autoscaling-allowed'></a>
+#### <a id='confirm-autoscaling-config'></a> View Apps Configured to Autoscale
 
-To see whether autoscaling is allowed for the apps you want to scale:
+To see whether autoscaling is configured for the apps you want to scale:
 
 1. In a terminal window, run:
 
@@ -179,19 +179,20 @@ To see whether autoscaling is allowed for the apps you want to scale:
     example-app-2         3e8x6a84-0m6p-4le9-9335-0aad3979d672      false     10              40              5                 2
     OK
     </pre>
-    If autoscaling is allowed for a particular app, the value shown in the `Enabled` column of the terminal output is `true`. If autoscaling is disallowed for
-    a particular app, the value shown in the `Enabled` column of the terminal output is `false`.
+    If autoscaling is already configured for a particular app, the value shown in the `Enabled` column of the terminal output is `true`. If autoscaling is
+    not configured for a particular app, the value shown in the `Enabled` column of the terminal output is `false`.
 
 #### <a id='allow-autoscaling'></a> Allow Autoscaling
 
 To allow autoscaling for an app:
 
-1. Allow Autoscaler for the app through either the App Autoscaler Command-Line Interface (CLI) or Apps Manager. To allow autoscaling for an app through the
-App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_. To allow autoscaling for an app
-through Apps Manager, see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
-
 1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile. To configure the **App Autoscaler Errand** to
 deploy Autoscaler, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.
+
+1. Configure Autoscaler to scale the app through either the App Autoscaler Command-Line Interface (CLI) or Apps Manager. To configure autoscaling for an app
+through the App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_. To configure
+autoscaling for an app through Apps Manager, see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App
+Using App Autoscaler_.
 
 ### <a id='platform-scale-out'></a> TAS for VMs Components Are Failing or Underscaled
 
