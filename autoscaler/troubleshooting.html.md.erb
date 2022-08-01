@@ -196,7 +196,7 @@ deploy Autoscaler, see [Configure Errands](../../operating/configure-pas.html#er
 ### <a id='platform-scale-out'></a> TAS for VMs Components Are Failing or Underscaled
 
 Autoscaler may fail to scale an app if one of the TAS for VMs components on which it depends is failing or underscaled. For more information about these
-components, see [Using Debug Logging with App Autoscaler](observability.html).
+components, see [Failure Modes](observability.html#failure-modes) in _Using Debug Logging with App Autoscaler_.
 
 These components may need to be restarted or scaled up before Autoscaler can scale your app. To restart TAS for VMs components, see [Stopping and Starting
 Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Stopping and Starting Virtual Machines_. To scale TAS for VMs components up, see
@@ -225,8 +225,8 @@ To review the values of your scaling metric, review the observability service th
 If any TAS for VMs components on which Autoscaler depends are underscaled, Autoscaler cannot scale the number of app instances up enough to accommodate the
 amount of traffic that the app is receiving.
 
-For more information about how to determine which TAS for VMs components might be too underscaled to adequately support Autoscaler, see [Using Debug Logging
-with App Autoscaler](observability.html).
+For more information about how to determine which TAS for VMs components might be too underscaled to adequately support Autoscaler, see [Failure
+Modes](observability.html#failure-modes) in _Using Debug Logging with App Autoscaler_.
 
 #### <a id='log-cache-underscaled'></a> Log Cache is Underscaled
 
