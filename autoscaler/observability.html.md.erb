@@ -43,15 +43,15 @@ As an operator, you can use debug logs to see whether developers of your apps ar
 
 If you have configured debug logging for Autoscaler, Autoscaler logs the following metrics [How do you view debug logs? Where in the logs do these metrics appear?]:
 
-* `autoscale.scale_up`: the number of times Autoscaler has scaled up an app
-* `autoscale.scale_down`: the number of times Autoscaler has scaled down an app
+* `autoscale.scale_up`: the number of times Autoscaler has scaled an app up
+* `autoscale.scale_down`: the number of times Autoscaler has scaled an app down
 * `autoscale.enabled_bindings`: the number of Autoscaler service bindings in [the entire TAS for VMs deployment? A particular space and/or org?]
 
 <p class='note'><strong>Note:</strong> These metrics appear as log lines and are not currently emitted to Loggregator.</p>
 
 You can also review the overall number of running app instances that Diego reports [and find out what, exactly?]. For more information, see [Running App Instances, Rate of Change](../../operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning) in _Key Performance Indicators_.
 
-Because each team of developers may use different autoscaling rules for their apps, it may be difficult to make generalizations [about what?]. However, you can also overlay [compare?] the number of running app instances with other scaling metrics that the developers of your apps may be using. For more information about the , see [Router Handling Latency](../../operating/monitoring/kpi.html#latency) in _Key Performance Indicators_.
+Because each team of developers may use different autoscaling rules for their apps, it may be difficult to make generalizations [about what?]. However, you can also overlay [compare?] the number of running app instances with other scaling metrics that the developers of your apps may be using [to determine what?]. For more information about various scaling metrics, see [Key Performance Indicators](../../operating/monitoring/kpi.html).
 
 You can also query the `/v3/service_instances` endpoint of the Cloud Foundry API (CAPI), filtering by service plans that are associated with Autoscaler [how do you do this?]. [What sort of information does this provide?] For more information, see the [CAPI documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-instances).
 
@@ -87,7 +87,7 @@ Autoscaler logs the following metrics:
 
 #### <a id='lc-gateway-unavailable'></a> Log Cache Gateway is Unavailable
 
-When the Log Cache gateway is unavailable [as in it's not there, or Autoscaler simply fails to connect to it?], you see an autoscaling event similar to the following example:
+When the Log Cache gateway is unavailable [as in it's not there/running at all, or Autoscaler simply fails to connect to it?], you see an autoscaling event similar to the following example:
 
 <pre class='terminal'>
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
@@ -96,6 +96,7 @@ Autoscaler did not receive any metrics for memory during the scaling window. Sca
 You also see app logs similar to the following example:
 
 <pre class='terminal'>[APP/PROC/WEB/2] OUT logcache walker: unexpected status code 502</pre>
+[This is only a segment of what the actual full debug log looks like, right? If so, what would it look like as a full debug log?]
 
 #### <a id='lc-node-failure'></a> Individual Log Cache Node Fails
 
@@ -153,7 +154,7 @@ When the Cloud Controller API is stopped, you see an autoscaling event similar t
 
 <pre class='terminal'>Unable to scale due to Cloud Controller error.</pre>
 
-This is a generic error that may indicate that an app has reached one or more of its resource quota limits. [Is this an alternate explanation for the error appearing, or does the Cloud Controller API stopping cause an app to reach a resource quota limit?]
+This is a generic error that may indicate that an app has reached one or more of its resource quota limits. [Is this an alternate explanation for the error appearing, or does the Cloud Controller API stopping itself cause an app to reach a resource quota limit?]
 
 You also see app logs similar to the following example:
 
@@ -167,7 +168,7 @@ When the Cloud Controller does not respond to requests from Autoscaler or Log Ca
 
 <pre class='terminal'>Unable to scale due to Cloud Controller error.</pre>
 
-This is a generic error that may indicate that an app has reached one or more of its resource quota limits. [Is this an alternate explanation for the error appearing, or does CC being unresponsive cause an app to reach a resource quota limit?]
+This is a generic error that may indicate that an app has reached one or more of its resource quota limits. [Is this an alternate explanation for the error appearing, or does CC being unresponsive itself cause an app to reach a resource quota limit?]
 
 You also see app logs similar to the following example:
 
@@ -209,11 +210,13 @@ the Diego Cells that host [is this the right word?] Autoscaler fail, Autoscaler 
 
 ## <a id='scaling-Autoscaler'></a> Scaling Autoscaler
 
-By default, there are three instances of Autoscaler app `autoscale` that perform the autoscaling. [But wait -- the <s>Highlander</s> troubleshooting topic says there can be only one!] Each works independently to try to claim a set of apps that may need to be scaled and process them.
+Autoscaler itself is an app that TAS for VMs deploys. By default, there are three instances of Autoscaler that scale the apps in your TAS for VMs deployment.
+[But wait -- the <s>Highlander</s> troubleshooting topic says there can be only one!] Each instance of Autoscaler works independently of the other instances to try to claim ["Try to"? Is there something like a Diego Auctioneer-style process for this?] a set of apps that may need to be scaled and process them. [Does each instance claim a different set of apps each time?]
 
-An Autoscaler instance considers apps in batches of 10 when making scaling decisions. The number of batches that each instance of Autoscaler can process is mostly governed by the number of metrics for those apps it retrieves from Log Cache. If Log Cache holds a large number of metrics for an app, Autoscaler does not proceed to the next batch until either it retrieves all of those metrics or the request times out.
+An Autoscaler instance considers [what does "consider" mean in this context?] apps in batches of 10 when making scaling decisions. The number of batches that each instance of Autoscaler can process is determined primarily by the number of metrics it retrieves from Log Cache for the apps within those batches. If Log Cache holds a large number of metrics for an app, Autoscaler does not begin processing the next batch until either it retrieves all of those metrics or the request times out. [So we're talking multiple batches of 10 apps being processed at the same time by one Autoscaler instance? Or is there a certain number of batches being processed sequentially within a certain timeframe?]
 
-To ensure that all apps configured for autoscaling are processed in a timely manner, you may need to increase the number of Autoscaler instances.
+To ensure that Autoscaler scales all the apps for which you have configured autoscaling in a timely manner, you may need to increase the number of Autoscaler
+instances [in a Diego Cell? A space/org?].
 
 To increase the number of Autoscaler instances:
 
