@@ -162,24 +162,7 @@ does not need them to accommodate the maximum amount of expected traffic.
 ## <a id='log-cache'></a> Log Cache
 
 Autoscaler scales the number of app instances based primarily on the metric envelopes it receives from Log Cache. To ensure that Log Cache can support
-Autoscaler, you must ensure the following:
-
-* Autoscaler can evaluate enough metrics to make appropriate scaling decisions. For more information, see [Metric Collection
-Interval](#metric-collection-interval) below.
-
-* Log Cache can store enough metric envelopes that Autoscaler can make appropriate scaling decisions. For more information, see [Envelopes](#envelopes) below.
-
-### <a id='metric-collection-interval'></a> Metric Collection Interval
-
-By default, Autoscaler evaluates the last 120 seconds of metrics when making scaling decisions.
-
-You can change this interval by configuring the **Metric collection interval** field in the **App Autoscaler** pane of the TAS for VMs tile. You may want to
-increase this number if the metrics you use in the autoscaling rules for an app are emitted less frequently than the current metric collection interval.
-
-To configure the metric collection interval for Autoscaler, see [(Optional) Configure App Autoscaler](../../operating/configure-pas.html#config-autoscaler) in
-_Configuring TAS for VMs_.
-
-### <a id='envelopes'></a> Envelopes
+Autoscaler, you must ensure that Log Cache can store enough metric envelopes that Autoscaler can make appropriate scaling decisions.
 
 By default, Log Cache can store a maximum of 100,000 envelopes per app. Because TAS for VMs generates several envelopes for every request, and Log Cache
 stores recent app logs in the same bucket, the history that Log Cache stores for busy apps might be insufficient for Autoscaler to make appropriate scaling
@@ -204,10 +187,8 @@ To view the number of envelopes that Log Cache stores and the cache duration for
 1. Review the values in the `Count` and `Cache Duration` columns to view the number of envelopes that Log Cache stores and the cache duration for an app.
 
 If necessary, you can increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log
-Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.
-
-To configure the maximum number of envelopes that Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per
-Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.
+Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile. To configure the maximum number of envelopes that Log Cache can store, see
+[Maximum Number of Envelopes Stored in Log Cache Per Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.
 
 Additionally, Log Cache may evict envelopes if it has an insufficient amount of memory. To fix this issue, you can scale Log Cache horizontally or vertically.
 To scale Log Cache horizontally or vertically, see [Scaling an App Using cf scale](../../devguide/deploy-apps/cf-scale.html).

@@ -58,11 +58,11 @@ You can also query the `/v3/service_instances` endpoint of the Cloud Foundry API
 
 ## <a id='failure-modes'></a> Failure Modes
 
-Instead of always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, Autoscaler allows you to provision only the number of app instances that are necessary based on metrics and your defined autoscaling rules. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, the app cannot scale up from a low level to meet the demands of your app usage.
+Instead of always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, Autoscaler allows you to provision only the number of app instances that are necessary based on metrics and your defined autoscaling rules. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, Autoscaler cannot scale the number of app instances up enough to meet the demands of your app usage.
 
 If you are not using Autoscaler, TAS for VMs component failures might only impact the control plane [what does "control plane" mean in this context?] of your TAS for VMs deployment. Using Autoscaler adds a harder dependency on these components being available. [Does "adding a harder dependency" mean it's more important that these components remain available, or that increased demand makes it less likely that they'll be available?]
 
-This section describes various ways in which the TAS for VMs components that support Autoscaler can fail. This is a non-exhaustive list. [Are the ones listed here the most common ones?] For each we list:
+This section describes various ways in which the TAS for VMs components that support Autoscaler can fail. This is a non-exhaustive list. [Are the ones listed here the most common ones?] Each section lists the following:
 
 * Relevant Autoscaler debug log metrics
 * Example messages that appear in the output of `cf autoscaling-events`
@@ -89,15 +89,13 @@ Autoscaler logs the following metrics:
 
 When the Log Cache gateway is unavailable [as in it's not there, or Autoscaler simply fails to connect to it?], you see an autoscaling event similar to the following example:
 
-```
+<pre class='terminal'>
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
-```
+</pre>
 
 You also see app logs similar to the following example:
 
-```
-[APP/PROC/WEB/2] OUT logcache walker: unexpected status code 502
-```
+<pre class='terminal'>[APP/PROC/WEB/2] OUT logcache walker: unexpected status code 502</pre>
 
 #### <a id='lc-node-failure'></a> Individual Log Cache Node Fails
 
@@ -105,29 +103,27 @@ Log Cache holds the log and metric envelopes for an app on a single Log Cache no
 
 When the Log Cache node that holds the envelopes for an app fails, you see an autoscaling event similar to the following example:
 
-```
+<pre class='terminal'>
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
-```
+</pre>
 
 You also see app logs similar to the following example:
 
-```
-[APP/PROC/WEB/1] OUT logcache walker: unexpected status code 503
-```
+<pre class='terminal'>[APP/PROC/WEB/1] OUT logcache walker: unexpected status code 503</pre>
 
 #### <a id='lc-node-unresponsive'></a> Log Cache Nodes are Unresponsive
 
 When Log Cache nodes do not respond to requests from Autoscaler, you see an autoscaling event similar to the following example:
 
-```
+<pre class='terminal'>
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down will be deferred until these metrics are available.
-```
+</pre>
 
 You also see app logs similar to the following example:
 
-```
+<pre class='terminal'>
 [APP/PROC/WEB/2] OUT logcache walker: Get "https://log-cache.sys.example.com/api/v1/read/85a6aff3-c739-4364-8df3-44f1aa50662b": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
-```
+</pre>
 
 ### <a id='cloud-controller'></a> Cloud Controller
 
@@ -155,34 +151,30 @@ Autoscaler logs the following metrics:
 
 When the Cloud Controller API is stopped, you see an autoscaling event similar to the following example:
 
-```
-Unable to scale due to Cloud Controller error.
-```
+<pre class='terminal'>Unable to scale due to Cloud Controller error.</pre>
 
 This is a generic error that may indicate that an app has reached one or more of its resource quota limits. [Is this an alternate explanation for the error appearing, or does the Cloud Controller API stopping cause an app to reach a resource quota limit?]
 
 You also see app logs similar to the following example:
 
-```
+<pre class='terminal'>
 [APP/PROC/WEB/0] OUT level=error msg="[Cloud Controller - app summary] CloudController - route not found"`
-```
+</pre>
 
 #### <a id='cc-unresponsive'></a> Cloud Controller is Unresponsive
 
 When the Cloud Controller does not respond to requests from Autoscaler or Log Cache, you see an autoscaling event similar to the following example:
 
-```
-Unable to scale due to Cloud Controller error.
-```
+<pre class='terminal'>Unable to scale due to Cloud Controller error.</pre>
 
 This is a generic error that may indicate that an app has reached one or more of its resource quota limits. [Is this an alternate explanation for the error appearing, or does CC being unresponsive cause an app to reach a resource quota limit?]
 
 You also see app logs similar to the following example:
 
-```
+<pre class='terminal'>
 [APP/PROC/WEB/0] OUT level=error msg="[Cloud Controller - app summary] failure connecting to cloud controller. Error: Get \"https://api.sys.example.com/v2/apps/85a6aff3-c739-4364-8df3-44f1aa50662b/summary\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
 [APP/PROC/WEB/1] OUT level=error msg="[Cloud Controller - app summary] CloudController - Failure"
-```
+</pre>
 
 ### <a id='mysql'></a> MySQL
 
@@ -198,10 +190,10 @@ If Autoscaler fails to select from or update the MySQL database, Autoscaler cann
 
 You also see app logs similar to the following example:
 
-```
+<pre class='terminal'>
 [APP/PROC/WEB/0] OUT level=error msg="Unable to find any enabled service bindings by instance id" error="driver: bad connection" instance_id=0
 [APP/PROC/WEB/2] ERR [mysql] packets.go:37: unexpected EOF
-```
+</pre>
 
 ### <a id='diego-cells'></a> Diego Cells
 
