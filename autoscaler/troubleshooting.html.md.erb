@@ -86,7 +86,7 @@ To review the available resource quotas for the space and org in which an app is
     Where `SPACE-NAME` is the name of the space in which the app is deployed.
     <br>
     <br>
-    In the output that appears, the value of `space quota` is the name of the quota plan for the space.
+    In the terminal output that appears, the value of `space quota` is the name of the quota plan for the space.
 
 1. Record the name of the quota plan for the space that you retrieved in the previous step.
 
@@ -98,7 +98,7 @@ To review the available resource quotas for the space and org in which an app is
     Where `ORG-NAME` is the name of the org containing the space in which the app is deployed.
     <br>
     <br>
-    In the output that appears, the value of `quota` is the name of the quota plan for the org.
+    In the terminal output that appears, the value of `quota` is the name of the quota plan for the org.
 
 1. Record the name of the quota plan for the org that you retrieved in the previous step.
 
@@ -110,7 +110,7 @@ To review the available resource quotas for the space and org in which an app is
     Where `QUOTA-PLAN-NAME` is the name of the space quota plan that you recorded in a previous step.
     <br>
     <br>
-    The command returns output similar to the following example:
+    The above command returns output similar to the following example:
     <pre class='terminal'>
     Getting quota example-space info as admin@example.com...
     OK
@@ -132,7 +132,7 @@ To review the available resource quotas for the space and org in which an app is
     Where `QUOTA-PLAN-NAME` is the name of the org quota plan that you recorded in a previous step.
     <br>
     <br>
-    The command returns output similar to the following example:
+    The above command returns output similar to the following example:
     <pre class='terminal'>
     Getting quota example-org info as admin@example.com...
     OK
@@ -162,6 +162,24 @@ limit. For more information, see [Configure Verbose Logging in Autoscaler](opera
 In order for Autoscaler to function in a TAS for VMs deployment, you must set the **App Autoscaler Errand** to **On** in the **Errands** pane of the TAS for
 VMs tile, and you must configure Autoscaler to scale the apps you want to autoscale.
 
+For more information, see the sections below:
+
+* [Allow Autoscaling](#allow-autoscaling)
+
+* [View Apps Configured to Autoscale](#confirm-autoscaling-config)
+
+#### <a id='allow-autoscaling'></a> Allow Autoscaling
+
+To allow autoscaling for an app:
+
+1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile. To configure the **App Autoscaler Errand** to
+deploy Autoscaler, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.
+
+1. Configure Autoscaler to scale the app through either the App Autoscaler Command-Line Interface (CLI) or Apps Manager. To configure autoscaling for an app
+through the App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_. To configure
+autoscaling for an app through Apps Manager, see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App
+Using App Autoscaler_.
+
 #### <a id='confirm-autoscaling-config'></a> View Apps Configured to Autoscale
 
 To see whether autoscaling is configured for the apps you want to scale:
@@ -181,18 +199,6 @@ To see whether autoscaling is configured for the apps you want to scale:
     </pre>
     If autoscaling is already configured for a particular app, the value shown in the `Enabled` column of the terminal output is `true`. If autoscaling is
     not configured for a particular app, the value shown in the `Enabled` column of the terminal output is `false`.
-
-#### <a id='allow-autoscaling'></a> Allow Autoscaling
-
-To allow autoscaling for an app:
-
-1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile. To configure the **App Autoscaler Errand** to
-deploy Autoscaler, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.
-
-1. Configure Autoscaler to scale the app through either the App Autoscaler Command-Line Interface (CLI) or Apps Manager. To configure autoscaling for an app
-through the App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_. To configure
-autoscaling for an app through Apps Manager, see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App
-Using App Autoscaler_.
 
 ### <a id='platform-scale-out'></a> TAS for VMs Components Are Failing or Underscaled
 
@@ -333,8 +339,8 @@ Description:   Service broker error: Only One App Autoscaler Service Instance Al
 FAILED
 </pre>
 
-Use the existing Autoscaler instance in your space and bind it to the app you want to autoscale. For more information, see [Create and Bind the App Autoscaler
-Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
+You must use the existing Autoscaler instance in your space and bind it to the app you want to autoscale. For more information, see [Create and Bind the App
+Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
 
 
 ## <a id='rabbitmq-queue-depth'></a> Autoscaler Fails to Scale Apps Based on RabbitMQ Queue Depth Metric
