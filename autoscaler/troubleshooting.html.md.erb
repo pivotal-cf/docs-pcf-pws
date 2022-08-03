@@ -149,7 +149,10 @@ To review the available resource quotas for the space and org in which an app is
 You can also try manually scaling the app. If the app has already reached one or more resource quota limits for your space or org, the Cloud Controller
 returns an error similar to the following example:
 
-<pre class='terminal'>[insert error here]</pre>
+<pre class='terminal'>
+memory quota_exceeded
+FAILED
+</pre>
 
 To scale an app manually, see [Scale an App Manually](../../console/manage-apps.html#manual-scale) in _Managing Apps and Service Instances Using Apps Manager_
 or [Scaling an App Using cf scale](../../devguide/deploy-apps/cf-scale.html).
@@ -189,7 +192,7 @@ To see whether autoscaling is configured for the apps you want to scale:
     ```
     cf autoscaling-apps
     ```
-    The above command returns output similar to the following example:
+    The above command returns a list of apps that are bound to Autoscaler, similar to the following example:
     <pre class=terminal>
     Presenting autoscaler apps in org example-org / space example-space as user
     Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
@@ -197,8 +200,8 @@ To see whether autoscaling is configured for the apps you want to scale:
     example-app-2         3e8x6a84-0m6p-4le9-9335-0aad3979d672      false     10              40              5                 2
     OK
     </pre>
-    If autoscaling is already configured for a particular app, the value shown in the `Enabled` column of the terminal output is `true`. If autoscaling is
-    not configured for a particular app, the value shown in the `Enabled` column of the terminal output is `false`.
+    If autoscaling is configured for an app that is bound to Autoscaler, the value shown in the `Enabled` column of the terminal output is `true`. If
+    autoscaling is not configured for an app that is bound to Autoscaler, the value shown in the `Enabled` column of the terminal output is `false`.
 
 ### <a id='platform-scale-out'></a> TAS for VMs Components Are Failing or Underscaled
 
