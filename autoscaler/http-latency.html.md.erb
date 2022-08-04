@@ -45,7 +45,16 @@ To configure Autoscaler using a manifest file:
 1. Create an Autoscaler instance in the same space as the app that you want Autoscaler to scale:
 
     ```sh
-    cf create-service app-autoscaler standard autoscaler
+    cf create-service app-autoscaler PLAN-NAME SERVICE-NAME
+    ```
+    Where:
+    * `PLAN-NAME` is the name of the service plan to use for the Autoscaler service instance.
+    * `SERVICE-NAME` is the name of the service instance.
+
+    For example:
+
+    ```sh
+    $ cf create-service app-autoscaler standard autoscaler
     ```
 
 1. Bind the Autoscaler instance to the app:
@@ -55,6 +64,11 @@ To configure Autoscaler using a manifest file:
     ```
     Where `APP-NAME` is the name of the app you want Autoscaler to scale.
 
+    For example:
+
+    ```sh
+    $ cf bind-service example-app autoscaler
+    ```
 
 1. Create the Autoscaler manifest file:
 
@@ -134,8 +148,7 @@ To configure using the cf CLI:
     ```sh
     cf bind-service APP-NAME autoscaler
     ```
-    Where:
-    * `APP-NAME` is the name of the app that you want Autoscaler to scale.
+    Where `APP-NAME` is the name of the app that you want Autoscaler to scale.
 
     For example:
 
@@ -164,8 +177,7 @@ To configure using the cf CLI:
     ```sh
     cf enable-autoscaling APP-NAME
     ```
-    Where:
-    * `APP-NAME` is the name of the app that you want Autoscaler to scale.
+    Where `APP-NAME` is the name of the app that you want Autoscaler to scale.
 
     For example:
 
