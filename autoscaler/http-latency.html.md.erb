@@ -36,13 +36,13 @@ To configure Autoscaler to use HTTP latency as the scaling metric for an app usi
 
 #### <a id="manifest"></a> Create a Manifest File
 
-To declaratively specify Autoscaler configuration, you can create an Autoscaler manifest file. [Why would you want to do this, and not just use commands?]
+To declaratively specify Autoscaler configuration, you can create an Autoscaler manifest file.
 
 **Note:** An Autoscaler manifest file is separate from an app manifest file, and is only used for Autoscaler configuration.</p>
 
 To configure Autoscaler using a manifest file:
 
-1. (Optional) Create an Autoscaler instance in the same space as the app that you want Autoscaler to scale:
+1. Create an Autoscaler instance in the same space as the app that you want Autoscaler to scale:
 
     ```sh
     cf create-service app-autoscaler standard autoscaler
@@ -56,9 +56,9 @@ To configure Autoscaler using a manifest file:
     Where `APP-NAME` is the name of the app you want Autoscaler to scale.
 
 
-1. Create the autoscaler manifest file:
+1. Create the Autoscaler manifest file:
 
-    ```sh
+    ```yaml
     ---
     instance_limits:
       min: 10
@@ -105,7 +105,7 @@ You can configure Autoscaler to use the HTTP latency metric using cf CLI command
 
 To configure using the cf CLI:
 
-1. (Optional) Create an Autoscaler instance in the same space as the app that you want Autoscaler to scale:
+1. Create an Autoscaler instance in the same space as the app that you want Autoscaler to scale:
 
     ```sh
     $ cf create-service app-autoscaler standard autoscaler
