@@ -234,7 +234,7 @@ To configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an
     | Field                                        | Instructions                                 |
     |----------------------------------------------|----------------------------------------------|
     | <strong>Rule Type</strong>                   | Select <strong>RabbitMQ</strong>             |
-    | <strong>Scale down if less than</strong>     | Enter the minimum queue depth threshold. If the average queue depth drops below this number, Autoscaler scales the app down. |
+    | <strong>Scale down if less than</strong>     | Enter the minimum queue depth threshold. If the average queue depth drops below this number of messages, Autoscaler scales the app down. |
     | <strong>Scale up if more than</strong>       | Enter the the maximum queue depth threshold. If the average queue depth goes above this number, Autoscaler scales the app up. |
     | <strong>Queue name</strong>                  | Enter the name of the queue to be monitored  |
 
