@@ -212,8 +212,41 @@ These components may need to be restarted or scaled up before Autoscaler can sca
 Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Stopping and Starting Virtual Machines_. To scale TAS for VMs components up, see
 [Scaling Up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.
 
+### <a id='rabbitmq-queue-depth'></a> Autoscaler Fails to Scale Apps Based on RabbitMQ Queue Depth Metric
 
-## <a id='underscaling'></a> App Does Not Scale to Expected Number of Instances
+This section describes possible causes for Autoscaler failing to scale an app using the RabbitMQ queue depth metric as its scaling metric. To determine the
+cause, see the following sections:
+
+* [Specified Queue Name in Autoscaling Rule is Incorrect](#check-rabbitmq-rule)
+
+* [Autoscaler Does Not Support Runtime CredHub](#rabbitmq-runtime-credhub)
+
+#### <a id='check-rabbitmq-rule'></a> Specified Queue Name in Autoscaling Rule is Incorrect
+
+Autoscaler cannot scale an app if the RabbitMQ queue name specified in your autoscaling rule is incorrect. Ensure that the queue name you configured in the
+autoscaling rule for the app is correct.
+
+#### <a id='rabbitmq-runtime-credhub'></a> Autoscaler Does Not Support Runtime CredHub
+
+You may see the following autoscaling event:
+
+<pre class='terminal'>
+Autoscaler did not receive any metrics for rabbitmq.queue-name during the scaling window. Scaling down is deferred until these metrics are available.
+</pre>
+
+In order to receive RabbitMQ queue depth metrics, Autoscaler must be able to retrieve service binding credentials for the RabbitMQ HTTP Management API from
+Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in Runtime CredHub, Autoscaler cannot retrieve service binding
+credentials from Cloud Controller.
+
+If the operator of your deployment has selected **Yes** under **On Demand - Secure Service Instance Credentials with Runtime CredHub** in the **Global
+Settings for On-Demand Plans** pane of the VMware Tanzu RabbitMQ for VMs tile and activated the **Secure service instance credentials** checkbox in the
+**CredHub** pane of the TAS for VMs tile, Autoscaler is unable to use RabbitMQ queue depth as the scaling metric for RabbitMQ service instances.
+
+As a workaround, you can configure your app to emit a custom metric containing the RabbitMQ queue depth and configure Autoscaler to use this metric as its
+scaling metric for the app. For more information about custom metrics, see [Using Custom Metrics](custom-metrics.html).
+
+
+## <a id='underscaling'></a> Autoscaler Does Not Scale an App to Expected Number of Instances
 
 This section describes possible causes for Autoscaler scaling an app up to a certain number of instances, but not to the level that you expect. To determine
 the cause, see the following sections:
@@ -271,6 +304,44 @@ Envelopes Stored in Log Cache Per Source](../../operating/configure-pas.html#log
 For more information about how Log Cache supports Autoscaler, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
 
 
+## <a id='autoscale-instances'></a> Autoscaler Scales Apps More Slowly Than Expected
+
+Autoscaler is itself an app that TAS for VMs deploys. By default, there are three instances of the Autoscaler app, `autoscale`, that can scale other apps in
+your TAS for VMs deployment. Each instance of Autoscaler queries the MySQL database in your TAS for VMs deployment to claim and process a set of apps that may
+need to be scaled. Each Autoscaler instance claims a different set of apps to process and scale independently of the other two Autoscaler instances. After an
+Autoscaler instance has processed and scaled one set of apps, it queries the MySQL database again and repeats the process.
+
+Each Autoscaler instance evaluates 10 apps at a time to determine whether they need to be scaled. The speed at which an Autoscaler instance can process a
+batch of apps is determined primarily by the number of metrics it retrieves from Log Cache for the apps within that batch. If Log Cache holds a large number
+of metrics for an app, Autoscaler does not begin processing the next batch of apps until either it retrieves all of those metrics or the request that
+Autoscaler makes to Log Cache for those metrics times out.
+
+To ensure that Autoscaler can scale all the apps for which you have configured autoscaling in a timely manner, you may need to increase the number of
+Autoscaler instances for your TAS for VMs deployment.
+
+To increase the number of Autoscaler instances:
+
+1. Navigate to the Ops Manager Installation Dashboard.
+
+1. Click the **VMware Tanzu Application Service** tile.
+
+1. Select **App Autoscaler**.
+
+1. In the **Autoscaler instance count** field, enter the number of Autoscaler instances you want to deploy.
+
+1. Click **Save**.
+
+1. Return to the Ops Manager Installation Dashboard.
+
+1. Click **Review Pending Changes**.
+
+1. Under the **VMware Tanzu Application Service** tile, click **Errands**. The **Errands** menu expands.
+
+1. Ensure that the **App Autoscaler Errand** checkbox is activated.
+
+1. Click **Apply Changes**.
+
+
 ## <a id='scale-to-zero'></a> Scaling To and From Zero Instances
 
 Autoscaler can scale an app to and from zero instances only when it is configured to use RabbitMQ queue depth as its scaling metric.
@@ -310,6 +381,25 @@ Architecture_. For more information about app health checks, including how to co
 [Using App Health Checks](../../devguide/deploy-apps/healthchecks.html).
 
 
+## <a id='one-instance-per-space'></a> One Autoscaler Service Instance Allowed Per Space
+
+Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one service instance of Autoscaler in a space, you
+see the following error:
+
+<pre class='terminal'>
+Unexpected Response
+Response code: 409
+CC code:       10001
+CC error code: CF-ServiceBrokerConflict
+Request ID:    b3b6236b-82f5-42a7-5015-338369d5fea2::9d7c8b3a-0c4f-4935-b493-d6fe3f417f3b
+Description:   Service broker error: Only One App Autoscaler Service Instance Allowed Per Space
+FAILED
+</pre>
+
+You must use the existing Autoscaler service instance in your space and bind it to the app you want to autoscale. For more information, see [Create and Bind
+the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
+
+
 ## <a id='oss-autoscaler'></a> App Autoscaler for Cloud Foundry Does Not Work with TAS for VMs
 
 There are two versions of the App Autoscaler CLI extension for the Cloud Foundry Command-Line Interface (cf CLI):
@@ -325,56 +415,3 @@ error:
 
 You must instead use the VMware Tanzu App Autoscaler CLI Plugin. To download the VMware Tanzu App Autoscaler CLI Plugin, go to [VMware Tanzu
 Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
-
-
-## <a id='one-instance-per-space'></a> One Autoscaler Instance Allowed Per Space
-
-Only one instance of Autoscaler can exist in each space in an org. If you try to create more than one instance of Autoscaler in a space, you see the following
-error:
-
-<pre class='terminal'>
-Unexpected Response
-Response code: 409
-CC code:       10001
-CC error code: CF-ServiceBrokerConflict
-Request ID:    b3b6236b-82f5-42a7-5015-338369d5fea2::9d7c8b3a-0c4f-4935-b493-d6fe3f417f3b
-Description:   Service broker error: Only One App Autoscaler Service Instance Allowed Per Space
-FAILED
-</pre>
-
-You must use the existing Autoscaler instance in your space and bind it to the app you want to autoscale. For more information, see [Create and Bind the App
-Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
-
-
-## <a id='rabbitmq-queue-depth'></a> Autoscaler Fails to Scale Apps Based on RabbitMQ Queue Depth Metric
-
-This section describes possible causes for Autoscaler failing to scale an app using the RabbitMQ queue depth metric as its scaling metric. To determine the
-cause, see the following sections:
-
-* [Specified Queue Name in Autoscaling Rule is Incorrect](#check-rabbitmq-rule)
-
-* [Autoscaler Does Not Support Runtime CredHub](#rabbitmq-runtime-credhub)
-
-### <a id='check-rabbitmq-rule'></a> Specified Queue Name in Autoscaling Rule is Incorrect
-
-Autoscaler cannot scale an app if the RabbitMQ queue name specified in your autoscaling rule is incorrect. Ensure that the queue name you configured in the
-autoscaling rule for the app is correct.
-
-### <a id='rabbitmq-runtime-credhub'></a> Autoscaler Does Not Support Runtime CredHub
-
-You may see the following autoscaling event:
-
-<pre class='terminal'>
-Autoscaler did not receive any metrics for rabbitmq.queue-name during the scaling window. Scaling down is deferred until these metrics are available.
-</pre>
-
-In order to receive RabbitMQ queue depth metrics, Autoscaler must be able to retrieve service binding credentials for the RabbitMQ HTTP Management API from
-Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in Runtime CredHub, Autoscaler cannot retrieve service binding
-credentials from Cloud Controller.
-
-If the operator of your deployment has selected **Yes** under **On Demand - Secure Service Instance Credentials with Runtime CredHub** in the **Global
-Settings for On-Demand Plans** pane of the VMware Tanzu RabbitMQ for VMs tile and activated the **Secure service instance credentials** checkbox in the
-**CredHub** pane of the TAS for VMs tile, Autoscaler is unable to use RabbitMQ queue depth as the scaling metric for RabbitMQ service instances.
-
-As a workaround, you can configure your app to emit a custom metric containing the RabbitMQ queue depth and configure Autoscaler to use this metric as its
-scaling metric for the app. For more information about custom metrics, see [Using Custom Metrics](custom-metrics.html).
