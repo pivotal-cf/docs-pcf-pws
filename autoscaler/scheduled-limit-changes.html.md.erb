@@ -3,73 +3,160 @@ title: Scheduled Limit Changes
 owner: Autoscaler
 ---
 
-## <a id="what-are-scheduled-limit-changes"></a> What are Scheduled Limit Changes?
+This topic describes scheduled limit changes in App Autoscaler.
 
-App Autoscaler (Autoscaler) allows developers to set a minimum and maximum number of application instances that
-it is permitted to scale within (autoscaling limits).
-Scheduled Limit Changes allow further control, allowing you to change these limits according to a schedule that you define.
 
-## <a id="why-use-scheduled-limit-changes"></a> When Should You Use Scheduled Limit Changes?
+## <a id='overview'></a> Overview of Scheduled Limit Changes
 
-Use scheduled limit changes when the demands on your applications are fairly predictable.
-These are common use cases for scheduled limit changes:
+When you create scaling limits for an app, you define the minimum and maximum number of instances that Autoscaler is allowed to create for an app. Scheduled limit changes allow further control, allowing you to change these limits according to a schedule that you define.
 
-* You can preemptively scale for expected high load by increasing the minimum instance limit to a
-  higher value than the metrics-based scaling mechanism would select.
-* You can better handle periods of expected high load by increasing the maximum instance limit so
-  that Autoscaler has more headroom to work with.
-* You can reduce resource waste during expected periods of low load by reducing the minimum instance
-  limit.
-* You can control resource use during periods where users are less sensitive to overload by
-  reducing the maximum scale limit.
+Use scheduled limit changes when the demands on your apps are fairly predictable. The following list describes common use cases for scheduled limit changes:
 
-## <a id="scaling-factors"></a> Scaling Factors
+* You can preemptively scale for expected high load by increasing the minimum instance limit to a higher value than the metrics-based scaling mechanism would select.
 
-If your goal is to ensure that sufficient application instances are started, but the demand on your applications
-are less predictable, you might consider changing your scaling factor.
-Setting a higher scaling factor can help ensure that autoscaler scales up quickly to meet demand.
-For more information, see [Update Scaling Factors](./using-autoscaler-cli.html#updating-scaling-factors)
-in the _Using the App Autoscaler CLI_ topic.
+* You can better handle periods of expected high load by increasing the maximum instance limit so that Autoscaler has more headroom to work with.
 
-## <a id="examples"></a> Examples
+* You can reduce resource waste during expected periods of low load by reducing the minimum instance limit.
 
-### <a id="cf-cli-examples"></a> Configuring Autoscaler with the cf CLI
+* You can control resource use during periods where users are less sensitive to overload by reducing the maximum scale limit.
 
-This documentation makes use of Autoscaler-specific commands provided by the Autoscaler CLI plug-in.
+If you want to ensure that sufficient app instances are started, but the demand on your apps are less predictable, you can changing your scaling factor. Setting a higher scaling factor can help ensure that autoscaler scales up quickly to meet demand. For more information, see [Update Scaling Factors](using-autoscaler-cli.html#updating-scaling-factors) in _Using the App Autoscaler CLI_.
 
-To use these commands, you must download and install the CLI plug-in.
-To download the plug-in, see
-[App Autoscaler CLI Plugin](https://network.pivotal.io/products/pcf-app-autoscaler/) on VMware Tanzu Network.
 
-You can choose to configure autoscaler declaratively with a manifest file, or with individual
-commands.
+## <a id='cf-cli-examples'></a> Configuring Autoscaler Through the cf CLI
 
-#### <a id="cf-cli-manifest-example"></a> Creating an Autoscaler Manifest File
+This section describes how to configure Autoscaler through the Cloud Foundry Command-Line Interface (cf CLI). You can configure Autoscaler in the following
+ways:
 
-To declaratively specify the Autoscaler configuration, you can create an Autoscaler manifest file.
-This is a manifest file only for Autoscaler, separate from any existing application manifest file.
+* Configure Autoscaler using a manifest file. For more information, see [Configure Autoscaler Using a Manifest File](#cf-cli-manifest-config) below.
 
-First, create an instance of the autoscaler service and bind it to the application you want to
-scale:
+* Configure Autoscaler using CLI commands. For more information, see [Configure Autoscaler Using CLI Commands](#cf-cli-commands-config) below.
+
+For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
+Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
+
+### <a id='cf-cli-manifest-config'></a> Configure Autoscaler Using a Manifest File
+
+To configure Autoscaler declaratively, you can create a manifest file for Autoscaler. This is a manifest file only for Autoscaler, separate from any existing app manifest file.
+
+To configure Autoscaler using a manifest file:
+
+1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+
+    ```
+    cf target -o ORG-NAME -s SPACE-NAME
+    ```
+    Where:
+    * `ORG-NAME` is the name of the org containing the space in which the app you want to scale is deployed.
+    * `SPACE-NAME` is the name of the space in which the app you want to scale is deployed.
+
+1. If the space in which the app you want to scale is deployed does not already have an instance of Autoscaler deployed in it, create an Autoscaler instance
+by running:
+
+    ```
+    cf create-service app-autoscaler standard autoscaler
+    ```
+    If there is already an Autoscaler instance in the space in which the app you want to scale is deployed, skip this step.
+
+1. Bind the Autoscaler instance you created in the previous step to the app you want to scale by running:
+
+    ```
+    cf bind-service APP-NAME autoscaler
+    ```
+    Where `APP-NAME` is the name of the app you want to scale.
+
+For an example of configuring scheduling limit changes with a manifest file, see [Create a Scheduled Limit Change](using-autoscaler-cli.html#create-scheduled-limit) in the _Using the App Autoscaler CLI_ topic.
+
+VMware recommends that you load-test your app to verify that the scheduled limit changes you configured are effective. For more information, see [Load-Testing
+Your App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
+
+Autoscaler records a scaling event to indicate that a scheduled limit change is applied. If the current number of app instances is under the minimum limit of the scheduled limit change, then autoscaler scales app instances up to the minimum limit and records a separate scaling event for that action.
+
+For example:
 
 ```
-$ cf create-service app-autoscaler standard autoscaler
-$ cf bind-service example-app autoscaler
+cf autoscaling-events example-app
 ```
 
-You can skip the `cf create-service` command if you already have an instance of the autoscaler in that space.
+<pre class='terminal'>
+Time                   Description
+2022-05-26T21:32:17Z   Scaling from 10 to 20 instances: app below minimum instance limit
+2022-05-26T21:31:50Z   Rule Applied: Scaling Limits set to 20 to 100 instances
+</pre>
 
-For an example of configuring scheduling limit changes with a manifest file, see [Create a Scheduled Limit
-Change](using-autoscaler-cli.html#create-scheduled-limit) in the _Using the App Autoscaler CLI_ topic.
+### <a id='cf-cli-commands-config'></a> Configure Autoscaler Using CLI Commands
 
-VMware recommends that you perform load testing of your application to verify that your configured scheduled
-limit changes are appropriate.
-For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+To configure Autoscaler using CLI commands:
 
-Autoscaler records a scaling event to indicate that a scheduled limit change is applied.
-If the current number of application instances is under the minimum limit of the scheduled limit change,
-then autoscaler scales application instances up to the minimum limit and records a separate scaling event for
-that action.
+1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+
+    ```
+    cf target -o ORG-NAME -s SPACE-NAME
+    ```
+    Where:
+    * `ORG-NAME` is the name of the org containing the space in which the app you want to scale is deployed.
+    * `SPACE-NAME` is the name of the space in which the app you want to scale is deployed.
+
+1. If the space in which the app you want to scale is deployed does not already have an instance of Autoscaler deployed in it, create an Autoscaler instance
+by running:
+
+    ```
+    cf create-service app-autoscaler standard autoscaler
+    ```
+    If there is already an Autoscaler instance in the space in which the app you want to scale is deployed, skip this step.
+
+1. Bind the Autoscaler instance you created in the previous step to the app you want to scale by running:
+
+    ```
+    cf bind-service APP-NAME autoscaler
+    ```
+    Where `APP-NAME` is the name of the app you want to scale.
+
+1. Configure upper and lower scaling limits for the app by running:
+
+    ```
+    cf update-autoscaling-limits APP-NAME LOWER-SCALING-LIMIT UPPER-SCALING-LIMIT
+    ```
+    Where:
+    * `APP-NAME` is the name of the app.
+    * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
+    * `UPPER-SCALING-LIMIT` is the maximum number of instances you want Autoscaler to create for the app.
+
+    Here we have specified a minimum instance limit of 10 and a maximum instance limit of 100.
+
+1. Allow Autoscaler to begin making scaling decisions for the app by running:
+
+    ```
+    cf enable-autoscaling APP-NAME
+    ```
+    Where `APP-NAME` is the name of the app.
+    These initial limits are later overridden by the scheduled limit change that we are about to create.
+
+1. Create a scheduled limit change by running:
+
+    ```
+    cf create-autoscaling-slc APP-NAME TIME LOWER-SCALING-LIMIT UPPER-SCALING-LIMIT --recurrence DAY-1,DAY-2,DAY-3
+    ```
+    Where:
+    * `APP-NAME` is the name of the app.
+    * `TIME` is the time in UTC timestamp format at which you want Autoscaler to apply the scheduled limit change. For example, `2032-01-01T20:00:00Z`.
+      <p class='note'><strong>Note:</strong> If you convert your local time to UTC time, your offset with UTC may change during the year based on whether your area observes Daylight Savings Time.
+
+If using Apps Manager to create your scheduled limit changes, an edge case with timezones present in some versions of Tanzu Application Service. For more information, see [Apps Manager might not respect the day of the week when creating an autoscaler scheduled limit change](https://community.pivotal.io/s/article/5000e00001pKKiE1614674788257?language=en_US) in the VMware Tanzu Knowledge Base.
+    * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the current
+    number of app instances is fewer than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances up to this
+    number.
+    * `UPPER-SCALING-LIMIT` is the maximum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the current
+    number of app instances is greater than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances down to this
+    number.
+    * (Optional) Include the `--recurrence` parameter to specify the days of the week on which you want Autoscaler to re-apply the scheduled limit change,
+    where `DAY-1`, `DAY-2`, `DAY-3`, and so on are the days you want to specify. Valid values are `Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, or `Su`. For example, if
+    you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include `--recurrence Mo,We,Fr,Sa` in the above
+    command.
+
+VMware recommends that you load-test your app to verify that your configured scheduled limit changes are appropriate. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+
+Autoscaler records a scaling event to indicate that a scheduled limit change is applied. If the current number of app instances is under the minimum limit of the scheduled limit change, then Autoscaler scales app instances up to the minimum limit and records a separate scaling event for that action.
 
 For example:
 
@@ -81,111 +168,30 @@ Time                   Description
 2022-05-26T21:31:50Z   Rule Applied: Scaling Limits set to 20 to 100 instances
 ```
 
-#### <a id="cf-cli-individual-commands-example"></a> Using Autoscaler Without a Manifest File
 
-First, create an instance of the Autoscaler service, and bind it to the application you want to scale:
+## <a id='apps-manager-example'></a> Configuring Autoscaler with Apps Manager
 
-```
-$ cf create-service app-autoscaler standard autoscaler
-$ cf bind-service example-app autoscaler
-```
+1. Within Apps Manager, navigate to the **Manage Autoscaling > Edit Scheduled Limits** dialog box and select **Add New**.
 
-You can skip the `cf create-service` command if you already have an instance of the Autoscaler in
-that space.
-
-You can then update the initial Autoscaling limits and enable autoscaling for the app. Here we have
-specified a minimum instance limit of 10 and a maximum instance limit of 100.
-
-```
-$ cf update-autoscaling-limits example-app 10 100
-$ cf enable-autoscaling example-app
-```
-
-These initial limits are later overridden by the scheduled limit change that we are about to create.
-
-Now you can create a scheduled limit change:
-
-```
-$ cf create-autoscaling-slc dora 2032-01-01T20:00:00Z 20 100 --recurrence Th,Fr
-```
-
-Apart from the application name, you must specify:
-
-1. **The time at which the scheduled limit should be applied:** Autoscaler expects the timestamp to be
-   expressed in UTC time.
-1. **The minimum instance limit to be applied at that time:** If the current number of application
-   instances is less than this minimum limit, then the application will be scaled up to this limit.
-1. **The maximum instance limit to be applied at that time:** If the current number of application
-   instances is more than this maximum limit, then the application will be scaled down to this limit.
-
-You can also specify an optional `--recurrence` flag to specify the days of the week that the scheduled limit
-changes are re-applied.
-Days are specified as two letter abbreviations (for example `Th` for Thursday).
-A day specified with an alternative syntax might be ignored.
-
-VMware recommends that you perform load testing of your application to verify that your configured scheduled
-limit changes are appropriate.
-For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
-
-Autoscaler records a scaling event to indicate that a scheduled limit change is applied.
-If the current number of application instances is under the minimum limit of the scheduled limit change,
-then autoscaler scales application instances up to the minimum limit and records a separate scaling event for
-that action.
-
-For example:
-
-```
-$ cf autoscaling-events example-app
-
-Time                   Description
-2022-05-26T21:32:17Z   Scaling from 10 to 20 instances: app below minimum instance limit
-2022-05-26T21:31:50Z   Rule Applied: Scaling Limits set to 20 to 100 instances
-```
-
-### <a id="apps-manager-example"></a> Configuring Autoscaler with Apps Manager
-
-1. Within Apps Manager, navigate to the **Manage Autoscaling > Edit Scheduled Limits** dialog box and
-   select **Add New**.
 1. **Scheduled Date:** Select the date you want the next scheduled limit change to be applied
-1. **Scheduled Time (local):** Enter the time that you want the scheduled limit change to be applied.
-   It defaults to one hour after your current local time.
+
+1. **Scheduled Time (local):** Enter the time that you want the scheduled limit change to be applied. It defaults to one hour after your current local time.
+
 1. **Repeat (Optional):** Select the days of the week that you want this change to be repeatedly applied.
-1. **Instance Limits - Min:** Enter the minimum instance limit to be applied at that time. If the
-   current number of application instances is less than this minimum limit, the application is scaled up to
-   this limit.
-1. **Instance Limits - Max:** Enter the maximum instance limit to be applied at that time. If the
-   current number of application instances is more than this maximum limit then the application is scaled down
-   to this limit.
+
+1. **Instance Limits - Min:** Enter the minimum instance limit to be applied at that time. If the current number of app instances is less than this minimum limit, the app is scaled up to this limit.
+
+1. **Instance Limits - Max:** Enter the maximum instance limit to be applied at that time. If the current number of app instances is more than this maximum limit then the app is scaled down to this limit.
+
 1. Click **Save**.
 
-VMware recommends that you perform load testing of your application to verify that your configured scheduled
-limit changes are appropriate.
-For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+VMware recommends that you perform load testing of your app to verify that your configured scheduled limit changes are appropriate. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
 
-Autoscaler records a scaling event to indicate that a scheduled limit change is applied.
-If the current number of application instances is under the minimum limit of the scheduled limit change,
-then autoscaler scales application instances up to the minimum limit and records a separate scaling event for
-that action.
+Autoscaler records a scaling event to indicate that a scheduled limit change is applied. If the current number of app instances is under the minimum limit of the scheduled limit change, then Autoscaler scales app instances up to the minimum limit and records a separate scaling event for that action.
 
 This is visible in Apps Manager in the Event History under **Manage Autoscaling**.
 
-> Scaling from 10 to 20 instances: app below minimum instance limit  
+> Scaling from 10 to 20 instances: app below minimum instance limit
 > Rule Applied: Scaling Limits set to 20 to 100 instances
 
 For more information refer to [Configure Autoscaling for an App](using-autoscaler.html#config).
-
-## <a id="caveats"></a> Caveats
-
-### <a id="caveat-utc-timezone"></a> UTC Time
-
-Autoscaler expects scheduled limit change timestamps to be expressed as UTC time (and stores them
-internally as UTC).
-
-If you convert your local time to UTC time, your offset with UTC might change during the year
-based on whether your area observes Daylight Savings Time.
-
-If you are using Apps Manager to create your scheduled limit changes, there is an edge case related to timezones
-in some versions of Tanzu Application Service.
-For more information, see
-[Apps Manager might not respect the day of the week when creating an autoscaler scheduled limit change](https://community.pivotal.io/s/article/5000e00001pKKiE1614674788257?language=en_US)
-in the Knowledge Base.
