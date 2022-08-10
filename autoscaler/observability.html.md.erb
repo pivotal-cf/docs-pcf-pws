@@ -13,8 +13,6 @@ This topic describes how to monitor App Autoscaler and its supporting VMware Tan
 
 ## <a id='allow-debug'></a> Configure Debug Logging for Autoscaler
 
-[Does the **Do not forward debug logs** checkbox need to be configured at all before you can configure debug logging for Autoscaler?]
-
 To configure debug logging for Autoscaler:
 
 1. In a terminal window, run:
@@ -80,7 +78,9 @@ You can also use one of the following methods to identify which apps are using A
 time. For more information, see [Running App Instances, Rate of Change](../../operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning) in _Key Performance
 Indicators_.
 
-* You can send a `GET` request to the `/v3/service_instances` endpoint of the Cloud Foundry API (CAPI), filtering by service plans that are associated with Autoscaler [how do you do this?]. For more information, see the [CAPI documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-instances).
+* You can send a `GET` request to the `/v3/service_instances` endpoint of the Cloud Foundry API (CAPI), using the `service_plan_guids` or `service_plan_names`
+query parameters to filter the output by service plans that are associated with Autoscaler. For more information, see the [CAPI
+documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-instances).
 
 Because each team of developers may use different autoscaling rules for their apps, it may be difficult to accurately determine how effectively Autoscaler
 scales each app. However, you can gain a generalized understanding of the effect that Autoscaler has on the apps it scales by comparing the number of running
