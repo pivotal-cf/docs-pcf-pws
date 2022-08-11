@@ -157,17 +157,16 @@ To push the sample app:
 
     <a id="sample-app-ui"></a>
 
-1. In a browser, navigate to the app URL. The app UI is shown below.
-  <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
-  It has the following buttons:
-
-  * **Increment Custom gauge** and **Decrement custom gauge**: Cause the custom metric to increase or decrease by a value of `1`. Use later when you [Trigger Scaling](#trigger).
-  * **See the metrics**: Opens `/actuator/prometheus` in your browser. Use this to view values for `custom` and all the metrics produced by Micrometer. This page is important because Metric Registrar uses it to collect metrics.
-  * **Increment Simple counter** and **Call an endpoint with high latency**: Not used in this tutorial. To learn more about these functions, see the app code.
+1. In a browser, navigate to the app URL.
+    <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
+    The app UI includes the following buttons:
+    * **Increment Custom gauge** and **Decrement custom gauge**: Cause the custom metric to increase or decrease by a value of `1`. Use later when you [Trigger Scaling](#trigger).
+    * **See the metrics**: Opens `/actuator/prometheus` in your browser. Use this to view values for `custom` and all the metrics produced by Micrometer. This page is important because Metric Registrar uses it to collect metrics.
+    * **Increment Simple counter** and **Call an endpoint with high latency**: Not used in this tutorial. To learn more about the functions of these buttons, see the app code.
 
 ## <a id="register-endpoint"></a> Register a Custom Metrics Endpoint
 
-When you want to your app to emit custom metrics, you register the app as a metric source with the _Metric Registrar_.
+When you want your app to emit custom metrics, you register the app as a metric source with the _Metric Registrar_.
 
 To register a custom metrics endpoint for the app:
 
