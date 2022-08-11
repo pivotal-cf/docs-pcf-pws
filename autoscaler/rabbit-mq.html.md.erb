@@ -25,7 +25,7 @@ following ways:
 
 The App Autoscaler CLI is a Cloud Foundry Command-Line Interface (cf CLI) plug-in that adds terminal commands for controlling Autoscaler.
 
-To configure Autoscaler to use HTTP latency as the scaling metric for an app using the App Autoscaler CLI:
+To configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app using the App Autoscaler CLI:
 
 1. Download the VMware Tanzu App Autoscaler CLI Plug-in from [VMware Tanzu Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
 
@@ -37,7 +37,7 @@ To configure Autoscaler to use HTTP latency as the scaling metric for an app usi
 
 To declaratively specify Autoscaler configuration, you can create an Autoscaler manifest file.
 
-> **Note: An Autoscaler manifest file is separate from an app manifest file, and is only used for Autoscaler configuration.
+> **Note:** An Autoscaler manifest file is separate from an app manifest file, and is only used for Autoscaler configuration.
 
 To configure Autoscaler using a manifest file:
 
