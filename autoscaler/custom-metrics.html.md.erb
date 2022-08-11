@@ -99,7 +99,7 @@ To configure Autoscaler using a manifest file:
     1. The minimum threshold (`threshold.min`). If the average value of the custom
        metric drops below this number, Autoscaler scales the app down. In this example, the
        minimum threshold is set to 20.
-    1. The maximum threshold (`threshold.max`). If the average value of your custom
+    1. The maximum threshold (`threshold.max`). If the average value of the custom
        metric rises above this number, Autoscaler scales the app up. In this example, the
        maximum threshold is set to 50.
     1. The name of the custom metric (`metric`). This must match the name of the metric
@@ -133,7 +133,7 @@ When scaling, Autoscaler records the observed average value of the custom metric
 $ cf autoscaling-events example-app
 
 Time                   Description
-2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current your_metric_name of 60.83 is above upper threshold of 50.00.
+2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current my_metric_name of 60.83 is above upper threshold of 50.00.
 ```
 
 #### <a id="term-commands"></a> Use Terminal Commands
@@ -230,7 +230,7 @@ When scaling, Autoscaler records the observed average value of the custom metric
 $ cf autoscaling-events example-app
 
 Time                   Description
-2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current your_metric_name of 60.83 is above upper threshold of 50.00.
+2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current my_metric_name of 60.83 is above upper threshold of 50.00.
 ```
 
 ### <a id="apps-manager"></a> Configure Autoscaler Using Apps Manager
