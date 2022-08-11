@@ -7,7 +7,8 @@ This topic describes how to use custom metrics in Autoscaler scaling rules.
 
 ## <a id="overview"></a> Overview of Custom Metrics
 
-Autoscaler supports a useful set of default metrics, but your app may have specific autoscaling requirements that are not met by the default metrics. Using custom metrics, you can choose your own metrics to expose from an app.
+Autoscaler supports a useful set of default metrics, but your app might have specific autoscaling requirements that are not met by the default metrics.
+Using custom metrics, you can choose your own metrics to expose from an app.
 
 > **Note:** This topic describes how to configure Autoscaler to scale on custom metrics. For information about how to emit
 custom metrics, see [Using Metric Registrar](../../metric-registrar/using.html).
@@ -23,8 +24,8 @@ For caveats to scaling on custom metrics, see [Caveats](#caveats).
 
 ## <a id="configure-autoscaler"></a> Configure a Custom Metric as the Scaling Metric for an App
 
-The procedures in this section describe how to configure Autoscaler to use a custom metric as the scaling metric for an app. You can configure Autoscaler in the
-following ways:
+The procedures in this section describe how to configure Autoscaler to use a custom metric as the scaling metric for an app. You can configure Autoscaler
+in the following ways:
 
 * Using the App Autoscaler Command-Line Interface (CLI). For more information, see [Configure Autoscaler Using the App Autoscaler CLI](#cli).
 
@@ -32,9 +33,9 @@ following ways:
 
 ### <a id="cli"></a> Configure Autoscaler Using the App Autoscaler CLI
 
-This documentation makes use of Autoscaler-specific commands provided by the Autoscaler CLI plugin.
+This documentation makes use of Autoscaler-specific commands provided by the Autoscaler CLI plug-in.
 
-To use these commands you will need to download and install the CLI plugin,
+To use these commands, you must download and install the CLI plug-in,
 which is [available on Tanzu
 Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
 
@@ -123,7 +124,8 @@ To configure Autoscaler using a manifest file:
     $ cf configure-autoscaling example-app autoscaler-manifest.yaml
     ```
 
-VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see
+[Using App Autoscaler in Production](productionizing-autoscaler.html).
 
 When scaling, Autoscaler records the observed average value of the custom metric in the scaling event. For example:
 
@@ -219,7 +221,8 @@ To configure using the cf CLI:
     $ cf create-autoscaling-rule example-app custom 10 50 --metric my_metric_name
     ```
 
-VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see
+[Using App Autoscaler in Production](productionizing-autoscaler.html).
 
 When scaling, Autoscaler records the observed average value of the custom metric in the scaling event. For example:
 
@@ -244,16 +247,18 @@ To configure Autoscaler to use a custom metric as the scaling metric for an app 
     |----------------------------------------------|------------------------------------------------------|
     | <strong>Rule Type</strong>                   | Select <strong>Custom</strong>                       |
     | <strong>Scale down if less than</strong>     | Enter the minimum threshold. If the average value of the custom
-   metric falls below this number, Autoscaler scales the app down. |
+   metric drops below this number, Autoscaler scales the app down. |
     | <strong>Scale up if more than</strong>       | Enter the maximum threshold. If the average value of the custom
    metric rises above this number, Autoscaler scales the app up. |
-    | <strong>Metric</strong>                      | Enter the name of the custom metric to be monitored. |
+    | <strong>Metric</strong>                      | Enter the name of the custom metric to be monitored  |
 
 1. Click **Save**.
 
-VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see
+[Using App Autoscaler in Production](productionizing-autoscaler.html).
 
-When scaling, Autoscaler records the observed average value of the custom metric in the scaling event. In Apps Manager, you can view the scaling event in the Event History, under **Manage Autoscaling**. For example:
+When scaling, Autoscaler records the observed average value of the custom metric in the scaling event. In Apps Manager, you can view the scaling event in
+the Event History, under **Manage Autoscaling**. For example:
 
 > Scaled up from 10 to 11 instances. Current my_metric_name of 60.83 is above upper threshold of 50.00.
 
@@ -285,12 +290,12 @@ Autoscaler does not recognize the labels.
 
 ### <a id="metric-load"></a> Metric Load
 
-When adding instrumentation to an app, it may be tempting to emit a large number of metrics.
+When adding instrumentation to an app, it can be tempting to emit a large number of metrics.
 This can be valuable, but imposes a cost on the platform, which must process and handle
 the additional metrics. If you are considering adding a large number of new metrics, 
 notify your platform operator.
 
-### <a id="cache-eviction"></a> Log Cache Eviction 
+### <a id="cache-eviction"></a> Log Cache Removal
 
 Custom metrics are emitted by Metric Registrar, which scrapes the metrics endpoint on the app. By
 default, the interval between scrapes is 35 seconds. Operators can configure the scrape interval in
