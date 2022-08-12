@@ -187,7 +187,7 @@ To register a custom metrics endpoint for the app:
 
     <p class="warning note">
      <strong>Warning: </strong>
-     When you provide the <code>--insecure</code> flag, the metrics endpoint is exposed and scraped on the default application port.
+     When you provide the <code>--insecure</code> flag, the metrics endpoint is scraped on the default application port.
      Exposing metrics on the default application port makes the metrics available to anyone with access to the
      application. Avoid use of this flag in a production setting, and instead expose the metrics endpoint on an
      alternative port to limit access to it. You can specify the alternative port using the <code>--internal-port</code>
