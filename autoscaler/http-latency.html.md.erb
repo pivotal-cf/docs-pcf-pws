@@ -3,273 +3,353 @@ title: Using HTTP Latency as a Scaling Metric
 owner: Autoscaler
 ---
 
-This topic describes the Autoscaler HTTP latency metric and how to configure Autoscaler to use this metric in scaling rules.
+This topic describes the HTTP latency metric and how to configure App Autoscaler to use this metric when scaling apps.
 
-## <a id="overview"></a> Overview of HTTP Latency
 
-When a HTTP request is made to an app hosted on Tanzu Application Service, the [Gorouter](../../concepts/cf-routing-architecture.html) generates a number of metrics. One of these is a timer that records the time taken to handle the request, including the time required for the back-end app to respond.
+## <a id='overview'></a> Overview of HTTP Latency
 
-For example, you might have a Service Level Agreement (SLA) specifying that 95% of requests for an app must be handled in less than 300 milliseconds. To help achieve this, you can add an autoscaling rule to scale out additional app instances when the latency reaches 250 milliseconds. This assumes that adding app instances lowers the HTTP latency before the business goal is impacted.
+When an HTTP request is made to an app, the Gorouter in VMware Tanzu Application Service for VMs (TAS for VMs) generates several metrics. One of these
+metrics is `gorouter.latency`, or _HTTP latency_. The HTTP latency metric measures the length of time it takes to process an HTTP request, starting from when
+the Gorouter receives a request and ending when the Gorouter finishes processing the response from the app. This metric includes the length of time it takes
+all back-end endpoints to respond, including other apps and TAS for VMs components such as Cloud Controller and UAA. Long uploads, downloads, or app responses
+increase the time.
 
-For caveats to scaling on HTTP latency, see [Caveats](#caveats).
+For example, you might have a Service Level Agreement (SLA) specifying that 95% of requests for an app must be processed in less than 300 milliseconds. To
+help achieve this, you can configure an autoscaling rule for Autoscaler to create additional instances of the app when the HTTP latency metric reaches 250
+milliseconds.
 
-## <a id="configure-autoscaler"></a> Configuring HTTP Latency as the Scaling Metric for an App
+You can configure Autoscaler to use HTTP latency as the scaling metric for an app in the following ways:
 
-The procedures in this section describe how to configure Autoscaler to use HTTP latency as the scaling metric for an app. You can configure Autoscaler in the
-following ways:
+* Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring HTTP Latency as the Scaling Metric for an App Through the
+cf CLI](#cf-cli-config) below.
 
-* Using the App Autoscaler Command-Line Interface (CLI). For more information, see [Configure Autoscaler Using the App Autoscaler CLI](#cli).
+* Through Apps Manager. For more information, see [Configure HTTP Latency as the Scaling Metric for an App Through Apps Manager](#apps-manager-config) below.
 
-* Using Apps Manager. For more information, see [Configure Autoscaler Using Apps Manager](#apps-manager).
+To monitor when Autoscaler scales an app based on changes in HTTP latency, see [Reviewing Autoscaling Events for Changes in HTTP Latency](#review-events)
+below.
 
-### <a id="cli"></a> Configure Autoscaler Using the App Autoscaler CLI
+For information about use cases that may complicate or prevent you from configuring HTTP latency as the scaling metric for an app, see [Special Considerations
+for Using HTTP Latency as a Scaling Metric](#special-consideration) below.
 
-The App Autoscaler CLI is a Cloud Foundry Command-Line Interface (cf CLI) plug-in that adds terminal commands for controlling Autoscaler.
+VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
+App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
 
-To configure Autoscaler to use HTTP latency as the scaling metric for an app using the App Autoscaler CLI:
+For more information about the HTTP latency metric, see [Router Handling Latency](../../operating/monitoring/kpi.html#latency) in _Key Performance
+Indicators_. For more information about how TAS for VMs routes HTTP requests, see [TAS for VMs Routing
+Architecture](../../concepts/cf-routing-architecture.html).
 
-1. Download the VMware Tanzu App Autoscaler CLI Plug-in from [VMware Tanzu Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
 
-1. Configure Autoscaler using one of the following methods.
-    * Create a manifest file for Autoscaler. For more information, see [Create a Manifest File](#manifest).
-    * Use terminal commands. For more information, see [Use Terminal Commands](#term-commands).
+## <a id='cf-cli-config'></a> Configuring HTTP Latency as the Scaling Metric for an App Through the cf CLI
 
-#### <a id="manifest"></a> Create a Manifest File
+The procedures in this section describe how to configure Autoscaler to use HTTP latency as the scaling metric for an app through the cf CLI:.
 
-To declaratively specify Autoscaler configuration, you can create an Autoscaler manifest file.
+You can configure configure Autoscaler to use HTTP latency as the scaling metric for an app in the following ways:
 
-> **Note:** An Autoscaler manifest file is separate from an app manifest file, and is only used for Autoscaler configuration.
+* Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config) below.
 
-To configure Autoscaler using a manifest file:
+* Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) below.
 
-1. Create an Autoscaler instance in the same space as the app that you want Autoscaler to scale:
+For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
+Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
 
-    ```sh
+### <a id='cf-cli-manifest-config'></a> Configure an Autoscaling Rule Using a Manifest File
+
+You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
+other existing app manifest files in your TAS for VMs deployment.
+
+To configure an autoscaling rule that defines HTTP latency as its scaling metric using a manifest file:
+
+1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+
+    ```
+    cf target -o ORG-NAME -s SPACE-NAME
+    ```
+    Where:
+    * `ORG-NAME` is the name of the org containing the space in which the app you want to scale is deployed.
+    * `SPACE-NAME` is the name of the space in which the app you want to scale is deployed.
+
+1. If the space in which the app you want to scale is deployed does not already have an Autoscaler service instance of Autoscaler deployed in it, create an
+Autoscaler service instance by running:
+
+    ```
     cf create-service app-autoscaler PLAN-NAME SERVICE-NAME
     ```
     Where:
-    * `PLAN-NAME` is the name of the service plan to use for the Autoscaler service instance.
-    * `SERVICE-NAME` is the name of the service instance.
+    * `PLAN-NAME` is the name of the service plan you want to use for the Autoscaler service instance.
+    * `SERVICE-INSTANCE-NAME` is the name you want to give the Autoscaler service instance. For example, `autoscaler`.
+    <br>
+    <br>
+    If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
 
-    For example:
+1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
 
-    ```sh
-    $ cf create-service app-autoscaler standard autoscaler
     ```
-
-1. Bind the Autoscaler instance to the app:
-
-    ```sh
-    cf bind-service APP-NAME autoscaler
+    cf bind-service APP-NAME SERVICE-INSTANCE-NAME
     ```
-    Where `APP-NAME` is the name of the app you want Autoscaler to scale.
+    Where:
+    * `APP-NAME` is the name of the app you want to scale.
+    * `SERVICE-INSTANCE-NAME` is the name of the Autoscaler service instance in the previous step.
 
-    For example:
+1. To create a manifest file for Autoscaler that configures an autoscaling rule with HTTP latency as its scaling metric, create a YAML file that includes the
+following configuration parameters:
 
-    ```sh
-    $ cf bind-service example-app autoscaler
     ```
-
-1. Create the Autoscaler manifest file:
-
-    ```yaml
     ---
     instance_limits:
-      min: 10
-      max: 100
+      min: LOWER-SCALING-LIMIT
+      max: UPPER-SCALING-LIMIT
     rules:
     - rule_type: http_latency
-      rule_sub_type: avg_95th
+      rule_sub_type: PERCENTILE
       threshold:
-        min: 125
-        max: 250
-    scheduled_limit_changes: []
+        min: MINIMUM-LATENCY-THRESHOLD
+        max: MAXIMUM-LATENCY-THRESHOLD
+    ```
+    Where:
+    * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
+    * `UPPER-SCALING-LIMIT` is the maximum number of instances you want Autoscaler to create for the app.
+    * `PERCENTILE` is the percentile that Autoscaler uses in scaling decisions. Valid values are `avg_95th` or `avg_99th`. This value configures Autoscaler to
+    ignore HTTP requests that fall outside either the 95th or 99th percentile and average the latency of the remaining 95% or 99% of HTTP requests.
+    * `MINIMUM-LATENCY-THRESHOLD` is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below this number,
+    Autoscaler scales the number of app instances down.
+    * `MAXIMUM-LATENCY-THRESHOLD` is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above this number,
+    Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least
+    twice the value of the minimum threshold.
+    <br>
+    <br>
+    The following example shows an Autoscaler manifest with a percentile of 95%, a minimum HTTP latency threshold of 125 milliseconds, and a maximum HTTP
+    latency threshold of 250 milliseconds:
+
+    ```
+    ---
+    instance_limits:
+      min: LOWER-SCALING-LIMIT
+      max: UPPER-SCALING-LIMIT
+    rules:
+    - rule_type: http_latency
+      rule_sub_type: PERCENTILE
+      threshold:
+        min: MINIMUM-LATENCY-THRESHOLD
+        max: MAXIMUM-LATENCY-THRESHOLD
     ```
 
-    This manifest defines a `http_latency` rule and configures three settings:
+1. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
 
-    1. The minimum threshold in milliseconds (`threshold.min`). If the average request latency drops below this number, Autoscaler scales the app down. In this example, the minimum threshold is set to 125 milliseconds.
-
-    1. The maximum threshold in milliseconds (`threshold.max`). If the average request latency rises above this number, Autoscaler scales the app up. In this example, the maximum threshold is set to 250 milliseconds. In general, VMware recommends that you set the value for maximum threshold to at least twice the value of the minimum threshold, to avoid excessive cycling.
-
-    1. The percentile (`rule_sub_type`), either `avg_95th` or `avg_99th`. This is the percentile that Autoscaler uses in scaling decisions. In this example, the percentile is set to `avg_95th`, so Autoscaler ignores requests that fall outside of the 95th percentile and averages the remaining 95% of requests.
-
-    The manifest also specifies a minimum instance limit of 10 and a maximum instance limit of 100.
-
-1. Apply the Autoscaler manifest for your app:
-
-    ```sh
+    ```
     cf configure-autoscaling APP-NAME MANIFEST-FILENAME
     ```
     Where:
-    * `APP-NAME` is the name of the app that you want Autoscaler to scale.
-    * `MANIFEST-FILENAME` is the filename of the Autoscaler manifest.
+    * `APP-NAME` is the name of the app.
+    * `MANIFEST-FILENAME` is the filename of the manifest file you created in the previous step. For example, `autoscaler.yml`.
 
-    For example:
+### <a id='cf-cli-commands-config'></a> Configure an Autoscaling Rule Using CLI Commands
 
-    ```sh
-    $ cf configure-autoscaling example-app autoscaler-manifest.yaml
+To configure an autoscaling rule that defines HTTP latency as its scaling metric using CLI commands:
+
+1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+
     ```
-
-VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
-
-When scaling because of an increase in latency, Autoscaler records the observed latency in the scaling event. For example:
-
-```sh
-$ cf autoscaling-events example-app
-
-Time                   Description
-2022-05-23T21:47:45Z   Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
-```
-
-#### <a id="term-commands"></a> Use Terminal Commands
-
-You can configure Autoscaler to use the HTTP latency metric using cf CLI commands.
-
-To configure using the cf CLI:
-
-1. Create an Autoscaler instance in the same space as the app that you want Autoscaler to scale:
-
-    ```sh
-    cf create-service app-autoscaler PLAN-NAME SERVICE-NAME
+    cf target -o ORG-NAME -s SPACE-NAME
     ```
     Where:
-    * `PLAN-NAME` is the name of the service plan to use for the Autoscaler service instance.
-    * `SERVICE-NAME` is the name of the service instance.
+    * `ORG-NAME` is the name of the org containing the space in which the app you want to scale is deployed.
+    * `SPACE-NAME` is the name of the space in which the app you want to scale is deployed.
 
-    For example:
+1. If the space in which the app you want to scale is deployed does not already have a service instance of Autoscaler deployed in it, create an Autoscaler
+service instance by running:
 
-    ```sh
-    $ cf create-service app-autoscaler standard autoscaler
     ```
-
-1. Bind the Autoscaler instance to the app:
-
-    ```sh
-    cf bind-service APP-NAME autoscaler
-    ```
-    Where `APP-NAME` is the name of the app that you want Autoscaler to scale.
-
-    For example:
-
-    ```sh
-    $ cf bind-service example-app autoscaler
-    ```
-
-1. Update autoscaling limits for the app that you want to scale:
-
-    ```sh
-    cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT
+    cf create-service app-autoscaler PLAN-NAME SERVICE-INSTANCE-NAME
     ```
     Where:
-    * `APP-NAME` is the name of the app that you want Autoscaler to scale.
-    * `MIN-INSTANCE-LIMIT` is the minimum instance limit.
-    * `MAX-INSTANCE-LIMIT` is the maximum instance limit.
+    * `PLAN-NAME` is the name of the service plan you want to use for the Autoscaler service instance.
+    * `SERVICE-INSTANCE-NAME` is the name you want to give the Autoscaler service instance. For example, `autoscaler`.
+    <br>
+    <br>
+    If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
 
-    For example:
+1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
 
-    ```sh
-    $ cf update-autoscaling-limits example-app 10 100
     ```
+    cf bind-service APP-NAME SERVICE-INSTANCE-NAME
+    ```
+    Where:
+    * `APP-NAME` is the name of the app you want to scale.
+    * `SERVICE-INSTANCE-NAME` is the name of the Autoscaler service instance in the previous step.
 
-1. Enable autoscaling for the app:
+1. Configure upper and lower scaling limits for the app by running:
 
-    ```sh
+    ```
+    cf update-autoscaling-limits APP-NAME LOWER-SCALING-LIMIT UPPER-SCALING-LIMIT
+    ```
+    Where:
+    * `APP-NAME` is the name of the app.
+    * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
+    * `UPPER-SCALING-LIMIT` is the maximum number of instances you want Autoscaler to create for the app.
+
+1. Allow Autoscaler to begin making scaling decisions for the app by running:
+
+    ```
     cf enable-autoscaling APP-NAME
     ```
-    Where `APP-NAME` is the name of the app that you want Autoscaler to scale.
+    Where `APP-NAME` is the name of the app.
 
-    For example:
+1. Create an `http_latency` autoscaling rule by running:
 
-    ```sh
-    $ cf enable-autoscaling example-app
     ```
-
-1. Add a `http_latency` rule:
-
-    ```sh
-    cf create-autoscaling-rule APP-NAME http_latency MIN MAX --subtype SUBTYPE
+    cf create-autoscaling-rule APP-NAME http_latency MINIMUM-LATENCY-THRESHOLD MAXIMUM-LATENCY-THRESHOLD --subtype PERCENTILE
     ```
     Where:
-    * `APP-NAME` is the name of the app that you want Autoscaler to scale.
-    * `MIN` is the minimum threshold in milliseconds. If the average request latency drops below this number, Autoscaler scales the app down. 
-    * `MAX` is the maximum threshold in milliseconds. If the average request latency rises above this number, Autoscaler scales your app up. In general, VMware recommends that you set the value for maximum threshold to at least twice the value of the minimum threshold, to avoid excessive cycling.
-    * `SUBTYPE` is the percentile on which Autoscaler bases scaling decisions, either `avg_95th` or `avg_99th`. For example, `avg_95th` ignores requests that fall outside of the 95th percentile and averages the remaining 95% of requests.
+    * `APP-NAME` is the name of the app for which you want to create an autoscaling rule.
+    * `MINIMUM-LATENCY-THRESHOLD` is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below this number,
+    Autoscaler scales the number of app instances down.
+    * `MAXIMUM-LATENCY-THRESHOLD` is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above this number,
+    Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least
+    twice the value of the minimum threshold.
+    * `PERCENTILE` is the percentile that Autoscaler uses in scaling decisions. Valid values are `avg_95th` or `avg_99th`. This value configures Autoscaler to
+    ignore HTTP requests that fall outside either the 95th or 99th percentile and average the latency of the remaining 95% or 99% of HTTP requests.
+    <br>
+    <br>
+    The following example command configures an `http_latency` autoscaling rule with a minimum HTTP latency threshold of 125 milliseconds, a maximum HTTP
+    latency threshold of 250 milliseconds, and a percentile of 95% for the `example-app` app:
 
-    For example:
-
-    ```sh
-    $ cf create-autoscaling-rule example-app http_latency 125 250 --subtype avg_95th
+    ```
+    cf create-autoscaling-rule example-app http_latency 125 250 --subtype avg_95th
     ```
 
-VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
 
-When scaling because of an increase in latency, Autoscaler records the observed latency in the scaling event. For example:
+## <a id='apps-manager-config'></a> Configure HTTP Latency as the Scaling Metric for an App Through Apps Manager
 
-```sh
-$ cf autoscaling-events example-app
+To configure Autoscaler to use HTTP latency as the scaling metric for an app through Apps Manager:
 
-Time                   Description
-2022-05-23T21:47:45Z   Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
-```
+1. Log in to Apps Manager. For more information, see [Logging In to Apps Manager](../../operating/console-login.html).
 
-### <a id="apps-manager"></a> Configure Autoscaler Using Apps Manager
+1. Select the org that contains the space in which the app you want to scale is deployed.
 
-To configure Autoscaler to use HTTP latency as the scaling metric for an app using Apps Manager:
+1. Select the space in which the app you want to scale is deployed.
 
-1. In Apps Manager, navigate to the **Manage Autoscaling** -> **Edit Scaling Rules** dialog box.
+1. Under **Under Processes and Instances**, click **Manage Autoscaling**. The **Manage Autoscaling** window appears.
 
-1. Select **Add Rule**.
+1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
 
-1. Configure the fields as follows:
+1. Click **Add rule**. The **Select type** dropdown appears.
 
-    | Field                                        | Instructions                             |
-    |----------------------------------------------|------------------------------------------|
-    | <strong>Rule Type</strong>                   | Select <strong>HTTP Latency</strong>     |
-    | <strong>Scale down if less than</strong>     | Enter the minimum threshold in milliseconds. If average request latency falls below this number, Autoscaler scales the app down. |
-    | <strong>Scale up if more than</strong>       | Enter the maximum threshold in milliseconds. If average request latency rises above this number, Autoscaler scales the app up. In general, VMware recommends that you set the value for maximum threshold to at least twice the value of the minimum threshold, to avoid excessive cycling. |
-    | <strong>Percent of traffic to apply</strong> | Select either <strong>95%</strong> or <strong>99%</strong>. Autoscale uses this percentile to make autoscaling decisions (for example, if you select <strong>95%</strong>, Autoscaler ignores requests outside of the 95th percentile and averages the remaining 95% of requests). |
+1. From the **Select type** dropdown, select **HTTP Latency**. More configuration fields appear below.
+
+1. For **Scale down if less than**, enter in milliseconds the minimum HTTP latency threshold you want to configure. If the average latency of HTTP requests
+falls below this number, Autoscaler scales the number of app instances down.
+
+1. For **Scale up if more than**, enter in milliseconds the maximum HTTP latency threshold you want to configure. If the average latency of HTTP requests
+rises above this number, Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum
+threshold that is at least twice the value of the minimum threshold.
+
+1. Under **Percent of traffic to apply**, select either **95%** or **99%**. This configuration setting is the percentile that Autoscaler uses in scaling
+decisions. Depending on which option you select, Autoscaler ignores HTTP requests that fall outside either the 95th or 99th percentile and averages the
+latency of the remaining 95% or 99% of HTTP requests.
 
 1. Click **Save**.
 
-VMware recommends that you perform load testing of your app to verify that your configured rules are correct. For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
 
-When scaling because of an increase in latency, Autoscaler records the observed latency in the scaling event. In Apps Manager, you can view the scaling event in the Event History, under **Manage Autoscaling**. For example:
+## <a id='review-events'></a> Reviewing Autoscaling Events for Changes in HTTP Latency
 
-> Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
+When Autoscaler scales the number of app instances up after the HTTP latency metric increases above the maximum HTTP latency threshold, Autoscaler records an
+autoscaling event.
 
-For more information, see [Configure Autoscaling for an App](using-autoscaler.html#config).
+You can monitor the autoscaling events that Autoscaler records for changes in HTTP latency in the following ways:
 
-## <a id="caveats"></a> Caveats
+* Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI](#review-events-cli) below.
 
-The following cases require special consideration when using HTTP latency as a metric for autoscaling.
+* Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI](#review-events-apps-manager)
+below.
 
-### <a id="multiple-endpoints"></a> Multiple Endpoints with Different Latency Characteristics
+### <a id='review-events-cli'></a> Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI
 
-In an app that exposes multiple endpoints, one endpoint might be slower than the others. In this case, HTTP latency might not be an ideal autoscaling metric, because the calculated latency is an average of the latency across all app endpoints. For example, a large number of requests to a fast endpoint drags down the average HTTP latency, and can prevent Autoscaler from scaling up the app.
+To review the autoscaling events that Autoscaler records for changes in HTTP latency through the cf CLI:
 
-### <a id="downstream-services"></a> Downstream Services
+1. In a terminal window, run:
 
-Sometimes HTTP request latency results from downstream dependencies (for example, other microservices). If the app has a slow downstream dependency, this can also increase the latency of the app. If this is the case, the downstream dependency must be scaled up or improved, and autoscaling your app does not improve performance.
+    ```
+    cf autoscaling-events APP-NAME
+    ```
+    Where `APP-NAME` is the name of the app for which you want to review autoscaling events.
+    <br>
+    <br>
+    If Autoscaler has scaled the number of app instances up due to increases in the HTTP latency metric, the above command returns output that contains
+    autoscaling events similar to the following example:
+    <pre class='terminal'>
+    Time                   Description
+    2022-05-23T21:47:45Z   Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
+    </pre>
 
-Latency caused by other external factors, such as network congestion or database performance, can also cause problems when using the HTTP latency metric for Autoscaler. Scaling up by adding app instances does not decrease latency resulting from these factors.
+### <a id='review-events-apps-manager'></a> Review Autoscaling Events for Changes in HTTP Latency Through Apps Manager
 
-**Important:** If performance issues are caused by a downstream service, scaling up your app might _increase_ HTTP latency as the additional app instances add load on the downstream service.
+To review the autoscaling events that Autoscaler records for changes in HTTP latency through Apps Manager:
 
-### <a id="caveat-c2c-networking"></a> Container to Container (C2C) Networking
+1. Log in to Apps Manager. For more information, see [Logging In to Apps Manager](../../operating/console-login.html).
 
-Autoscaling based on HTTP latency is currently only supported for apps that receive requests directly from the Gorouter.
+1. Select the org that contains the space in which the app you want to scale is deployed.
 
-If your system includes back end HTTP services that are accessed directly from another app using Container to Container (C2C) networking, the Gorouter does not generate HTTP events for these requests, and Autoscaler cannot scale based on the requests. In this case, configure Autoscaler to scale based on an alternative built-in metric or a custom metric.
+1. Select the space in which the app you want to scale is deployed.
 
-### <a id="log-cache-eviction"></a> High-Traffic Apps
+1. Under **Under Processes and Instances**, click **Manage Autoscaling**.
 
-Autoscaler retrieves HTTP metrics from Log Cache, which has a default limit of 100,000 envelopes per app. If your app receives a large number of HTTP requests, or has very verbose logging, Autoscaler might only have access to a subset of the generated timer envelopes for the period. This causes a bias in the calculated HTTP latency. In most cases, the calculated latency still approximates the request latency.
+1. Under **Event History**, click **View More**. A list of autoscaling events appears. If Autoscaler has scaled the number of app instances up due to
+increases in the HTTP latency metric, the list of autoscaling events includes events similar to the following example:
 
-For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+    ```
+    Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
+    ```
 
-### <a id="infrequent-access"></a> Infrequently Accessed Apps
 
-If your app is infrequently accessed and has a high-latency response, Autoscaler might continue to scale up the app because no other HTTP latency metrics are available to restore the average. In this case, Autoscaler usually finishes scaling up after the original request falls outside of the metric collection interval.
+## <a id='special-considerations'></a> Special Considerations for Using HTTP Latency as a Scaling Metric
 
-For more information about the metric collection interval, see [About App Autoscaler](about-app-autoscaler.html#about-scaling-decisions).
+This section describes use cases that may complicate or prevent you from configuring HTTP latency as the scaling metric for an app. For more information, see
+the sections below:
+
+* [Multiple Endpoints](#multiple-endpoints)
+* [External Factors](#external-factors)
+* [Container-to-Container Networking](#c2c)
+* [Log Cache Eviction](#log-cache-eviction)
+* [Infrequent Requests](#infrequent-requests)
+
+### <a id='multiple-endpoints'></a> Multiple Endpoints
+
+In an app that exposes multiple endpoints, the value of the HTTP latency metric is the average HTTP latency across all app endpoints. If one or more endpoints
+process requests at a slower rate than the others, HTTP latency might not be an ideal scaling metric to use. Even a fast endpoint can cause the average HTTP
+latency to increase if it receives a large number of requests.
+
+### <a id='external-factors'></a> External Factors
+
+Components or services that receive data from an app are known as _downstream_ components. If any downstream components respond slowly to requests from an
+app, they may cause HTTP latency to increase. In this case, scaling the app up does not improve its performance. In fact, scaling the app up might _increase_
+HTTP latency, because requests from the additional app instances add a greater burden on the downstream component. The downstream component must be scaled up
+or improved before scaling the app up can improve its performance.
+
+Other external factors, such as network congestion or database performance, can also cause HTTP latency to increase. In this case, scaling the app does not
+decrease HTTP latency that results from these external factors.
+
+### <a id='c2c'></a> Container-to-Container Networking
+
+Autoscaler can only use HTTP latency as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not currently support
+using HTTP latency as a scaling metric for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
+
+If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP
+events for those requests. As a result, Autoscaler cannot scale those HTTP services. In order for Autoscaler to scale them, you must either use a different
+default scaling metric or create a custom scaling metric for them.
+
+### <a id='log-cache-eviction'></a> Log Cache Eviction
+
+Autoscaler retrieves HTTP metrics from Log Cache, which can hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of
+HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve
+some of the total timer envelopes it needs to calculate accurate metrics, then the HTTP latency metric may inaccurately represent the actual HTTP latency of
+the app or causes of decreased app performance. However, in most cases, the HTTP latency metric still approximates the actual HTTP latency of the app.
+
+For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
+
+### <a id='infrequent-requests'></a> Infrequent Requests
+
+If an app receives requests infrequently and responds slowly, Autoscaler might continue scaling the app up because there are no other HTTP latency metrics to
+restore the average. In this case, Autoscaler usually stops scaling the app up after the original request falls outside of the metric collection interval.
+
+For more information about how Autoscaler's metric collection interval affects its scaling decisions, see [How App Autoscaler Decides When to
+Scale](about-app-autoscaler.html#about-scaling-decisions) in _About App Autoscaler_.

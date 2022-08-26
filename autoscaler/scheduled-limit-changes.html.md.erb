@@ -36,19 +36,18 @@ To configure or review scheduled limit changes in Autoscaler, see the sections b
 
 * [Configuring Scheduled Limit Changes Through Apps Manager](#apps-manager-config)
 
-* [Review Autoscaling Events for Scheduled Limit Changes](#review-events)
+* [Reviewing Autoscaling Events for Scheduled Limit Changes](#review-events)
 
 
 ## <a id='cf-cli-config'></a> Configuring Scheduled Limit Changes Through the cf CLI
 
-This section describes how to configure scheduled limit changes for Autoscaler through the Cloud Foundry Command-Line Interface (cf CLI). You can configure
-scheduled limit changes in the following ways:
+The procedures in this section describe how to configure scheduled limit changes for Autoscaler through the Cloud Foundry Command-Line Interface (cf CLI).
 
-* Configure scheduled limit changes using a manifest file. For more information, see [Configure Scheduled Limit Changes Using a Manifest
-File](#cf-cli-manifest-config) below.
+You can configure scheduled limit changes in the following ways:
 
-* Configure scheduled limit changes using CLI commands. For more information, see [Configure Scheduled Limit Changes Using CLI
-Commands](#cf-cli-commands-config) below.
+* Using a manifest file. For more information, see [Configure Scheduled Limit Changes Using a Manifest File](#cf-cli-manifest-config) below.
+
+* Using CLI commands. For more information, see [Configure Scheduled Limit Changes Using CLI Commands](#cf-cli-commands-config) below.
 
 For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
 Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
@@ -56,7 +55,7 @@ Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Auto
 ### <a id='cf-cli-manifest-config'></a> Configure Scheduled Limit Changes Using a Manifest File
 
 You can configure scheduled limit changes declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with
-any other existing app manifest file in your TAS for VMs deployment.
+any other existing app manifest files in your TAS for VMs deployment.
 
 To configure scheduled limit changes using a manifest file:
 
@@ -69,20 +68,27 @@ To configure scheduled limit changes using a manifest file:
     * `ORG-NAME` is the name of the org containing the space in which the app you want to scale is deployed.
     * `SPACE-NAME` is the name of the space in which the app you want to scale is deployed.
 
-1. If the space in which the app you want to scale is deployed does not already have an instance of Autoscaler deployed in it, create an Autoscaler instance
-by running:
+1. If the space in which the app you want to scale is deployed does not already have an Autoscaler service instance of Autoscaler deployed in it, create an
+Autoscaler service instance by running:
 
     ```
-    cf create-service app-autoscaler standard autoscaler
+    cf create-service app-autoscaler PLAN-NAME SERVICE-NAME
     ```
-    If there is already an Autoscaler instance in the space in which the app you want to scale is deployed, skip this step.
+    Where:
+    * `PLAN-NAME` is the name of the service plan you want to use for the Autoscaler service instance.
+    * `SERVICE-INSTANCE-NAME` is the name you want to give the Autoscaler service instance. For example, `autoscaler`.
+    <br>
+    <br>
+    If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
 
-1. Bind the Autoscaler instance you created in the previous step to the app you want to scale by running:
+1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
 
     ```
-    cf bind-service APP-NAME autoscaler
+    cf bind-service APP-NAME SERVICE-INSTANCE-NAME
     ```
-    Where `APP-NAME` is the name of the app you want to scale.
+    Where:
+    * `APP-NAME` is the name of the app you want to scale.
+    * `SERVICE-INSTANCE-NAME` is the name of the Autoscaler service instance in the previous step.
 
 For an example of a manifest file that configures scheduled limit changes, see [Examples of Recurrence
 Specification](using-autoscaler-cli.html#scheduled-limit-examples) in _Using the App Autoscaler CLI_.
@@ -100,20 +106,27 @@ To configure scheduled limit changes using CLI commands:
     * `ORG-NAME` is the name of the org containing the space in which the app you want to scale is deployed.
     * `SPACE-NAME` is the name of the space in which the app you want to scale is deployed.
 
-1. If the space in which the app you want to scale is deployed does not already have an instance of Autoscaler deployed in it, create an Autoscaler instance
-by running:
+1. If the space in which the app you want to scale is deployed does not already have a service instance of Autoscaler deployed in it, create an Autoscaler
+service instance by running:
 
     ```
-    cf create-service app-autoscaler standard autoscaler
+    cf create-service app-autoscaler PLAN-NAME SERVICE-INSTANCE-NAME
     ```
-    If there is already an Autoscaler instance in the space in which the app you want to scale is deployed, skip this step.
+    Where:
+    * `PLAN-NAME` is the name of the service plan you want to use for the Autoscaler service instance.
+    * `SERVICE-INSTANCE-NAME` is the name you want to give the Autoscaler service instance. For example, `autoscaler`.
+    <br>
+    <br>
+    If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
 
-1. Bind the Autoscaler instance you created in the previous step to the app you want to scale by running:
+1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
 
     ```
-    cf bind-service APP-NAME autoscaler
+    cf bind-service APP-NAME SERVICE-INSTANCE-NAME
     ```
-    Where `APP-NAME` is the name of the app you want to scale.
+    Where:
+    * `APP-NAME` is the name of the app you want to scale.
+    * `SERVICE-INSTANCE-NAME` is the name of the Autoscaler service instance in the previous step.
 
 1. Configure upper and lower scaling limits for the app by running:
 
@@ -160,7 +173,7 @@ To configure scheduled limit changes through Apps Manager, see [Create or Modify
 Using App Autoscaler_.
 
 
-## <a id='review-events'></a> Review Autoscaling Events for Scheduled Limit Changes
+## <a id='review-events'></a> Reviewing Autoscaling Events for Scheduled Limit Changes
 
 When Autoscaler applies a scheduled limit change, it records an autoscaling event. If the current number of app instances is under the lower scaling limit of
 the scheduled limit change, Autoscaler scales the number of app instances up to the lower scaling limit and records a separate autoscaling event.
