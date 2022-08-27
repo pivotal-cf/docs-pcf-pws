@@ -228,10 +228,10 @@ autoscaling rule for the app is correct.
 
 #### <a id='rabbitmq-runtime-credhub'></a> Autoscaler Does Not Support Runtime CredHub
 
-You may see the following autoscaling event:
+You may see an autoscaling event similar to the following example:
 
 <pre class='terminal'>
-Autoscaler did not receive any metrics for rabbitmq.queue-name during the scaling window. Scaling down is deferred until these metrics are available.
+Autoscaler did not receive any metrics for rabbitmq.example-queue during the scaling window. Scaling down is deferred until these metrics are available.
 </pre>
 
 In order to receive RabbitMQ queue depth metrics, Autoscaler must be able to retrieve service binding credentials for the RabbitMQ HTTP Management API from

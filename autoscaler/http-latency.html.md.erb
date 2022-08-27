@@ -117,7 +117,7 @@ following configuration parameters:
     twice the value of the minimum threshold.
     <br>
     <br>
-    The following example shows an Autoscaler manifest with a percentile of 95%, a minimum HTTP latency threshold of 125 milliseconds, and a maximum HTTP
+    The following example shows an Autoscaler manifest file with a percentile of 95%, a minimum HTTP latency threshold of 125 milliseconds, and a maximum HTTP
     latency threshold of 250 milliseconds:
 
     ```
@@ -210,8 +210,8 @@ service instance by running:
     ignore HTTP requests that fall outside either the 95th or 99th percentile and average the latency of the remaining 95% or 99% of HTTP requests.
     <br>
     <br>
-    The following example command configures an `http_latency` autoscaling rule with a minimum HTTP latency threshold of 125 milliseconds, a maximum HTTP
-    latency threshold of 250 milliseconds, and a percentile of 95% for the `example-app` app:
+    The following example command configures an `http_latency` autoscaling rule for the `example-app` app, with a minimum HTTP latency threshold of 125
+    milliseconds, a maximum HTTP latency threshold of 250 milliseconds, and a percentile of 95%:
 
     ```
     cf create-autoscaling-rule example-app http_latency 125 250 --subtype avg_95th
@@ -259,7 +259,7 @@ You can monitor the autoscaling events that Autoscaler records for changes in HT
 
 * Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI](#review-events-cli) below.
 
-* Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI](#review-events-apps-manager)
+* Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through Apps Manager](#review-events-apps-manager)
 below.
 
 ### <a id='review-events-cli'></a> Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI
