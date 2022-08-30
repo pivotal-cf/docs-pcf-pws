@@ -111,7 +111,7 @@ includes the following configuration parameters:
     want to scale.
     * `MINIMUM-QUEUE-DEPTH-THRESHOLD` is the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
     the number of app instances down.
-    * `MINIMUM-QUEUE-DEPTH-THRESHOLD` is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
+    * `MAXIMUM-QUEUE-DEPTH-THRESHOLD` is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
     the number of app instances up.
     <br>
     <br>
@@ -202,7 +202,7 @@ service instance by running:
     * `APP-NAME` is the name of the app for which you want to create an autoscaling rule.
     * `MINIMUM-QUEUE-DEPTH-THRESHOLD` is the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
     the number of app instances down.
-    * `MINIMUM-QUEUE-DEPTH-THRESHOLD` is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
+    * `MAXIMUM-QUEUE-DEPTH-THRESHOLD` is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
     the number of app instances up.
     * (Optional) `RABBITMQ-SERVICE-INSTANCE-NAME` is the name of the RabbitMQ service instance you want Autoscaler to query. Defining this parameter ensures
     that Autoscaler does not unnecessarily query other RabbitMQ service instances that are bound to the app.
@@ -349,6 +349,7 @@ This section describes use cases that may complicate or prevent you from configu
 information, see the sections below:
 
 * [RabbitMQ Service Binding Credentials in Runtime CredHub](#credentials-credhub)
+
 * [Multiple RabbitMQ Service Instances](#multiple-rmq-instances)
 
 ### <a id='credentials-credhub'></a> RabbitMQ Service Binding Credentials in Runtime CredHub
