@@ -1,5 +1,5 @@
 ---
-title: Using Debug Logging with App Autoscaler
+title: Using Debug Logs for App Autoscaler
 owner: Autoscaler
 ---
 
@@ -8,12 +8,24 @@ This topic describes how to monitor App Autoscaler and its supporting VMware Tan
 
 ## <a id='overview'></a> Overview of Debug Logging in Autoscaler
 
-[Insert summary of topic here -- debug logging not normally being configured, what you can use debug logs for when debugging Autoscaler, description of and links to config and review procedures, description of and links to other sections.]
+Autoscaler does not record debug logs by default. When you configure Autoscaler to record debug logs, the list of logs that Autoscaler records includes debug
+logs along with its normal logs. Debug logs include `DEBUG` in their log lines.
+
+You can use the debug logs that Autoscaler generates to do the following:
+
+* See whether developers of your apps are using Autoscaler to scale them, as well as measure the efficacy of apps that use or do not use Autoscaler. For more
+information, see [Reviewing Autoscaler Usage](#autoscaler-usage) below.
+
+* Determine if TAS for VMs components are failing to sufficiently support Autoscaler. For more information, see [Failure Modes](#failure-modes) below.
+
+To configure Autoscaler to record debug logs, see [Configure Debug Logging for Autoscaler](#allow-debug) below.
+
+To review the debug logs for Autoscaler, see [Review Autoscaler Debug Logs](#review-logs) below.
 
 
 ## <a id='allow-debug'></a> Configure Debug Logging for Autoscaler
 
-To configure debug logging for Autoscaler:
+To configure Autoscaler to record debug logs:
 
 1. In a terminal window, run:
 
@@ -34,8 +46,6 @@ To configure debug logging for Autoscaler:
     ```
     <p class='note'><strong>Note:</strong> Re-starting Autoscaler briefly interrupts any processes it is currently performing.</p>
 
-To review the debug logs for Autoscaler, see [Review Autoscaler Debug Logs](#review-logs) below.
-
 
 ## <a id='review-logs'></a> Review Autoscaler Debug Logs
 
@@ -55,12 +65,12 @@ To review the debug logs for Autoscaler:
     In the terminal output, all logs for Autoscaler appear, including debug logs. Debug logs include `DEBUG` in their log lines.
 
 
-## <a id='observability'></a> Reviewing Autoscaler Usage
+## <a id='autoscaler-usage'></a> Reviewing Autoscaler Usage
 
-As an operator, you can use debug logs to see whether developers of your apps are using Autoscaler to scale their apps, as well as measure the efficacy of
-apps that use or do not use Autoscaler.
+As an operator, you can use debug logs to see whether developers of your apps are using Autoscaler to scale them, as well as measure the efficacy of apps that
+use or do not use Autoscaler.
 
-If you have configured debug logging for Autoscaler, Autoscaler logs the following metrics:
+If you have configured Autoscaler to record debug logs, Autoscaler logs the following metrics:
 
 * `autoscale.scale_up`: the number of times Autoscaler has scaled an app up
 
@@ -95,7 +105,8 @@ To identify apps that are using Autoscaler through CAPI:
     ```
     cf curl /v3/service_plans/:guid
     ```
-    In the output for the above command, the value of `guid` is the GUID of the service plan for Autoscaler. [You also have to identify the one that has a `name` value of `app-autoscaler`, right?] For more information, see the [CAPI documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#get-a-service-plan).
+    In the output for the above command, the value of `guid` is the GUID of the service plan for Autoscaler. For more information, see the [CAPI
+    documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#get-a-service-plan).
 
 1. Record the value of `guid` from the output of the command you ran in the previous step.
 
@@ -143,7 +154,7 @@ For more information, see the sections below:
 Autoscaler depends heavily on Log Cache, which provides the majority of metrics that Autoscaler uses to determine when to scale an app. If Log Cache fails or
 is insufficiently scaled, Autoscaler cannot retrieve metrics, so it cannot determine when to scale an app.
 
-If you have configured debug logging for Autoscaler, Autoscaler logs the following metrics:
+If you have configured Autoscaler to record debug logs, Autoscaler logs the following metrics:
 
 * `autoscale.logcache.read_errors`: errors that Autoscaler encounters when reading from Log Cache
 
@@ -217,7 +228,7 @@ metadata for RabbitMQ queues.
 
 The Cloud Controller also authorizes Log Cache to provide log and metric envelopes to Autoscaler.
 
-If you have configured debug logging for Autoscaler, Autoscaler logs the following metrics:
+If you have configured Autoscaler to record debug logs, Autoscaler logs the following metrics:
 
 * `autoscale.cloud_controller.calls`: the number of requests that Autoscaler has made to the Cloud Controller
 
