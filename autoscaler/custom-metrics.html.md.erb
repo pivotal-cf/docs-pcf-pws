@@ -10,20 +10,11 @@ For information about how to emit custom metrics, see [Using Metric Registrar](.
 
 ## <a id='overview'></a> Overview of Custom Scaling Metrics
 
-Autoscaler supports a useful set of default metrics, but your app might have specific autoscaling requirements that are not met by the default metrics.
-Using custom metrics, you can choose your own metrics to expose from an app.
+While Autoscaler can use several default metrics as scaling metrics for apps, your app might have specific autoscaling requirements that Autoscaler cannot
+meet by using the default scaling metrics to scale the app. In this case, you can create custom metrics for Autoscaler to use to scale the app.
 
-Custom metrics provide a flexible way to define scaling rules in Autoscaler. For example, using custom metrics, you can:
-
-* Scale on a metric specific to your business, such as number of business transactions per second
-
-* If you are using Spring Boot, scale on the [built-in supported
-metrics](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics.supported), such as JVM metrics
-
-* Implement your own predictive logic for scaling demand, and scale on that
-
-
-
+<p class='note'><strong>Note:</strong> Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with
+  the Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.</p>
 
 You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
 
@@ -41,8 +32,6 @@ a Custom Scaling Metric](#special-considerations) below.
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
 App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
 
-For more information about , see []().
-
 
 ## <a id='cf-cli-config'></a> Configuring a Custom Scaling Metric for an App Through the cf CLI
 
@@ -56,9 +45,6 @@ You can configure Autoscaler to use a custom scaling metric for an app in the fo
 
 For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
 Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
-
-<p class='note'><strong>Note:</strong> Before configuring Autoscaler to use a custom scaling metric, you must register the app's metrics endpoint with Metric
-  Registrar. For more information, see <a href=""></a>.</p>
 
 ### <a id='cf-cli-manifest-config'></a> Configure an Autoscaling Rule Using a Manifest File
 
@@ -333,24 +319,31 @@ Metric endpoints include potentially sensitive information about the state of an
 end users cannot access these endpoints.
 
 To prevent unauthorized end users from accessing an app, you can configure the metrics endpoint to process traffic through a separate port. When registering
-the endpoint using the Metric Registrar CLI, you can then use the `--internal-port` flag to specify which port .
+the endpoint using the Metric Registrar CLI, you can then use the `--internal-port` flag to specify which port the endpoint uses.
 
 ### <a id='counter-metrics'></a> Counter Metrics
 
-A counter is a monotonically increasing number. Autoscaler does not support scaling based on counters. If you register a metrics endpoint that includes counter metrics, the counter metrics are ingressed into the Loggregator system, but Autoscaler does not retrieve them when requesting metrics from Log Cache.
+Autoscaler cannot use counter metrics as custom scaling metrics. If you register a metrics endpoint that includes counter metrics, the counter metrics are
+sent to Loggregator, but Autoscaler does not retrieve them from Log Cache.
 
 ### <a id='metric-labels'></a> Metric Labels
 
-Autoscaler does not differentiate between metrics based on labels. If the metrics endpoint features the same metric with different labels, such as HTTP latency metrics with labels that describe the endpoint from which they came, Autoscaler does not recognize the labels.
+Autoscaler does not differentiate between metrics based on labels. If the metrics endpoint features the same metric with different labels, such as HTTP
+latency metrics with labels that describe the endpoint from which they came, Autoscaler does not recognize the labels.
 
 ### <a id='high-metric-load'></a> High Metric Load
 
-When adding instrumentation to an app, it can be tempting to emit a large number of metrics. This can be valuable, but imposes a cost on the platform, which must process and handle the additional metrics. If you are considering adding a large number of new metrics, notify your platform operator.
+Configuring an app to emit a large number of custom scaling metrics can cause your TAS for VMs deployment to have difficulty processing those metrics. If you
+want to create a large number of custom scaling metrics, consult the operator of your TAS for VMs deployment.
 
 ### <a id='log-cache-eviction'></a> Log Cache Eviction
 
-Custom metrics are emitted by Metric Registrar, which scrapes the metrics endpoint on the app. By default, the interval between scrapes is 35 seconds. Operators can configure the scrape interval in the Metric Registration configuration. For information about configuring the scrape interval, see [Configure Metric Registrar](../../operating/configure-pas.html#metric-registrar) in _Configuring TAS for VMs_.
+The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
+seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile. To configure the scrape interval for the Metric
+Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in _Configuring TAS for VMs_.
 
-Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache has a maximum limit of 100,000 envelopes per source ID (app). Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log Cache custom metric history for Autoscaler to use in scaling decisions.
+Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per
+app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log
+Cache custom metric history for Autoscaler to use in scaling decisions.
 
-For more information, see [Using App Autoscaler in Production](productionizing-autoscaler.html).
+For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
