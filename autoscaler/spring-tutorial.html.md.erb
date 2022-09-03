@@ -187,19 +187,19 @@ To push the `java-spring-security` app:
     last uploaded:     Wed 28 Aug 11:02:33 PDT 2019
     </pre>
 
-1. From the `routes:` section of the terminal output, record the URL of the `java-spring-security` app. In the example output in the previous step, this URL
-is `tutorial-example-random-route.cfapps.io`.
+1. From the `routes` section of the terminal output, record the URL of the `java-spring-security` app. In the example output in the previous step, this URL is
+`tutorial-example-random-route.cfapps.io`.
 
 1. In a browser window, navigate to the URL you recorded in the previous step. The following screenshot shows the UI of the `java-spring-security` app:
     <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px">
     <br>
     The `java-spring-security` app UI includes the following buttons:
     * **Increment Custom gauge:** Causes the `custom` metric to increase by a value of `1`. You use this button in [Trigger Scaling](#trigger) below.
-    * **Decrement custom gauge:** Causes the `custom` metric to decrease by a value of `1`. You use this button in [Trigger Scaling](#trigger) below.
+    * **Decrement custom gauge:** Causes the `custom` metric to decrease by a value of `1`.
     * **See the metrics:** Opens `/actuator/prometheus` in your browser. The Metric Registrar uses this page to collect metrics. You can use this page to view
     the values of the `custom` metric and all metrics from the Micrometer Prometheus library.
-    * **Increment Simple counter** and **Call an endpoint with high latency:** Not used in this tutorial. To learn more about the functions of these buttons,
-    see the app code.
+    * **Increment Simple counter** and **Call an endpoint with high latency:** These buttons are not used in this tutorial. To learn more about the functions
+    of these buttons, see [java-spring-security](https://github.com/pivotal-cf/metric-registrar-examples/tree/master/java-spring-security) on GitHub.
 
 
 ## <a id='register-endpoint'></a> Register a Custom Metrics Endpoint
@@ -231,8 +231,7 @@ To register a custom metrics endpoint for the `java-spring-security` app:
     ```
     cf install-plugin -r CF-Community "log-cache"
     ```
-    Log Cache is a feature in <%= vars.app_runtime_abbr %> that allows you to filter and query app logs. For more information, see [Example Uses of the Log
-    Cache CLI Plugin](#log-cache-cli-examples) below.
+    Log Cache is a component of <%= vars.app_runtime_abbr %> that allows you to filter and query app logs.
 
 1. View the app metrics as they are emitted by running:
 
