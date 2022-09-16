@@ -78,7 +78,7 @@ If you have configured Autoscaler to record debug logs, Autoscaler logs the foll
 
 * `autoscale.enabled_bindings`: the number of Autoscaler service bindings that have been created
 
-<p class='note'><strong>Note:</strong> The metrics that are listed above appear as log lines and are not currently emitted to Loggregator.</p>
+<p class='note'><strong>Note:</strong> The metrics that are listed above appear as log lines and are not emitted to Loggregator.</p>
 
 To view these metrics, see [Review Autoscaler Debug Logs](#review-logs) above.
 
@@ -118,7 +118,9 @@ To identify apps that are using Autoscaler through CAPI:
         ```
         Where `SERVICE-PLAN-GUID` is the GUID of the service plan for Autoscaler that you recorded in the previous step. For more information, see the [CAPI
         documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-plans).
-    * Retrieve a list of the GUIDs of Autoscaler service instance by running:
+        <p class='note'><strong>Note:</strong> To run the above command, you must have jq installed. To install jq, see the
+          <a href="https://stedolan.github.io/jq/">jq website</a>.</p>
+    * Retrieve a list of the GUIDs of Autoscaler service instances by running:
 
         ```
         cf curl '/v3/service_instances?service_plan_guids=SERVICE-PLAN-GUID'
@@ -159,7 +161,7 @@ If you have configured Autoscaler to record debug logs, Autoscaler logs the foll
 
 * `autoscale.logcache_metric_fetch_duration`: the time Autoscaler takes to retrieve metrics from Log Cache
 
-<p class='note'><strong>Note:</strong> The metrics that are listed above appear as log lines and are not currently emitted to Loggregator.</p>
+<p class='note'><strong>Note:</strong> The metrics that are listed above appear as log lines and are not emitted to Loggregator.</p>
 
 To view these metrics, see [Review Autoscaler Debug Logs](#review-logs) above.
 
@@ -213,8 +215,9 @@ You also see an error similar to the following example in the debug logs for Aut
 [APP/PROC/WEB/2] OUT logcache walker: Get "https://log-cache.sys.example.com/api/v1/read/85a6aff3-c739-4364-8df3-44f1aa50662b": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
 </pre>
 
-To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To
-review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs) above.
+To view autoscaling events for an app, see [View Event History](using-autoscaler.html#view-event-history) in _Scaling an App Using App Autoscaler_ or [View
+Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler
+Debug Logs](#review-logs) above.
 
 ### <a id='cloud-controller'></a> Cloud Controller
 
@@ -235,7 +238,7 @@ If you have configured Autoscaler to record debug logs, Autoscaler logs the foll
 
 * `autoscale.cloud_controller.scale_errors`: the number of requests to scale an app that have resulted in an error
 
-<p class='note'><strong>Note:</strong> The metrics that are listed above appear as log lines and are not currently emitted to Loggregator.</p>
+<p class='note'><strong>Note:</strong> The metrics that are listed above appear as log lines and are not emitted to Loggregator.</p>
 
 To view these metrics, see [Review Autoscaler Debug Logs](#review-logs) above.
 
@@ -282,8 +285,8 @@ review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs) a
 
 ### <a id='mysql'></a> MySQL
 
-Autoscaler stores persistent information about Autoscaler service bindings and the autoscaling rules you configure in a MySQL database. If Autoscaler fails to
-select from or update the MySQL database, Autoscaler cannot scale your apps.
+Autoscaler uses a MySQL database to store persistent information about Autoscaler service bindings and the autoscaling rules you configure. If Autoscaler
+fails to select from or update the MySQL database, Autoscaler cannot scale your apps.
 
 You see an error similar to the following example in the debug logs for Autoscaler:
 
