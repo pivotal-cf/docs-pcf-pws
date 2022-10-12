@@ -48,8 +48,10 @@ When configuring Autoscaler to scale an app, you must ensure that the resource q
 app within the limits you configure. If the resource quotas that are available for the app to use are lower than the resources required to meet the upper
 scaling limit you configured, Autoscaler cannot scale up to that upper scaling limit.
 
+<% if not vars.platform_code == 'TAS' %>
 For more information about creating and modifying quota plans for your TAS for VMs deployment, see [Creating and Modifying Quota
 Plans](../../adminguide/quota-plans.html).
+<% end %>
 
 ### <a id='platform-capacity'></a> Platform Capacity
 
@@ -186,8 +188,8 @@ To view the number of envelopes that Log Cache stores and the cache duration for
 1. Review the values in the `Count` and `Cache Duration` columns to view the number of envelopes that Log Cache stores and the cache duration for an app.
 
 If necessary, you can increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log
-Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile. To configure the maximum number of envelopes that Log Cache can store, see
-[Maximum Number of Envelopes Stored in Log Cache Per Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.
+Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.<% if not vars.platform_code == 'TAS' %> To configure the maximum number of envelopes that Log Cache can store, see
+[Maximum Number of Envelopes Stored in Log Cache Per Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.<% end %>
 
 Additionally, Log Cache may evict envelopes if it has an insufficient amount of memory. To fix this issue, you can scale Log Cache horizontally or vertically.
 To scale Log Cache horizontally or vertically, see [Scaling an App Using cf scale](../../devguide/deploy-apps/cf-scale.html).
