@@ -85,16 +85,16 @@ To view these metrics, see [Review Autoscaler Debug Logs](#review-logs) above.
 You can also use one of the following methods to identify which apps are using Autoscaler:
 
 * You can review the overall number of running app instances that Diego reports for each Diego Cell to measure how many app instances are running at any given
-time.<% if not vars.platform_code == 'OFFLINE' %> For more information, see [Running App Instances, Rate of Change](../../operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning) in _Key Performance
-Indicators_.<% end %>
+time.<% if not vars.platform_code == 'OFFLINE' %> For more information, see [Running App Instances, Rate of
+Change](../../operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning) in _Key Performance Indicators_.<% end %>
 
 * You can use `cf curl` to retrieve information about Autoscaler service instances from the Cloud Foundry API (CAPI). To identify apps that are using
 Autoscaler through CAPI, see [Retrieve Autoscaler Service Instances from CAPI Endpoints](#capi) below.
 
 Because each team of developers may use different autoscaling rules for their apps, it may be difficult to accurately determine how effectively Autoscaler
 scales each app. However, you can gain a generalized understanding of the effect that Autoscaler has on the apps it scales by comparing the number of running
-app instances with other scaling metrics that the developers of your apps may be using.<% if not vars.platform_code == 'OFFLINE' %> For more information about various scaling metrics you can use in your
-comparison review, see [Key Performance Indicators](../../operating/monitoring/kpi.html).<% end %>
+app instances with other scaling metrics that the developers of your apps may be using.<% if not vars.platform_code == 'OFFLINE' %> For more information about
+various scaling metrics you can use in your comparison review, see [Key Performance Indicators](../../operating/monitoring/kpi.html).<% end %>
 
 ### <a id='capi'></a> Retrieve Autoscaler Service Instances from CAPI Endpoints
 
