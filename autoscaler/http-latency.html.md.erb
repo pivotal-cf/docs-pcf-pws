@@ -34,7 +34,7 @@ for Using HTTP Latency as a Scaling Metric](#special-considerations) below.
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
 App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
 
-<% if not vars.platform_code == 'TAS' %>
+<% if not vars.platform_code == 'OFFLINE' %>
 For more information about the HTTP latency metric, see [Router Handling Latency](../../operating/monitoring/kpi.html#latency) in _Key Performance
 Indicators_. For more information about how TAS for VMs routes HTTP requests, see [TAS for VMs Routing
 Architecture](../../concepts/cf-routing-architecture.html).
@@ -223,7 +223,7 @@ service instance by running:
 
 To configure Autoscaler to use HTTP latency as the scaling metric for an app through Apps Manager:
 
-1. Log in to Apps Manager.<% if not vars.platform_code == 'TAS' %> For more information, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
+1. Log in to Apps Manager.<% if not vars.platform_code == 'OFFLINE' %> For more information, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
 
 1. Select the org that contains the space in which the app you want to scale is deployed.
 
@@ -286,7 +286,7 @@ To review the autoscaling events that Autoscaler records for changes in HTTP lat
 
 To review the autoscaling events that Autoscaler records for changes in HTTP latency through Apps Manager:
 
-1. Log in to Apps Manager.<% if not vars.platform_code == 'TAS' %> For more information, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
+1. Log in to Apps Manager.<% if not vars.platform_code == 'OFFLINE' %> For more information, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
 
 1. Select the org that contains the space in which the app you want to scale is deployed.
 
