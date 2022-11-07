@@ -101,6 +101,7 @@ includes the following configuration parameters:
       threshold:
         min: MINIMUM-QUEUE-DEPTH-THRESHOLD
         max: MAXIMUM-QUEUE-DEPTH-THRESHOLD
+    scheduled_limit_changes: []
     ```
     Where:
     * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
@@ -130,6 +131,7 @@ includes the following configuration parameters:
       threshold:
         min: 10
         max: 50
+    scheduled_limit_changes: []
     ```
 
 1. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
