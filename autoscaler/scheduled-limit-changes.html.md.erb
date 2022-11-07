@@ -90,8 +90,118 @@ service instance by running:
     * `APP-NAME` is the name of the app you want to scale.
     * `SERVICE-INSTANCE-NAME` is the name of the Autoscaler service instance.
 
-For an example of a manifest file that configures scheduled limit changes, see [Examples of Recurrence
-Specification](using-autoscaler-cli.html#scheduled-limit-examples) in _Using the App Autoscaler CLI_.
+1. To create a manifest file for Autoscaler that configures a scheduled limit change, create a YAML file that includes the following configuration parameters:
+
+    ```
+    instance_limits:
+      min: LOWER-SCALING-LIMIT
+      max: UPPER-SCALING-LIMIT
+    rules: []
+    scheduled_limit_changes:
+    - recurrence: RECURRENCE
+      executes_at: "TIME"
+      instance_limits:
+        min: SCHEDULED-LOWER-SCALING-LIMIT
+        max: SCHEDULED-UPPER-SCALING-LIMIT
+    ```
+    Where:
+    * `LOWER-SCALING-LIMIT` is the minimum number of instances that you configured Autoscaler to create for the app by default.
+    * `UPPER-SCALING-LIMIT` is the maximum number of instances that you configured Autoscaler to create for the app by default.
+    * (Optional) `RECURRENCE` is the calculated value of the bitmasked days of the week on which you want Autoscaler to re-apply the scheduled limit change.
+    For more information, see [Calculating a Recurrence Schedule Value](#recurrence-value) below.
+    * `TIME` is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, `2032-01-01T20:00:00Z`.
+      <p class='note'><strong>Note:</strong> If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight
+        Saving Time is observed in your time zone, the UTC offset for your time zone may change during the year.</p>
+    * `SCHEDULED-LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the
+    current number of app instances is fewer than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances up to
+    this number.
+    * `SCHEDULED-UPPER-SCALING-LIMIT` is the maximum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the
+    current number of app instances is greater than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances down
+    to this number.
+
+1. Apply the manifest file you configured in the previous step to the app for which you want to configure scheduled limit changes by running:
+
+    ```
+    cf configure-autoscaling APP-NAME MANIFEST-FILENAME
+    ```
+    Where:
+    * `APP-NAME` is the name of the app.
+    * `MANIFEST-FILENAME` is the filename of the manifest file you created in the previous step. For example, `autoscaler.yml`.
+    <br>
+    For example, running the following command applies the `autoscaler.yml` manifest file to `example-app`:
+
+    ```
+    cf configure-autoscaling example-app autoscaler-manifest.yml
+    ```
+    The above command returns output similar to the following example:
+    <pre class='terminal'>
+    Setting autoscaler settings for app example-app for org example-org / space example-space as user
+    OK
+    </pre>
+
+#### <a id='recurrence-value'></a> Calculating a Recurrence Schedule Value
+
+When you configure a recurring scheduled limit change for Autoscaler using a manifest file, Autoscaler uses the `recurrence` value and `executes at` value to
+set the date and time of the first occurrence of a scheduled limit change. Autoscaler then uses the `time` value to set the time of day for all subsequent
+scheduled limit changes.
+
+Because Autoscaler bitmasks the days of the week in its recurrence schedule, you must calculate the correct value to enter for the `recurrence` property in
+your Autoscaler manifest file.
+
+To calculate a `recurrence` value:
+
+1. Add together the bitmasked values for each day of the week that you want Autoscaler to apply the scheduled limit change. The following table shows the
+bitmasked values for each day of the week:
+    <table id='scaling-rule-metrics' border="1" class="nice" >
+    	<tr>
+        <th>Day</th>
+    		<th>Su</th>
+    		<th>Mo</th>
+        <th>Tu</th>
+    		<th>We</th>
+        <th>Th</th>
+    		<th>Fr</th>
+    	  <th>Sa</th>
+    	</tr>
+      <tr>
+    		<th>Value</th>
+      	<td>64</td>
+    		<td>32</td>
+        <td>16</td>
+    		<td>8</td>
+        <td>4</td>
+    		<td>2</td>
+    		<td>1</td>
+    	</tr>
+    </table>
+    For example:
+    * To apply the scheduled limit change on weekdays, use the following calculation: `32+16+8+4+2=62`. In your Autoscaler manifest, the value of `recurrence`
+    should be `62`.
+    * To apply the scheduled limit change on weekends, use the following calculation: `64+1=54`. In your Autoscaler manifest, the value of `recurrence` should
+    be `65`.
+    * To apply the scheduled limit change every day, use the following calculation: `64+32+16+8+4+2+1=127`. In your Autoscaler manifest, the value of
+    `recurrence` should be `127`.
+    * To apply the scheduled limit change on Monday, Wednesday, and Friday, use the following calculation: `32+8+2=42`. In your Autoscaler manifest, the value
+    of `recurrence` should be `42`.
+
+The following example manifest configures Autoscaler to scale the number of app instances down every Friday at 8 PM UTC, then scale them back up every Monday
+at 4 AM UTC:
+
+```
+---
+...
+scheduled_limit_changes:
+- recurrence: 32
+  executes_at: "2032-01-01T20:00:00Z"
+  instance_limits:
+    min: 1
+    max: 3
+- recurrence: 2
+  executes_at: "2032-01-01T04:00:00Z"
+  instance_limits:
+    min: 6
+    max: 12
+```
 
 ### <a id='cf-cli-commands-config'></a> Configure Scheduled Limit Changes Using CLI Commands
 

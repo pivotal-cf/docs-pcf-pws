@@ -98,6 +98,7 @@ configuration parameters:
       threshold:
         min: MINIMUM-METRIC-THRESHOLD
         max: MAXIMUM-METRIC-THRESHOLD
+    scheduled_limit_changes: []
     ```
     Where:
     * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
@@ -123,6 +124,7 @@ configuration parameters:
       threshold:
         min: 20
         max: 50
+    scheduled_limit_changes: []
     ```
 
 1. Apply the Autoscaler manifest for your app:

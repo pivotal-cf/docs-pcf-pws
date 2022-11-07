@@ -40,6 +40,7 @@ Indicators_. For more information about how TAS for VMs routes HTTP requests, se
 Architecture](../../concepts/cf-routing-architecture.html).
 <% end %>
 
+
 ## <a id='cf-cli-config'></a> Configuring HTTP Latency as the Scaling Metric for an App Through the cf CLI
 
 The procedures in this section describe how to configure Autoscaler to use HTTP latency as the scaling metric for an app through the cf CLI.
@@ -105,6 +106,7 @@ following configuration parameters:
       threshold:
         min: MINIMUM-LATENCY-THRESHOLD
         max: MAXIMUM-LATENCY-THRESHOLD
+    scheduled_limit_changes: []
     ```
     Where:
     * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
@@ -132,6 +134,7 @@ following configuration parameters:
       threshold:
         min: MINIMUM-LATENCY-THRESHOLD
         max: MAXIMUM-LATENCY-THRESHOLD
+    scheduled_limit_changes: []
     ```
 
 1. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
