@@ -175,7 +175,7 @@ For more information, see the sections below:
 
 To allow autoscaling for an app:
 
-1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile.<% if not vars.platform_code == 'OFFLINE' %> To
+1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile.<% if vars.platform_code != == 'OFFLINE' %> To
 configure the **App Autoscaler Errand** to deploy Autoscaler, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for
 VMs_.<% end %>
 
@@ -209,7 +209,7 @@ To see whether autoscaling is configured for the apps you want to scale:
 Autoscaler may fail to scale an app if one of the TAS for VMs components on which it depends is failing or underscaled. For more information about these
 components, see [Failure Modes](observability.html#failure-modes) in _Using Debug Logs for App Autoscaler_.
 
-These components may need to be restarted or scaled up before Autoscaler can scale your app.<% if not vars.platform_code == 'OFFLINE' %> To restart TAS for VMs components, see [Stopping and Starting
+These components may need to be restarted or scaled up before Autoscaler can scale your app.<% if vars.platform_code != == 'OFFLINE' %> To restart TAS for VMs components, see [Stopping and Starting
 Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Stopping and Starting Virtual Machines_. To scale TAS for VMs components up, see
 [Scaling Up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
 
@@ -293,14 +293,14 @@ metrics from its cache.
 To fix this issue, you can try the following actions:
 
 * Scale Log Cache horizontally by increasing the number of Log Cache instances in the **Resource Config** pane of the TAS for VMs tile.
-<% if not vars.platform_code == 'OFFLINE' %> To scale Log Cache horizontally, see [Scaling Up TAS for
+<% if vars.platform_code != == 'OFFLINE' %> To scale Log Cache horizontally, see [Scaling Up TAS for
 VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
 
 * Scale Log Cache vertically by increasing the amount of memory in each instance of Log Cache. To scale Log Cache vertically, see [Scaling an App Using cf
 scale](../../devguide/deploy-apps/cf-scale.html).
 
 * Increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log Cache per source**
-field in the **Advanced Features** pane of the TAS for VMs tile.<% if not vars.platform_code == 'OFFLINE' %> To configure the maximum number of envelopes that
+field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != == 'OFFLINE' %> To configure the maximum number of envelopes that
 Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per Source](../../operating/configure-pas.html#log-cache-max-per-source) in
 _Configuring TAS for VMs_.<% end %>
 
