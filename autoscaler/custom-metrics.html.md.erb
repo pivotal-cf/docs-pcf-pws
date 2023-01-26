@@ -223,7 +223,7 @@ service instance by running:
 
 To configure Autoscaler to use a custom scaling metric for an app using Apps Manager:
 
-1. Log in to Apps Manager.<% if vars.platform_code != == 'OFFLINE' %> For more information, see [Logging In to Apps
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps
 Manager](../../operating/console-login.html).<% end %>
 
 1. Select the org that contains the space in which the app you want to scale is deployed.
@@ -285,7 +285,7 @@ To review the autoscaling events that Autoscaler records for changes in the cust
 
 To review the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app through Apps Manager:
 
-1. Log in to Apps Manager.<% if vars.platform_code != == 'OFFLINE' %> For more information, see [Logging In to Apps
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps
 Manager](../../operating/console-login.html).<% end %>
 
 1. Select the org that contains the space in which the app you want to scale is deployed.
@@ -343,7 +343,7 @@ want to create a large number of custom scaling metrics, consult the operator of
 ### <a id='log-cache-eviction'></a> Log Cache Eviction
 
 The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
-seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != == 'OFFLINE' %> To
+seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To
 configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in
 _Configuring TAS for VMs_. <% end %>
 
