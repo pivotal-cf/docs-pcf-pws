@@ -98,7 +98,7 @@ To view a list of all the apps that are bound to an Autoscaler service instance 
     ```
     The above command returns a list of apps that are bound to Autoscaler, whether autoscaling is configured for those apps, and the autoscaling limits and
     scaling factors that are configured for them, similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Presenting autoscaler apps in org example-org / space example-space as user
     Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
     example-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4               1                 1
@@ -125,7 +125,7 @@ To allow autoscaling for an app:
     cf enable-autoscaling example-app
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Enabled autoscaling for app example-app for org example-org / space example-space as user
     OK
     </pre>
@@ -153,7 +153,7 @@ To disallow autoscaling for an app:
     cf disable-autoscaling example-app
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Disabled autoscaling for app example-app for org example-org / space example-space as user
     OK
     </pre>
@@ -180,7 +180,7 @@ To configure the upper and lower autoscaling limits for an app:
     cf update-autoscaling-limits example-app 20 100
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Updated autoscaling instance limits for app example-app for org example-org / space example-space as user
     OK
     </pre>
@@ -210,7 +210,7 @@ To configure scaling factors for an app:
     cf update-autoscaling-factors example-app 20 10
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Updated autoscaling factors for app hello-app in org example-org / space example-space as user
     OK
     </pre>
@@ -254,7 +254,7 @@ To view all autoscaling rules that are configured for an app:
     cf autoscaling-rules example-app
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Presenting autoscaler rules for app example-app for org example-org / space example-space as user
     Guid                                    Type             Metric   Sub Type   Service Instance   Min Threshold   Max Threshold
     45870b7f-f5c9-403f-9150-e79314f62f06    cpu                                                     10              20
@@ -378,7 +378,7 @@ To view a list of autoscaling events that Autoscaler has recorded for an app:
     cf autoscaling-events example-app
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Time                  Description
     2032-01-01T00:00:00Z  Scaled up from 3 to 4 instances. Current cpu of 20 is above upper threshold of 10.
     </pre>
@@ -414,7 +414,7 @@ To view all scheduled limit changes for an app:
     cf autoscaling-slcs example-app
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Guid                                      First Execution        Min Instances   Max Instances   Recurrence
     f08f9803-6e5d-4519-abc3-fea640300d01      2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
     </pre>
@@ -457,7 +457,7 @@ To create a scheduled limit change for an app:
     cf create-autoscaling-slc example-app 2018-06-14T15:00:00Z 1 2 --recurrence Sa
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Created scheduled autoscaler instance limit change for app example-app in org example-org / space example-space as user
     OK
     Guid                                      First Execution        Min Instances   Max Instances   Recurrence
@@ -563,7 +563,7 @@ To configure Autoscaler using a manifest file:
     cf configure-autoscaling example-app autoscaler-manifest.yml
     ```
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Setting autoscaler settings for app example-app for org example-org / space example-space as user
     OK
     </pre>
