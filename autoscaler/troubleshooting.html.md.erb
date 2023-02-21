@@ -51,7 +51,7 @@ To determine whether the app has reached the maximum number of instances:
     <br>
     If Autoscaler has attempted to scale the app above the configured upper scaling limit, the above command returns output that contains an event description
     similar to the following example:
-    <pre class='terminal'>Can not scale up. At max limit of 20 instances.</pre>
+    <pre class="terminal">Can not scale up. At max limit of 20 instances.</pre>
 
 1. To review the upper and lower scaling limits you configured for the app, run:
 
@@ -59,7 +59,7 @@ To determine whether the app has reached the maximum number of instances:
     cf autoscaling-apps
     ```
     The above command returns output similar to the example below:
-    <pre class='terminal'>
+    <pre class="terminal">
     Name          Guid                                   Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
     example-app   85a6aff3-c739-4364-8df3-44f1aa50662b   true      1               20              5                 1
     </pre>
@@ -111,7 +111,7 @@ To review the available resource quotas for the space and org in which an app is
     <br>
     <br>
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Getting quota example-space info as admin@example.com...
     OK
 
@@ -133,7 +133,7 @@ To review the available resource quotas for the space and org in which an app is
     <br>
     <br>
     The above command returns output similar to the following example:
-    <pre class='terminal'>
+    <pre class="terminal">
     Getting quota example-org info as admin@example.com...
     OK
 
@@ -149,7 +149,7 @@ To review the available resource quotas for the space and org in which an app is
 You can also try manually scaling the app. If the app has already reached one or more resource quota limits for your space or org, the Cloud Controller
 returns an error similar to the following example:
 
-<pre class='terminal'>
+<pre class="terminal">
 memory quota_exceeded
 FAILED
 </pre>
@@ -231,7 +231,7 @@ autoscaling rule for the app is correct.
 
 You may see an autoscaling event similar to the following example:
 
-<pre class='terminal'>
+<pre class="terminal">
 Autoscaler did not receive any metrics for rabbitmq.example-queue during the scaling window. Scaling down is deferred until these metrics are available.
 </pre>
 
@@ -389,7 +389,7 @@ Architecture_. For more information about app health checks, including how to co
 Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one Autoscaler service instance in a space, you see
 the following error:
 
-<pre class='terminal'>
+<pre class="terminal">
 Unexpected Response
 Response code: 409
 CC code:       10001
@@ -414,7 +414,7 @@ There are two versions of the App Autoscaler CLI extension for the Cloud Foundry
 If you attempt to use the Cloud Foundry App Auto-Scaler plugin to control the App Autoscaler instance in your TAS for VMs deployment, you see the following
 error:
 
-<pre class='terminal'>Error: Invalid AutoScaler API endpoint</pre>
+<pre class="terminal">Error: Invalid AutoScaler API endpoint</pre>
 
 You must instead use the VMware Tanzu App Autoscaler CLI Plugin. To download the VMware Tanzu App Autoscaler CLI Plugin, go to [VMware Tanzu
 Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
