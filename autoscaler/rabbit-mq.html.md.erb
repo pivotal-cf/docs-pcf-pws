@@ -303,7 +303,7 @@ in the RabbitMQ cluster.
       <li><code>PASSWORD</code> is the password you want to configure for the external RabbitMQ cluster.</li>
       <li><code>RABBITMQ-FQDN</code> is the fully-qualified domain name (FQDN) of the RabbitMQ cluster.</li>
       <li><code>VHOST</code> is the RabbitMQ virtual host you want the user-provided service to use.
-        <p class='note'><strong>Caution:</strong> If you do not define the <code>"vhost"</code> parameter, Autoscaler requests queue metadata for all queues on
+        <p class='warning'><strong>Caution:</strong> If you do not define the <code>"vhost"</code> parameter, Autoscaler requests queue metadata for all queues on
         the RabbitMQ cluster. This is a very expensive operation. For more information about RabbitMQ virtual hosts, see the
         <a href="https://www.rabbitmq.com/vhosts.html">RabbitMQ documentation</a>.</p>
       </li>
