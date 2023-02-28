@@ -220,7 +220,7 @@ To register a custom metrics endpoint for the `java-spring-security` app:
     cf register-metrics-endpoint java-spring-security /actuator/prometheus --insecure
     ```
     Because the app dependencies include the Micrometer Prometheus library, there is automatically a metrics endpoint at `/actuator/prometheus`.
-    <p class='note warning'><strong>Warning:</strong> When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the
+    <p class='note warning'><strong>Caution:</strong> When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the
       metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware
       strongly recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including
       the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port
