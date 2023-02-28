@@ -150,17 +150,17 @@ configuration parameters:
       <li><code>MANIFEST-FILENAME</code> is the filename of the Autoscaler manifest.</li>
     </ul>
 
-    1. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
+1. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
 
-        ```
-        cf configure-autoscaling APP-NAME MANIFEST-FILENAME
-        ```
+    ```
+    cf configure-autoscaling APP-NAME MANIFEST-FILENAME
+    ```
 
-        Where:
-        <ul>
-          <li><code>APP-NAME</code> is the name of the app.</li>
-          <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
-        </ul>
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
+    </ul>
 
 ### <a id='cf-cli-commands-config'></a> Configure an Autoscaling Rule Using CLI Commands
 
