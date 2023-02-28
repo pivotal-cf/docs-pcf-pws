@@ -92,11 +92,11 @@ Enabled autoscaling for app test-app-2 for org my-org / space my-space as user
 OK
 </pre>
 
-  <p class='note'><strong>Note:</strong> By default, instance limits are set to
-      <code>Min Instances:-1</code> and <code>Max Instances:-1</code>.
-      To enable autoscaling, you must first update instance limits.
-      See <a href="#updating-instance-limits">Update Instance Limits</a> above.
-  </p>
+<p class='note'><strong>Note:</strong> By default, instance limits are set to
+    <code>Min Instances:-1</code> and <code>Max Instances:-1</code>.
+    To enable autoscaling, you must first update instance limits.
+    See <a href="#updating-instance-limits">Update Instance Limits</a> above.
+</p>
 
 ## <a id="disable-autoscaling"></a>Disable Autoscaling
 
@@ -285,7 +285,7 @@ and name of your App Autoscaler manifest.
 
 An example manifest:
 
-<pre>
+```yaml
 ---
 instance_limits:
   min: 1
@@ -305,7 +305,7 @@ scheduled_limit_changes:
   instance_limits:
     min: 10
     max: 20
-</pre>
+```
 
 <pre class="terminal">
 $ cf configure-autoscaling test-app autoscaler-manifest.yml<br>
@@ -316,7 +316,7 @@ OK
 A `rules` block must be present in your App Autoscaler manifest.
 If your app does not require any rules changes, include an empty block:
 
-<pre>
+```yaml
 ---
 instance_limits:
   min: 1
@@ -328,12 +328,12 @@ scheduled_limit_changes:
   instance_limits:
     min: 0
     max: 0
-</pre>
+```
 
 A `scheduled_limit_changes` block must be present in your App Autoscaler manifest.
 If your app does not require any scheduled instance limit changes, include an empty block:
 
-<pre>
+```yaml
 ---
 instance_limits:
   min: 1
@@ -345,7 +345,7 @@ rules:
      min: 500
      max: 1000
 scheduled_limit_changes: []
-</pre>
+```
 
 ### <a id="create-scheduled-limit"></a> Create a Scheduled Limit Change
 
@@ -399,7 +399,7 @@ The following are examples of how to calculate a value for the `recurrence` fiel
 The following is an example manifest to scale down every Friday at 8pm
 and back up every Monday at 4am assuming a UTC timezone:
 
-<pre>
+```yaml
 ---
 instance_limits:
   min: 6
@@ -424,7 +424,7 @@ scheduled_limit_changes:
   instance_limits:
     min: 6
     max: 12
-</pre>
+```
 
 ## <a id="issues"></a>App Autoscaler CLI Known Issues
 
