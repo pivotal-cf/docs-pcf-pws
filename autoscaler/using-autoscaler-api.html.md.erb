@@ -67,7 +67,9 @@ The following is an example of a paginated response from the App Autoscaler API:
 
 ## <a id="info"></a>Information
 
-`GET /api/v2/info`
+```
+GET /api/v2/info
+```
 
 **Parameters**
 
@@ -99,7 +101,9 @@ Apps that are bound to App Autoscaler are represented by the App Autoscaler API 
 
 ### <a id="get-apps"></a>Get All App Bindings in a Space
 
-`GET /api/v2/apps`
+```
+GET /api/v2/apps
+```
 
 **Parameters**
 
@@ -114,7 +118,9 @@ A paginated list of app bindings.
 
 ### <a id="get-app"></a>Get an App Binding
 
-`GET /api/v2/apps/:app_guid`
+```
+GET /api/v2/apps/:app_guid
+```
 
 **Parameters**
 
@@ -129,7 +135,9 @@ An app binding.
 
 ### <a id="update-app"></a>Update an App Binding
 
-`PUT /api/v2/apps/:app_guid`
+```
+PUT /api/v2/apps/:app_guid
+```
 
 **Parameters**
 
@@ -164,7 +172,9 @@ Scaling events include all scaling decisions made by App Autoscaler and other re
 
 ### <a id="get-events"></a>Get All Events for an App
 
-`GET /api/v2/apps/:app_guid/events`
+```
+GET /api/v2/apps/:app_guid/events
+```
 
 **Parameters**
 
@@ -201,7 +211,9 @@ Rules are tied to individual apps, and no one app can have multiple rules of the
 
 ### <a id="get-rules"></a>Get All Rules for an App
 
-`GET /api/v2/apps/:app_guid/rules`
+```
+GET /api/v2/apps/:app_guid/rules
+```
 
 **Parameters**
 
@@ -216,7 +228,9 @@ A paginated list of rules.
 
 ### <a id="create-rule"></a>Create a Rule
 
-`POST /api/v2/apps/:app_guid/rules`
+```
+POST /api/v2/apps/:app_guid/rules
+```
 
 **Parameters**
 
@@ -237,7 +251,9 @@ A rule.
 
 ### <a id="replace-rules"></a>Replace All Rules
 
-`PUT /api/v2/apps/:app_guid/rules`
+```
+PUT /api/v2/apps/:app_guid/rules
+```
 
 **Parameters**
 
@@ -252,7 +268,9 @@ A paginated list of rules.
 
 ### <a id="delete-rules"></a>Delete All Rules
 
-`DELETE /api/v2/apps/:app_guid/rules`
+```
+DELETE /api/v2/apps/:app_guid/rules
+```
 
 **Parameters**
 
@@ -266,7 +284,9 @@ A 204 status code and empty body indicating that all rules were deleted.
 
 ### <a id="get-rule"></a>Get a Rule
 
-`GET /api/v2/apps/:app_guid/rules/:guid`
+```
+GET /api/v2/apps/:app_guid/rules/:guid
+```
 
 **Parameters**
 
@@ -281,7 +301,9 @@ A rule.
 
 ### <a id="delete-rule"></a>Delete a Rule
 
-`DELETE /api/v2/apps/:app_guid/rules/:rule_guid`
+```
+DELETE /api/v2/apps/:app_guid/rules/:rule_guid
+```
 
 **Parameters**
 
@@ -316,7 +338,9 @@ SLCs are jobs scheduled for the future that alter app status, such as enabling, 
 
 ### <a id="get-slcs"></a>Get All Scheduled Limit Changes for an App
 
-`GET /api/v2/apps/:app_guid/scheduled_limit_changes`
+```
+GET /api/v2/apps/:app_guid/scheduled_limit_changes
+```
 
 **Parameters**
 
@@ -331,7 +355,9 @@ A paginated list of SLCs.
 
 ### <a id="create-slc"></a>Create a Scheduled Limit Change
 
-`POST /api/v2/apps/:app_guid/scheduled_limit_changes`
+```
+POST /api/v2/apps/:app_guid/scheduled_limit_changes
+```
 
 **Parameters**
 
@@ -350,7 +376,9 @@ An SLC.
 
 ### <a id="set-slcs"></a>Replace All Scheduled Limit Changes for an App
 
-`PUT /api/v2/apps/:app_guid/scheduled_limit_changes`
+```
+PUT /api/v2/apps/:app_guid/scheduled_limit_changes
+```
 
 **Parameters**
 
@@ -365,7 +393,9 @@ A paginated list of SLCs.
 
 ### <a id="delete-slcs"></a>Delete all Scheduled Limit Changes for an App
 
-`DELETE /api/v2/apps/:app_guid/scheduled_limit_changes`
+```
+DELETE /api/v2/apps/:app_guid/scheduled_limit_changes
+```
 
 **Parameters**
 
@@ -379,7 +409,9 @@ A 204 status code and empty body indicating that the SLCs were deleted.
 
 ### <a id="get-slc"></a>Get a Scheduled Limit Change
 
-`GET /api/v2/apps/:app_guid/scheduled_limit_changes/:guid`
+```
+GET /api/v2/apps/:app_guid/scheduled_limit_changes/:guid
+```
 
 **Parameters**
 
@@ -394,7 +426,9 @@ An SLC object.
 
 ### <a id="delete-slc"></a>Delete a Scheduled Limit Change
 
-`DELETE /api/v2/apps/:app_guid/scheduled_limit_changes/:guid`
+```
+DELETE /api/v2/apps/:app_guid/scheduled_limit_changes/:guid
+```
 
 **Parameters**
 
