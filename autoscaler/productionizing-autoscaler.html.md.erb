@@ -51,11 +51,14 @@ To configure the upper and lower scaling limits for an app:
     ```
     cf update-autoscaling-limits APP-NAME LOWER-SCALING-LIMIT UPPER-SCALING-LIMIT
     ```
+
     Where:
-    * `APP-NAME` is the name of the app for which you want to configure autoscaling limits.
-    * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
-    * `UPPER-SCALING-LIMIT` is the maximum number of instances you want Autoscaler to create for the app.
-    <br>
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app for which you want to configure autoscaling limits.</li>
+      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
+    </ul>
+
     For example, running the following command sets the lower scaling limit for `example-app` to `20` and the upper scaling limit to `100`:
 
     ```
@@ -184,11 +187,14 @@ To configure scaling factors for an app:
     ```
     cf update-autoscaling-factors APP-NAME SCALE-UP-FACTOR SCALE-DOWN-FACTOR
     ```
+
     Where:
-    * `APP-NAME` is the name of the app for which you want to configure scaling factors.
-    * `SCALE-UP-FACTOR` is the number of app instances by which you want Autoscaler to scale up at a time.
-    * `SCALE-DOWN-FACTOR` is the number of app instances by which you want Autoscaler to scale down at a time.
-    <br>
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app for which you want to configure scaling factors.</li>
+      <li><code>SCALE-UP-FACTOR</code> is the number of app instances by which you want Autoscaler to scale up at a time.</li>
+      <li><code>SCALE-DOWN-FACTOR</code> is the number of app instances by which you want Autoscaler to scale down at a time.</li>
+    </ul>
+
     For example, running the following command configures Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
 
     ```

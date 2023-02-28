@@ -60,9 +60,12 @@ To configure an autoscaling rule that defines RabbitMQ queue depth as its scalin
     ```
     cf target -o ORG-NAME -s SPACE-NAME
     ```
+
     Where:
-    * `ORG-NAME` is the name of the org containing the space in which the app you want to scale is deployed.
-    * `SPACE-NAME` is the name of the space in which the app you want to scale is deployed.
+    <ul>
+      <li><code>ORG-NAME</code> is the name of the org containing the space in which the app you want to scale is deployed.</li>
+      <li><code>SPACE-NAME</code> is the name of the space in which the app you want to scale is deployed.</li>
+    </ul>
 
 1. If the space in which the app you want to scale is deployed does not already have an Autoscaler service instance of Autoscaler deployed in it, create an
 Autoscaler service instance by running:
@@ -70,11 +73,13 @@ Autoscaler service instance by running:
     ```
     cf create-service app-autoscaler PLAN-NAME SERVICE-NAME
     ```
+
     Where:
-    * `PLAN-NAME` is the name of the service plan you want to use for the Autoscaler service instance.
-    * `SERVICE-INSTANCE-NAME` is the name you want to give the Autoscaler service instance. For example, `autoscaler`.
-    <br>
-    <br>
+    <ul>
+      <li><code>PLAN-NAME</code> is the name of the service plan you want to use for the Autoscaler service instance.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name you want to give the Autoscaler service instance. For example, <code>autoscaler</code>.</li>
+    </ul>
+
     If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
 
 1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
@@ -82,9 +87,13 @@ Autoscaler service instance by running:
     ```
     cf bind-service APP-NAME SERVICE-INSTANCE-NAME
     ```
+
     Where:
-    * `APP-NAME` is the name of the app you want to scale.
-    * `SERVICE-INSTANCE-NAME` is the name of the Autoscaler service instance in the previous step.
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app you want to scale.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
+    </ul>
+
 
 1. To create a manifest file for Autoscaler that configures an autoscaling rule with RabbitMQ queue depth as its scaling metric, create a YAML file that
 includes the following configuration parameters:
@@ -103,19 +112,21 @@ includes the following configuration parameters:
         max: MAXIMUM-QUEUE-DEPTH-THRESHOLD
     scheduled_limit_changes: []
     ```
+
     Where:
-    * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
-    * `UPPER-SCALING-LIMIT` is the maximum number of instances you want Autoscaler to create for the app.
-    * (Optional) `RABBITMQ-SERVICE-INSTANCE-NAME` is the name of the RabbitMQ service instance you want Autoscaler to query. Defining this parameter ensures
-    that Autoscaler does not unnecessarily query other RabbitMQ service instances that are bound to the app.
-    * `QUEUE-NAME` is the name of the queue you want Autoscaler to monitor. This queue must be on a RabbitMQ service instance that is bound to the app you
-    want to scale.
-    * `MINIMUM-QUEUE-DEPTH-THRESHOLD` is the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
-    the number of app instances down.
-    * `MAXIMUM-QUEUE-DEPTH-THRESHOLD` is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
-    the number of app instances up.
-    <br>
-    <br>
+    <ul>
+      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
+      <li>(Optional) <code>RABBITMQ-SERVICE-INSTANCE-NAME</code> is the name of the RabbitMQ service instance you want Autoscaler to query. Defining this parameter ensures
+      that Autoscaler does not unnecessarily query other RabbitMQ service instances that are bound to the app.</li>
+      <li><code>QUEUE-NAME</code> is the name of the queue you want Autoscaler to monitor. This queue must be on a RabbitMQ service instance that is bound to the app you
+      want to scale.</li>
+      <li><code>MINIMUM-QUEUE-DEPTH-THRESHOLD</code> is the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
+      the number of app instances down.</li>
+      <li><code>MAXIMUM-QUEUE-DEPTH-THRESHOLD</code> is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
+    the number of app instances up.</li>
+    </ul>
+
     The following example shows an Autoscaler manifest file monitoring the `example_queue` queue on the `example-service` RabbitMQ service instance, with a
     minimum queue depth threshold of 10 and a maximum queue depth threshold of 50:
 
@@ -139,9 +150,13 @@ includes the following configuration parameters:
     ```
     cf configure-autoscaling APP-NAME MANIFEST-FILENAME
     ```
+
     Where:
-    * `APP-NAME` is the name of the app.
-    * `MANIFEST-FILENAME` is the filename of the manifest file you created in the previous step. For example, `autoscaler.yml`.
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
+    </ul>
+
 
 ### <a id='cf-cli-commands-config'></a> Configure an Autoscaling Rule Using CLI Commands
 
@@ -152,9 +167,12 @@ To configure an autoscaling rule that defines RabbitMQ queue depth as its scalin
     ```
     cf target -o ORG-NAME -s SPACE-NAME
     ```
+
     Where:
-    * `ORG-NAME` is the name of the org containing the space in which the app you want to scale is deployed.
-    * `SPACE-NAME` is the name of the space in which the app you want to scale is deployed.
+    <ul>
+      <li><code>ORG-NAME</code> is the name of the org containing the space in which the app you want to scale is deployed.</li>
+      <li><code>SPACE-NAME</code> is the name of the space in which the app you want to scale is deployed.</li>
+    </ul>
 
 1. If the space in which the app you want to scale is deployed does not already have a service instance of Autoscaler deployed in it, create an Autoscaler
 service instance by running:
@@ -162,11 +180,13 @@ service instance by running:
     ```
     cf create-service app-autoscaler PLAN-NAME SERVICE-INSTANCE-NAME
     ```
+
     Where:
-    * `PLAN-NAME` is the name of the service plan you want to use for the Autoscaler service instance.
-    * `SERVICE-INSTANCE-NAME` is the name you want to give the Autoscaler service instance. For example, `autoscaler`.
-    <br>
-    <br>
+    <ul>
+      <li><code>PLAN-NAME</code> is the name of the service plan you want to use for the Autoscaler service instance.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name you want to give the Autoscaler service instance. For example, <code>autoscaler</code>.</li>
+    </ul>
+
     If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
 
 1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
@@ -174,19 +194,25 @@ service instance by running:
     ```
     cf bind-service APP-NAME SERVICE-INSTANCE-NAME
     ```
+
     Where:
-    * `APP-NAME` is the name of the app you want to scale.
-    * `SERVICE-INSTANCE-NAME` is the name of the Autoscaler service instance in the previous step.
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app you want to scale.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
+    </ul>
 
 1. Configure upper and lower scaling limits for the app by running:
 
     ```
     cf update-autoscaling-limits APP-NAME LOWER-SCALING-LIMIT UPPER-SCALING-LIMIT
     ```
+
     Where:
-    * `APP-NAME` is the name of the app.
-    * `LOWER-SCALING-LIMIT` is the minimum number of instances you want Autoscaler to create for the app.
-    * `UPPER-SCALING-LIMIT` is the maximum number of instances you want Autoscaler to create for the app.
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app.</li>
+      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
+</ul>
 
 1. Allow Autoscaler to begin making scaling decisions for the app by running:
 
@@ -200,18 +226,20 @@ service instance by running:
     ```
     cf create-autoscaling-rule APP-NAME rabbitmq MINIMUM-QUEUE-DEPTH-THRESHOLD MAXIMUM-QUEUE-DEPTH-THRESHOLD --rabbitmq-instance RABBITMQ-SERVICE-INSTANCE-NAME --subtype QUEUE-NAME
     ```
+
     Where:
-    * `APP-NAME` is the name of the app for which you want to create an autoscaling rule.
-    * `MINIMUM-QUEUE-DEPTH-THRESHOLD` is the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
-    the number of app instances down.
-    * `MAXIMUM-QUEUE-DEPTH-THRESHOLD` is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
-    the number of app instances up.
-    * (Optional) `RABBITMQ-SERVICE-INSTANCE-NAME` is the name of the RabbitMQ service instance you want Autoscaler to query. Defining this parameter ensures
-    that Autoscaler does not unnecessarily query other RabbitMQ service instances that are bound to the app.
-    * `QUEUE-NAME` is the name of the queue you want Autoscaler to monitor. This queue must be on a RabbitMQ service instance that is bound to the app you
-    want to scale.
-    <br>
-    <br>
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
+      <li><code>MINIMUM-QUEUE-DEPTH-THRESHOLD</code> is the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
+      the number of app instances down.</li>
+      <li><code>MAXIMUM-QUEUE-DEPTH-THRESHOLD</code> is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
+      the number of app instances up.</li>
+      <li>(Optional) <code>RABBITMQ-SERVICE-INSTANCE-NAME</code> is the name of the RabbitMQ service instance you want Autoscaler to query. Defining this parameter ensures
+      that Autoscaler does not unnecessarily query other RabbitMQ service instances that are bound to the app.</li>
+      <li><code>QUEUE-NAME</code> is the name of the queue you want Autoscaler to monitor. This queue must be on a RabbitMQ service instance that is bound to the app you
+      want to scale.</li>
+    </ul>
+
     The following example command configures a `rabbitmq` autoscaling rule for the `example-app` app that monitors the `example_queue` queue on the
     `example-service` RabbitMQ service instance, with a minimum queue depth threshold of 10 and a maximum queue depth threshold of 50 milliseconds:
 
@@ -267,24 +295,31 @@ in the RabbitMQ cluster.
     ```
     cf create-user-provided-service SERVICE-NAME -p '{"uri":"amqp://USERNAME:PASSWORD@RABBITMQ-FQDN","http_api_uri":"http://USERNAME:PASSWORD@RABBITMQ-FQDN:15672/api/","vhost":"VHOST"}' \ -t rabbitmq
     ```
+
     Where:
-    * `SERVICE-NAME` is the name you want to give the user-provided service.
-    * `USERNAME` is the username you want to configure for the external RabbitMQ cluster.
-    * `PASSWORD` is the password you want to configure for the external RabbitMQ cluster.
-    * `RABBITMQ-FQDN` is the fully-qualified domain name (FQDN) of the RabbitMQ cluster.
-    * `VHOST` is the RabbitMQ virtual host you want the user-provided service to use.
-      <p class='note'><strong>Warning:</strong> If you do not define the <code>"vhost"</code> parameter, Autoscaler requests queue metadata for all queues on
+    <ul>
+      <li><code>SERVICE-NAME</code> is the name you want to give the user-provided service.</li>
+      <li><code>USERNAME</code> is the username you want to configure for the external RabbitMQ cluster.</li>
+      <li><code>PASSWORD</code> is the password you want to configure for the external RabbitMQ cluster.</li>
+      <li><code>RABBITMQ-FQDN</code> is the fully-qualified domain name (FQDN) of the RabbitMQ cluster.</li>
+      <li><code>VHOST</code> is the RabbitMQ virtual host you want the user-provided service to use.
+        <p class='note'><strong>Caution:</strong> If you do not define the <code>"vhost"</code> parameter, Autoscaler requests queue metadata for all queues on
         the RabbitMQ cluster. This is a very expensive operation. For more information about RabbitMQ virtual hosts, see the
         <a href="https://www.rabbitmq.com/vhosts.html">RabbitMQ documentation</a>.</p>
+      </li>
+    </ul>
 
 1. Bind the user-provided service to the app you want to scale by running:
 
     ```
     cf bind-service APP-NAME SERVICE-NAME
     ```
+
     Where:
-    * `APP-NAME` is the name of the app you want to scale.
-    * `SERVICE-NAME` is the name of the user-provided service you created in the previous step.
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app you want to scale.</li>
+      <li><code>SERVICE-NAME</code> is the name of the user-provided service you created in the previous step.</li>
+    </ul>
 
 <p class='note'><strong>Note:</strong> Depending on the app to which you bind the user-provided service, you may need to configure the
   <code>VCAP_SERVICES</code> environment variable to allow the app to access the user-provided service. For more information, see the
