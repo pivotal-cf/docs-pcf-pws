@@ -1,8 +1,43 @@
 ---
-title: Configure Tanzu Application Service Portal (beta)
+title: Configuring App Accelerator on TAS Portal (beta)
 owner: TAS Portal
 ---
 
-This topic describes how to configure the TAS Portal on the Tanzu Ops Manager tile.
+This topic describes how to configure the App Accelerators on the TAS Portal.
+On the TAS Portal, you can:
+
+  * Activate an App Accelerator
+  * Change instance memory
+  * Provide a Backstage user configuration. This is done using a YAML file that can extend or overwrite existing settings.
+
+
+In the beta implementation, three App Accelerators will be available. You cannot add or delete App Accelerators in this beta release.
+  * Spring Cloud Serverless
+  * Java Server-side UI
+  * Spring SMTP Gateway
+
 
 ## <a id="prerequisite"></a> Prerequisites
+
+Before configuring and using App Accelerators, you must:
+
+  * Install the TAS Portal App. See [Installing TAS Portal](./install-tas-portal.html.md.erb)
+  *
+
+
+## <a id="config-file"></a> Configure Backstage
+
+1. You configure Backstage using a YAML file. A typical application is to provide access to a private repository.
+  For example:
+
+     ```console
+       integrations:
+         gitlab:
+         - host: gitlab.eng.vmware.com
+           apiBaseUrl: https://gitlab.eng.vmware.com/api/v4
+           # To provision a Personal Access Token, see: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html token: ${GITLAB_TOKEN}
+     ```
+
+     Where: GITLAB token can be created by running `cf set-env tas-portal GITLAB_TOKEN "secret-token"`
+
+1. To apply the settings, run `cf restage tas-portal`.
