@@ -240,7 +240,7 @@ Cloud Controller. However, when a TAS for VMs deployment is configured to store 
 credentials from Cloud Controller.
 
 If the operator of your deployment has selected **Yes** under **On Demand - Secure Service Instance Credentials with Runtime CredHub** in the **Global
-Settings for On-Demand Plans** pane of the VMware Tanzu RabbitMQ for VMs tile and activated the **Secure service instance credentials** checkbox in the
+Settings for On-Demand Plans** pane of the VMware Tanzu RabbitMQ for VMs tile and activated the **Secure service instance credentials** check box in the
 **CredHub** pane of the TAS for VMs tile, Autoscaler is unable to use RabbitMQ queue depth as the scaling metric for apps bound to RabbitMQ service instances.
 
 As a workaround, you can configure your app to emit a custom metric containing the RabbitMQ queue depth and configure Autoscaler to use this metric as its
@@ -340,7 +340,7 @@ To increase the number of Autoscaler instances:
 
 1. Under the **VMware Tanzu Application Service** tile, click **Errands**. The **Errands** menu expands.
 
-1. Ensure that the **App Autoscaler Errand** checkbox is activated.
+1. Ensure that the **App Autoscaler Errand** check box is activated.
 
 1. Click **Apply Changes**.
 
