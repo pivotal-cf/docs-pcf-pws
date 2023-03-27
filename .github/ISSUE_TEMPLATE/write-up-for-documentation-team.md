@@ -51,7 +51,7 @@ Other things to remember:
 
 * Be sure to mention any extensions, plug-ins, or third-party tools that the user will need in order to follow the documentation.
 
-* If the UI is involved, please provide example steps **and screenshots!**
+* If the GUI is involved, please provide example steps **and screenshots!**
 
 ## Content
 
