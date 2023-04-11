@@ -50,7 +50,7 @@ Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Auto
 
 ### <a id='cf-cli-manifest-config'></a> Configure an Autoscaling Rule Using a Manifest File
 
-You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
+You can configure autoscaling rules through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
 other existing app manifest files in your TAS for VMs deployment.
 
 To configure an autoscaling rule that defines RabbitMQ queue depth as its scaling metric using a manifest file:
@@ -321,7 +321,7 @@ in the RabbitMQ cluster.
       <li><code>SERVICE-NAME</code> is the name of the user-provided service you created in the previous step.</li>
     </ul>
 
-<p class='note'><strong>Note:</strong> Depending on the app to which you bind the user-provided service, you may need to configure the
+<p class='note'><strong>Note:</strong> Depending on the app to which you bind the user-provided service, you might need to configure the
   <code>VCAP_SERVICES</code> environment variable to allow the app to access the user-provided service. For more information, see the
   <a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html">VMware Tanzu RabbitMQ for VMs documentation</a>.</p>
 

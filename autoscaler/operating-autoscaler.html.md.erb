@@ -191,7 +191,7 @@ Cache per source** field in the **Advanced Features** pane of the TAS for VMs ti
 number of envelopes that Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per
 Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.<% end %>
 
-Additionally, Log Cache may evict envelopes if it has an insufficient amount of memory. To fix this issue, you can scale Log Cache horizontally or vertically.
+Additionally, Log Cache might evict envelopes if it has an insufficient amount of memory. To fix this issue, you can scale Log Cache horizontally or vertically.
 To scale Log Cache horizontally or vertically, see [Scaling an App Using cf scale](../../devguide/deploy-apps/cf-scale.html).
 
 Apps that use scaling metrics that are emitted less frequently, such as container metrics, are more likely to be affected by Log Cache evicting envelopes.
