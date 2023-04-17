@@ -14,19 +14,18 @@ queues for processing. When Autoscaler scales these apps up, they can process th
 You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app in the following ways:
 
 * Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring RabbitMQ Queue Depth as the Scaling Metric for an App
-Through the cf CLI](#cf-cli-config) below.
+Through the cf CLI](#cf-cli-config).
 
-* Through Apps Manager. For more information, see [Configure RabbitMQ Queue Depth as the Scaling Metric for an App Through Apps Manager](#apps-manager-config)
-below.
+* Through Apps Manager. For more information, see [Configure RabbitMQ Queue Depth as the Scaling Metric for an App Through Apps Manager](#apps-manager-config).
 
 You can also configure Autoscaler to query queues on an external RabbitMQ cluster by creating a user-provided service that represents the external RabbitMQ
-cluster. For more information, see [Use an External RabbitMQ Cluster](#external-rabbitmq) below.
+cluster. For more information, see [Use an External RabbitMQ Cluster](#external-rabbitmq).
 
 To monitor when Autoscaler scales an app based on changes in RabbitMQ queue depth, see [Reviewing Autoscaling Events for Changes in RabbitMQ Queue
-Depth](#review-events) below.
+Depth](#review-events).
 
 For information about use cases that may complicate or prevent you from configuring RabbitMQ queue depth as the scaling metric for an app, see [Special
-Considerations for Using RabbitMQ Queue Depth as a Scaling Metric](#special-considerations) below.
+Considerations for Using RabbitMQ Queue Depth as a Scaling Metric](#special-considerations).
 
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
 App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
@@ -39,12 +38,12 @@ The procedures in this section describe how to configure Autoscaler to use Rabbi
 
 You can configure configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app in the following ways:
 
-* Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config) below.
+* Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config).
 
-* Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) below.
+* Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config).
 
-For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
-Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
+For the procedures in this section, you must use the App Autoscaler CLI plug-in. To download and install the App Autoscaler CLI plug-in, see [Install the App
+Autoscaler CLI Plug-in](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
 
 ### <a id='cf-cli-manifest-config'></a> Configure an Autoscaling Rule Using a Manifest File
 
@@ -160,7 +159,7 @@ To configure an autoscaling rule that defines RabbitMQ queue depth as its scalin
 
 1. In a terminal window, target the space in which the app you want to scale is deployed by running:
 
-    ```
+    ```console
     cf target -o ORG-NAME -s SPACE-NAME
     ```
 
@@ -170,10 +169,10 @@ To configure an autoscaling rule that defines RabbitMQ queue depth as its scalin
       <li><code>SPACE-NAME</code> is the name of the space in which the app you want to scale is deployed.</li>
     </ul>
 
-1. If the space in which the app you want to scale is deployed does not already have a service instance of Autoscaler deployed in it, create an Autoscaler
+2. If the space in which the app you want to scale is deployed does not already have a service instance of Autoscaler deployed in it, create an Autoscaler
 service instance by running:
 
-    ```
+    ```console
     cf create-service app-autoscaler PLAN-NAME SERVICE-INSTANCE-NAME
     ```
 
@@ -187,7 +186,7 @@ service instance by running:
 
 1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
 
-    ```
+    ```console
     cf bind-service APP-NAME SERVICE-INSTANCE-NAME
     ```
 
@@ -199,7 +198,7 @@ service instance by running:
 
 1. Configure upper and lower scaling limits for the app by running:
 
-    ```
+    ```console
     cf update-autoscaling-limits APP-NAME LOWER-SCALING-LIMIT UPPER-SCALING-LIMIT
     ```
 
@@ -262,7 +261,7 @@ Manager](../../operating/console-login.html).<% end %>
 
 1. Click **Add rule**. The **Select type** dropdown appears.
 
-1. From the **Select type** dropdown, select **RabbitMQ**. More configuration fields appear below.
+1. From the **Select type** drop down menu, select **RabbitMQ**. More configuration fields appear:
 
 1. For **Scale down if less than**, enter the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
 the number of app instances down.
@@ -332,10 +331,10 @@ records an autoscaling event.
 
 You can monitor the autoscaling events that Autoscaler records for changes in RabbitMQ queue depth in the following ways:
 
-* Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in RabbitMQ Queue Depth Through the cf CLI](#review-events-cli) below.
+* Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in RabbitMQ Queue Depth Through the cf CLI](#review-events-cli).
 
 * Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in RabbitMQ Queue Depth Through Apps
-Manager](#review-events-apps-manager) below.
+Manager](#review-events-apps-manager).
 
 ### <a id='review-events-cli'></a> Review Autoscaling Events for Changes in RabbitMQ Queue Depth Through the cf CLI
 
@@ -343,7 +342,7 @@ To review the autoscaling events that Autoscaler records for changes in RabbitMQ
 
 1. In a terminal window, run:
 
-    ```
+    ```console
     cf autoscaling-events APP-NAME
     ```
 
@@ -373,14 +372,14 @@ Manager](../../operating/console-login.html).<% end %>
 1. Under **Event History**, click **View More**. A list of autoscaling events appears. If Autoscaler has scaled the number of app instances up due to
 increases in the RabbitMQ queue depth metric, the list of autoscaling events includes events similar to the following example:
 
-    ```
+    ```console
     Scaled up from 10 to 11 instances. The RabbitMQ message depth in example_queue is currently at an average of 50.35, which is above the maximum threshold of 50.00.
     ```
 
 ## <a id='special-considerations'></a> Special Considerations for Using RabbitMQ Queue Depth as a Scaling Metric
 
 This section describes use cases that may complicate or prevent you from configuring RabbitMQ queue depth as the scaling metric for an app. For more
-information, see the sections below:
+information, see the following sections:
 
 * [RabbitMQ Service Binding Credentials in Runtime CredHub](#credentials-credhub)
 
