@@ -55,7 +55,7 @@ You can see what the UI looks like in the [Push the Sample App](#sample-app-ui) 
 
 You can view the app dependencies in the [build.gradle](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/build.gradle) file:
 
-```console
+```
 dependencies {
     implementation('io.micrometer:micrometer-registry-prometheus')
     implementation('org.springframework.boot:spring-boot-starter-actuator')
@@ -66,8 +66,8 @@ dependencies {
 }
 ```
 
-The dependencies include the [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus) library, which does the following:
 
+The dependencies include the [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus) library, which does the following:
 * Creates a metrics endpoint at `/actuator/prometheus` in a format supported by the Metric Registrar.
 * Allows you to instrument the app by creating new metrics.
   See [Instrumentation](#instrumentation).
@@ -77,54 +77,6 @@ The dependencies include the [Micrometer Prometheus](https://micrometer.io/docs/
   * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) below.
 
 * The Spring Security dependency, which exposes the metric endpoints so that Metric Registrar can access them.
-
-To view the `build.gradle` file, see [build.gradle](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/build.gradle) on
-GitHub.
-
-For more information about the Micrometer Prometheus library, see the [Micrometer documentation](https://micrometer.io/docs/registry/prometheus).
-
-### <a id='instrumentation'></a> Instrumentation
-
-This section describes how the `java-spring-security` app is instrumented. _Instrumentation_ refers to code that is included in an app to measure performance.
-
-In the code for the `java-spring-security` app, the `ExampleController.java` file includes the following parts:
-
-* The following `MeterRegistry` object in the `ExampleController` class:
-
-    ```
-    private MeterRegistry registry;
-    private AtomicLong custom;
-
-    public ExampleController(MeterRegistry registry) {
-       this.registry = registry;
-       this.custom = new AtomicLong(0L);
-    }
-    ```
-    The `MeterRegistry` object is passed and set in the constructor.
-
-* A `custom` variable that is initialized in the constructor:
-
-    ```console
-    public ResponseEntity<String> customMetric(@RequestParam(value="inc", defaultValue="") String increment) {
-          AtomicLong customGauge = registry.gauge("custom", this.custom);
-          if (!"".equals(increment)) {
-              customGauge.incrementAndGet();
-          } else {
-              customGauge.decrementAndGet();
-          }
-    ```
-
-    In the `customMetric` handler, the `custom` variable is passed to the registry and either incremented or decremented. For more information, see
-    [customMetric](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/src/main/java/io/pivotal/metric_registrar/examples/spring_security/ExampleController.java#L29)
-    on GitHub.
-    <p class='note'><strong>Note:</strong> Autoscaler can only use gauge metrics, or metrics that can go up and down, as scaling metrics. Metrics such as CPU,
-      disk, HTTP throughput, and HTTP latency are all gauge metrics.</p>
-
-To view the `ExampleController.java` file, see
-[ExampleController.java](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/src/main/java/io/pivotal/metric_registrar/examples/spring_security/ExampleController.java)
-on GitHub.
-
-## <a id='push'></a> Push the Sample App
 
 This section describes how the app is _instrumented_. Instrumentation refers to how metrics have been added for a particular function.
 
@@ -142,7 +94,21 @@ See the [ExampleController.java](https://github.com/pivotal-cf/metric-registrar-
 	}
 	```
 
-1. Build the `java-spring-security` app by running:
+* It also includes a `custom` variable that is initialized in the constructor. In the [customMetric](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/src/main/java/io/pivotal/metric_registrar/examples/spring_security/ExampleController.java#L29) handler, this variable gets passed to the registry and incremented or decremented.
+
+	```
+	public ResponseEntity<String> customMetric(@RequestParam(value="inc", defaultValue="") String increment) {
+        AtomicLong customGauge = registry.gauge("custom", this.custom);
+        if (!"".equals(increment)) {
+            customGauge.incrementAndGet();
+        } else {
+            customGauge.decrementAndGet();
+        }
+	```
+	<p class="note"><strong>Note</strong>: The App Autoscaler only scales on a gauge,
+           or metric, that can go up and down.
+           The standard metrics of CPU, disk, HTTP throughput, and HTTP latency are all gauges.
+        </p>
 
     ```console
     ./gradlew build
@@ -237,7 +203,7 @@ To push the sample app:
 
 ## <a id="register-endpoint"></a> Register a Custom Metrics Endpoint
 
-When you want your app to emit custom metrics, you register the app as a metric source with the _Metric Registrar_.
+When you want to your app to emit custom metrics, you register the app as a metric source with the _Metric Registrar_.
 
 To register a custom metrics endpoint for the app:
 
@@ -282,6 +248,8 @@ To register a custom metrics endpoint for the app:
 	<p class="note"><strong>Note</strong>: If you do not see output similar to the previous example, Metric Registrar might not be enabled in your <%= vars.platform_name %> installation. Contact your platform operator to confirm.</p>
 
 ## <a id="create-rules"></a> Create an Autoscaling Rule
+
+To create an autoscaling rule for the app and custom metric:
 
 To create an autoscaling rule for the app and custom metric:
 
