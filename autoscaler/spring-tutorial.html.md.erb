@@ -140,12 +140,10 @@ See the [ExampleController.java](https://github.com/pivotal-cf/metric-registrar-
     <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px">
     <br>
     The `java-spring-security` app UI includes the following buttons:
-    * **Increment Custom gauge:** Causes the `custom` metric to increase by a value of `1`. You use this button in [Trigger Scaling](#trigger).
-    * **Decrement custom gauge:** Causes the `custom` metric to decrease by a value of `1`.
-    * **See the metrics:** Opens `/actuator/prometheus` in your browser. The Metric Registrar uses this page to collect metrics. You can use this page to view
-    the values of the `custom` metric and all metrics from the Micrometer Prometheus library.
-    * **Increment Simple counter** and **Call an endpoint with high latency:** These buttons are not used in this tutorial. To learn more about the functions
-    of these buttons, see [java-spring-security](https://github.com/pivotal-cf/metric-registrar-examples/tree/master/java-spring-security) on GitHub.
+       * **Increment Custom gauge:** Causes the `custom` metric to increase by a value of `1`. You use this button in [Trigger Scaling](#trigger).
+       * **Decrement custom gauge:** Causes the `custom` metric to decrease by a value of `1`.
+       * **See the metrics:** Opens `/actuator/prometheus` in your browser. The Metric Registrar uses this page to collect metrics. You can use this page to view the values of the `custom` metric and all metrics from the Micrometer Prometheus library.
+       * **Increment Simple counter** and **Call an endpoint with high latency:** These buttons are not used in this tutorial. To learn more about the functions of these buttons, see [java-spring-security](https://github.com/pivotal-cf/metric-registrar-examples/tree/master/java-spring-security) on GitHub.
 
 ## <a id='register-endpoint'></a> Register a Custom Metrics Endpoint
 
