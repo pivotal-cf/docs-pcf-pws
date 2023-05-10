@@ -82,7 +82,7 @@ contact the operator for your TAS for VMs deployment.
 When defining resource quotas for a space or org, you must consider not only the scaling needs of an individual app, but the potential scaling needs of other
 apps in the same space or org.
 
-<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %>
+<% if vars.platform_code != 'OFFLINE' %>
 For more information about creating and modifying quota plans for spaces and orgs, see [Creating and Modifying Quota
 Plans](../../adminguide/quota-plans.html).
 <% end %>
@@ -112,7 +112,7 @@ App Autoscaler_.
 You can adjust the resource limits for individual apps. For example, if an app is allocated significantly more RAM than it requires.
 amount of RAM allowed per app instance. This allows Autoscaler to create more app instances using the same number of resources.
 
-<p class='note'><strong>Note:</strong> In a TAS for VMs deployment, the amount of memory allocated to an app instance determines<!--฿ |determine| has two meanings. Consider if the univocal |discover| or |verify| would be better. To avoid anthropomorphism, use |detect|. ฿--> the number of CPU shares
+<p class='note'><strong>Note:</strong> In a TAS for VMs deployment, the amount of memory allocated to an app instance determines the number of CPU shares
   available to it. Reducing the amount of memory allocated to an app instance also reduces its CPU shares.</p>
 
 To set resource limits for individual apps, you can deploy your apps with app manifests or vertically scale them  using the Cloud Foundry Command-Line
@@ -144,7 +144,7 @@ You can also create custom autoscaling rules using other metrics.
 If your app deployment is comprised of multiple TAS for VMs apps, consider using the same scaling metric for each app. Using the same scaling metric across
 all of the apps that are part of your app deployment can allow you to understand the scaling behavior and needs of your app deployment.
 
-<p class='note'><strong>Note</strong> If the autoscaling metric thresholds you configured are too low, scaling the number of app instances up may<!--฿ |can| usually works better. Use |might| to convey possibility. ฿--> not be
+<p class='note'><strong>Note</strong> If the autoscaling metric thresholds you configured are too low, scaling the number of app instances up may not be
   enough to bring the scaling metric back as follows.</p>
 
 To define autoscaling rules for Autoscaler, see [Add or Delete Scaling Rules](using-autoscaler.html#metric) in _About App Autoscaler_ and [Create an
@@ -159,7 +159,7 @@ does not currently support using these two metrics for apps that receive request
 routers.
 
 If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP
-events for those requests. As a result, Autoscaler cannot scale those HTTP services. In order for<!--฿ |For| is preferred. ฿--> Autoscaler to scale them, you must either use a different
+events for those requests. As a result, Autoscaler cannot scale those HTTP services. In order for Autoscaler to scale them, you must either use a different
 default scaling metric or create a custom scaling metric for them.
 
 
