@@ -121,9 +121,9 @@ includes the following configuration parameters:
       that Autoscaler does not unnecessarily query other RabbitMQ service instances that are bound to the app.</li>
       <li><code>QUEUE-NAME</code> is the name of the queue you want Autoscaler to monitor. This queue must be on a RabbitMQ service instance that is bound to the app you
       want to scale.</li>
-      <li><code>MINIMUM-QUEUE-DEPTH-THRESHOLD</code> is the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
+      <li><code>MINIMUM-QUEUE-DEPTH-THRESHOLD</code> is the minimum queue depth threshold. If the average queue depth falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number of messages, Autoscaler scales
       the number of app instances down.</li>
-      <li><code>MAXIMUM-QUEUE-DEPTH-THRESHOLD</code> is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
+      <li><code>MAXIMUM-QUEUE-DEPTH-THRESHOLD</code> is the maximum queue depth threshold. If the average queue depth rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number of messages, Autoscaler scales
     the number of app instances up.</li>
     </ul>
 
@@ -154,7 +154,7 @@ includes the following configuration parameters:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app.</li>
-      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml<!--฿ Per YAML.org, |.yaml| is the preferred extension. If the reader creates this YAML file, fix every instance of the filename in every topic as part of your commit. Files with the |.yml| extension downloaded from elsewhere are outside our control. ฿--></code>.</li>
     </ul>
 
 
@@ -230,9 +230,9 @@ service instance by running:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-      <li><code>MINIMUM-QUEUE-DEPTH-THRESHOLD</code> is the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales
+      <li><code>MINIMUM-QUEUE-DEPTH-THRESHOLD</code> is the minimum queue depth threshold. If the average queue depth falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number of messages, Autoscaler scales
       the number of app instances down.</li>
-      <li><code>MAXIMUM-QUEUE-DEPTH-THRESHOLD</code> is the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales
+      <li><code>MAXIMUM-QUEUE-DEPTH-THRESHOLD</code> is the maximum queue depth threshold. If the average queue depth rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number of messages, Autoscaler scales
       the number of app instances up.</li>
       <li>(Optional) <code>RABBITMQ-SERVICE-INSTANCE-NAME</code> is the name of the RabbitMQ service instance you want Autoscaler to query. Defining this parameter ensures
       that Autoscaler does not unnecessarily query other RabbitMQ service instances that are bound to the app.</li>
@@ -384,8 +384,8 @@ increases in the RabbitMQ queue depth metric, the list of autoscaling events inc
 
 ## <a id='special-considerations'></a> Special Considerations for Using RabbitMQ Queue Depth as a Scaling Metric
 
-This section describes use cases that may complicate or prevent you from configuring RabbitMQ queue depth as the scaling metric for an app. For more
-information, see the sections below:
+This section describes use cases that complicate or prevent you from configuring RabbitMQ queue depth as the scaling metric for an app. For more
+information, see the sections following:
 
 * [RabbitMQ Service Binding Credentials in Runtime CredHub](#credentials-credhub)
 

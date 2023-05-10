@@ -147,8 +147,8 @@ PUT /api/v2/apps/:app_guid
 | enabled | body | Boolean | false | Enables or disables scaling by App Autoscaler for this app |
 | instance_limits.max | body | integer | false | The maximum instance count that this app is allowed |
 | instance_limits.min | body | integer | false | The minimum instance count that this app is allowed |
-| scaling_factors.up | | integer | | The number of instances to increment by when scaling up |
-| scaling_factors.down | | integer | | The number of instances to decrement by when scaling down |
+| scaling_factors.up | |integer | | The number of instances to increment by when scaling up |
+| scaling_factors.down | | integer | |The number of instances to decrement by when scaling down |
 
 **Returns**
 
@@ -437,7 +437,7 @@ DELETE /api/v2/apps/:app_guid/scheduled_limit_changes/:guid
 | Parameter | In | Type | Required | Description |
 | --------- | --- | ---- | -------- | ----------- |
 | app_guid | path | string | true | The GUID of the app to delete SLCs for |
-| guid | path | string | true | The GUID of the SLC to delete |
+| guid| path | string | true | The GUID of the SLC to delete |
 
 **Returns**
 

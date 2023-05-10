@@ -114,9 +114,9 @@ configuration parameters:
       <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
       <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
       <li><code>METRIC-NAME</code> is the name of the custom scaling metric. This name must match the name of the metric that the app exposes.</li>
-      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this number,
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number,
       Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number, Autoscaler
       scales the number of app instances up.</li>
     </ul>
 
@@ -159,7 +159,7 @@ configuration parameters:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app.</li>
-      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml<!--฿ Per YAML.org, |.yaml| is the preferred extension. If the reader creates this YAML file, fix every instance of the filename in every topic as part of your commit. Files with the |.yml| extension downloaded from elsewhere are outside our control. ฿--></code>.</li>
     </ul>
 
 ### <a id='cf-cli-commands-config'></a> Configure an Autoscaling Rule Using CLI Commands
@@ -233,9 +233,9 @@ service instance by running:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this number,
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number,
       Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number, Autoscaler
       scales the number of app instances up.</li>
       <li><code>METRIC-NAME</code> is the name of the custom scaling metric. This name must match the name of the metric that the app exposes.</li>
     </ul>
@@ -334,7 +334,7 @@ increases in the custom scaling metric for the app, the list of autoscaling even
 ## <a id='special-considerations'></a> Special Considerations for Using Custom Scaling Metrics
 
 This section describes use cases that may complicate or prevent you from configuring a custom scaling metric for an app. For more information, see the
-sections below:
+sections that follow:
 
 * [Metric Visibility](#metric-visibility)
 
@@ -372,7 +372,7 @@ want to create a large number of custom scaling metrics, consult the operator of
 ### <a id='log-cache-eviction'></a> Log Cache Eviction
 
 The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
-seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To
+seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %> To
 configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in
 _Configuring TAS for VMs_. <% end %>
 

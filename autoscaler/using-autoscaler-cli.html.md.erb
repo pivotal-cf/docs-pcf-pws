@@ -294,7 +294,7 @@ To create a new autoscaling rule for an app:
     <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create. Valid values are <code>compare</code>, <code>CPU</code>, <code>custom</code>, <code>http_latency</code>, <code>http_throughput</code>, <code>memory</code>, or <code>rabbitmq</code>.
       <div class='note'><strong>Notes:</strong>
         <ul>
-          <li><%= vars.company_name %> does not recommend using <code>http_throughput</code> as a scaling rule when logging volume is high in the system. For
+          <li><%= vars.company_name %> does not recommend<in the system. For
             more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based
             Autoscaling rules do not fire</a> in the Knowledge Base.</li>
           <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
@@ -470,8 +470,8 @@ To create a scheduled limit change for an app:
       number of app instances is greater than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances down to this
       number.</li>
       <li>(Optional) Include the <code>--recurrence</code> parameter to specify the days of the week on which you want Autoscaler to re-apply the scheduled limit change,
-      where <code>DAY-1</code>, <code>DAY-2</code>, <code>DAY-3</code>, and so on are the days you want to specify. Valid values are <code>Mo</code>, <code>Tu</code>, <code>We</code>, <code>Th</code>, <code>Fr</code>, <code>Sa</code>, or <code>Su</code>. For example, if
-      you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include <code>--recurrence Mo,We,Fr,Sa</code> in the above
+      where <code>DAY-1</code>, <code>DAY-2</code>, <code>DAY-3</code>, and so on are the days you want to specify. Valid values are <code>Mo</code>, <code>Tu</code>, <code>We</code>, <code>Th</code>, <code>Fr</code>, <code>Sa</code>,<!--฿ If a list, maybe reformat it as bullets. If this is a rambling sentence, break it up into smaller sentences. ฿--> or <code>Su</code>. For example, if
+      you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include <code>--recurrence Mo,We,Fr,Sa</code> in the above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿-->
       command.</li>
     </ul>
 
@@ -556,9 +556,9 @@ To configure Autoscaler using a manifest file:
           Metric</a>, and <a href="custom-metrics.html">Using Custom Scaling Metrics</a>.</li>
         </ul>
       </li>
-      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number, Autoscaler
       scales the number of app instances down.</li>
-      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number, Autoscaler
       scales the number of app instances up.</li>
       <li>(Optional) If you include a <code>scheduled_limit_changes</code> block:
         <ul>
@@ -594,7 +594,7 @@ To configure Autoscaler using a manifest file:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app.</li>
-      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step</code>.</li>
     </ul>
 
     For example, running the following command applies the `autoscaler.yml` manifest file to `example-app`:

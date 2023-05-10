@@ -156,7 +156,7 @@ following configuration parameters:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app.</li>
-      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml<!--฿ Per YAML.org, |.yaml| is the preferred extension. If the reader creates this YAML file, fix every instance of the filename in every topic as part of your commit. Files with the |.yml| extension downloaded from elsewhere are outside our control. ฿--></code>.</li>
     </ul>
 
 
@@ -232,9 +232,9 @@ service instance by running:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-      <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below this number,
+      <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number,
       Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above this number,
+      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number,
       Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least
       twice the value of the minimum threshold.</li>
       <li><code>PERCENTILE</code> is the percentile that Autoscaler uses in scaling decisions. Valid values are <code>avg_95th</code> or <code>avg_99th</code>. This value configures Autoscaler to
@@ -336,8 +336,8 @@ increases in the HTTP latency metric, the list of autoscaling events includes ev
 
 ## <a id='special-considerations'></a> Special Considerations for Using HTTP Latency as a Scaling Metric
 
-This section describes use cases that may complicate or prevent you from configuring HTTP latency as the scaling metric for an app. For more information, see
-the sections below:
+This section describes use cases that may<!--฿ |can| usually works better. Use |might| to convey possibility. ฿--> complicate or prevent you from configuring HTTP latency as the scaling metric for an app. For more information, see
+the sections below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿-->:
 
 * [Multiple Endpoints](#multiple-endpoints)
 
@@ -378,7 +378,7 @@ default scaling metric or create a custom scaling metric for them.
 
 Autoscaler retrieves HTTP metrics from Log Cache, which can hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of
 HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve
-some of the total timer envelopes it needs to calculate accurate metrics, then the HTTP latency metric may inaccurately represent the actual HTTP latency of
+some of the total timer envelopes it needs to calculate accurate metrics, then the HTTP latency metric can inaccurately represent the actual HTTP latency of
 the app or causes of decreased app performance. However, in most cases, the HTTP latency metric still approximates the actual HTTP latency of the app.
 
 For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.

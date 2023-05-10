@@ -97,7 +97,7 @@ To configure verbose logging for Autoscaler:
 
 1. Click **Apply Changes**.
 
-<p class='note'><strong>Note:</strong> Re-deploying TAS for VMs briefly interrupts Autoscaler processes.</p>
+<p class='note'><strong>Note<!--฿ Proper note formatting is |> **Note:**| or |> **Caution:**| or |> **Important:**|. ฿-->:</strong> Re-deploying TAS for VMs briefly interrupts Autoscaler processes.</p>
 
 After you re-deploy TAS for VMs, you can review the verbose logs for Autoscaler to identify which apps have reached one or more of their allocated resource
 quota limits. To identify these apps, see [Identify Apps That Have Reached Resource Quota Limits](#identify-apps) below.
@@ -122,7 +122,7 @@ To identify which apps have reached one or more of their allocated resource quot
     <pre class="terminal">
     2019-10-18T12:40:58.19-0400 [APP/PROC/WEB/0] OUT time="2019-10-18T16:40:58Z" level=info msg="Unable to scale. App instance quota has been reached. for app e59357x1-395a-4mp7-le36-ffbf4ec3de04 in space 9482047e-5x58-7a2m-p25l-es1w19o44b9a"
     </pre>
-
+o
 1. Record the global unique identifiers (GUIDs) for the apps and spaces that you identified in the previous step. For example, in the example output in the
 previous step, the GUID for the app is `e59357x1-395a-4mp7-le36-ffbf4ec3de04`, and the GUID for the space is `9482047e-5x58-7a2m-p25l-es1w19o44b9a`.
 
@@ -187,7 +187,7 @@ To view the number of envelopes that Log Cache stores and the cache duration for
 1. Review the values in the `Count` and `Cache Duration` columns to view the number of envelopes that Log Cache stores and the cache duration for an app.
 
 If necessary, you can increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log
-Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the maximum
+Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %> To configure the maximum
 number of envelopes that Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per
 Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.<% end %>
 

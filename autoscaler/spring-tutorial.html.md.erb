@@ -51,7 +51,7 @@ Before you begin this tutorial, ensure that you have the following prerequisites
 * A <%= vars.app_runtime_abbr %> deployment in which the Metric Registrar is activated. To configure the Metric Registrar, see [Configure the Metric
 Registrar](../../metric-registrar/index.html#configure) in _Metric Registrar and Custom App Metrics_.
 
-* Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE' %> To access Apps Manager, see [Logging In
+* Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %> To access Apps Manager, see [Logging In
 to Apps Manager](../../operating/console-login.html).<% end %>
 
 * The ability to push an app to the <%= vars.app_runtime_abbr %> deployment. For more information, see
@@ -70,7 +70,7 @@ To review the code for the sample app, `java-spring-security`, see the [metric-r
 repository on GitHub. This sample app is a Spring app with a simple user interface (UI) that includes several buttons to call different endpoints. Some of
 these endpoints are instrumented to produce metrics.
 
-For more details about the code, see the sections below:
+For more details about the code, see the sections as follows:
 
 * [Dependencies](#dependencies)
 
@@ -97,7 +97,7 @@ The above list includes the following dependencies:
 
   * Creates a metrics endpoint at `/actuator/prometheus` in a format that the Metric Registrar supports.
 
-  * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) below.
+  * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿-->.
 
 * The Spring Security dependency, which exposes the metric endpoints so that Metric Registrar can access them.
 
@@ -245,7 +245,7 @@ To register a custom metrics endpoint for the `java-spring-security` app:
     2019-08-28T09:17:56.28-0700 [tutorial-example/1] GAUGE cpu:0.289158 percentage disk:135716864.000000 bytes disk_quota:1073741824.000000 bytes memory:399979315.000000 bytes memory_quota:2147483648.000000 bytes
     2019-08-28T09:17:56.50-0700 [tutorial-example/0] GAUGE custom:1.000000
     </pre>
-    <div class='note'><strong>Notes:</strong>
+    <div class='note'><strong>Note:</strong>
       <ul>
         <li>In the <code>java-spring-security</code> app UI, you must click <strong>Increment Custom gauge</strong> at least one time to cause the app to emit
           the <code>custom</code> metric.</li>
@@ -261,7 +261,7 @@ Autoscaler is integrated with Apps Manager. You can create autoscaling rules in 
 
 To create an autoscaling rule for the `java-spring-security` app that uses the `custom` metric as its scaling metric:
 
-1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %> For more information, see [Logging In to Apps
 Manager](../../operating/console-login.html).<% end %>
 
 1. In Apps Manager, navigate to the `java-spring-security` app overview. For more information, see [View App Overview](../../console/manage-apps.html#view) in
@@ -292,7 +292,7 @@ _Managing Apps and Service Instances Using Apps Manager_.
 
 Now that you have pushed the `java-spring-security` app, configured the app to emits the `custom` metric, and configured Autoscaler to scale the number of app
 instances up or down using the `custom` metric as its scaling metric, you can trigger a scaling action. Autoscaler scales the app when the `custom` metric
-goes above the upper scaling limit or below the lower scaling limit that you configured in [Create an Autoscaling Rule](#create-rule) above.
+goes abovethe upper scaling limit or below.
 
 To trigger a scaling action:
 
@@ -307,6 +307,6 @@ a time until the number of instances reaches `5`.
 
 ## <a id='next-steps'></a> Next Steps
 
-Now that you have completed this tutorial, you can create custom scaling metrics and autoscaling rules with your own app. For more information, review the
-resources listed in [Overview](#overview) above. After you have configured your app to emit custom metrics, you can follow the steps outlined in this tutorial
+Now that you complete this tutorial, you can create custom scaling metrics and autoscaling rules with your own app. For more information, review the
+resources listed in [Overview](#overview) above. After you  configure your app to emit custom metrics, you can follow the steps outlined in this tutorial
 to scale based on those metrics.
