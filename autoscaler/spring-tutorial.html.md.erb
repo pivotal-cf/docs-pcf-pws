@@ -51,8 +51,7 @@ Before you begin this tutorial, ensure that you have the following prerequisites
 * A <%= vars.app_runtime_abbr %> deployment in which the Metric Registrar is activated. To configure the Metric Registrar, see [Configure the Metric
 Registrar](../../metric-registrar/index.html#configure) in _Metric Registrar and Custom App Metrics_.
 
-* Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %> To access Apps Manager, see [Logging In
-to Apps Manager](../../operating/console-login.html).<% end %>
+* Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE' %> To access Apps Manager, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
 
 * The ability to push an app to the <%= vars.app_runtime_abbr %> deployment. For more information, see
 [Prerequisites](../../devguide/deploy-apps/deploy-app.html#prepare) in _Pushing an App_ and [Manage Users and
@@ -97,7 +96,7 @@ The above list includes the following dependencies:
 
   * Creates a metrics endpoint at `/actuator/prometheus` in a format that the Metric Registrar supports.
 
-  * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿-->.
+  * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) below.
 
 * The Spring Security dependency, which exposes the metric endpoints so that Metric Registrar can access them.
 
@@ -261,7 +260,7 @@ Autoscaler is integrated with Apps Manager. You can create autoscaling rules in 
 
 To create an autoscaling rule for the `java-spring-security` app that uses the `custom` metric as its scaling metric:
 
-1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %> For more information, see [Logging In to Apps
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps
 Manager](../../operating/console-login.html).<% end %>
 
 1. In Apps Manager, navigate to the `java-spring-security` app overview. For more information, see [View App Overview](../../console/manage-apps.html#view) in

@@ -470,9 +470,8 @@ To create a scheduled limit change for an app:
       number of app instances is greater than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances down to this
       number.</li>
       <li>(Optional) Include the <code>--recurrence</code> parameter to specify the days of the week on which you want Autoscaler to re-apply the scheduled limit change,
-      where <code>DAY-1</code>, <code>DAY-2</code>, <code>DAY-3</code>, and so on are the days you want to specify. Valid values are <code>Mo</code>, <code>Tu</code>, <code>We</code>, <code>Th</code>, <code>Fr</code>, <code>Sa</code>,<!--฿ If a list, maybe reformat it as bullets. If this is a rambling sentence, break it up into smaller sentences. ฿--> or <code>Su</code>. For example, if
-      you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include <code>--recurrence Mo,We,Fr,Sa</code> in the above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿-->
-      command.</li>
+      where <code>DAY-1</code>, <code>DAY-2</code>, <code>DAY-3</code>, and so on are the days you want to specify. Valid values are <code>Mo</code>, <code>Tu</code>, <code>We</code>, <code>Th</code>, <code>Fr</code>, <code>Sa</code>, or <code>Su</code>. For example, if
+      you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include <code>--recurrence Mo,We,Fr,Sa</code> in the above command.</li>
     </ul>
 
     For example, running the following command configures Autoscaler to create a minimum of one instance and a maximum of two instances of `example-app` for
@@ -556,9 +555,9 @@ To configure Autoscaler using a manifest file:
           Metric</a>, and <a href="custom-metrics.html">Using Custom Scaling Metrics</a>.</li>
         </ul>
       </li>
-      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number, Autoscaler
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler
       scales the number of app instances down.</li>
-      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number, Autoscaler
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler
       scales the number of app instances up.</li>
       <li>(Optional) If you include a <code>scheduled_limit_changes</code> block:
         <ul>

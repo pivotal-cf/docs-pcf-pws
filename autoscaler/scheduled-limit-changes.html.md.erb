@@ -120,7 +120,7 @@ service instance by running:
       For more information, see <a href="#recurrence-value">Calculating a Recurrence Schedule Value</a> below.</li>
       <li>
         <code>TIME</code> is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, <code>2032-01-01T20:00:00Z</code>.
-        <p class='note'><strong>Note<!--฿ Proper note formatting is |> **Note:**| or |> **Caution:**| or |> **Important:**|. ฿-->:</strong> If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight
+        <p class='note'><strong>Note:</strong> If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight
         Saving Time is observed in your time zone, the UTC offset for your time zone may change during the year.</p>
       </li>
       <li><code>SCHEDULED-LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the

@@ -156,7 +156,7 @@ following configuration parameters:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app.</li>
-      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml<!--฿ Per YAML.org, |.yaml| is the preferred extension. If the reader creates this YAML file, fix every instance of the filename in every topic as part of your commit. Files with the |.yml| extension downloaded from elsewhere are outside our control. ฿--></code>.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yaml</code>.</li>
     </ul>
 
 
@@ -232,9 +232,9 @@ service instance by running:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-      <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number,
+      <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below this number,
       Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number,
+      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above this number,
       Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least
       twice the value of the minimum threshold.</li>
       <li><code>PERCENTILE</code> is the percentile that Autoscaler uses in scaling decisions. Valid values are <code>avg_95th</code> or <code>avg_99th</code>. This value configures Autoscaler to
@@ -336,8 +336,8 @@ increases in the HTTP latency metric, the list of autoscaling events includes ev
 
 ## <a id='special-considerations'></a> Special Considerations for Using HTTP Latency as a Scaling Metric
 
-This section describes use cases that may<!--฿ |can| usually works better. Use |might| to convey possibility. ฿--> complicate or prevent you from configuring HTTP latency as the scaling metric for an app. For more information, see
-the sections below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿-->:
+This section describes use cases that might complicate or prevent you from configuring HTTP latency as the scaling metric for an app. For more information, see
+the sections below:
 
 * [Multiple Endpoints](#multiple-endpoints)
 

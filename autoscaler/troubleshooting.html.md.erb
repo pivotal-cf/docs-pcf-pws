@@ -196,7 +196,7 @@ To see whether autoscaling is configured for the apps you want to scale:
     This command returns a list of apps that are bound to Autoscaler, similar to the following example:
     <pre class="terminal">
     Presenting autoscaler apps in org example-org / space example-space as user
-    Name                  Guid                                      Enabled   Min<!--฿ |Minimum| is preferred. ฿--> Instances   Max<!--฿ |Maximum| is preferred. ฿--> Instances   Scale Up Factor   Scale Down Factor
+    Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
     example-app           e0077xa5-34mp-42l7-e377-e0fcb14d67f3      true      1               4               1                 1
     example-app-2         3e8x6a84-0m6p-4le9-9335-0aad3979d672      false     10              40              5                 2
     OK
@@ -231,7 +231,7 @@ autoscaling rule for the app is correct.
 
 You might see an autoscaling event similar to the following example:
 
-<pre class<!--฿ Commands are formatted in triple backtick blocks, not terminal snippets. ฿-->="terminal">
+<pre class="terminal">
 Autoscaler did not receive any metrics for rabbitmq.example-queue during the scaling window. Scaling down is deferred until these metrics are available.
 </pre>
 
@@ -285,22 +285,22 @@ To determine whether Log Cache might be underscaled:
     ```
     cf autoscaling-events
     ```
-    The above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> command returns a list of autoscaling events that Autoscaler has recorded, which include averaged values of the scaling metric for your app.
+    The above command returns a list of autoscaling events that Autoscaler has recorded, which include averaged values of the scaling metric for your app.
 
-If the averaged metric values in the autoscaling events for an app are lower than the actual load that the app is processing, Log Cache may<!--฿ |can| usually works better. Use |might| to convey possibility. ฿--> be evicting some
+If the averaged metric values in the autoscaling events for an app are lower than the actual load that the app is processing, Log Cache might be evicting some
 metrics from its cache.
 
 To fix this issue, you can try the following actions:
 
 * Scale Log Cache horizontally by increasing the number of Log Cache instances in the **Resource Config** pane of the TAS for VMs tile.
-<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %> To scale Log Cache horizontally, see [Scaling Up TAS for
+<% if vars.platform_code != 'OFFLINE' %> To scale Log Cache horizontally, see [Scaling Up TAS for
 VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
 
 * Scale Log Cache vertically by increasing the amount of memory in each instance of Log Cache. To scale Log Cache vertically, see [Scaling an App Using cf
 scale](../../devguide/deploy-apps/cf-scale.html).
 
 * Increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log Cache per source**
-field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--> %> To configure the maximum number of envelopes that
+field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the maximum number of envelopes that
 Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per Source](../../operating/configure-pas.html#log-cache-max-per-source) in
 _Configuring TAS for VMs_.<% end %>
 
@@ -310,21 +310,21 @@ For more information about how Log Cache supports Autoscaler, see [Log Cache](op
 ## <a id='autoscale-instances'></a> Autoscaler Scales Apps More Slowly Than Expected
 
 Autoscaler is itself an app that TAS for VMs deploys. By default, there are three instances of the Autoscaler app, `autoscale`, that can scale other apps in
-your TAS for VMs deployment. Each instance of Autoscaler queries the MySQL database in your TAS for VMs deployment to claim and process a set of apps that may<!--฿ |can| usually works better. Use |might| to convey possibility. ฿-->
+your TAS for VMs deployment. Each instance of Autoscaler queries the MySQL database in your TAS for VMs deployment to claim and process a set of apps that might
 need to be scaled. Each Autoscaler instance claims a different set of apps to process and scale independently of the other two Autoscaler instances. After an
 Autoscaler instance has processed and scaled one set of apps, it queries the MySQL database again and repeats the process.
 
-Each Autoscaler instance evaluates 10 apps at a time to determine<!--฿ |determine| has two meanings. Consider if the univocal |discover| or |verify| would be better. ฿--> whether they need to be scaled. The speed at which an Autoscaler instance can process a
-batch of apps is determined<!--฿ |determine| has two meanings. Consider if the univocal |discover| or |verify| would be better. ฿--> primarily by the number of metrics it retrieves from Log Cache for the apps within that batch. If Log Cache holds a large number
+Each Autoscaler instance evaluates 10 apps at a time to determine whether they need to be scaled. The speed at which an Autoscaler instance can process a
+batch of apps is determined primarily by the number of metrics it retrieves from Log Cache for the apps within that batch. If Log Cache holds a large number
 of metrics for an app, Autoscaler does not begin processing the next batch of apps until either it retrieves all of those metrics or the request that
 Autoscaler makes to Log Cache for those metrics times out.
 
-To ensure that Autoscaler can scale all the apps for which you have configured<!--฿ |you verbed| is punchier than |you have verbed| and it fits in most cases. ฿--> autoscaling in a timely manner<!--฿ Consider replacing with an adverb. ฿-->, you may<!--฿ |can| usually works better. Use |might| to convey possibility. ฿--> need to increase the number of
+To ensure that Autoscaler can scale all the apps for which you configured autoscaling in a timely manner, you might need to increase the number of
 Autoscaler instances for your TAS for VMs deployment.
 
 To increase the number of Autoscaler instances:
 
-1. Navigate to the O<!--฿ Embolden the names of UI elements. ฿-->ps Manager Installation Dashboard.
+1. Navigate to the Ops Manager Installation Dashboard.
 
 1. Click the **VMware Tanzu Application Service** tile.
 
@@ -384,22 +384,22 @@ Architecture_. For more information about app health checks, including how to co
 [Using App Health Checks](../../devguide/deploy-apps/healthchecks.html).
 
 
-## <a id='one-instance-per-space'></a> One Autoscaler Service Instance Allowed Per<!--฿ Only use |per| to mean |for each|, not to mean |in accordance with|. ฿--> Space
+## <a id='one-instance-per-space'></a> One Autoscaler Service Instance Allowed Per Space
 
 Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one Autoscaler service instance in a space, you see
 the following error:
 
-<pre class<!--฿ Commands are formatted in triple backtick blocks, not terminal snippets. ฿-->="terminal">
+<pre class="terminal">
 Unexpected Response
 Response code: 409
 CC code:       10001
 CC error code: CF-ServiceBrokerConflict
 Request ID:    b3b6236b-82f5-42a7-5015-338369d5fea2::9d7c8b3a-0c4f-4935-b493-d6fe3f417f3b
-Description:   Service broker error: Only One App Autoscaler Service Instance Allowed Per<!--฿ Only use |per| to mean |for each|, not to mean |in accordance with|. ฿--> Space
+Description:   Service broker error: Only One App Autoscaler Service Instance Allowed Per Space
 FAILED
 </pre>
 
-You must use the existing Autoscaler service instance in your space and bind it to the app you want<!--฿ Avoid anthropomorphizing by writing that software |wants| anything. ฿--> to autoscale. For more information, see<!--฿ Avoid anthropomorphizing: |detect| might be better here. ฿--> [Create and Bind
+You must use the existing Autoscaler service instance in your space and bind it to the app you want to autoscale. For more information, see [Create and Bind
 the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
 
 
