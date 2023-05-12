@@ -96,7 +96,7 @@ The above list includes the following dependencies:
 
   * Creates a metrics endpoint at `/actuator/prometheus` in a format that the Metric Registrar supports.
 
-  * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) below.
+  * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) following.
 
 * The Spring Security dependency, which exposes the metric endpoints so that Metric Registrar can access them.
 
@@ -193,7 +193,7 @@ To push the `java-spring-security` app:
     <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px">
     <br>
     The `java-spring-security` app UI includes the following buttons:
-    * **Increment Custom gauge:** Causes the `custom` metric to increase by a value of `1`. You use this button in [Trigger Scaling](#trigger) below.
+    * **Increment Custom gauge:** Causes the `custom` metric to increase by a value of `1`. You use this button in [Trigger Scaling](#trigger) following.
     * **Decrement custom gauge:** Causes the `custom` metric to decrease by a value of `1`.
     * **See the metrics:** Opens `/actuator/prometheus` in your browser. The Metric Registrar uses this page to collect metrics. You can use this page to view
     the values of the `custom` metric and all metrics from the Micrometer Prometheus library.

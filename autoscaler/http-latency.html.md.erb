@@ -29,7 +29,7 @@ To monitor when Autoscaler scales an app based on changes in HTTP latency, see [
 below.
 
 For information about use cases that may complicate or prevent you from configuring HTTP latency as the scaling metric for an app, see [Special Considerations
-for Using HTTP Latency as a Scaling Metric](#special-considerations) below.
+for Using HTTP Latency as a Scaling Metric](#special-considerations) as follows.
 
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
 App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
@@ -47,9 +47,9 @@ The procedures in this section describe how to configure Autoscaler to use HTTP 
 
 You can configure configure Autoscaler to use HTTP latency as the scaling metric for an app in the following ways:
 
-* Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config) below.
+* Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config) as follows.
 
-* Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) below.
+* Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) as follows.
 
 For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
 Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
@@ -266,7 +266,7 @@ Manager](../../operating/console-login.html).<% end %>
 
 1. Click **Add rule**. The **Select type** dropdown appears.
 
-1. From the **Select type** dropdown, select **HTTP Latency**. More configuration fields appear below.
+1. From the **Select type** dropdown, select **HTTP Latency**. More configuration fields appear as follows.
 
 1. For **Scale down if less than**, enter in milliseconds the minimum HTTP latency threshold you want to configure. If the average latency of HTTP requests
 falls below this number, Autoscaler scales the number of app instances down.
@@ -289,11 +289,10 @@ autoscaling event.
 
 You can monitor the autoscaling events that Autoscaler records for changes in HTTP latency in the following ways:
 
-* Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI](#review-events-cli) below.
+* Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI](#review-events-cli) as follows.
 
 * Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through Apps Manager](#review-events-apps-manager)
-below.
-
+as follows
 ### <a id='review-events-cli'></a> Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI
 
 To review the autoscaling events that Autoscaler records for changes in HTTP latency through the cf CLI:
@@ -337,7 +336,7 @@ increases in the HTTP latency metric, the list of autoscaling events includes ev
 ## <a id='special-considerations'></a> Special Considerations for Using HTTP Latency as a Scaling Metric
 
 This section describes use cases that might complicate or prevent you from configuring HTTP latency as the scaling metric for an app. For more information, see
-the sections below:
+the sections as follows:
 
 * [Multiple Endpoints](#multiple-endpoints)
 

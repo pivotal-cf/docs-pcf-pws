@@ -19,15 +19,15 @@ meet by using the default scaling metrics to scale the app. In this case, you ca
 You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
 
 * Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring a Custom Scaling Metric for an App Through the cf
-CLI](#cf-cli-config) below.
+CLI](#cf-cli-config) follows.
 
 * Through Apps Manager. For more information, see [Configure a Custom Scaling Metric for an App Through Apps Manager](#apps-manager-config) below.
 
 To monitor when Autoscaler scales an app based on changes in a custom scaling metric, see [Reviewing Autoscaling Events for Changes in a Custom Scaling
-Metric](#review-events) below.
+Metric](#review-events) follows.
 
 For information about use cases that may complicate or prevent you from configuring a custom scaling metric for an app, see [Special Considerations for Using
-a Custom Scaling Metric](#special-considerations) below.
+a Custom Scaling Metric](#special-considerations) follows.
 
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
 App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
@@ -39,9 +39,9 @@ The procedures in this section describe how to configure Autoscaler to use a cus
 
 You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
 
-* Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config) below.
+* Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config) follows.
 
-* Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) below.
+* Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) follows.
 
 For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
 Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
@@ -265,7 +265,7 @@ Manager](../../operating/console-login.html).<% end %>
 
 1. Click **Add rule**. The **Select type** drop down menu appears.
 
-1. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
+1. From the **Select type** dropdown, select **Custom**. More configuration fields appear as follows.
 
 1. For **Scale down if less than**, enter the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this
 number, Autoscaler scales the number of app instances down.
@@ -286,10 +286,10 @@ records an autoscaling event.
 You can monitor the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app in the following ways:
 
 * Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in Custom Scaling Metrics Through the cf CLI](#review-events-cli)
-below.
+follows.
 
 * Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in Custom Scaling Metrics Through Apps
-Manager](#review-events-apps-manager) below.
+Manager](#review-events-apps-manager) follows.
 
 ### <a id='review-events-cli'></a> Review Autoscaling Events for Changes in Custom Scaling Metrics Through the cf CLI
 
