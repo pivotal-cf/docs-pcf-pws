@@ -119,14 +119,14 @@ To identify which apps have reached one or more of their allocated resource quot
     ```
     cf logs autoscale
     ```
-    If any apps have reached one or more of their allocated resource quota limits, the above command returns output that contains logs similar to the
+    If any apps have reached one or more of their allocated resource quota limits, the eariler command returns output that contains logs similar to the
     following example:
     <pre class="terminal">
-    2019-10-18T12:40:58.19-0400 [APP/PROC/WEB/0] OUT time="2019-10-18T16:40:58Z" level=info msg="Unable to scale. App instance quota has been reached. for app e59357x1-395a-4mp7-le36-ffbf4ec3de04 in space 9482047e-5x58-7a2m-p25l-es1w19o44b9a"
+    2019-10-18T12:40:58.19-0400[APP/PROC/WEB/0] OUT time="2019-10-18T16:40:58Z" level=info msg="Unable to scale. App instance quota has been reached. for app e59357x1-395a-4mp7-le36-ffbf4ec3de04 in space 9482047e-5x58-7a2m-p25l-es1w19o44b9a"
     </pre>
 o
-1. Record the global unique identifiers (GUIDs) for the apps and spaces that you identified in the previous step. For example, in the example output in the
-previous step, the GUID for the app is `e59357x1-395a-4mp7-le36-ffbf4ec3de04`, and the GUID for the space is `9482047e-5x58-7a2m-p25l-es1w19o44b9a`.
+1. Record the global unique identifiers (GUIDs) for the apps and spaces that you identified in the earlier step. For example, in the example output in the
+previous stepit., the GUID for the app is `e59357x1-395a-4mp7-le36-ffbf4ec3de04`, and the GUID for the space is `9482047e-5x58-7a2m-p25l-es1w19o44b9a`.
 
 1. Send a `GET` request to the Cloud Controller API to learn more about the resource quotas allocated to the apps and spaces you identified in a previous
 step.
@@ -179,7 +179,7 @@ To view the number of envelopes that Log Cache stores and the cache duration for
     ```
     cf log-meta --source-type application
     ```
-    The above command returns output similar to the following example:
+    The earlier command returns output similar to the following example:
     <pre class="terminal">
     Source ID                             Source                                Source Type  Count   Expired  Cache Duration
     e2xa9m8p-28l4-4ebf-8408-0548c8573c66  example-app-1                         application  82142   79749    21h54m48s
@@ -189,11 +189,11 @@ To view the number of envelopes that Log Cache stores and the cache duration for
 1. Review the values in the `Count` and `Cache Duration` columns to view the number of envelopes that Log Cache stores and the cache duration for an app.
 
 If necessary, you can increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log
-Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the maximum
+Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--><!--฿ Double quotation marks are preferred in US English. ฿--> %> To configure the maximum
 number of envelopes that Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per
 Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.<% end %>
 
-Additionally, Log Cache might evict envelopes if it has an insufficient amount of memory. To fix this issue, you can scale Log Cache horizontally or vertically.
+Additionally, Log Cache might eject envelopes if it has an insufficient amount of memory. To fix this issue, you can scale Log Cache horizontally or vertically.
 To scale Log Cache horizontally or vertically, see [Scaling an App Using cf scale](../../devguide/deploy-apps/cf-scale.html).
 
-Apps that use scaling metrics that are emitted less frequently, such as container metrics, are more likely to be affected by Log Cache evicting envelopes.
+Apps that use scaling metrics that are emitted less frequently, such as container metrics, are more likely to be affected by<!--฿ Active voice is preferred. ฿--><!--฿ Active voice is preferred. ฿--> Log Cache evicting envelopes.

@@ -11,7 +11,7 @@ See [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
 ## <a id="api-endpoints"></a>API Endpoints
 
-The API is exposed by the autoscale-api app that runs next to the autoscale app in the autoscaling space of the system org.
+The API uses by the autoscale-api app that runs next to the autoscale app in the autoscaling space of the system org.
 This is the base URL of all the requests covered in the sections following.
 
 If your system domain is `system-domain.com`, in most cases you can reach the autoscale app at `autoscale.sys.system-domain.com` and the API at `autoscale.sys.system-domain.com/api/v2`.
@@ -21,7 +21,7 @@ Confirm that you can reach both the app and the API before you proceed.
 ## <a id="authentication"></a>Authentication
 
 You must pass an access token to each API endpoint.
-The access token is expected as-is on the `Authorization` header of each request.
+The access token expects as-is on the `Authorization` header of each request.
 
 When you are logged in to your foundation with the cf CLI, get an access token by running `cf oauth-token`.
 

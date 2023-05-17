@@ -3,20 +3,20 @@ title: About App Autoscaler
 owner: App Autoscaler
 ---
 
-This topic describes App Autoscaler. It includes information about default and custom scaling rules as well as App Autoscaler architecture.
+This topic describes App Autoscaler. It includes information about default and custom scaling rules as well as<!--฿ |and| is preferred. ฿--> App Autoscaler architecture.
 
 
 ## <a id="overview"></a> Overview of App Autoscaler
 
 App Autoscaler is a Marketplace service that scales apps in your environment based on app performance metrics or a schedule. This controls the cost of running apps while maintaining app performance.
 
-You can use App Autoscaler to do the following:
+To use App Autoscaler:
 
 * Configure scaling rules that adjust app instance counts based on metrics thresholds
-* Modify the maximum and minimum number of instances for an app, either manually or following a schedule
+* Edit the maximum and minimum number of instances for an app, either manually or following a schedule
 * Configure scaling factors so that the app scales more quickly. Use caution when setting the scaling factors by which to scale your applications up or down.
 
-For example, you can configure App Autoscaler to scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold.
+For example, you can configure App Autoscaler to scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage<!--฿ |Use| is preferred. ฿--> metric increases above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> a custom threshold.
 
 ## <a id="about-scaling"></a> About App Autoscaler Scaling Rules
 
@@ -30,7 +30,7 @@ Every 35 seconds, App Autoscaler makes a decision about whether to scale up, sca
 
 To make a scaling decision, App Autoscaler averages the values of a metric for the most recent 120 seconds.
 
-<p class="note"><strong>Note:</strong> Operators can edit the 35 second scaling interval and the 120 second metric collection interval for all apps within the org. For more information, see <a href="https://docs.pivotal.io/application-service/operating/configure-pas.html#config-autoscaler">(Optional) Configure App Autoscaler</a> in <em>Configuring <%= vars.app_runtime_abbr %></em>.</p>
+<p class="note">**Note:** Operators can edit the 35 second scaling interval and the 120 second metric collection interval for all apps within the org. For more information, see <a href="https://docs.pivotal.io/application-service/operating/configure-pas.html#config-autoscaler">(Optional) Configure App Autoscaler</a> in <em>Configuring <%= vars.app_runtime_abbr %></em>.</p>
 
 App Autoscaler scales apps as follows:
 
@@ -46,9 +46,9 @@ As shown in the diagram, an app has a maximum threshold of 200 milliseconds and 
 
 If HTTP latency averages 220 milliseconds for 120 seconds, App Autoscaler scales the app up one instance.
 
-If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
+If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> their minimum thresholds, App Autoscaler scales the app down one instance.
 
-If the average value for HTTP latency over a 120 second window falls below the maximum threshold of 200 milliseconds or the minimum threshold of 80 milliseconds, App Autoscaler maintains the same number of instances for the app.
+If the average value for HTTP latency over a 120 second window falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> the maximum threshold of 200 milliseconds or the minimum threshold of 80 milliseconds, App Autoscaler maintains the same number of instances for the app.
 
 You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app.
 
@@ -63,7 +63,7 @@ The following table lists the default metrics for App Autoscaler:
   <tr>
     <th>Metric</th>
     <th>Description</th>
-    <th>Notes</th>
+    <th>**Note:**</th>
   </tr>
   <tr>
     <td>CPU Utilization</td>
@@ -76,7 +76,7 @@ The following table lists the default metrics for App Autoscaler:
   </tr><tr>
     <td>Container Memory Utilization</td>
     <td>Average memory percentage for all instances of the app.</td>
-    <td></td>
+    <td>n/a</td>
   </tr><tr>
     <td>HTTP Throughput</td>
     <td>Total HTTP requests per second (divided by the total number of app instances).</td>
@@ -84,11 +84,11 @@ The following table lists the default metrics for App Autoscaler:
     <td>HTTP Latency</td>
     <td>Average latency of apps response to HTTP requests. This does not include Gorouter processing time or other network latency.<br>
     Average is calculated on the middle 99% or middle 95% of all HTTP requests.</td>
-    <td></td>
+    <td>n/a</td>
   </tr><tr>
     <td>RabbitMQ Depth</td>
     <td>The queue length of the specified queue.</td>
-    <td></td>
+    <td>n/a</td>
   </tr>
 </table>
 

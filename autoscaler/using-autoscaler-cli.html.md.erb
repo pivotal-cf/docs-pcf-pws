@@ -5,7 +5,6 @@ owner: PCF Autoscaler
 
 This topic explains how to use the App Autoscaler Command-Line Interface (CLI).
 
-
 ## <a id='overview'></a> Overview of the App Autoscaler CLI
 
 The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI) that allows you to configure and control Autoscaler from your
@@ -220,7 +219,7 @@ To configure scaling factors for an app:
       <li><code>SCALE-DOWN-FACTOR</code> is the number of app instances by which you want Autoscaler to scale down at a time.</li>
     </ul>
 
-    For example, running the following command configures Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
+    For example, run the following command to configure Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
 
     ```
     cf update-autoscaling-factors example-app 20 10

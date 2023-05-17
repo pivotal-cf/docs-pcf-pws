@@ -364,16 +364,16 @@ the app instance to be healthy. Diego then registers a route to the app instance
 instance.
 
 However, the app instance having passed all health checks might not indicate that the app instance is ready to respond to requests. Depending on the type of
-health check that you have configured the app, the Gorouter may begin to route requests to app instances that are not ready to receive requests.
+health check that you configured the app, the Gorouter may begin to route requests to app instances that are not ready to receive requests.
 
 The following list describes when the Gorouter begins routing requests to an app instance after each type of health check:
 
-* If you have configured a `process` health check, the Gorouter can begin routing requests to the app instance when all processes within the app are running.
+* If you configured a `process` health check, the Gorouter can begin routing requests to the app instance when all processes within the app are running.
 
-* If you have configured a `port` health check, the Gorouter can begin routing requests to the app instance when the app instance receives a TCP.
+* If you configured a `port` health check, the Gorouter can begin routing requests to the app instance when the app instance receives a TCP.
 connections, even if it is not fully initialized.
 
-* If you have configured an `http` health check, the Gorouter can begin routing requests to the app instance when the app instance can provide an `HTTP 200`
+* If you configured an `http` health check, the Gorouter can begin routing requests to the app instance when the app instance can provide an `HTTP 200`
 response to the health check, which indicates that the app instance is ready to respond to HTTP requests from the Gorouter.
 
 If the new app instances that Autoscaler has created are slow to respond to requests, you can configure Diego to run `http` health checks for your app to
@@ -407,11 +407,11 @@ the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scali
 
 There are two versions of the App Autoscaler CLI extension for the Cloud Foundry Command-Line Interface (cf CLI):
 
-* The VMware Tanzu App Autoscaler CLI Plug-in, used with TAS for VMs
+* The VMware Tanzu App Autoscaler CLI Plug-in, used with TAS for VMs.
 
-* The Cloud Foundry App Auto-Scaler plug-in, used with open-source Cloud Foundry deployments
+* The Cloud Foundry App Auto-Scaler plug-in, used with open-source Cloud Foundry deployments.
 
-If you attempt to use the Cloud Foundry App Auto-Scaler plugin to control the App Autoscaler instance in your TAS for VMs deployment, you see the following
+If you attempt to use the Cloud Foundry App Auto-Scaler plug-in to control the App Autoscaler instance in your TAS for VMs deployment, you see the following
 error:
 
 <pre class="terminal">Error: Invalid AutoScaler API endpoint</pre>
