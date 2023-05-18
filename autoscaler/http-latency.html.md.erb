@@ -232,11 +232,9 @@ service instance by running:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-      <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--><!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--><!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number,
-      Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--><!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--><!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number,
-      Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least
-      twice the value of the minimum threshold.</li>
+      <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below this number, Autoscaler scales the number of app instances down.</li>
+      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above this number,
+      Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least twice the value of the minimum threshold.</li>
       <li><code>PERCENTILE</code> is the percentile that Autoscaler uses in scaling decisions. Valid values are <code>avg_95th</code> or <code>avg_99th</code>. This value configures Autoscaler to
       ignore HTTP requests that fall outside either the 95th or 99th percentile and average the latency of the remaining 95% or 99% of HTTP requests.</li>
     </ul>
@@ -370,10 +368,9 @@ Autoscaler can only use HTTP latency as a scaling metric for apps that receive r
 using HTTP latency as a scaling metric for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
 
 If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP
-events for those requests. As a result, Autoscaler cannot scale those HTTP services. In order for<!--฿ |For| is preferred. ฿--> Autoscaler to scale them, you must either use a different
-default scaling metric or create a custom scaling metric for them.
+events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
 
-### <a id='log-cache-eviction'></a> Log Cache Eviction<!--฿ |Removal| or |Ejection| is preferred. ฿-->
+### <a id='log-cache-eviction'></a> Log Cache Eviction
 
 Autoscaler retrieves HTTP metrics from Log Cache, which can hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of
 HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve

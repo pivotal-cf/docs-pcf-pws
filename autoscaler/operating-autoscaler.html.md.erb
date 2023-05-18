@@ -189,11 +189,11 @@ To view the number of envelopes that Log Cache stores and the cache duration for
 1. Review the values in the `Count` and `Cache Duration` columns to view the number of envelopes that Log Cache stores and the cache duration for an app.
 
 If necessary, you can increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log
-Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--><!--฿ Double quotation marks are preferred in US English. ฿--> %> To configure the maximum
+Cache per source** field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the maximum
 number of envelopes that Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per
 Source](../../operating/configure-pas.html#log-cache-max-per-source) in _Configuring TAS for VMs_.<% end %>
 
 Additionally, Log Cache might eject envelopes if it has an insufficient amount of memory. To fix this issue, you can scale Log Cache horizontally or vertically.
 To scale Log Cache horizontally or vertically, see [Scaling an App Using cf scale](../../devguide/deploy-apps/cf-scale.html).
 
-Apps that use scaling metrics that are emitted less frequently, such as container metrics, are more likely to be affected by<!--฿ Active voice is preferred. ฿--><!--฿ Active voice is preferred. ฿--> Log Cache evicting envelopes.
+Apps that use scaling metrics that are emitted less frequently, such as container metrics, are more likely to be affected by Log Cache evicting envelopes.

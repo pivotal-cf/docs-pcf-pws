@@ -3,7 +3,7 @@ title: About App Autoscaler
 owner: App Autoscaler
 ---
 
-This topic describes App Autoscaler. It includes information about default and custom scaling rules as well as<!--฿ |and| is preferred. ฿--> App Autoscaler architecture.
+This topic describes App Autoscaler. It includes information about default and custom scaling rules and App Autoscaler architecture.
 
 
 ## <a id="overview"></a> Overview of App Autoscaler
@@ -16,7 +16,7 @@ To use App Autoscaler:
 * Edit the maximum and minimum number of instances for an app, either manually or following a schedule
 * Configure scaling factors so that the app scales more quickly. Use caution when setting the scaling factors by which to scale your applications up or down.
 
-For example, you can configure App Autoscaler to scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage<!--฿ |Use| is preferred. ฿--> metric increases above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> a custom threshold.
+For example, you can configure App Autoscaler to scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold.
 
 ## <a id="about-scaling"></a> About App Autoscaler Scaling Rules
 
@@ -46,9 +46,9 @@ As shown in the diagram, an app has a maximum threshold of 200 milliseconds and 
 
 If HTTP latency averages 220 milliseconds for 120 seconds, App Autoscaler scales the app up one instance.
 
-If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> their minimum thresholds, App Autoscaler scales the app down one instance.
+If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
 
-If the average value for HTTP latency over a 120 second window falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> the maximum threshold of 200 milliseconds or the minimum threshold of 80 milliseconds, App Autoscaler maintains the same number of instances for the app.
+If the average value for HTTP latency over a 120 second window falls below the maximum threshold of 200 milliseconds or the minimum threshold of 80 milliseconds, App Autoscaler maintains the same number of instances for the app.
 
 You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app.
 
