@@ -13,8 +13,7 @@ For information about how to emit custom metrics, see [Using Metric Registrar](.
 While Autoscaler can use several default metrics as scaling metrics for apps, your app might have specific autoscaling requirements that Autoscaler cannot
 meet by using the default scaling metrics to scale the app. In this case, you can create custom metrics for Autoscaler to use to scale the app.
 
-<p class='note'><strong>Note<!--฿ Proper note formatting is |> **Note:**| or |> **Caution:**| or |> **Important:**|. ฿--><!--฿ Proper note formatting is |> **Note:**| or |> **Caution:**| or |> **Important:**|. ฿-->:</strong> Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with
-  the Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.</p>
+<p class='note'><strong>**Note:**</strong> Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with the Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.</p>
 
 You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
 
@@ -114,12 +113,10 @@ configuration parameters:
       <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
       <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
       <li><code>METRIC-NAME</code> is the name of the custom scaling metric. This name must match the name of the metric that the app exposes.</li>
-      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--><!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number,
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this number,
       Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--><!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number, Autoscaler
-      scales the number of app instances up.</li>
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler scales the number of app instances up.</li>
     </ul>
-
 
     The following example shows an Autoscaler manifest file configuring Autoscaler to use `example_metric` as its custom scaling metric, with a minimum custom
     scaling metric threshold of 20 and a maximum custom scaling metric threshold of 50:
@@ -150,7 +147,7 @@ configuration parameters:
       <li><code>MANIFEST-FILENAME</code> is the filename of the Autoscaler manifest.</li>
     </ul>
 
-1. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
+2. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
 
     ```
     cf configure-autoscaling APP-NAME MANIFEST-FILENAME
@@ -233,10 +230,9 @@ service instance by running:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--><!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number,
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this number,
       Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--><!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number, Autoscaler
-      scales the number of app instances up.</li>
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler scales the number of app instances up.</li>
       <li><code>METRIC-NAME</code> is the name of the custom scaling metric. This name must match the name of the metric that the app exposes.</li>
     </ul>
 
@@ -369,11 +365,10 @@ latency metrics with labels that describe the endpoint from which they came, Aut
 Configuring an app to emit a large number of custom scaling metrics can cause your TAS for VMs deployment to have difficulty processing those metrics. If you
 want to create a large number of custom scaling metrics, consult the operator of your TAS for VMs deployment.
 
-### <a id='log-cache-eviction'></a> Log Cache Eviction<!--฿ |Removal| or |Ejection| is preferred. ฿--><!--฿ |Removal| or |Ejection| is preferred. ฿-->
+### <a id='log-cache-eviction'></a> Log Cache Eviction
 
 The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
-seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE'<!--฿ Double quotation marks are preferred in US English. ฿--><!--฿ Double quotation marks are preferred in US English. ฿--> %> To
-configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in
+seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in
 _Configuring TAS for VMs_. <% end %>
 
 Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per
