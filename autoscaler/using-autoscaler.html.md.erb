@@ -5,7 +5,7 @@ owner: App Autoscaler
 
 This topic describes how users with the Space Developer role can set up and configure the App Autoscaler service in the Apps Manager UI to automatically scale apps based on rules that they set.
 
-You can use the App Autoscaler command-line interface (CLI) plugin to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
+You can use the App Autoscaler command-line interface (CLI) plug-in to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
 <p class='note'><strong>Note:</strong> Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.</p>
 
@@ -116,7 +116,7 @@ To add a scaling rule for an app:
 
 1. In the **Select type** dropdown, select the metric for the new scaling rule.
 
-    <%= image_tag("images/scaling-rules.png", :alt => "At the top of the image is a gray left arrow that returns to the previous screen, next to a header, 'Edit Scaling Rules'. Below is the text: 'Apps scale by 1 instance per event. Apps will scale up when any metric maximum is met and scale down only when all metric minimums are met.' Below this text is a dropdown showing 'Select type', and to the right of the dropdown, a red X to remove the rule. Below the dropdown is a link, 'Add Rule'. At the bottom, to the far right, is a white, rectangular button labeled 'Cancel', and a grayed-out blue, rectangular button labeled 'Save'.") %>
+    <%= image_tag("images/scaling-rules.png", :alt => "At the top of the image is a gray left arrow that returns to the previous screen, next to a header, 'Edit Scaling Rules'. Below is the text: 'Apps scale by 1 instance per event. Apps can scale up when any metric maximum is met and scale down only when all metric minimums are met.' Below this text is a dropdown showing 'Select type', and to the right of the dropdown, a red X to remove the rule. Below the dropdown is a link, 'Add Rule'. At the bottom, to the far right, is a white, rectangular button labeled 'Cancel', and a grayed-out blue, rectangular button labeled 'Save'.") %>
 
 1. Set the minimum and maximum thresholds for the metric. For information about setting instance limits, see [About App Autoscaler Scaling Rules](about-app-autoscaler.html#about-scaling) in _About App Autoscaler_.
 
@@ -153,7 +153,7 @@ To create or modify a scheduled limit change:
 
 1. Click **Save**.
 
-<p class='note'><strong>Note:</strong> In time zones that observe Daylight Saving Time, Apps Manager may not account for changes in offset from UTC time when
+<p class='note'><strong>Note:</strong> In time zones that observe Daylight Saving Time, Apps Manager might not account for changes in offset from UTC time when
   it applies scheduled limit changes. For more information, see
   <a href="https://community.pivotal.io/s/article/5000e00001pKKiE1614674788257?language=en_US">Apps Manager might not respect the day of the week when
   creating an autoscaler scheduled limit change</a> in the VMware Tanzu Knowledge Base.</p>
@@ -190,7 +190,7 @@ App Autoscaler emails or texts its event notifications to all users with the Spa
 To subscribe or unsubscribe from autoscaling event notifications:
 
 1. Navigate to the **Manage Notifications** page in <%= vars.platform_name %>.
-  <p class="note"><strong>Note:</strong> If installed, Notifications Management should be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>, where <code>SYSTEM-DOMAIN</code> is your system domain.</p>
+  <p class="note"><strong>Note:</strong> If installed, Notifications Management must be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>, where <code>SYSTEM-DOMAIN</code> is your system domain.</p>
 
 1. Choose which notifications you want to receive from App Autoscaler:
 

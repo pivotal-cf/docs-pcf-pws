@@ -1,7 +1,7 @@
 {
     "workbench.colorTheme": "Default Dark+",
     "security.workspace.trust.untrustedFiles": "open",
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 1,
     "editor.minimap.enabled": false,
     "breadcrumbs.enabled": false,
     "files.associations": {

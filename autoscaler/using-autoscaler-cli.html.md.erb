@@ -10,17 +10,17 @@ This topic explains how to use the App Autoscaler Command-Line Interface (CLI).
 The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI) that allows you to configure and control Autoscaler from your
 local command line.
 
-<p class='note'><strong>Note:</strong> The return output from the App Autoscaler CLI may include odd characters in Windows shells that do not support text
+<p class='note'><strong>Note:</strong> The return output from the App Autoscaler CLI might include odd characters in Windows shells that do not support text
   color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do not support the <code>CF_COLOR</code> environment variable.</p>
 
 
-## <a id='install'></a> Install the App Autoscaler CLI Plugin
+## <a id='install'></a> Install the App Autoscaler CLI Plug-in
 
-Before you can run App Autoscaler CLI commands, you must install the App Autoscaler CLI Plugin.
+Before you can run App Autoscaler CLI commands, you must install the App Autoscaler CLI Plug-in.
 
-To install the plugin:
+To install the plug-in:
 
-1. Download the [VMware Tanzu App Autoscaler CLI Plugin](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
+1. Download the [VMware Tanzu App Autoscaler CLI Plug-in](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
   <p class='note'><strong>Note:</strong> There are two versions of the App Autoscaler CLI. If you install the wrong version, you cannot use it with the
     Autoscaler instance in your <%= vars.app_runtime_abbr %> deployment. For more information, see <a href="troubleshooting.html#oss-autoscaler">App
     Autoscaler for Cloud Foundry Does Not Work with <%= vars.app_runtime_abbr %></a> in <em>Troubleshooting App Autoscaler</em>.</p>
@@ -107,7 +107,7 @@ To view a list of all the apps that are bound to an Autoscaler service instance 
     ```
     cf autoscaling-apps
     ```
-    The above command returns a list of apps that are bound to Autoscaler, whether autoscaling is configured for those apps, and the autoscaling limits and
+    The preceding command returns a list of apps that are bound to Autoscaler, whether autoscaling is configured for those apps, and the autoscaling limits and
     scaling factors that are configured for them, similar to the following example:
     <pre class="terminal">
     Presenting autoscaler apps in org example-org / space example-space as user
@@ -135,7 +135,7 @@ To allow autoscaling for an app:
     ```
     cf enable-autoscaling example-app
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Enabled autoscaling for app example-app for org example-org / space example-space as user
     OK
@@ -163,7 +163,7 @@ To disallow autoscaling for an app:
     ```
     cf disable-autoscaling example-app
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Disabled autoscaling for app example-app for org example-org / space example-space as user
     OK
@@ -192,7 +192,7 @@ To configure the upper and lower autoscaling limits for an app:
     ```
     cf update-autoscaling-limits example-app 20 100
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Updated autoscaling instance limits for app example-app for org example-org / space example-space as user
     OK
@@ -224,7 +224,7 @@ To configure scaling factors for an app:
     ```
     cf update-autoscaling-factors example-app 20 10
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Updated autoscaling factors for app hello-app in org example-org / space example-space as user
     OK
@@ -268,7 +268,7 @@ To view all autoscaling rules that are configured for an app:
     ```
     cf autoscaling-rules example-app
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Presenting autoscaler rules for app example-app for org example-org / space example-space as user
     Guid                                    Type             Metric   Sub Type   Service Instance   Min Threshold   Max Threshold
@@ -296,7 +296,7 @@ To create a new autoscaling rule for an app:
           <li><%= vars.company_name %> does not recommend<in the system. For
             more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based
             Autoscaling rules do not fire</a> in the Knowledge Base.</li>
-          <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
+          <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> must be at least twice
             the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the
             Gorouter. HTTP latency is not calculated between the user and the app.</li>
           <li>If you specify <code>http_latency</code> as the rule type, you must also specify a rule subtype using the <code>--subtype</code> or
@@ -336,7 +336,7 @@ Metrics](custom-metrics.html).
 To delete an autoscaling rule for an app:
 
 1. View all autoscaling rules for the app for which you want to delete an autoscaling rule by following the procedure in [View All Autoscaling
-Rules](#view-rules) above.
+Rules](#view-rules).
 
 1. From the `Guid` column of the terminal output, record the global unique identifier (GUID) of the autoscaling rule you want to delete.
 
@@ -398,7 +398,7 @@ To view a list of autoscaling events that Autoscaler has recorded for an app:
     ```
     cf autoscaling-events example-app
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Time                  Description
     2032-01-01T00:00:00Z  Scaled up from 3 to 4 instances. Current cpu of 20 is above upper threshold of 10.
@@ -434,7 +434,7 @@ To view all scheduled limit changes for an app:
     ```
     cf autoscaling-slcs example-app
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Guid                                      First Execution        Min Instances   Max Instances   Recurrence
     f08f9803-6e5d-4519-abc3-fea640300d01      2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
@@ -458,7 +458,7 @@ To create a scheduled limit change for an app:
           <ul>
             <li>You can only configure times for scheduled limit changes in UTC time.</li>
             <li>If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight Saving Time is observed in your
-              time zone, the UTC offset for your time zone may change during the year.</li>
+              time zone, the UTC offset for your time zone might change during the year.</li>
           </ul>
         </div>
       </li>
@@ -470,7 +470,7 @@ To create a scheduled limit change for an app:
       number.</li>
       <li>(Optional) Include the <code>--recurrence</code> parameter to specify the days of the week on which you want Autoscaler to re-apply the scheduled limit change,
       where <code>DAY-1</code>, <code>DAY-2</code>, <code>DAY-3</code>, and so on are the days you want to specify. Valid values are <code>Mo</code>, <code>Tu</code>, <code>We</code>, <code>Th</code>, <code>Fr</code>, <code>Sa</code>, or <code>Su</code>. For example, if
-      you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include <code>--recurrence Mo,We,Fr,Sa</code> in the above command.</li>
+      you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include <code>--recurrence Mo,We,Fr,Sa</code> in the preceding command.</li>
     </ul>
 
     For example, running the following command configures Autoscaler to create a minimum of one instance and a maximum of two instances of `example-app` for
@@ -479,7 +479,7 @@ To create a scheduled limit change for an app:
     ```
     cf create-autoscaling-slc example-app 2018-06-14T15:00:00Z 1 2 --recurrence Sa
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Created scheduled autoscaler instance limit change for app example-app in org example-org / space example-space as user
     OK
@@ -492,7 +492,7 @@ To create a scheduled limit change for an app:
 To delete a scheduled limit change for an app:
 
 1. View all scheduled limit changes for the app for which you want to delete a scheduled limit change by following the procedure in [View All Scheduled Limit
-Changes](#view-slcs) above.
+Changes](#view-slcs).
 
 1. From the `Guid` column of the terminal output, record the GUID of the scheduled limit change you want to delete.
 
@@ -566,7 +566,7 @@ To configure Autoscaler using a manifest file:
             <code>TIME</code> is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, <code>2032-01-01T20:00:00Z</code>.
             <p class='note'>
               <strong>Note:</strong> If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight
-              Saving Time is observed in your time zone, the UTC offset for your time zone may change during the year.
+              Saving Time is observed in your time zone, the UTC offset for your time zone might change during the year.
             </p>
           </li>
           <li><code>SCHEDULED-LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the
@@ -600,7 +600,7 @@ To configure Autoscaler using a manifest file:
     ```
     cf configure-autoscaling example-app autoscaler-manifest.yml
     ```
-    The above command returns output similar to the following example:
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Setting autoscaler settings for app example-app for org example-org / space example-space as user
     OK

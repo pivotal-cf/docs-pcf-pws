@@ -8,9 +8,9 @@ This topic describes how to use App Autoscaler for scaling your apps in a produc
 
 ## <a id='overview'></a> Overview of Autoscaling in a Production Environment
 
-When using Autoscaler to scale an app in a production environment, you should consider your goals for the app.
+When using Autoscaler to scale an app in a production environment, you must consider your goals for the app.
 
-For example, you may want your app to be capable of processing a certain number of business transactions per second. Each of those transactions may be
+For example, you might want your app to be capable of processing a certain number of business transactions per second. Each of those transactions might be
 comprised of multiple HTTP requests to the app itself, as well as to services and other apps in your TAS for VMs deployment. With this number of HTTP
 requests, you can determine how many instances of each app are necessary to allow your app to process your desired number of business transactions per
 second. You can then use this information to create effective autoscaling rules with Autoscaler.
@@ -35,7 +35,7 @@ the minimum number of instances to which Autoscaler can scale an app down, and t
 can scale an app up. Setting appropriate upper and lower scaling limits ensures that Autoscaler does not create too few or too many app instances.
 
 Apps often have dependencies on an external app or service that can constrain Autoscaler's ability to scale app instances effectively. Because of this,
-scaling instances up past a certain number may not address problems you encounter until you address issues within those dependencies. For example, if all of
+scaling instances up past a certain number might not address problems you encounter until you address issues within those dependencies. For example, if all of
 your app instances use a single shared MySQL service instance, scaling the number of instances up might cause them to reach the maximum number of connections
 allowed by MySQL. You must address this constraint before you can scale your app further.
 
@@ -126,13 +126,13 @@ scale_.
 You can define rules for Autoscaler to scale your app instances up or down using a particular scaling metric.
 
 Initially, VMware recommends that you define a single autoscaling rule using a scaling metric such as **HTTP Latency** or **RabbitMQ Queue Depth**. At a later
-time, it may be appropriate to define more than one autoscaling rule for the same app.
+time, it might be appropriate to define more than one autoscaling rule for the same app.
 
 The following list describes two of the default scaling metrics you can select when you define an autoscaling rule for an app:
 
 * **HTTP Latency:** Use this scaling metric if your app receives HTTP requests directly from the Gorouter, and you want to scale the number of app instances
 up as the average latency of the requests increases. Before choosing this metric as your scaling metric, consider whether scaling your app might increase HTTP
-latency. For example, if additional app instances must use the same external resource, such as a MySQL service instance or another app, this may increase HTTP
+latency. For example, if additional app instances must use the same external resource, such as a MySQL service instance or another app, this might increase HTTP
 latency. If Autoscaler scales the number of app instances up, and HTTP latency is still aboverthe maximum metric threshold you configured because all app
 instances rely on the same external resource, Autoscaler continues to create more app instances to no effect.
 
@@ -144,7 +144,7 @@ You can also create custom autoscaling rules using other metrics.
 If your app deployment is comprised of multiple TAS for VMs apps, consider using the same scaling metric for each app. Using the same scaling metric across
 all of the apps that are part of your app deployment can allow you to understand the scaling behavior and needs of your app deployment.
 
-<p class='note'><strong>Note</strong> If the autoscaling metric thresholds you configured are too low, scaling the number of app instances up may not be
+<p class='note'><strong>Note</strong> If the autoscaling metric thresholds you configured are too low, scaling the number of app instances up might not be
   enough to bring the scaling metric back as follows.</p>
 
 To define autoscaling rules for Autoscaler, see [Add or Delete Scaling Rules](using-autoscaler.html#metric) in _About App Autoscaler_ and [Create an
@@ -170,12 +170,12 @@ app with a scale-up factor of `20` and a scale-down factor of `10`, Autoscaler s
 instances at a time.
 
 When you define a larger scale-up factor for an app, Autoscaler scales the number of app instances up more quickly in response to the scaling metric you
-defined reaching its maximum metric threshold. Because of this, using a particular scaling metric for the app may cause or exacerbate performance issues for
+defined reaching its maximum metric threshold. Because of this, using a particular scaling metric for the app might cause or exacerbate performance issues for
 the app in some circumstances. For example, if networking issues or an unresponsive downstream service causes greater HTTP latency, configuring Autoscaler to
-scale app instances up by a larger number may cause HTTP latency to worsen even more.
+scale app instances up by a larger number might cause HTTP latency to worsen even more.
 
 In many production deployments, the scale-down factor for an app is lower than the scale-up factor. This allows an app to scale up faster, then return to an
-earlier baseline number of instances more slowly by stepping down in smaller increments. You may want to configure a lower scale-down factor if you do not
+earlier baseline number of instances more slowly by stepping down in smaller increments. You might want to configure a lower scale-down factor if you do not
 want Autoscaler to scale the number of app instances down too quickly, and you are less concerned about freeing up resources.
 
 ### <a id='configure-scaling-factors'></a> Configure Scaling Factors
@@ -207,9 +207,9 @@ To configure scaling factors for an app:
 To ensure that you have configured effective autoscaling for an app, VMware recommends that you load-test the app. Load-testing demonstrates that Autoscaler
 scales the number of app instances as expected when the scaling metric you define for the app increases or decreases.
 
-To load-test an app effectively, you should do so in an environment that is as similar to your production deployment as possible.
+To load-test an app effectively, you must do so in an environment that is as similar to your production deployment as possible.
 
-Before you begin load-testing an app, you should plan your load test with the operator or team that operates your TAS for VMs deployment. This ensures that
+Before you begin load-testing an app, you can plan your load test with the operator or team that operates your TAS for VMs deployment. This ensures that
 they are accepting of and can plan for the load you intend to generate. Additionally, VMware recommends working with the operator or team that operates your
 TAS for VMs deployment during your load test, because load-testing can sometimes reveal performance issues within your TAS for VMs deployment.
 
@@ -243,13 +243,13 @@ To monitor the autoscaling events that Autoscaler records as it scales an app:
 
 For some scaling metrics, you can determine whether Autoscaler is using the correct metric values by comparing the load that your load-testing tool generates
 to the metric values that Autoscaler records. If these two values are not the same, such as if Autoscaler reports a lower number of requests per second than
-your load-testing tool generated, this may indicate that you need to further scale TAS for VMs components on which Autoscaler relies.
+your load-testing tool generated, this might indicate that you need to further scale TAS for VMs components on which Autoscaler relies.
 
 For more information about TAS for VMs components you can scale to better support Autoscaler, see [Operating Autoscaler](operating-autoscaler.html).
 
 ### <a id='confirm-efficacy'></a> Confirming Scaling Efficacy
 
-For each autoscaling step that you test, you should confirm the following:
+For each autoscaling step that you test, you must confirm the following:
 
 * Autoscaler records when a scaling metric has crossed the maximum metric threshold
 
@@ -258,6 +258,6 @@ For each autoscaling step that you test, you should confirm the following:
 * Creating more app instances brings the scaling metric back to the maximum metric threshold
 
 If Autoscaler continues to scale app instances up, but the increased number of app instances does not bring the scaling metric back to below the maximum
-metric threshold, another part of your TAS for VMs deployment may be experiencing issues that are causing the value of the scaling metric to remain above the
+metric threshold, another part of your TAS for VMs deployment might be experiencing issues that are causing the value of the scaling metric to remain above the
 maximum metric threshold. You might be able to identify and troubleshoot the issue by monitoring the app or working with the operator or team that operates
 your TAS for VMs deployment.

@@ -3,7 +3,7 @@ title: Troubleshooting App Autoscaler
 owner: App Autoscaler
 ---
 
-This topic describes how to troubleshoot App Autoscaler.
+This topic tells you how to troubleshoot App Autoscaler.
 
 
 ## <a id='no-scale-up'></a> Autoscaler Fails to Scale an App When Expected
@@ -209,7 +209,7 @@ To see whether autoscaling is configured for the apps you want to scale:
 Autoscaler might fail to scale an app if one of the TAS for VMs components on which it depends is failing or underscaled. For more information about these
 components, see [Failure Modes](observability.html#failure-modes) in _Using Debug Logs for App Autoscaler_.
 
-These components may need to be restarted or scaled up before Autoscaler can scale your app.<% if vars.platform_code != 'OFFLINE' %> To restart TAS for VMs components, see [Stopping and Starting
+These components might need to be restarted or scaled up before Autoscaler can scale your app.<% if vars.platform_code != 'OFFLINE' %> To restart TAS for VMs components, see [Stopping and Starting
 Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Stopping and Starting Virtual Machines_. To scale TAS for VMs components up, see
 [Scaling Up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
 
@@ -258,8 +258,8 @@ the cause, see the following sections:
 
 ### <a id='check-metrics'></a> Review Scaling Metric Values
 
-The values of the scaling metric you configured Autoscaler to use for your app may be lower than you expect. For example, if you are load-testing your app and
-your load-testing tool is not working correctly, you may be generating less load on the app than you expect. For more information about load-testing an app,
+The values of the scaling metric you configured Autoscaler to use for your app might be lower than you expect. For example, if you are load-testing your app and
+your load-testing tool is not working correctly, you might be generating less load on the app than you expect. For more information about load-testing an app,
 see [Load-Testing Your App](productionizing-autoscaler.html#load-testing) in _Using App Autoscaler in Production_.
 
 To review the values of your scaling metric, review the observability service that you use for your TAS for VMs deployment.
@@ -275,7 +275,7 @@ Modes](observability.html#failure-modes) in _Using Debug Logs for App Autoscaler
 #### <a id='log-cache-underscaled'></a> Log Cache is Underscaled
 
 When the averaged metric values that you see in autoscaling events are lower than you expect, it often means that Log Cache is underscaled. If Log Cache is
-underscaled, Autoscaler may not be able to retrieve all of the metrics associated with your app. When Autoscaler cannot retrieve enough metrics, it cannot
+underscaled, Autoscaler might not be able to retrieve all of the metrics associated with your app. When Autoscaler cannot retrieve enough metrics, it cannot
 calculate an accurate average metric value to record in autoscaling events.
 
 To determine whether Log Cache might be underscaled:
@@ -364,7 +364,7 @@ the app instance to be healthy. Diego then registers a route to the app instance
 instance.
 
 However, the app instance having passed all health checks might not indicate that the app instance is ready to respond to requests. Depending on the type of
-health check that you configured the app, the Gorouter may begin to route requests to app instances that are not ready to receive requests.
+health check that you configured the app, the Gorouter might begin to route requests to app instances that are not ready to receive requests.
 
 The following list describes when the Gorouter begins routing requests to an app instance after each type of health check:
 
