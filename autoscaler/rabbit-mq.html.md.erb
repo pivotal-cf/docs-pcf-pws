@@ -9,7 +9,7 @@ This topic tells you about the RabbitMQ queue depth metric and how to configure 
 ## <a id='overview'></a> Overview of RabbitMQ Queue Depth
 
 RabbitMQ is a message broker that allows apps to communicate using message queues. _Queue depth_ is the number of messages currently in a RabbitMQ queue that
-are waiting to be de-queued. You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric for apps that consume messages from RabbitMQ
+are waiting to be dequeued. You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric for apps that consume messages from RabbitMQ
 queues for processing. When Autoscaler scales these apps up, they can process these RabbitMQ queues more quickly.
 
 You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app in the following ways:

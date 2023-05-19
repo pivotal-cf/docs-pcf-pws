@@ -21,14 +21,13 @@ milliseconds.
 You can configure Autoscaler to use HTTP latency as the scaling metric for an app in the following ways:
 
 * Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring HTTP Latency as the Scaling Metric for an App Through the
-cf CLI](#cf-cli-config) below.
+cf CLI](#cf-cli-config).
 
-* Through Apps Manager. For more information, see [Configure HTTP Latency as the Scaling Metric for an App Through Apps Manager](#apps-manager-config) below.
+* Through Apps Manager. For more information, see [Configure HTTP Latency as the Scaling Metric for an App Through Apps Manager](#apps-manager-config).
 
-To monitor when Autoscaler scales an app based on changes in HTTP latency, see [Reviewing Autoscaling Events for Changes in HTTP Latency](#review-events)
-below.
+To monitor when Autoscaler scales an app based on changes in HTTP latency, see [Reviewing Autoscaling Events for Changes in HTTP Latency](#review-events).
 
-For information about use cases that may complicate or prevent you from configuring HTTP latency as the scaling metric for an app, see [Special Considerations
+For information about use cases that might complicate or prevent you from configuring HTTP latency as the scaling metric for an app, see [Special Considerations
 for Using HTTP Latency as a Scaling Metric](#special-considerations) as follows.
 
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
@@ -51,8 +50,8 @@ You can configure configure Autoscaler to use HTTP latency as the scaling metric
 
 * Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) as follows.
 
-For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
-Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
+For the procedures in this section, you must use the App Autoscaler CLI plug-in. To download and install the App Autoscaler CLI plug-in, see [Install the App
+Autoscaler CLI Plug-in](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
 
 ### <a id='cf-cli-manifest-config'></a> Configure an Autoscaling Rule Using a Manifest File
 
@@ -262,9 +261,9 @@ Manager](../../operating/console-login.html).<% end %>
 
 1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
 
-1. Click **Add rule**. The **Select type** dropdown appears.
+1. Click **Add rule**. The **Select type** drop-down menu appears.
 
-1. From the **Select type** dropdown, select **HTTP Latency**. More configuration fields appear as follows.
+1. From the **Select type** drop-down menu, select **HTTP Latency**. More configuration fields appear as follows.
 
 1. For **Scale down if less than**, enter in milliseconds the minimum HTTP latency threshold you want to configure. If the average latency of HTTP requests
 falls below this number, Autoscaler scales the number of app instances down.

@@ -15,7 +15,7 @@ Using Autoscaler to scale your apps can cause the workload that your TAS for VMs
 provisioning resources for a TAS for VMs deployment that includes Autoscaler is more challenging than provisioning resources for a TAS for VMs deployment in
 which apps are static or scaled manually.
 
-For information about the TAS for VMs components that you may need to adjust to accommodate autoscaling, see the sections as follows:
+For information about the TAS for VMs components that you might need to adjust to accommodate autoscaling, see the sections as follows:
 
 * [Diego Cells](#diego-cells)
 
@@ -28,7 +28,7 @@ For information about the TAS for VMs components that you may need to adjust to 
 
 ## <a id='diego-cells'></a> Diego Cells
 
-Before you configure Autoscaler to scale your apps, you should ensure that your Diego Cells have enough resources to meet the autoscaling demands of your
+Before you configure Autoscaler to scale your apps, you must ensure that your Diego Cells have enough resources to meet the autoscaling demands of your
 apps. To ensure that your Diego Cells can accommodate autoscaling, VMware recommends monitoring the total available memory, total available disk, and
 available free chunks across all Diego Cells in your TAS for VMs deployment.
 
@@ -41,7 +41,7 @@ documentation](https://docs.wavefront.com/integrations_tas_alerts.html).
 ## <a id='quotas'></a> Resource Quotas
 
 Quota plans ensure that inefficient autoscaling rules or malicious requests do not cause Autoscaler to scale beyond the capabilities of your TAS for VMs
-deployment. You should not configure Autoscaler to scale apps without ensuring that the space and org in which your app is deployed have quota plans that can
+deployment. You cannot configure Autoscaler to scale apps without ensuring that the space and org in which your app is deployed have quota plans that can
 accommodate your autoscaling needs.
 
 When configuring Autoscaler to scale an app, you must ensure that the resource quotas allocated to the app are sufficient to allow Autoscaler to scale the
@@ -61,13 +61,12 @@ the apps you want Autoscaler to scale. The following descriptions of each scenar
 * You could provision enough resources to allow all apps to use their maximum allocated resource quotas simultaneously. However, you risk over-provisioning
 resources for your TAS for VMs deployment.
 
-* You could provision fewer resources, which allows you to provision more Diego Cells from the IaaS on which your Ops Manager foundation is deployed if you
-should require them. However, you risk Autoscaler being unable to accommodate scaling requests.
+* You could provision fewer resources, which allows you to provision more Diego Cells from the IaaS on which your Ops Manager foundation is deployed if you require them. However, you risk Autoscaler being unable to accommodate scaling requests.
 
 ### <a id='quota-reached'></a> Apps That Reach Resource Quotas
 
-You may have already configured Autoscaler to scale some apps. However, if the scaling metric you configured Autoscaler to use for an app indicates that the
-number of app instances needs to be scaled up, but Autoscaler cannot scale the number of instances up further, the app may have reached its allocated quota
+You might have already configured Autoscaler to scale some apps. However, if the scaling metric you configured Autoscaler to use for an app indicates that the
+number of app instances needs to be scaled up, but Autoscaler cannot scale the number of instances up further, the app might have reached its allocated quota
 limit for one or more resources.
 
 Autoscaler does not record when resource quota limits prevent it from scaling an app. However, you can see when this occurs by configuring verbose logging for
@@ -77,7 +76,7 @@ Autoscaler. To configure verbose logging for Autoscaler, see [Configure Verbose 
 
 To configure verbose logging for Autoscaler:
 
-1. Navigate to the Ops Manager Installation Dashboard.
+1. Go to the Ops Manager Installation Dashboard.
 
 1. Click the **VMware Tanzu Application Service** tile.
 

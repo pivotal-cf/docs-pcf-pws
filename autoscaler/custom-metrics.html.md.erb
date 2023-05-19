@@ -20,12 +20,12 @@ You can configure Autoscaler to use a custom scaling metric for an app in the fo
 * Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring a Custom Scaling Metric for an App Through the cf
 CLI](#cf-cli-config) follows.
 
-* Through Apps Manager. For more information, see [Configure a Custom Scaling Metric for an App Through Apps Manager](#apps-manager-config) below.
+* Through Apps Manager. For more information, see [Configure a Custom Scaling Metric for an App Through Apps Manager](#apps-manager-config).
 
 To monitor when Autoscaler scales an app based on changes in a custom scaling metric, see [Reviewing Autoscaling Events for Changes in a Custom Scaling
 Metric](#review-events) follows.
 
-For information about use cases that may complicate or prevent you from configuring a custom scaling metric for an app, see [Special Considerations for Using
+For information about use cases that might complicate or prevent you from configuring a custom scaling metric for an app, see [Special Considerations for Using
 a Custom Scaling Metric](#special-considerations) follows.
 
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
@@ -259,9 +259,9 @@ Manager](../../operating/console-login.html).<% end %>
 
 1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
 
-1. Click **Add rule**. The **Select type** drop down menu appears.
+1. Click **Add rule**. The **Select type** drop-down menu appears.
 
-1. From the **Select type** dropdown, select **Custom**. More configuration fields appear as follows.
+1. From the **Select type** drop-down menu, select **Custom**. More configuration fields appear as follows.
 
 1. For **Scale down if less than**, enter the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this
 number, Autoscaler scales the number of app instances down.
