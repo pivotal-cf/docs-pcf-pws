@@ -3,10 +3,10 @@ title: Tutorial&#58; Scaling a Spring App Using a Custom Scaling Metric
 owner: Autoscaler
 ---
 
-This tutorial describes how to configure App Autoscaler to scale a sample Spring app, `java-spring-security`, based on a custom scaling metric.
+This tutorial tells you how to configure App Autoscaler to scale a sample Spring app, `java-spring-security`, based on a custom scaling metric.
 
 
-## <a id='overview'></a> Overview
+## <a id='overview'></a> Overview on using App Autoscaler to scale a Spring app
 
 In a <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) deployment, Autoscaler can automatically scale apps based on the custom scaling metrics you
 configure.
@@ -94,9 +94,7 @@ This section describes how the app is _instrumented_. Instrumentation refers to 
     git clone git@github.com:pivotal-cf/metric-registrar-examples.git
     ```
 
-	```console
-	private MeterRegistry registry;
-	private AtomicLong custom;
+1. Go to the `java-spring-security` app directory by running:
 
     ```
     cd metric-registrar-examples/java-spring-security
@@ -143,7 +141,7 @@ This section describes how the app is _instrumented_. Instrumentation refers to 
 1. From the `routes` section of the terminal output, record the URL of the `java-spring-security` app. In the example output in the previous step, this URL is
 `tutorial-example-random-route.cfapps.io`.
 
-1. In a browser window, navigate to the URL you recorded in the previous step. The following screenshot shows the UI of the `java-spring-security` app:
+1. In a browser, go to the URL you recorded in the eariler step. The following screenshot shows the UI of the `java-spring-security` app:
     <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px">
     <br>
     The `java-spring-security` app UI includes the following buttons:
@@ -221,7 +219,7 @@ To create an autoscaling rule for the `java-spring-security` app that uses the `
 1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps
 Manager](../../operating/console-login.html).<% end %>
 
-1. In Apps Manager, navigate to the `java-spring-security` app overview. For more information, see [View App Overview](../../console/manage-apps.html#view) in
+1. In Apps Manager, go to the `java-spring-security` app overview. For more information, see [View App Overview](../../console/manage-apps.html#view) in
 _Managing Apps and Service Instances Using Apps Manager_.
 
 1. Register the metrics endpoint of the app.
@@ -259,7 +257,7 @@ goes above the upper scaling limit or below the lower scaling limit that you con
 
 To trigger a scaling action:
 
-1. In a browser window, enter the URL of the `java-spring-security` app UI that you retrieved in [Push the Sample App](#push).
+1. In a browser, enter the URL of the `java-spring-security` app UI that you retrieved in [Push the Sample App](#push) above.
 
 	<p class="note"><strong>Note</strong>: If you do not see output similar to the previous example, Metric Registrar might not be enabled in your <%= vars.platform_name %> installation. Contact your platform operator to confirm.</p>
 
@@ -302,7 +300,7 @@ Now that you have pushed an app that emits a custom metric and configured autosc
 
 To trigger scaling:
 
-1. Navigate to the web UI of the app. Use the same URL from [Push the Sample App](#push).
+1. Go to the web UI of the app. Use the same URL from [Push the Sample App](#push).
 
 1. Click **Increment Custom gauge** enough times to bring the custom metric  over the threshold of `5` that you set in the scaling rule. You can check the value of the `custom` metric using the **See Metrics** button.
 

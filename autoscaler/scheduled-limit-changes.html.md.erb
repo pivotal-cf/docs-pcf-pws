@@ -191,13 +191,13 @@ bitmasked values for each day of the week:
     </table>
     For example:
     * To apply the scheduled limit change on weekdays, use the following calculation: `32+16+8+4+2=62`. In your Autoscaler manifest, the value of `recurrence`
-    should be `62`.
-    * To apply the scheduled limit change on weekends, use the following calculation: `64+1=54`. In your Autoscaler manifest, the value of `recurrence` should
+    must be `62`.
+    * To apply the scheduled limit change on weekends, use the following calculation: `64+1=54`. In your Autoscaler manifest, the value of `recurrence` must
     be `65`.
     * To apply the scheduled limit change every day, use the following calculation: `64+32+16+8+4+2+1=127`. In your Autoscaler manifest, the value of
-    `recurrence` should be `127`.
+    `recurrence` must be `127`.
     * To apply the scheduled limit change on Monday, Wednesday, and Friday, use the following calculation: `32+8+2=42`. In your Autoscaler manifest, the value
-    of `recurrence` should be `42`.
+    of `recurrence` must be `42`.
 
 The following example manifest configures Autoscaler to scale the number of app instances down every Friday at 8 PM UTC, then scale them back up every Monday
 at 4 AM UTC:
