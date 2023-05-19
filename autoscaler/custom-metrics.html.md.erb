@@ -3,7 +3,7 @@ title: Using Custom Scaling Metrics
 owner: Autoscaler
 ---
 
-This topic describes how to configure App Autoscaler to use custom metrics when scaling apps.
+This topic tells you how to configure App Autoscaler to use custom metrics when scaling apps.
 
 For information about how to emit custom metrics, see [Using Metric Registrar](../../metric-registrar/using.html).
 
@@ -26,8 +26,8 @@ CLI](#cf-cli-config).
 To monitor when Autoscaler scales an app based on changes in a custom scaling metric, see [Reviewing Autoscaling Events for Changes in a Custom Scaling
 Metric](#review-events).
 
-For information about use cases that may complicate or prevent you from configuring a custom scaling metric for an app, see [Special Considerations for Using
-a Custom Scaling Metric](#special-considerations).
+For information about use cases that might complicate or prevent you from configuring a custom scaling metric for an app, see [Special Considerations for Using
+a Custom Scaling Metric](#special-considerations) follows.
 
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
 App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
@@ -263,9 +263,9 @@ Manager](../../operating/console-login.html).<% end %>
 
 1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
 
-1. Click **Add rule**. The **Select type** dropdown appears.
+1. Click **Add rule**. The **Select type** drop-down menu appears.
 
-1. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
+1. From the **Select type** drop-down menu, select **Custom**. More configuration fields appear as follows.
 
 1. For **Scale down if less than**, enter the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this
 number, Autoscaler scales the number of app instances down.
