@@ -3,7 +3,7 @@ title: Tutorial&#58; Scaling a Spring App Using a Custom Scaling Metric
 owner: Autoscaler
 ---
 
-This tutorial dtells you how to configure App Autoscaler to scale a sample Spring app, `java-spring-security`, based on a custom scaling metric.
+This tutorial tells you how to configure App Autoscaler to scale a sample Spring app, `java-spring-security`, based on a custom scaling metric.
 
 
 ## <a id='overview'></a> Overview
@@ -58,9 +58,11 @@ Registrar](../../metric-registrar/index.html#configure) in _Metric Registrar and
 Roles](../../cf-cli/getting-started.html#managing-roles) in _Getting Started with the cf CLI_.
   <p class='note'><strong>Note:</strong> You must have <code>SpaceDeveloper</code> permissions in at least one space.</p>
 
-* An installation of the Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html).
+* The Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html).
 
-* A terminal.
+* Git.
+
+* A Java 17 JRE.
 
 
 ## <a id='review'></a> Review the Sample App
@@ -77,28 +79,15 @@ For more details about the code, see the sections as follows:
 
 ### <a id='dependencies'></a> Dependencies
 
-In the code for the `java-spring-security` app, the `build.gradle` file lists the following app dependencies:
+In the code for the `java-spring-security` app, the `build.gradle` file lists the app dependencies. Those dependencies include:
 
-```
-dependencies {
-    implementation('io.micrometer:micrometer-registry-prometheus')
-    implementation('org.springframework.boot:spring-boot-starter-actuator')
-    implementation('org.springframework.boot:spring-boot-starter-security')
-    implementation('org.springframework.boot:spring-boot-starter-web')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testImplementation('org.springframework.security:spring-security-test')
-}
-```
-
-The previous list includes the following dependencies:
-
-* The Micrometer Prometheus library has the following features:
+* Micrometer Prometheus, which has the following features:
 
   * Creates a metrics endpoint at `/actuator/prometheus` in a format that the Metric Registrar supports.
 
   * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) following.
 
-* The Spring Security dependency, which exposes the metric endpoints so that Metric Registrar can access them.
+* Spring Security, which exposes the metric endpoints so that Metric Registrar can access them.
 
 To view the `build.gradle` file, see [build.gradle](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/build.gradle) on
 GitHub.
@@ -153,7 +142,7 @@ To push the `java-spring-security` app:
 1. In a terminal window, clone the Git repository that contains the `java-spring-security` app by running:
 
     ```
-    git clone git@github.com:pivotal-cf/metric-registrar-examples.git
+    git clone https://github.com/pivotal-cf/metric-registrar-examples.git
     ```
 
 1. Go to the `java-spring-security` app directory by running:
