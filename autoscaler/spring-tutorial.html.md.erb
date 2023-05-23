@@ -59,9 +59,11 @@ to Apps Manager](../../operating/console-login.html).<% end %>
 Roles](../../cf-cli/getting-started.html#managing-roles) in _Getting Started with the cf CLI_.
   <p class='note'><strong>Note:</strong> You must have <code>SpaceDeveloper</code> permissions in at least one space.</p>
 
-* An installation of the Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html).
+* The Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html).
 
-* A terminal.
+* Git.
+
+* A Java 17 JRE.
 
 ## <a id='review'></a> Review the Sample App
 
@@ -77,37 +79,22 @@ For more details about the code, see the following sections:
 
 ### <a id='dependencies'></a> Dependencies
 
-In the code for the `java-spring-security` app, the `build.gradle` file lists the following app dependencies:
+In the code for the `java-spring-security` app, the `build.gradle` file lists the app dependencies. Those dependencies include:
 
-```
-dependencies {
-    implementation('io.micrometer:micrometer-registry-prometheus')
-    implementation('org.springframework.boot:spring-boot-starter-actuator')
-    implementation('org.springframework.boot:spring-boot-starter-security')
-    implementation('org.springframework.boot:spring-boot-starter-web')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testImplementation('org.springframework.security:spring-security-test')
-}
-```
-
-
-The dependencies include the [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus) library, which does the following:
-* Creates a metrics endpoint at `/actuator/prometheus` in a format supported by the Metric Registrar.
-* Allows you to instrument the app by creating new metrics.
-  See [Instrumentation](#instrumentation).
+* [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus), which does the following:
 
   * Creates a metrics endpoint at `/actuator/prometheus` in a format that the Metric Registrar supports.
 
   * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) below.
 
-* The Spring Security dependency, which exposes the metric endpoints so that Metric Registrar can access them.
+* Spring Security, which exposes the metric endpoints so that Metric Registrar can access them.
 
 This section describes how the app is _instrumented_. Instrumentation refers to how metrics have been added for a particular function.
 
 1. In a terminal window, clone the Git repository that contains the `java-spring-security` app by running:
 
     ```
-    git clone git@github.com:pivotal-cf/metric-registrar-examples.git
+    git clone https://github.com/pivotal-cf/metric-registrar-examples.git
     ```
 
 1. Navigate to the `java-spring-security` app directory by running:
