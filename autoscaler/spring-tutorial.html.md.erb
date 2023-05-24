@@ -79,9 +79,10 @@ For more details about the code, see the following sections:
 
 ### <a id='dependencies'></a> Dependencies
 
-In the code for the `java-spring-security` app, the `build.gradle` file lists the app dependencies. Those dependencies include:
+The dependencies include the [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus) library, which does the following:
 
-* [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus), which does the following:
+* Creates a metrics endpoint at `/actuator/prometheus` in a format supported by the Metric Registrar.
+* Allows you to instrument the app by creating new metrics. See [Instrumentation](#instrumentation) below.
 
   * Creates a metrics endpoint at `/actuator/prometheus` in a format that the Metric Registrar supports.
 
@@ -207,9 +208,9 @@ In order for an app to emit custom metrics, you must first register the app as a
 	<img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
 	It has the following buttons:
 	<ul>
-	<li> **Increment Custom gauge** and **Decrement custom gauge**:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You use these buttons later when you [Trigger Scaling](#trigger).</li>
-	<li> **See the metrics**:<br> This button opens `/actuator/prometheus` in your browser. You can use it to view values for `custom` and all the metrics produced by Micrometer. This page is important because Metric Registrar uses it to collect metrics.</li>
-	<li> **Increment Simple counter** and **Call an endpoint with high latency**:<br> You can ignore these buttons, as they are not used in this tutorial. To learn more about what they do, see the app code.</li>
+	<li> <strong>Increment Custom gauge</strong> and <strong>Decrement custom gauge</strong>:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You use these buttons later when you [Trigger Scaling](#trigger).</li>
+	<li> <strong>See the metrics</strong>:<br> This button opens `/actuator/prometheus` in your browser. You can use it to view values for `custom` and all the metrics produced by Micrometer. This page is important because Metric Registrar uses it to collect metrics.</li>
+	<li> <strong>Increment Simple counter</strong> and <strong>Call an endpoint with high latency</strong>:<br> You can ignore these buttons, as they are not used in this tutorial. To learn more about what they do, see the app code.</li>
 	</ul>
 
 
