@@ -64,30 +64,10 @@ Roles](../../cf-cli/getting-started.html#managing-roles) in _Getting Started wit
 
 * A Java 17 JRE.
 
+The dependencies include the [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus) library, which does the following:
 
-## <a id='review'></a> Review the Sample App
-
-To review the code for the sample app, `java-spring-security`, see the [metric-registrar-examples](https://github.com/pivotal-cf/metric-registrar-examples/)
-repository on GitHub. This sample app is a Spring app with a user interface (UI) that includes several buttons to call different endpoints. Some of
-these endpoints are instrumented to produce metrics.
-
-For more details about the code, see the sections as follows:
-
-* [Dependencies](#dependencies)
-
-* [Instrumentation](#instrumentation)
-
-### <a id='dependencies'></a> Dependencies
-
-In the code for the `java-spring-security` app, the `build.gradle` file lists the app dependencies. Those dependencies include:
-
-* Micrometer Prometheus, which has the following features:
-
-  * Creates a metrics endpoint at `/actuator/prometheus` in a format that the Metric Registrar supports.
-
-  * Allows you to instrument the `java-spring-security` app by creating new metrics. For more information, see [Instrumentation](#instrumentation) following.
-
-* Spring Security, which exposes the metric endpoints so that Metric Registrar can access them.
+* Creates a metrics endpoint at `/actuator/prometheus` in a format supported by the Metric Registrar.
+* Allows you to instrument the app by creating new metrics. See [Instrumentation](#instrumentation) below.
 
 To view the `build.gradle` file, see [build.gradle](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/build.gradle) on
 GitHub.
@@ -178,16 +158,14 @@ To push the `java-spring-security` app:
 1. From the `routes` section of the terminal output, record the URL of the `java-spring-security` app. In the example output in the previous step, this URL is
 `tutorial-example-random-route.cfapps.io`.
 
-1. In a browser, go to the URL you recorded in the eariler step. The following screenshot shows the UI of the `java-spring-security` app:
-    <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px">
-    <br>
-    The `java-spring-security` app UI includes the following buttons:
-    * **Increment Custom gauge:** Causes the `custom` metric to increase by a value of `1`. You use this button in [Trigger Scaling](#trigger) following.
-    * **Decrement custom gauge:** Causes the `custom` metric to decrease by a value of `1`.
-    * **See the metrics:** Opens `/actuator/prometheus` in your browser. The Metric Registrar uses this page to collect metrics. You can use this page to view
-    the values of the `custom` metric and all metrics from the Micrometer Prometheus library.
-    * **Increment Simple counter** and **Call an endpoint with high latency:** These buttons are not used in this tutorial. To learn more about the functions
-    of these buttons, see [java-spring-security](https://github.com/pivotal-cf/metric-registrar-examples/tree/master/java-spring-security) on GitHub.
+1. In a browser, navigate to the app URL. The app UI looks like what you see in the image below.
+	<img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
+	It has the following buttons:
+	<ul>
+	<li> <strong>Increment Custom gauge</strong> and <strong>Decrement custom gauge</strong>:<br> These buttons cause the custom metric to increase or decrease by a value of `1`. You use these buttons later when you [Trigger Scaling](#trigger).</li>
+	<li> <strong>See the metrics</strong>:<br> This button opens `/actuator/prometheus` in your browser. You can use it to view values for `custom` and all the metrics produced by Micrometer. This page is important because Metric Registrar uses it to collect metrics.</li>
+	<li> <strong>Increment Simple counter</strong> and <strong>Call an endpoint with high latency</strong>:<br> You can ignore these buttons, as they are not used in this tutorial. To learn more about what they do, see the app code.</li>
+	</ul>
 
 
 ## <a id='register-endpoint'></a> Register a Custom Metrics Endpoint
