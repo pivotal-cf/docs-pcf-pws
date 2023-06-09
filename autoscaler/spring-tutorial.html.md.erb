@@ -6,35 +6,32 @@ owner: Autoscaler
 This tutorial shows you how to scale a sample Spring app based on a custom metric in
 <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>).
 
-## <a id="overview"></a> Overview
-
 In a <%= vars.app_runtime_abbr %> deployment, Autoscaler can automatically scale apps based on custom metrics.
 The following table describes the main components involved in this workflow and
 how they correspond to steps in this tutorial.
 
 <table>
-	<tr>
-		<th>Component</th>
-		<th>Description</th>
-		<th style="width: 33%">Related Tutorial Steps</th>
-	</tr>
-	<tr>
-		<td>App</td>
-		<td>The app must emit custom metrics by exposing a Prometheus endpoint. This tutorial includes a sample Spring app, <code>java-spring-security</code>, that emits such metrics. For more information about Prometheus, see the <a href="https://prometheus.io/docs/introduction/overview/#what-is-prometheus">Prometheus documentation</a>.</td>
-		<td><a href="#review">Review the Sample App</a> and <a href="#push">Push the Sample App</a></td>
-	</tr>
-	<tr>
-		<td>Metric Registrar</td>
-		<td>The Metric Registrar is a component of <%= vars.app_runtime_abbr %> that allows you to export custom app metrics to Loggregator. You issue commands to the Metric Registrar through the Metric Registrar CLI plug-in. For more information about the Metric Registrar, see <a href="../../metric-registrar/index.html">Metric Registrar and Custom App Metrics</a>.</td>
-		<td><a href="#register-endpoint">Register a Custom Metrics Endpoint</a></td>
-	</tr>
-	<tr>
-		<td>App Autoscaler</td>
-		<td>Autoscaler is a service integrated with Apps Manager that automatically scales apps in your <%= vars.app_runtime_abbr %> deployment based on the scaling metrics or schedule that you configure. For more information, see <a href="../autoscaler/using-autoscaler.html">Scaling an App Using App Autoscaler</a>.</td>
-		<td><a href="#create-rules">Create and Autoscaling Rule</a> and <a href="#trigger">Trigger Scaling</a></td>
-	</tr>
+ <tr>
+  <th>Component</th>
+  <th>Description</th>
+  <th style="width: 33%">Related Tutorial Steps</th>
+ </tr>
+ <tr>
+  <td>App</td>
+  <td>The app must emit custom metrics by exposing a Prometheus endpoint. This tutorial includes a sample Spring app, <code>java-spring-security</code>, that emits such metrics. For more information about Prometheus, see the <a href="https://prometheus.io/docs/introduction/overview/#what-is-prometheus.html">Prometheus documentation</a>.</td>
+  <td><a href="#review">Review the Sample App</a> and <a href="#push">Push the Sample App</a></td>
+ </tr>
+ <tr>
+  <td>Metric Registrar</td>
+  <td>The Metric Registrar is a component of <%= vars.app_runtime_abbr %> that allows you to export custom app metrics to Loggregator. You issue commands to the Metric Registrar through the Metric Registrar CLI plug-in. For more information about the Metric Registrar, see <a href="../../metric-registrar/index.html">Metric Registrar and Custom App Metrics</a>.</td>
+  <td><a href="#register-endpoint">Register a Custom Metrics Endpoint</a></td>
+ </tr>
+ <tr>
+  <td>App Autoscaler</td>
+  <td>Autoscaler is a service integrated with Apps Manager that automatically scales apps in your <%= vars.app_runtime_abbr %> deployment based on the scaling metrics or schedule that you configure. For more information, see <a href="../autoscaler/using-autoscaler.html">Scaling an App Using App Autoscaler</a>.</td>
+  <td><a href="#create-rules">Create and Autoscaling Rule</a> and <a href="#trigger">Trigger Scaling</a></td>
+ </tr>
 </table>
-
 
 ## <a id="prerequisites"></a> Prerequisites
 
@@ -48,7 +45,7 @@ This tutorial requires the following:
 * A Java 17 JRE.
 * Access to a command-line for running commands such as cf CLI and git commands.
 
-## <a id="review"></a> Review the Sample App
+## <a id="review"></a> Reviewing the sample app
 
 To review the code for the sample app, `java-spring-security`, see the [metric-registrar-examples](https://github.com/pivotal-cf/metric-registrar-examples/)
 repository on GitHub. This sample app is a Spring app with a simple user interface (UI) that includes several buttons to call different endpoints. Some of
@@ -60,7 +57,7 @@ You can see what the UI looks like in the [Push the Sample App](#sample-app-ui) 
 
 You can view the app dependencies in the [build.gradle](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/build.gradle) file.
 
-The dependencies include [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus), which creates a prometheus metrics endpoint at `/actuator/prometheus` that can be scraped by Metric Registrar. 
+The dependencies include [Micrometer Prometheus](https://micrometer.io/docs/registry/prometheus), which creates a prometheus metrics endpoint at `/actuator/prometheus` that can be scraped by Metric Registrar.
 
 ### <a id="instrumentation"></a> Instrumentation
 
@@ -70,54 +67,54 @@ See the [ExampleController.java](https://github.com/pivotal-cf/metric-registrar-
 
 * The `ExampleController` class includes a `MeterRegistry` object, which is passed and set in the constructor.
 
-	```
-	private MeterRegistry registry;
-	private AtomicLong custom;
+ ```
+ private MeterRegistry registry;
+ private AtomicLong custom;
 
-	public ExampleController(MeterRegistry registry) {
-	   this.registry = registry;
-	   this.custom = new AtomicLong(0L);
-	}
-	```
+ public ExampleController(MeterRegistry registry) {
+    this.registry = registry;
+    this.custom = new AtomicLong(0L);
+ }
+ ```
 
 * It also includes a `custom` variable that is initialized in the constructor. In the [customMetric](https://github.com/pivotal-cf/metric-registrar-examples/blob/master/java-spring-security/src/main/java/io/pivotal/metric_registrar/examples/spring_security/ExampleController.java#L29) handler, this variable gets passed to the registry and incremented or decremented.
 
-	```
-	public ResponseEntity<String> customMetric(@RequestParam(value="inc", defaultValue="") String increment) {
+ ```
+ public ResponseEntity<String> customMetric(@RequestParam(value="inc", defaultValue="") String increment) {
         AtomicLong customGauge = registry.gauge("custom", this.custom);
         if (!"".equals(increment)) {
             customGauge.incrementAndGet();
         } else {
             customGauge.decrementAndGet();
         }
-	```
+ ```
+
 	<p class="note"><strong>Note</strong>: The App Autoscaler only scales on a gauge,
            or metric, that can go up and down.
            The standard metrics of CPU, disk, HTTP throughput, and HTTP latency are all gauges.
         </p>
 
-
-## <a id="push"></a> Push the Sample App
+## <a id="push"></a> Pushing the sample app
 
 To push the sample app:
 
 1. Open a terminal window and clone the git repository that contains the sample app:
 
-	```
-	git clone https://github.com/pivotal-cf/metric-registrar-examples.git
-	```
+ ```
+ git clone https://github.com/pivotal-cf/metric-registrar-examples.git
+ ```
 
 1. Navigate to the `java-spring-security` app directory:
 
-	```
-	cd metric-registrar-examples/java-spring-security
-	```
+ ```
+ cd metric-registrar-examples/java-spring-security
+ ```
 
 1. Build the app by running:
 
-	```
-	./gradlew build
-	```
+ ```
+ ./gradlew build
+ ```
 
 1. Push the app with a random route:
 
@@ -141,9 +138,8 @@ To push the sample app:
 1. From the `routes` section of the terminal output, record the URL of the `java-spring-security` app. In the example output in the previous step, this URL is
 `tutorial-example-random-route.cfapps.io`.
 
-1. <a id="sample-app-ui></a>In a browser, navigate to the app URL you recorded in the previous step. The app UI looks like what you see in the image below.
-
-    <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
+1. <a id="sample-app-ui></a>In a browser, go to the app URL you recorded in the previous step. The app UI looks like what you see in the following image:
+    ![alt-text="The text following the image describes the details of the UI."](./images//sample-app-ui.png)<br>
 
     It has the following buttons:
 
@@ -154,8 +150,7 @@ To push the sample app:
     * **Increment Simple counter** and **Call an endpoint with high latency:** These buttons are not used in this tutorial. To learn more about the functions
     of these buttons, see [java-spring-security](https://github.com/pivotal-cf/metric-registrar-examples/tree/master/java-spring-security) on GitHub.
 
-
-## <a id="register-endpoint"></a> Register a Custom Metrics Endpoint
+## <a id="register-endpoint"></a> Registering a custom metrics endpoint
 
 When you want to your app to emit custom metrics, you register the app as a metric source with the Metric Registrar.
 
@@ -163,15 +158,16 @@ To register a custom metrics endpoint for the app:
 
 1. Install the Metric Registrar CLI:
 
-	```
-	cf install-plugin -r CF-Community "metric-registrar"
-	```
+ ```
+ cf install-plugin -r CF-Community "metric-registrar"
+ ```
 
 1. Register the metrics endpoint of the `java-spring-security` app by running:
 
     ```
     cf register-metrics-endpoint java-spring-security /actuator/prometheus --insecure
     ```
+
     Because the app dependencies include the Micrometer Prometheus library, there is automatically a metrics endpoint at `/actuator/prometheus`.
     <p class='note warning'><strong>Caution:</strong> When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the
       metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware
@@ -184,80 +180,81 @@ To register a custom metrics endpoint for the app:
     ```
     cf install-plugin -r CF-Community "log-cache"
     ```
+
     Log Cache is a component of <%= vars.app_runtime_abbr %> that caches logs and metrics from across the platform.
 
 1. View the app metrics as they are emitted using the command below. The `--follow` flag appends output as metrics are emitted.
 
-	```
-	cf tail java-spring-security --envelope-class metrics --follow
-	```
+ ```console
+ cf tail java-spring-security --envelope-class metrics --follow
+ ```
 
-	The output looks similar to the following example. The `custom` metric displays in the output.
+ The output looks similar to the following example. The `custom` metric displays in the output.
 
-	<pre class="terminal">
-	Retrieving logs for app  in org sandbox / space development as example@user...
+<pre class="terminal">
+ Retrieving logs for app  in org sandbox / space development as example@user...
 
-	2019-08-28T09:17:56.28-0700 [tutorial-example/1] GAUGE cpu:0.289158 percentage disk:135716864.000000 bytes disk_quota:1073741824.000000 bytes memory:399979315.000000 bytes memory_quota:2147483648.000000 bytes
-	2019-08-28T09:17:56.50-0700 [tutorial-example/0] GAUGE custom:1.000000
-	</pre>
+ 2019-08-28T09:17:56.28-0700 [tutorial-example/1] GAUGE cpu:0.289158 percentage disk:135716864.000000 bytes disk_quota:1073741824.000000 bytes memory:399979315.000000 bytes memory_quota:2147483648.000000 bytes
+ 2019-08-28T09:17:56.50-0700 [tutorial-example/0] GAUGE custom:1.000000
+ </pre>
 
-    <div class='note'><strong>Note:</strong>
+<div class='note'><strong>Note:</strong>
       <ul>
-	<li>In the <code>java-spring-security</code> app UI, you must click <strong>Increment Custom gauge</strong> at least one time to cause the app to emit
-	  the <code>custom</code> metric.</li>
-	<li>If you do not see output similar to the previous example, the Metric Registrar might not exist in your <%= vars.app_runtime_abbr %> deployment. To
-	  verify this, consult the operator of your <%= vars.app_runtime_abbr %> deployment.</li>
+
+ <li>In the <code>java-spring-security</code> app UI, you must click <strong>Increment Custom gauge</strong> at least one time to cause the app to emit
+   the <code>custom</code> metric.</li>
+ <li>If you do not see output similar to the previous example, the Metric Registrar might not exist in your <%= vars.app_runtime_abbr %> deployment. To
+   verify this, consult the operator of your <%= vars.app_runtime_abbr %> deployment.</li>
       </ul>
     </div>
 
-## <a id="create-rules"></a> Create an Autoscaling Rule
+## <a id="create-rules"></a> Creating an autoscaling rule
 
 Autoscaler is integrated with Apps Manager. You can create autoscaling rules in Apps Manager.
 
 To create an autoscaling rule for the `java-spring-security` app that uses the `custom` metric as its scaling metric:
 
-1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
+1. Log in to Apps Manager.
+For more information, see [Logging In to Apps Manager](../../operating/console-login.html).
 
 1. In Apps Manager, go to the `java-spring-security` app overview. For more information, see [View App Overview](../../console/manage-apps.html#view) in
 _Managing Apps and Service Instances Using Apps Manager_.
 
 1. Click **Enable Autoscaling**.
-
-	<img src="images/enable-autoscaling.png" alt="The app page for an app named java-metric-registrar-demo shows the Enable Autoscaling button being clicked." width="600px">
+![alt-text="The app page for an app named java-metric-registrar-demo shows the Enable Autoscaling button being clicked"](./images/enable-autoscaling.png)
 
 1. Click **Manage Autoscaling**.
 
-1. Under **Instance Limits**, configure upper and lower scaling limits for the `java-spring-security` app:
-	1. For **Minimum**, enter `1`.
-	1. For **Maximum**, enter `5`.
-	1. Click **Apply Changes**.
+2. Under **Instance Limits**, configure upper and lower scaling limits for the `java-spring-security` app:
+ 3. For **Minimum**, enter `1`.
+ 4. For **Maximum**, enter `5`.
+ 5. Click **Apply Changes**.
+![alt-text="The Manage Autoscaling form includes an Instance Limits section."](./images/manage-autoscaling.png)
 
-		<img src="images/manage-autoscaling.png" alt="The Manage Autoscaling form includes an Instance Limits section. This section includes two textboxes, one for Minimum and one for Maximum. To the right of these textboxes is the Apply Changes button. 1 is entered for Minimum and 5 is entered for Maximum" width="450px">
+ 1. To create an autoscaling rule:
+ 2. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
+ 3. Click **Add rule**. The **Select type** dropdown appears.
+ 4. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
+ 5. For **Rule Type**, select `Custom`.
+ 6. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
+ 7. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
+ 8. For **Metric**, enter `custom`.
+ 9. Click **Save**.
 
-1. To create an autoscaling rule:
-	1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
-	1. Click **Add rule**. The **Select type** dropdown appears.
-	1. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
-	1. For **Rule Type**, select `Custom`.
-	1. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
-	1. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
-	1. For **Metric**, enter `custom`.
-	1. Click **Save**.
+![alt-text="The Edit Scaling Rules form includes a drop-down menu labeled Rule Type."](./images/add-rule.png)
 
-		<img src="images/add-rule.png" alt="The Edit Scaling Rules form includes a dropdown menu labeled Rule Type, a textbox labeled Scale down if less than, a textbox labeled scale up if more than, and a textbox labeled Metric. They are configured according the corresponding instructions. The form also includes buttons labeled Add Rule, Cancel, and Save." width="450px">
-
-## <a id="trigger"></a> Trigger Scaling
+## <a id="trigger"></a> Triggering scaling
 
 Now that you have pushed an app that emits a custom metric and configured autoscaling rules, you can trigger a scaling action. App Autoscaler scales the app when the custom metric goes above or below the threshold specified in the scaling rule.
 
 To trigger scaling:
 
-1. Navigate to the web UI of the app. Use the same URL from [Push the Sample App](#push).
+1. Go to the web UI of the app. Use the same URL from [Push the Sample App](#push).
 
 1. Click **Increment Custom gauge** enough times to bring the custom metric  over the threshold of `5` that you set in the scaling rule. You can check the value of the `custom` metric using the **See Metrics** button.
 
-1. Monitor the app page in Apps Manager for about two minutes. App Autoscaler will begin to scale the app. It adds one instance at a time until it reaches the **Maximum** instance limit of `5`.
+1. Monitor the app page in Apps Manager for about two minutes. App Autoscaler begins to scale the app. It adds one instance at a time until it reaches the **Maximum** instance limit of `5`.
 
-## <a id="next-steps"></a> Next Steps
+## <a id="next-steps"></a> Next steps
 
 Now that you have completed this tutorial, try emitting custom metrics and creating scaling rules with your own app. Review the resources listed in the [Overview](#overview) section to learn more. Once you have instrumented your app to emit custom metrics, you can follow the steps outlined in this tutorial to scale based on those metrics.
