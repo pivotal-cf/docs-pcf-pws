@@ -18,13 +18,13 @@ You can use App Autoscaler to do the following:
 
 For example, you can configure App Autoscaler to scale down the number of instances for an app over the weekend. You can also configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold.
 
-## <a id="about-scaling"></a> About App Autoscaler Scaling Rules
+## <a id="about-scaling"></a> About App Autoscaler scaling rules
 
 This section describes how App Autoscaler decides when to scale an app up or down.
 
 It also provides information about the custom metrics, comparison metrics, and default metrics that you can use when you create scaling rules for an app in App Autoscaler.
 
-### <a id="about-scaling-decisions"></a> How App Autoscaler Decides When to Scale
+### <a id="about-scaling-decisions"></a> How App Autoscaler decides when to scale
 
 Every 35 seconds, App Autoscaler makes a decision about whether to scale up, scale down, or keep the same number of instances.
 
@@ -52,7 +52,7 @@ If the average value for HTTP latency over a 120 second window is the maximum th
 
 You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of a given metric, but the number of instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app.
 
-### <a id="default-metrics"></a> Default Metrics for Scaling Rules
+### <a id="default-metrics"></a> Default metrics for scaling rules
 
 App Autoscaler includes several default metrics for which you can create scaling rules.
 
@@ -93,20 +93,20 @@ The following table lists the default metrics for App Autoscaler:
   </tr>
 </table>
 
-### <a id="custom-metrics"></a> Custom Metrics for Scaling Rules
+### <a id="custom-metrics"></a> Custom metrics for scaling rules
 
 <%= vars.company_name %> recommends that you define custom metrics for App Autoscaler scaling rules. Custom metrics allow you to define the metrics that are the best indicators of app performance for your environment.
 
 You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.pivotal.io/pivotalcf/metric-registrar/using.html).
 
-### <a id="comparison-metrics"></a> Comparison Metrics for Scaling Rules
+### <a id="comparison-metrics"></a> Comparison metrics for scaling rules
 
 You can use the **Comparison Metric** field in App Autoscaler to define a scaling rule that divides one custom metric by another.
 
 When you add a scaling rule, the **Metric** field is the dividend and the **Comparison Metric** field is the divisor.
 
 
-## <a id="architecture"></a> App Autoscaler Architecture
+## <a id="architecture"></a> App Autoscaler architecture
 
 The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components interact with <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) components to make app scaling decisions.
 
