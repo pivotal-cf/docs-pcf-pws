@@ -1,14 +1,14 @@
 ---
-title: Using Custom Scaling Metrics
+title: Configure App Autoscaler to use custom scaling metrics
 owner: Autoscaler
 ---
 
-This topic describes how to configure App Autoscaler to use custom metrics when scaling apps.
+You can configure App Autoscaler to use custom metrics when scaling apps in your VMware TAS for VMs deployment. This article describes several ways.
 
 For information about how to emit custom metrics, see [Using Metric Registrar](../../metric-registrar/using.html).
 
 
-## <a id='overview'></a> Overview of Custom Scaling Metrics
+## <a id='overview'></a> Custom scaling metrics overview
 
 While Autoscaler can use several default metrics as scaling metrics for apps, your app might have specific autoscaling requirements that Autoscaler cannot
 meet by using the default scaling metrics to scale the app. In this case, you can create custom metrics for Autoscaler to use to scale the app.
@@ -33,7 +33,7 @@ VMware recommends that you load-test your app to verify that the autoscaling rul
 App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
 
 
-## <a id='cf-cli-config'></a> Configuring a Custom Scaling Metric for an App Through the cf CLI
+## <a id='cf-cli-config'></a> Configure a custom scaling metric for an app through the cf CLI
 
 The procedures in this section describe how to configure Autoscaler to use a custom scaling metric for an app through the cf CLI.
 
@@ -46,7 +46,7 @@ You can configure Autoscaler to use a custom scaling metric for an app in the fo
 For the procedures in this section, you must use the App Autoscaler CLI plug-in. To download and install the App Autoscaler CLI plugin, see [Install the App
 Autoscaler CLI Plug-in](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
 
-### <a id='cf-cli-manifest-config'></a> Configure an Autoscaling Rule Using a Manifest File
+### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule by using a manifest rile
 
 You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
 other existing app manifest files in your TAS for VMs deployment.
@@ -162,7 +162,7 @@ configuration parameters:
       <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
     </ul>
 
-### <a id='cf-cli-commands-config'></a> Configure an Autoscaling Rule Using CLI Commands
+### <a id='cf-cli-commands-config'></a> Configure an autoscaling rule by using CLI commands
 
 To configure an autoscaling rule that defines a custom scaling metric using CLI commands:
 
@@ -248,7 +248,7 @@ service instance by running:
     ```
 
 
-## <a id='apps-manager-config'></a> Configure a Custom Scaling Metric for an App Through Apps Manager
+## <a id='apps-manager-config'></a> Configure a custom scaling metric for an app through apps Manager
 
 To configure Autoscaler to use a custom scaling metric for an app using Apps Manager:
 
@@ -278,7 +278,7 @@ number, Autoscaler scales the number of app instances up.
 1. Click **Save**.
 
 
-## <a id='review-events'></a> Reviewing Autoscaling Events for Changes in Custom Scaling Metrics
+## <a id='review-events'></a> Reviewing autoscaling events for changes in custom scaling metrics
 
 When Autoscaler scales the number of app instances up after the custom scaling metric for an app increases above the maximum queue depth threshold, Autoscaler
 records an autoscaling event.
@@ -290,7 +290,7 @@ You can monitor the autoscaling events that Autoscaler records for changes in th
 * Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in Custom Scaling Metrics Through Apps
 Manager](#review-events-apps-manager).
 
-### <a id='review-events-cli'></a> Review Autoscaling Events for Changes in Custom Scaling Metrics Through the cf CLI
+### <a id='review-events-cli'></a> Review autoscaling events for changes in custom scaling metrics through the cf CLI
 
 To review the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app through the cf CLI:
 
@@ -309,7 +309,7 @@ To review the autoscaling events that Autoscaler records for changes in the cust
     2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current example_metric of 60.83 is above upper threshold of 50.00.
     </pre>
 
-### <a id='review-events-apps-manager'></a> Review Autoscaling Events for Changes in Custom Scaling Metrics Through Apps Manager
+### <a id='review-events-apps-manager'></a> Review autoscaling events for changes in custom scaling metrics through Apps Manager
 
 To review the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app through Apps Manager:
 
@@ -330,7 +330,7 @@ increases in the custom scaling metric for the app, the list of autoscaling even
     ```
 
 
-## <a id='special-considerations'></a> Special Considerations for Using Custom Scaling Metrics
+## <a id='special-considerations'></a> Special considerations for using custom scaling metrics
 
 This section describes use cases that might complicate or prevent you from configuring a custom scaling metric for an app. For more information, see the
 following sections:
@@ -345,7 +345,7 @@ following sections:
 
 * [Log Cache Eviction](#log-cache-eviction)
 
-### <a id='metric-visibility'></a> Metric Visibility
+### <a id='metric-visibility'></a> Metric visibility
 
 Metric endpoints include potentially sensitive information about the state of an app. Before you configure a custom scaling metric, ensure that unauthorized
 end users cannot access these endpoints.
@@ -353,22 +353,22 @@ end users cannot access these endpoints.
 To prevent unauthorized end users from accessing an app, you can configure the metrics endpoint to process traffic through a separate port. When registering
 the endpoint using the Metric Registrar CLI, you can then use the `--internal-port` flag to specify which port the endpoint uses.
 
-### <a id='counter-metrics'></a> Counter Metrics
+### <a id='counter-metrics'></a> Counter metrics
 
 Autoscaler cannot use counter metrics as custom scaling metrics. If you register a metrics endpoint that includes counter metrics, the counter metrics are
 sent to Loggregator, but Autoscaler does not retrieve them from Log Cache.
 
-### <a id='metric-labels'></a> Metric Labels
+### <a id='metric-labels'></a> Metric labels
 
 Autoscaler does not differentiate between metrics based on labels. If the metrics endpoint features the same metric with different labels, such as HTTP
 latency metrics with labels that describe the endpoint from which they came, Autoscaler does not recognize the labels.
 
-### <a id='high-metric-load'></a> High Metric Load
+### <a id='high-metric-load'></a> High metric load
 
 Configuring an app to emit a large number of custom scaling metrics can cause your TAS for VMs deployment to have difficulty processing those metrics. If you
 want to create a large number of custom scaling metrics, consult the operator of your TAS for VMs deployment.
 
-### <a id='log-cache-eviction'></a> Log Cache Eviction
+### <a id='log-cache-eviction'></a> Log cache eviction
 
 The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
 seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To
