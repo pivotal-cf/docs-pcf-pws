@@ -3,10 +3,10 @@ title: Operating App Autoscaler
 owner: App Autoscaler
 ---
 
-This topic describes considerations for operators of VMware Tanzu Application Service for VMs (TAS for VMs) when scaling app instances using App Autoscaler.
+When scaling app instances using App Autoscaler, what must you consider for your TAS for VM deployment? This article discusses essential considerations.
 
 
-## <a id='overview'></a> Overview of Autoscaling Considerations
+## <a id='overview'></a> Autoscaling considerations overview
 
 Autoscaler can ensure that an app always has the number of instances it needs to handle the amount of traffic that it receives. However, in order for
 Autoscaler to create more app instances, you must ensure that TAS for VMs is sufficiently scaled.
@@ -38,7 +38,7 @@ documentation](https://docs.pivotal.io/healthwatch/metrics.html#svm-forwarder-pl
 documentation](https://docs.wavefront.com/integrations_tas_alerts.html).
 
 
-## <a id='quotas'></a> Resource Quotas
+## <a id='quotas'></a> Resource quotas
 
 Quota plans ensure that inefficient autoscaling rules or malicious requests do not cause Autoscaler to scale beyond the capabilities of your TAS for VMs
 deployment. You should not configure Autoscaler to scale apps without ensuring that the space and org in which your app is deployed have quota plans that can
@@ -53,7 +53,7 @@ For more information about creating and modifying quota plans for your TAS for V
 Plans](../../adminguide/quota-plans.html).
 <% end %>
 
-### <a id='platform-capacity'></a> Platform Capacity
+### <a id='platform-capacity'></a> Platform capacity
 
 When creating or modifying quota plans for a space or org in your TAS for VMs deployment, consider whether you want to provision more or fewer resources for
 the apps you want Autoscaler to scale. The following descriptions of each scenario include their benefits and drawbacks:
@@ -64,7 +64,7 @@ resources for your TAS for VMs deployment.
 * You could provision fewer resources, which allows you to provision more Diego Cells from the IaaS on which your Ops Manager foundation is deployed if you
 should require them. However, you risk Autoscaler being unable to accommodate scaling requests.
 
-### <a id='quota-reached'></a> Apps That Reach Resource Quotas
+### <a id='quota-reached'></a> Apps that reach resource quotas
 
 You may have already configured Autoscaler to scale some apps. However, if the scaling metric you configured Autoscaler to use for an app indicates that the
 number of app instances needs to be scaled up, but Autoscaler cannot scale the number of instances up further, the app may have reached its allocated quota
@@ -73,7 +73,7 @@ limit for one or more resources.
 Autoscaler does not record when resource quota limits prevent it from scaling an app. However, you can see when this occurs by configuring verbose logging for
 Autoscaler. To configure verbose logging for Autoscaler, see [Configure Verbose Logging for Autoscaler](#verbose-logging).
 
-#### <a id='verbose-logging'></a> Configure Verbose Logging for Autoscaler
+#### <a id='verbose-logging'></a> Configure verbose logging for Autoscaler
 
 To configure verbose logging for Autoscaler:
 
@@ -102,7 +102,7 @@ To configure verbose logging for Autoscaler:
 After you re-deploy TAS for VMs, you can review the verbose logs for Autoscaler to identify which apps have reached one or more of their allocated resource
 quota limits. To identify these apps, see [Identify Apps That Have Reached Resource Quota Limits](#identify-apps).
 
-#### <a id='identify-apps'></a> Identify Apps That Have Reached Resource Quota Limits
+#### <a id='identify-apps'></a> Identify apps that have reached resource quota limits
 
 To identify which apps have reached one or more of their allocated resource quota limits:
 
@@ -142,7 +142,7 @@ step.
         Where `SPACE-GUID` is the GUID for the space that you recorded in the previous step.
 
 
-## <a id='existing-apps'></a> Traffic Patterns of Existing Apps
+## <a id='existing-apps'></a> Traffic patterns of existing apps
 
 If you are adding autoscaling to an existing app, VMware recommends that you review historical request traffic patterns for the app to determine how many app
 instances are necessary to sufficiently handle future request traffic.
