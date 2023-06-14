@@ -1,12 +1,11 @@
 ---
-title: Scheduled Limit Changes
+title: Configuring scheduled limit changes in App Autoscaler
 owner: Autoscaler
 ---
 
-This topic describes scheduled limit changes in App Autoscaler.
+You can configure scheduled limit changes in App Autoscaler for apps in your TAS for VMs deployment. This article tells you how.
 
-
-## <a id='overview'></a> Overview of Scheduled Limit Changes
+## <a id='overview'></a> Overview of scheduled limit changes
 
 When you create scaling limits for an app, you define the minimum and maximum number of instances that Autoscaler is allowed to create for an app. When you
 configure scheduled limit changes for an app, Autoscaler can change these scaling limits according to a schedule that you define.
@@ -39,7 +38,7 @@ To configure or review scheduled limit changes in Autoscaler, see the sections b
 * [Reviewing Autoscaling Events for Scheduled Limit Changes](#review-events)
 
 
-## <a id='cf-cli-config'></a> Configuring Scheduled Limit Changes Through the cf CLI
+## <a id='cf-cli-config'></a> Configuring scheduled limit changes through the cf CLI
 
 The procedures in this section describe how to configure scheduled limit changes for Autoscaler through the Cloud Foundry Command-Line Interface (cf CLI).
 
@@ -52,7 +51,7 @@ You can configure scheduled limit changes in the following ways:
 For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
 Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
 
-### <a id='cf-cli-manifest-config'></a> Configure Scheduled Limit Changes Using a Manifest File
+### <a id='cf-cli-manifest-config'></a> Configure scheduled limit changes by using a manifest file
 
 You can configure scheduled limit changes declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with
 any other existing app manifest files in your TAS for VMs deployment.
@@ -154,7 +153,7 @@ service instance by running:
     OK
     </pre>
 
-#### <a id='recurrence-value'></a> Calculating a Recurrence Schedule Value
+#### <a id='recurrence-value'></a> Calculating a recurrence schedule value
 
 When you configure a recurring scheduled limit change for Autoscaler using a manifest file, Autoscaler uses the `recurrence` value and `executes at` value to
 set the date and time of the first occurrence of a scheduled limit change. Autoscaler then uses the `time` value to set the time of day for all subsequent
@@ -218,7 +217,7 @@ scheduled_limit_changes:
     max: 12
 ```
 
-### <a id='cf-cli-commands-config'></a> Configure Scheduled Limit Changes Using CLI Commands
+### <a id='cf-cli-commands-config'></a> Configure scheduled limit changes by using CLI commands
 
 To configure scheduled limit changes using CLI commands:
 
@@ -307,13 +306,13 @@ service instance by running:
     command.</li>
     </ul>
 
-## <a id='apps-manager-config'></a> Configuring Scheduled Limit Changes Through Apps Manager
+## <a id='apps-manager-config'></a> Configuring scheduled limit changes through Apps Manager
 
 To configure scheduled limit changes through Apps Manager, see [Create or Modify Scheduled Limit Changes](using-autoscaler.html#schedule) in _Scaling an App
 Using App Autoscaler_.
 
 
-## <a id='review-events'></a> Reviewing Autoscaling Events for Scheduled Limit Changes
+## <a id='review-events'></a> Reviewing autoscaling events for scheduled limit changes
 
 When Autoscaler applies a scheduled limit change, it records an autoscaling event. If the current number of app instances is under the lower scaling limit of
 the scheduled limit change, Autoscaler scales the number of app instances up to the lower scaling limit and records a separate autoscaling event.
@@ -325,7 +324,7 @@ You can review the autoscaling events that Autoscaler records for scheduled limi
 * Through Apps Manager. For more information, see [Review Autoscaling Events for Scheduled Limit Changes Through Apps Manager](#review-events-apps-manager)
 below.
 
-### <a id='review-events-cli'></a> Review Autoscaling Events for Scheduled Limit Changes Through the cf CLI
+### <a id='review-events-cli'></a> Review autoscaling events for scheduled limit changes through the cf CLI
 
 To review the autoscaling events that Autoscaler records for scheduled limit changes through the cf CLI:
 
@@ -345,7 +344,7 @@ To review the autoscaling events that Autoscaler records for scheduled limit cha
     2022-05-26T21:31:50Z   Rule Applied: Scaling Limits set to 20 to 100 instances
     </pre>
 
-### <a id='review-events-apps-manager'></a> Review Autoscaling Events for Scheduled Limit Changes Through Apps Manager
+### <a id='review-events-apps-manager'></a> Review autoscaling events for scheduled limit changes through Apps Manager
 
 To review the autoscaling events that Autoscaler records for scheduled limit changes through Apps Manager:
 
