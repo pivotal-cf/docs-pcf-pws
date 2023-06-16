@@ -1,9 +1,9 @@
 ---
-title: Using the App Autoscaler CLI
+title: Using the App Autoscaler CLI for your TAS for VMs deployment
 owner: PCF Autoscaler
 ---
 
-This topic explains how to use the App Autoscaler command-line interface (CLI).
+You can use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your TAS for VMs deployment. This article explains how.
 
 The App Autoscaler automatically scales <%= vars.app_runtime_full %>
 (<%= vars.app_runtime_abbr %>) apps in response to demand.
@@ -32,14 +32,14 @@ To install the plugin, do the following:
     </pre>
     For more information about installing cf CLI plugins, see [Installing a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install).
 
-## <a id="create-and-bind-service"></a>Create and Bind the Autoscaling Service
+## <a id="create-and-bind-service"></a>Create and bind the autoscaling service
 
 Before you can use the App Autoscaler, you must create an Autoscaling service and
 bind that service to your app.
 For more information, see [Managing Service Instances with the cf
 CLI](https://docs.pivotal.io/pivotalcf/devguide/services/managing-services.html).
 
-## <a id="view-apps"></a>View Apps
+## <a id="view-apps"></a>View apps
 
 Run `cf autoscaling-apps` to view the apps that are bound to an autoscaler service instance
 in a space, their instance limits, and whether or not they are enabled.
@@ -53,7 +53,7 @@ test-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10    
 OK
 </pre>
 
-## <a id="updating-instance-limits"></a>Update Instance Limits
+## <a id="updating-instance-limits"></a>Update Instance limits
 
 Run `cf update-autoscaling-limits APP-NAME MIN-INSTANCE-LIMIT MAX-INSTANCE-LIMIT`
 to update the upper and lower app instance limits.
@@ -68,7 +68,7 @@ Updated autoscaling instance limits for app test-app for org my-org / space my-s
 OK
 </pre>
 
-## <a id="updating-scaling-factors"></a>Update Scaling Factors
+## <a id="updating-scaling-factors"></a>Update scaling factors
 
 Run `cf update-autoscaling-factors APP-NAME SCALE-UP-FACTOR SCALE-DOWN-FACTOR`
 to update the app scaling factors.
@@ -83,7 +83,7 @@ Updated autoscaling factors for app hello-app in org my-org / space my-space as 
 OK
 </pre>
 
-## <a id="enable-autoscaling"></a>Enable Autoscaling
+## <a id="enable-autoscaling"></a>Enable autoscaling
 
 Run `cf enable-autoscaling APP-NAME` to enable autoscaling on your app. Replace `APP-NAME` with the name of your app.
 
@@ -99,7 +99,7 @@ OK
     See <a href="#updating-instance-limits">Update Instance Limits</a> above.
 </p>
 
-## <a id="disable-autoscaling"></a>Disable Autoscaling
+## <a id="disable-autoscaling"></a>Disable autoscaling
 
 Run `cf disable-autoscaling APP-NAME` to disable autoscaling on your app. Replace `APP-NAME` with the name of your app.
 
@@ -109,7 +109,7 @@ Disabled autoscaling for app test-app for org my-org / space my-space as user
 OK
 </pre>
 
-## <a id="viewing-rules"></a>View Rules
+## <a id="viewing-rules"></a>View rules
 
 Run `cf autoscaling-rules APP-NAME` to view the rules that the App Autoscaler uses to determine when to scale your app. Replace `APP-NAME` with the name of your app.
 
@@ -122,7 +122,7 @@ Rule Guid                               Rule Type         Rule Sub Type   Min Th
 OK
 </pre>
 
-## <a id="create-rule"></a>Create a Rule
+## <a id="create-rule"></a>Create a rule
 
 Run `cf create-autoscaling-rule APP-NAME RULE-TYPE MIN-THRESHOLD MAX-THRESHOLD  [--subtype SUBTYPE] [--metric METRIC] [--comparison-metric COMPARISON-METRIC]` to create a new autoscaling rule.
 
@@ -164,7 +164,7 @@ Guid                                    Type      Metric                        
 93c4b831-0155-4771-8842-3247816e71df    compare   jvm.memory.used / jvm.memory.max              0.79            0.80
 </pre>
 
-## <a id="rule-types"></a>Valid Rule Types and Subtypes
+## <a id="rule-types"></a>Valid rule types and subtypes
 
 For a list of valid types and subtypes, see the following:
 
@@ -196,7 +196,7 @@ For a list of valid types and subtypes, see the following:
   * metric `METRIC-NAME`
   * comparison_metric `METRIC-NAME`
 
-## <a id="delete-rule"></a>Delete a Rule
+## <a id="delete-rule"></a>Delete a rule
 
 Run `cf delete-autoscaling-rule APP-NAME RULE-GUID [--force]` to delete a single autoscaling rule. Replace `APP-NAME` with the name of your app, and replace `RULE-GUID` with the GUID.
 
@@ -207,7 +207,7 @@ Deleted rule 10a581c5-8fb4-48a2-b4de-8bc834aac146 for autoscaler app test-app fo
 OK
 </pre>
 
-## <a id="delete-rules"></a>Delete All Rules
+## <a id="delete-rules"></a>Delete all rules
 
 Run `cf delete-autoscaling-rules APP-NAME [--force]` to delete all autoscaling rules. Replace `APP-NAME` with the name of your app.
 
@@ -218,7 +218,7 @@ Deleted rules for autoscaler app test-app for org my-org / space my-space as use
 OK
 </pre>
 
-## <a id="autoscaling-events"></a>View Autoscaling Events
+## <a id="autoscaling-events"></a>View autoscaling events
 
 Run `cf autoscaling-events APP-NAME` to view recent events related to autoscaling for your app. Replace `APP-NAME` with the name of your app.
 
@@ -228,7 +228,7 @@ Time                  Description
 2032-01-01T00:00:00Z  Scaled up from 3 to 4 instances. Current cpu of 20 is above upper threshold of 10.
 </pre>
 
-## <a id="autoscaling-slcs"></a>View App Autoscaler Scheduled Instance Limit Changes
+## <a id="autoscaling-slcs"></a>View App Autoscaler scheduled instance limit changes
 
 Run `cf autoscaling-slcs APP-NAME` to view all scheduled instance limit changes. Replace `APP-NAME` with the name of your app.
 
@@ -240,7 +240,7 @@ Guid                                      First Execution        Min Instances  
 f08f9803-6e5d-4519-abc3-fea640300d01      2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
 </pre>
 
-## <a id="create-autoscaling-slc"></a>Create App Autoscaler Scheduled Instance Limit Change
+## <a id="create-autoscaling-slc"></a>Create App Autoscaler scheduled instance limit change
 
 Run `cf create-autoscaling-slc APP-NAME DATE-TIME MIN-INSTANCES MAX-INSTANCES  [--recurrence RECURRENCE]` to create a new scheduled instance limit change.
 
@@ -263,7 +263,7 @@ Guid                                      First Execution        Min Instances  
 
 <p class="note"><b>Note:</b> App Autoscaler only supports times in UTC. App Autoscaler does not support setting alternate timezones or Daylight Saving Time</p>
 
-## <a id="delete-autoscaling-slc"></a>Delete App Autoscaler Scheduled Instance Limit Change
+## <a id="delete-autoscaling-slc"></a>Delete App Autoscaler scheduled instance limit change
 
 Run `cf delete-autoscaling-slc APP-NAME SLC-GUID [--force]` to delete a scheduled instance limit change.
 Replace `APP-NAME` with the name of your app and `SLC-GUID` with the GUID of your scheduled instance limit change.
@@ -277,7 +277,7 @@ Deleted scheduled limit change d0077dc5-34bd-42c7-b377-e0fcb14d67f3 for app test
 OK
 </pre>
 
-## <a id="configure-autoscaling"></a>Configure Autoscaling with a Manifest
+## <a id="configure-autoscaling"></a>Configure autoscaling with a manifest
 
 Run `cf configure-autoscaling APP-NAME MANIFEST-FILE-PATH` to use a service manifest
 to configure your rules, add instance limits, and set scheduled limit changes at the same time.
@@ -348,7 +348,7 @@ rules:
 scheduled_limit_changes: []
 ```
 
-### <a id="create-scheduled-limit"></a> Create a Scheduled Limit Change
+### <a id="create-scheduled-limit"></a> Create a scheduled limit change
 
 To create a scheduled limit change using the App Autoscaler manifest, you must understand how
 scheduled limit changes are constructed. App Autoscaler uses the `executes at` value in two ways:
@@ -388,7 +388,7 @@ you wish to trigger the scheduled limit change using this table.
 
 Then set the `recurrence` field to that value.
 
-#### <a id="scheduled-limit-examples"></a> Examples of Recurrence Specification
+#### <a id="scheduled-limit-examples"></a> Examples of recurrence specification
 
 The following are examples of how to calculate a value for the `recurrence` field of a scheduled limit change:
 
@@ -427,7 +427,7 @@ scheduled_limit_changes:
     max: 12
 ```
 
-## <a id="issues"></a>App Autoscaler CLI Known Issues
+## <a id="issues"></a>App Autoscaler CLI known issues
 
 The App Autoscaler CLI has the following known issues:
 
