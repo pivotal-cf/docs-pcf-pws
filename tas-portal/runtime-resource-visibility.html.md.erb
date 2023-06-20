@@ -1,23 +1,21 @@
 ---
-title: Runtime resources visibility (beta)
+title: Runtime Resources Visibility plug-in (beta)
 owner: TAS Portal
 ---
 
-This topic describes TAS for VMs runtime resources visibility.
-
-The Runtime Resources Visibility plug-in enables users to visualize their TAS for VMs resources
-associated with their workloads.
+The Runtime Resources Visibility plug-in allows you to see the TAS for VMs resources
+associated with your workloads. This article tells you how to use it.
 
 ## <a id="prerequisite"></a> Prerequisites
 
-For TAS Resources to show up in the Runtime Resources Visibility plug-in, use use label selectors on
+For TAS resources to show up in the Runtime Resources Visibility plug-in, use label selectors on
 entities of the Tanzu Application Service. A label selector consists of any string KEY and VALUE.
 For more information, see [Labels and
 Selectors](https://v3-apidocs.cloudfoundry.org/version/3.78.0/index.html#labels-and-selectors).
 
 ## <a id="selectors"></a> Selectors
 
-Selectors allow developers to filter and group API resources by their labels. You can use Selectors
+Selectors allow developers to filter and group API resources by their labels. You can use selectors
 to filter and group resources using the query parameter `label_selector` on list endpoints.
 
 A selector consists of one or more requirements in a comma-separated list. For example:
