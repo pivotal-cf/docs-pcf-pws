@@ -1,0 +1,382 @@
+---
+title: Using Custom Scaling Metrics
+owner: Autoscaler
+---
+
+This topic describes how to configure App Autoscaler to use custom metrics when scaling apps.
+
+For information about how to emit custom metrics, see [Using Metric Registrar](../../metric-registrar/using.html).
+
+
+## <a id='overview'></a> Overview of Custom Scaling Metrics
+
+While Autoscaler can use several default metrics as scaling metrics for apps, your app might have specific autoscaling requirements that Autoscaler cannot
+meet by using the default scaling metrics to scale the app. In this case, you can create custom metrics for Autoscaler to use to scale the app.
+
+<p class='note'><strong>Note:</strong> Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with
+  the Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.</p>
+
+You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
+
+* Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring a Custom Scaling Metric for an App Through the cf
+CLI](#cf-cli-config).
+
+* Through Apps Manager. For more information, see [Configure a Custom Scaling Metric for an App Through Apps Manager](#apps-manager-config).
+
+To monitor when Autoscaler scales an app based on changes in a custom scaling metric, see [Reviewing Autoscaling Events for Changes in a Custom Scaling
+Metric](#review-events).
+
+For information about use cases that may complicate or prevent you from configuring a custom scaling metric for an app, see [Special Considerations for Using
+a Custom Scaling Metric](#special-considerations).
+
+VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
+App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
+
+
+## <a id='cf-cli-config'></a> Configuring a Custom Scaling Metric for an App Through the cf CLI
+
+The procedures in this section describe how to configure Autoscaler to use a custom scaling metric for an app through the cf CLI.
+
+You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
+
+* Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config) below.
+
+* Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) below.
+
+For the procedures in this section, you must use the App Autoscaler CLI plug-in. To download and install the App Autoscaler CLI plugin, see [Install the App
+Autoscaler CLI Plug-in](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
+
+### <a id='cf-cli-manifest-config'></a> Configure an Autoscaling Rule Using a Manifest File
+
+You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
+other existing app manifest files in your TAS for VMs deployment.
+
+To configure an autoscaling rule that defines a custom scaling metric using a manifest file:
+
+1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+
+    ```
+    cf target -o ORG-NAME -s SPACE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>ORG-NAME</code> is the name of the org containing the space in which the app you want to scale is deployed.</li>
+      <li><code>SPACE-NAME</code> is the name of the space in which the app you want to scale is deployed.</li>
+    </ul>
+
+1. If the space in which the app you want to scale is deployed does not already have an Autoscaler service instance of Autoscaler deployed in it, create an
+Autoscaler service instance by running:
+
+    ```
+    cf create-service app-autoscaler PLAN-NAME SERVICE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>PLAN-NAME</code> is the name of the service plan you want to use for the Autoscaler service instance.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name you want to give the Autoscaler service instance. For example, <code>autoscaler</code>.</li>
+    </ul>
+
+    If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
+
+1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
+
+    ```
+    cf bind-service APP-NAME SERVICE-INSTANCE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app you want to scale.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
+    </ul>
+
+1. To create a manifest file for Autoscaler that configures an autoscaling rule with a custom scaling metric, create a YAML file that includes the following
+configuration parameters:
+
+    ```
+    ---
+    instance_limits:
+      min: LOWER-SCALING-LIMIT
+      max: UPPER-SCALING-LIMIT
+    rules:
+    - rule_type: custom
+      metric: METRIC-NAME
+      threshold:
+        min: MINIMUM-METRIC-THRESHOLD
+        max: MAXIMUM-METRIC-THRESHOLD
+    scheduled_limit_changes: []
+    ```
+
+    Where:
+    <ul>
+      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>METRIC-NAME</code> is the name of the custom scaling metric. This name must match the name of the metric that the app exposes.</li>
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this number,
+      Autoscaler scales the number of app instances down.</li>
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler
+      scales the number of app instances up.</li>
+    </ul>
+
+
+    The following example shows an Autoscaler manifest file configuring Autoscaler to use `example_metric` as its custom scaling metric, with a minimum custom
+    scaling metric threshold of 20 and a maximum custom scaling metric threshold of 50:
+
+    ```
+    ---
+    instance_limits:
+      min: 10
+      max: 100
+    rules:
+    - rule_type: custom
+      metric: example_metric
+      threshold:
+        min: 20
+        max: 50
+    scheduled_limit_changes: []
+    ```
+
+1. Apply the Autoscaler manifest for your app:
+
+    ```
+    cf configure-autoscaling APP-NAME MANIFEST-FILENAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app that you want Autoscaler to scale.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the Autoscaler manifest.</li>
+    </ul>
+
+1. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
+
+    ```
+    cf configure-autoscaling APP-NAME MANIFEST-FILENAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
+    </ul>
+
+### <a id='cf-cli-commands-config'></a> Configure an Autoscaling Rule Using CLI Commands
+
+To configure an autoscaling rule that defines a custom scaling metric using CLI commands:
+
+1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+
+    ```
+    cf target -o ORG-NAME -s SPACE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>ORG-NAME</code> is the name of the org containing the space in which the app you want to scale is deployed.</li>
+      <li><code>SPACE-NAME</code> is the name of the space in which the app you want to scale is deployed.</li>
+    </ul>
+
+1. If the space in which the app you want to scale is deployed does not already have a service instance of Autoscaler deployed in it, create an Autoscaler
+service instance by running:
+
+    ```
+    cf create-service app-autoscaler PLAN-NAME SERVICE-INSTANCE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>PLAN-NAME</code> is the name of the service plan you want to use for the Autoscaler service instance.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name you want to give the Autoscaler service instance. For example, <code>autoscaler</code>.</li>
+    </ul>
+    If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
+
+1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
+
+    ```
+    cf bind-service APP-NAME SERVICE-INSTANCE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app you want to scale.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
+    </ul>
+
+1. Configure upper and lower scaling limits for the app by running:
+
+    ```
+    cf update-autoscaling-limits APP-NAME LOWER-SCALING-LIMIT UPPER-SCALING-LIMIT
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app.</li>
+      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
+    </ul>
+
+1. Allow Autoscaler to begin making scaling decisions for the app by running:
+
+    ```
+    cf enable-autoscaling APP-NAME
+    ```
+    Where `APP-NAME` is the name of the app.
+
+1. Create a `custom` autoscaling rule by running:
+
+    ```
+    cf create-autoscaling-rule APP-NAME custom MINIMUM-METRIC-THRESHOLD MAXIMUM-METRIC-THRESHOLD --metric METRIC-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this number,
+      Autoscaler scales the number of app instances down.</li>
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler
+      scales the number of app instances up.</li>
+      <li><code>METRIC-NAME</code> is the name of the custom scaling metric. This name must match the name of the metric that the app exposes.</li>
+    </ul>
+
+    The following example command configures a `custom` autoscaling rule for the `example-app` app that uses `example_metric` as its custom scaling metric,
+    with a minimum custom scaling metric threshold of 20 and a maximum custom scaling metric threshold of 50:
+
+    ```
+    cf create-autoscaling-rule example-app custom 20 50 --metric example_metric
+    ```
+
+
+## <a id='apps-manager-config'></a> Configure a Custom Scaling Metric for an App Through Apps Manager
+
+To configure Autoscaler to use a custom scaling metric for an app using Apps Manager:
+
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps
+Manager](../../operating/console-login.html).<% end %>
+
+1. Select the org that contains the space in which the app you want to scale is deployed.
+
+1. Select the space in which the app you want to scale is deployed.
+
+1. Under **Under Processes and Instances**, click **Manage Autoscaling**. The **Manage Autoscaling** window appears.
+
+1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
+
+1. Click **Add rule**. The **Select type** dropdown appears.
+
+1. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
+
+1. For **Scale down if less than**, enter the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this
+number, Autoscaler scales the number of app instances down.
+
+1. For **Scale up if more than**, enter the maximum custom scaling metric threshold. If the average value of the custom scaling metric rises above this
+number, Autoscaler scales the number of app instances up.
+
+1. For **Metric**, enter the name of the custom scaling metric. This name must match the name of the metric that the app exposes.
+
+1. Click **Save**.
+
+
+## <a id='review-events'></a> Reviewing Autoscaling Events for Changes in Custom Scaling Metrics
+
+When Autoscaler scales the number of app instances up after the custom scaling metric for an app increases above the maximum queue depth threshold, Autoscaler
+records an autoscaling event.
+
+You can monitor the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app in the following ways:
+
+* Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in Custom Scaling Metrics Through the cf CLI](#review-events-cli).
+
+* Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in Custom Scaling Metrics Through Apps
+Manager](#review-events-apps-manager).
+
+### <a id='review-events-cli'></a> Review Autoscaling Events for Changes in Custom Scaling Metrics Through the cf CLI
+
+To review the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app through the cf CLI:
+
+1. In a terminal window, run:
+
+    ```
+    cf autoscaling-events APP-NAME
+    ```
+    Where `APP-NAME` is the name of the app for which you want to review autoscaling events.
+    <br>
+    <br>
+    If Autoscaler has scaled the number of app instances up due to increases in the custom scaling metric for the app, the above command returns output that
+    contains autoscaling events similar to the following example:
+    <pre class="terminal">
+    Time                   Description
+    2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current example_metric of 60.83 is above upper threshold of 50.00.
+    </pre>
+
+### <a id='review-events-apps-manager'></a> Review Autoscaling Events for Changes in Custom Scaling Metrics Through Apps Manager
+
+To review the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app through Apps Manager:
+
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps
+Manager](../../operating/console-login.html).<% end %>
+
+1. Select the org that contains the space in which the app you want to scale is deployed.
+
+1. Select the space in which the app you want to scale is deployed.
+
+1. Under **Under Processes and Instances**, click **Manage Autoscaling**.
+
+1. Under **Event History**, click **View More**. A list of autoscaling events appears. If Autoscaler has scaled the number of app instances up due to
+increases in the custom scaling metric for the app, the list of autoscaling events includes events similar to the following example:
+
+    ```
+    Scaled up from 10 to 11 instances. Current example_metric of 60.83 is above upper threshold of 50.00.
+    ```
+
+
+## <a id='special-considerations'></a> Special Considerations for Using Custom Scaling Metrics
+
+This section describes use cases that might complicate or prevent you from configuring a custom scaling metric for an app. For more information, see the
+following sections:
+
+* [Metric Visibility](#metric-visibility)
+
+* [Counter Metrics](#counter-metrics)
+
+* [Metric Labels](#metric-labels)
+
+* [High Metric Load](#high-metric-load)
+
+* [Log Cache Eviction](#log-cache-eviction)
+
+### <a id='metric-visibility'></a> Metric Visibility
+
+Metric endpoints include potentially sensitive information about the state of an app. Before you configure a custom scaling metric, ensure that unauthorized
+end users cannot access these endpoints.
+
+To prevent unauthorized end users from accessing an app, you can configure the metrics endpoint to process traffic through a separate port. When registering
+the endpoint using the Metric Registrar CLI, you can then use the `--internal-port` flag to specify which port the endpoint uses.
+
+### <a id='counter-metrics'></a> Counter Metrics
+
+Autoscaler cannot use counter metrics as custom scaling metrics. If you register a metrics endpoint that includes counter metrics, the counter metrics are
+sent to Loggregator, but Autoscaler does not retrieve them from Log Cache.
+
+### <a id='metric-labels'></a> Metric Labels
+
+Autoscaler does not differentiate between metrics based on labels. If the metrics endpoint features the same metric with different labels, such as HTTP
+latency metrics with labels that describe the endpoint from which they came, Autoscaler does not recognize the labels.
+
+### <a id='high-metric-load'></a> High Metric Load
+
+Configuring an app to emit a large number of custom scaling metrics can cause your TAS for VMs deployment to have difficulty processing those metrics. If you
+want to create a large number of custom scaling metrics, consult the operator of your TAS for VMs deployment.
+
+### <a id='log-cache-eviction'></a> Log Cache Eviction
+
+The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
+seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To
+configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in
+_Configuring TAS for VMs_. <% end %>
+
+Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per
+app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log
+Cache custom metric history for Autoscaler to use in scaling decisions.
+
+For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.

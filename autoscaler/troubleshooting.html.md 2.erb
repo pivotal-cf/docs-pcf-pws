@@ -1,0 +1,420 @@
+---
+title: Troubleshooting App Autoscaler
+owner: App Autoscaler
+---
+
+This topic describes how to troubleshoot App Autoscaler.
+
+
+## <a id='no-scale-up'></a> Autoscaler Fails to Scale an App When Expected
+
+This section describes possible causes for Autoscaler failing to scale an app when you expect. To determine the cause, see the following sections:
+
+* [Scaling Threshold Not Reached](#scaling-threshold)
+
+* [Metrics Average Over Collection Interval is Too Low](#lower-average)
+
+* [App Has Reached Autoscaling Limit](#autoscaling-limit)
+
+* [Space or Org Quota is Reached](#quota-reached)
+
+* [Autoscaling is Disallowed](#autoscaling-disallowed)
+
+* [TAS for VMs Components Are Failing](#platform-scale-out)
+
+### <a id='scaling-threshold'></a> Scaling Threshold Not Reached
+
+Confirm that you configured the autoscaling rules for the app to respond as you expect to the traffic that the app is receiving. For example, when you use
+RabbitMQ queue depth as your scaling metric, you can compare the metrics that VMware Tanzu RabbitMQ for VMs (RabbitMQ) emits for the specified queue to the
+autoscaling rules you configured. If the autoscaling rules are not configured as you expect, adjust them accordingly.
+
+### <a id='lower-average'></a> Metrics Average Over Collection Interval is Too Low
+
+Autoscaler averages metrics over the metric collection interval you configure in the **App Autoscaler** pane of the TAS for VMs tile.
+
+If the values of the scaling metric for an app suddenly increase, the increase may not be reflected in an autoscaling event until the average for the metric
+increases.
+
+### <a id='autoscaling-limit'></a> App Has Reached Autoscaling Limit
+
+The number of instances for the app may have already reached the upper scaling limit you configured.
+
+To determine whether the app has reached the maximum number of instances:
+
+1. In a terminal window, run:
+
+    ```
+    cf autoscaling-events APP-NAME
+    ```
+    Where `APP-NAME` is the name of your app.
+    <br>
+    <br>
+    If Autoscaler has attempted to scale the app above the configured upper scaling limit, the above command returns output that contains an event description
+    similar to the following example:
+    <pre class="terminal">Can not scale up. At max limit of 20 instances.</pre>
+
+1. To review the upper and lower scaling limits you configured for the app, run:
+
+    ```
+    cf autoscaling-apps
+    ```
+    The above command returns output similar to the following example:
+    <pre class="terminal">
+    Name          Guid                                   Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
+    example-app   85a6aff3-c739-4364-8df3-44f1aa50662b   true      1               20              5                 1
+    </pre>
+
+To resolve this issue, you can configure a higher upper scaling limit for the app. For more information, see [Autoscaling
+Limits](productionizing-autoscaler.html#autoscaling-limits) in _Using App Autoscaler in Production_.
+
+### <a id='quota-reached'></a> Space or Org Quota is Reached
+
+The app may have already reached the number of app instances or used the amount of memory that the quota plan for the space or org allows. When an app reaches
+a resource quota for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. For more information, see [Reviewing Space and
+Org Quota Plans](productionizing-autoscaler.html#quotas-limiting-scaling) in _Using App Autoscaler in Production_.
+
+Review the quotas for both the space and the org in which your app is deployed to ensure that there are enough resources available in their quota plans for
+Autoscaler to create new app instances.
+
+To review the available resource quotas for the space and org in which an app is deployed:
+
+1. In a terminal window, view the name of the quota plan for the space in which the app is deployed by running:
+
+    ```
+    cf space SPACE-NAME
+    ```
+    Where `SPACE-NAME` is the name of the space in which the app is deployed.
+    <br>
+    <br>
+    In the terminal output that appears, the value of `space quota` is the name of the quota plan for the space.
+
+1. Record the name of the quota plan for the space that you retrieved in the previous step.
+
+1. View the name of the quota plan for the org containing the space in which the app is deployed by running:
+
+    ```
+    cf org ORG-NAME
+    ```
+    Where `ORG-NAME` is the name of the org containing the space in which the app is deployed.
+    <br>
+    <br>
+    In the terminal output that appears, the value of `quota` is the name of the quota plan for the org.
+
+1. Record the name of the quota plan for the org that you retrieved in the previous step.
+
+1. Review the available resource quotas for the space in which the app is deployed by running:
+
+    ```
+    cf space-quota QUOTA-PLAN-NAME
+    ```
+    Where `QUOTA-PLAN-NAME` is the name of the space quota plan that you recorded in a previous step.
+    <br>
+    <br>
+    The above command returns output similar to the following example:
+    <pre class="terminal">
+    Getting quota example-space info as admin@example.com...
+    OK
+
+    Total Memory           2G
+    Instance Memory        1G
+    Routes                 10
+    Services               10
+    Paid service plans     allowed
+    App instance limit     10
+    Reserved Route Ports   0
+    </pre>
+
+1. Review the available resource quotas for the org in which the app is deployed by running:
+
+    ```
+    cf org-quota QUOTA-PLAN-NAME
+    ```
+    Where `QUOTA-PLAN-NAME` is the name of the org quota plan that you recorded in a previous step.
+    <br>
+    <br>
+    The above command returns output similar to the following example:
+    <pre class="terminal">
+    Getting quota example-org info as admin@example.com...
+    OK
+
+    Total Memory           10G
+    Instance Memory        1G
+    Routes                 100
+    Services               100
+    Paid service plans     allowed
+    App instance limit     100
+    Reserved Route Ports   0
+    </pre>
+
+You can also try manually scaling the app. If the app has already reached one or more resource quota limits for your space or org, the Cloud Controller
+returns an error similar to the following example:
+
+<pre class="terminal">
+memory quota_exceeded
+FAILED
+</pre>
+
+To scale an app manually, see [Scale an App Manually](../../console/manage-apps.html#manual-scale) in _Managing Apps and Service Instances Using Apps Manager_
+or [Scaling an App Using cf scale](../../devguide/deploy-apps/cf-scale.html).
+
+Additionally, operators can configure verbose logging for Autoscaler, which logs if Autoscaler fails to scale an app as a result of reaching a resource quota
+limit. For more information, see [Configure Verbose Logging for Autoscaler](operating-autoscaler.html#verbose-logging) in _Operating Autoscaler_.
+
+### <a id='autoscaling-disallowed'></a> Autoscaling is Disallowed
+
+In order for Autoscaler to function in a TAS for VMs deployment, you must set the **App Autoscaler Errand** to **On** in the **Errands** pane of the TAS for
+VMs tile, and you must configure Autoscaler to scale the apps you want to autoscale.
+
+For more information, see the sections below:
+
+* [Allow Autoscaling](#allow-autoscaling)
+
+* [View Apps Configured to Autoscale](#confirm-autoscaling-config)
+
+#### <a id='allow-autoscaling'></a> Allow Autoscaling
+
+To allow autoscaling for an app:
+
+1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To
+configure the **App Autoscaler Errand** to deploy Autoscaler, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for
+VMs_.<% end %>
+
+1. Configure Autoscaler to scale the app through either the App Autoscaler Command-Line Interface (CLI) or Apps Manager. To configure autoscaling for an app
+through the App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_. To configure
+autoscaling for an app through Apps Manager, see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App
+Using App Autoscaler_.
+
+#### <a id='confirm-autoscaling-config'></a> View Apps Configured to Autoscale
+
+To see whether autoscaling is configured for the apps you want to scale:
+
+1. In a terminal window, run:
+
+    ```
+    cf autoscaling-apps
+    ```
+    The above command returns a list of apps that are bound to Autoscaler, similar to the following example:
+    <pre class="terminal">
+    Presenting autoscaler apps in org example-org / space example-space as user
+    Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
+    example-app           e0077xa5-34mp-42l7-e377-e0fcb14d67f3      true      1               4               1                 1
+    example-app-2         3e8x6a84-0m6p-4le9-9335-0aad3979d672      false     10              40              5                 2
+    OK
+    </pre>
+    If autoscaling is configured for an app that is bound to Autoscaler, the value shown in the `Enabled` column of the terminal output is `true`. If
+    autoscaling is not configured for an app that is bound to Autoscaler, the value shown in the `Enabled` column of the terminal output is `false`.
+
+### <a id='platform-scale-out'></a> TAS for VMs Components Are Failing or Underscaled
+
+Autoscaler may fail to scale an app if one of the TAS for VMs components on which it depends is failing or underscaled. For more information about these
+components, see [Failure Modes](observability.html#failure-modes) in _Using Debug Logs for App Autoscaler_.
+
+These components may need to be restarted or scaled up before Autoscaler can scale your app.<% if vars.platform_code != 'OFFLINE' %> To restart TAS for VMs components, see [Stopping and Starting
+Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Stopping and Starting Virtual Machines_. To scale TAS for VMs components up, see
+[Scaling Up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
+
+### <a id='rabbitmq-queue-depth'></a> Autoscaler Fails to Scale Apps Based on RabbitMQ Queue Depth Metric
+
+This section describes possible causes for Autoscaler failing to scale an app using RabbitMQ queue depth as its scaling metric. To determine the cause, see
+the following sections:
+
+* [Specified Queue Name in Autoscaling Rule is Incorrect](#check-rabbitmq-rule)
+
+* [Autoscaler Does Not Support Runtime CredHub](#rabbitmq-runtime-credhub)
+
+#### <a id='check-rabbitmq-rule'></a> Specified Queue Name in Autoscaling Rule is Incorrect
+
+Autoscaler cannot scale an app if the RabbitMQ queue name specified in your autoscaling rule is incorrect. Ensure that the queue name you configured in the
+autoscaling rule for the app is correct.
+
+#### <a id='rabbitmq-runtime-credhub'></a> Autoscaler Does Not Support Runtime CredHub
+
+You may see an autoscaling event similar to the following example:
+
+<pre class="terminal">
+Autoscaler did not receive any metrics for rabbitmq.example-queue during the scaling window. Scaling down is deferred until these metrics are available.
+</pre>
+
+In order to receive RabbitMQ queue depth metrics, Autoscaler must be able to retrieve service binding credentials for the RabbitMQ HTTP Management API from
+Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in the runtime CredHub, Autoscaler cannot retrieve service binding
+credentials from Cloud Controller.
+
+If the operator of your deployment has selected **Yes** under **On Demand - Secure Service Instance Credentials with Runtime CredHub** in the **Global
+Settings for On-Demand Plans** pane of the VMware Tanzu RabbitMQ for VMs tile and activated the **Secure service instance credentials** check box in the
+**CredHub** pane of the TAS for VMs tile, Autoscaler is unable to use RabbitMQ queue depth as the scaling metric for apps bound to RabbitMQ service instances.
+
+As a workaround, you can configure your app to emit a custom metric containing the RabbitMQ queue depth and configure Autoscaler to use this metric as its
+scaling metric for the app. For more information about custom metrics, see [Using Custom Scaling Metrics](custom-metrics.html).
+
+
+## <a id='underscaling'></a> Autoscaler Does Not Scale an App to Expected Number of Instances
+
+This section describes possible causes for Autoscaler scaling an app up to a certain number of instances, but not to the level that you expect. To determine
+the cause, see the following sections:
+
+* [Review Scaling Metric Values](#check-metrics)
+
+* [TAS for VMs Components Are Underscaled](#platform-underscaled)
+
+### <a id='check-metrics'></a> Review Scaling Metric Values
+
+The values of the scaling metric you configured Autoscaler to use for your app may be lower than you expect. For example, if you are load-testing your app and
+your load-testing tool is not working correctly, you may be generating less load on the app than you expect. For more information about load-testing an app,
+see [Load-Testing Your App](productionizing-autoscaler.html#load-testing) in _Using App Autoscaler in Production_.
+
+To review the values of your scaling metric, review the observability service that you use for your TAS for VMs deployment.
+
+### <a id='platform-underscaled'></a> TAS for VMs Components Are Underscaled
+
+If any TAS for VMs components on which Autoscaler depends are underscaled, Autoscaler cannot scale the number of app instances up enough to accommodate the
+amount of traffic that the app is receiving.
+
+For more information about how to determine which TAS for VMs components might be too underscaled to adequately support Autoscaler, see [Failure
+Modes](observability.html#failure-modes) in _Using Debug Logs for App Autoscaler_.
+
+#### <a id='log-cache-underscaled'></a> Log Cache is Underscaled
+
+When the averaged metric values that you see in autoscaling events are lower than you expect, it often means that Log Cache is underscaled. If Log Cache is
+underscaled, Autoscaler may not be able to retrieve all of the metrics associated with your app. When Autoscaler cannot retrieve enough metrics, it cannot
+calculate an accurate average metric value to record in autoscaling events.
+
+To determine whether Log Cache might be underscaled:
+
+1. In a terminal window, run:
+
+    ```
+    cf autoscaling-events
+    ```
+    The above command returns a list of autoscaling events that Autoscaler has recorded, which include averaged values of the scaling metric for your app.
+
+If the averaged metric values in the autoscaling events for an app are lower than the actual load that the app is processing, Log Cache may be evicting some
+metrics from its cache.
+
+To fix this issue, you can try the following actions:
+
+* Scale Log Cache horizontally by increasing the number of Log Cache instances in the **Resource Config** pane of the TAS for VMs tile.
+<% if vars.platform_code != 'OFFLINE' %> To scale Log Cache horizontally, see [Scaling Up TAS for
+VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
+
+* Scale Log Cache vertically by increasing the amount of memory in each instance of Log Cache. To scale Log Cache vertically, see [Scaling an App Using cf
+scale](../../devguide/deploy-apps/cf-scale.html).
+
+* Increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log Cache per source**
+field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the maximum number of envelopes that
+Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per Source](../../operating/configure-pas.html#log-cache-max-per-source) in
+_Configuring TAS for VMs_.<% end %>
+
+For more information about how Log Cache supports Autoscaler, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
+
+
+## <a id='autoscale-instances'></a> Autoscaler Scales Apps More Slowly Than Expected
+
+Autoscaler is itself an app that TAS for VMs deploys. By default, there are three instances of the Autoscaler app, `autoscale`, that can scale other apps in
+your TAS for VMs deployment. Each instance of Autoscaler queries the MySQL database in your TAS for VMs deployment to claim and process a set of apps that may
+need to be scaled. Each Autoscaler instance claims a different set of apps to process and scale independently of the other two Autoscaler instances. After an
+Autoscaler instance has processed and scaled one set of apps, it queries the MySQL database again and repeats the process.
+
+Each Autoscaler instance evaluates 10 apps at a time to determine whether they need to be scaled. The speed at which an Autoscaler instance can process a
+batch of apps is determined primarily by the number of metrics it retrieves from Log Cache for the apps within that batch. If Log Cache holds a large number
+of metrics for an app, Autoscaler does not begin processing the next batch of apps until either it retrieves all of those metrics or the request that
+Autoscaler makes to Log Cache for those metrics times out.
+
+To ensure that Autoscaler can scale all the apps for which you have configured autoscaling in a timely manner, you may need to increase the number of
+Autoscaler instances for your TAS for VMs deployment.
+
+To increase the number of Autoscaler instances:
+
+1. Navigate to the Ops Manager Installation Dashboard.
+
+1. Click the **VMware Tanzu Application Service** tile.
+
+1. Select **App Autoscaler**.
+
+1. In the **Autoscaler instance count** field, enter the number of Autoscaler instances you want to deploy.
+
+1. Click **Save**.
+
+1. Return to the Ops Manager Installation Dashboard.
+
+1. Click **Review Pending Changes**.
+
+1. Under the **VMware Tanzu Application Service** tile, click **Errands**. The **Errands** menu expands.
+
+1. Ensure that the **App Autoscaler Errand** check box is activated.
+
+1. Click **Apply Changes**.
+
+
+## <a id='scale-to-zero'></a> Scaling To and From Zero Instances
+
+Autoscaler can scale an app to and from zero instances only when it is configured to use RabbitMQ queue depth as its scaling metric.
+
+Because other scaling metrics are not emitted when an app has zero instances, Autoscaler cannot scale an app to and from zero instances when it is configured
+to use any scaling metric other than RabbitMQ queue depth.
+
+
+## <a id='slow-response'></a> New App Instances Are Slow to Respond to Requests
+
+When Autoscaler scales an app up, the new app instances may be slow to respond to requests. As a result, if you have configured Autoscaler to use HTTP latency
+as the scaling metric for the app, Autoscaler may scale the number of app instances up even more to compensate for the slow response time of the app instances
+it had previously created.
+
+When a new app instance is created, Diego runs health checks for the app instance. After all health checks have been completed successfully, Diego considers
+the app instance to be healthy. Diego then registers a route to the app instance with the Gorouter, and the Gorouter begins routing requests to the app
+instance.
+
+However, the app instance having passed all health checks may not indicate that the app instance is ready to respond to requests. Depending on the type of
+health check that you have configured for the app, the Gorouter may begin to route requests to app instances that are not ready to receive requests.
+
+The following list describes when the Gorouter begins routing requests to an app instance after each type of health check:
+
+* If you have configured a `process` health check, the Gorouter can begin routing requests to the app instance when all processes within the app are running.
+
+* If you have configured a `port` health check, the Gorouter can begin routing requests to the app instance when the app instance is able to receive TCP
+connections, even if it is not fully initialized.
+
+* If you have configured an `http` health check, the Gorouter can begin routing requests to the app instance when the app instance can provide an `HTTP 200`
+response to the health check, which indicates that the app instance is ready to respond to HTTP requests from the Gorouter.
+
+If the new app instances that Autoscaler has created are slow to respond to requests, you can configure Diego to run `http` health checks for your app to
+ensure that the Gorouter cannot route requests to app instances before they are ready to respond.
+
+For more information about how Diego runs an app, see [How Diego Runs an App](../../concepts/diego/diego-architecture.html#diagram) in _Diego Components and
+Architecture_. For more information about app health checks, including how to configure health checks and the types of health checks you can configure, see
+[Using App Health Checks](../../devguide/deploy-apps/healthchecks.html).
+
+
+## <a id='one-instance-per-space'></a> One Autoscaler Service Instance Allowed Per Space
+
+Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one Autoscaler service instance in a space, you see
+the following error:
+
+<pre class="terminal">
+Unexpected Response
+Response code: 409
+CC code:       10001
+CC error code: CF-ServiceBrokerConflict
+Request ID:    b3b6236b-82f5-42a7-5015-338369d5fea2::9d7c8b3a-0c4f-4935-b493-d6fe3f417f3b
+Description:   Service broker error: Only One App Autoscaler Service Instance Allowed Per Space
+FAILED
+</pre>
+
+You must use the existing Autoscaler service instance in your space and bind it to the app you want to autoscale. For more information, see [Create and Bind
+the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
+
+
+## <a id='oss-autoscaler'></a> App Autoscaler for Cloud Foundry Does Not Work with TAS for VMs
+
+There are two versions of the App Autoscaler CLI extension for the Cloud Foundry Command-Line Interface (cf CLI):
+
+* The VMware Tanzu App Autoscaler CLI Plugin, used with TAS for VMs
+
+* The Cloud Foundry App Auto-Scaler plugin, used with open-source Cloud Foundry deployments
+
+If you attempt to use the Cloud Foundry App Auto-Scaler plugin to control the App Autoscaler instance in your TAS for VMs deployment, you see the following
+error:
+
+<pre class="terminal">Error: Invalid AutoScaler API endpoint</pre>
+
+You must instead use the VMware Tanzu App Autoscaler CLI Plugin. To download the VMware Tanzu App Autoscaler CLI Plugin, go to [VMware Tanzu
+Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
