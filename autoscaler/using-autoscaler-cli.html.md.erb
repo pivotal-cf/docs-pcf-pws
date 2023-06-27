@@ -1,21 +1,20 @@
 ---
-title: Using the App Autoscaler CLI
+title: Using the App Autoscaler CLI for your TAS for VMs deployment
 owner: PCF Autoscaler
 ---
 
-This topic explains how to use the App Autoscaler Command-Line Interface (CLI).
+You can use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your TAS for VMs deployment. This article explains how.
 
+## <a id='overview'></a> App Autoscaler CLI overview
 
-## <a id='overview'></a> Overview of the App Autoscaler CLI
-
-The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI) that allows you to configure and control Autoscaler from your
-local command line.
+The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI). It allows you to configure and control Autoscaler from your
+local command line to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
 
 <p class='note'><strong>Note:</strong> The return output from the App Autoscaler CLI may include odd characters in Windows shells that do not support text
   color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do not support the <code>CF_COLOR</code> environment variable.</p>
 
 
-## <a id='install'></a> Install the App Autoscaler CLI Plugin
+## <a id='install'></a> Install the App Autoscaler CLI plug-in
 
 Before you can run App Autoscaler CLI commands, you must install the App Autoscaler CLI Plugin.
 
@@ -39,7 +38,7 @@ To install the plug-in:
     For more information about installing cf CLI plug ins, see [Install a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI Plugins_.
 
 
-## <a id='create-and-bind'></a> Create and Bind an Autoscaler Service Instance
+## <a id='create-and-bind'></a> Create and bind an Autoscaler service instance
 
 Before you can use Autoscaler, you must create a service instance of Autoscaler and bind it to your app. For more information about service instances, see
 [Managing Service Instances with the cf CLI](../../devguide/services/managing-services.html).
@@ -87,7 +86,7 @@ To create and bind an Autoscaler service instance:
   <a href="troubleshooting.html#one-instance-per-space">One Autoscaler Service Instance Allowed Per Space</a> in <em>Troubleshooting App Autoscaler</em>.</p>
 
 
-## <a id='view-apps'></a> View Apps Bound to Autoscaler
+## <a id='view-apps'></a> View apps bound to Autoscaler
 
 To view a list of all the apps that are bound to an Autoscaler service instance in a space:
 
@@ -119,7 +118,7 @@ To view a list of all the apps that are bound to an Autoscaler service instance 
     </pre>
 
 
-## <a id='allow-autoscaling'></a> Allow Autoscaling
+## <a id='allow-autoscaling'></a> Allow autoscaling
 
 To allow autoscaling for an app:
 
@@ -146,7 +145,7 @@ To allow autoscaling for an app:
   you must update these upper and lower autoscaling limits. For more information, see <a href="#configure-autoscaling-limits">Configure Autoscaling Limits</.</p>
 
 
-## <a id='disallow-autoscaling'></a> Disallow Autoscaling
+## <a id='disallow-autoscaling'></a> Disallow autoscaling
 
 To disallow autoscaling for an app:
 
@@ -170,7 +169,7 @@ To disallow autoscaling for an app:
     </pre>
 
 
-## <a id='configure-autoscaling-limits'></a> Configure Autoscaling Limits
+## <a id='configure-autoscaling-limits'></a> Configure autoscaling limits
 
 To configure the upper and lower autoscaling limits for an app:
 
@@ -202,7 +201,7 @@ For more information about autoscaling limits, see [Autoscaling Limits](producti
 Production_.
 
 
-## <a id='configure-scaling-factors'></a> Configure Scaling Factors
+## <a id='configure-scaling-factors'></a> Configure scaling factors
 
 To configure scaling factors for an app:
 
@@ -233,7 +232,7 @@ To configure scaling factors for an app:
 For more information about scaling factors, see [Scaling Factors](productionizing-autoscaler.html#scaling-factors) in _Using App Autoscaler in Production_.
 
 
-## <a id='autoscaling-rules'></a> Autoscaling Rules and Scaling Metrics
+## <a id='autoscaling-rules'></a> Autoscaling rules and scaling metrics
 
 To configure autoscaling rules for Autoscaler to use when making scaling decisions for an app, see the sections below:
 
@@ -251,7 +250,7 @@ Metrics](productionizing-autoscaler.html#scaling-metrics) in _Using App Autoscal
 For more information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default Metrics for Scaling
 Rules](about-app-autoscaler.html#default-metrics) and [Custom Metrics for Scaling Rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 
-### <a id='view-rules'></a> View All Autoscaling Rules
+### <a id='view-rules'></a> View all autoscaling rules
 
 To view all autoscaling rules that are configured for an app:
 
@@ -277,7 +276,7 @@ To view all autoscaling rules that are configured for an app:
     OK
     </pre>
 
-### <a id='create-rule'></a> Create an Autoscaling Rule
+### <a id='create-rule'></a> Create an autoscaling rule
 
 To create a new autoscaling rule for an app:
 
@@ -331,7 +330,7 @@ Metric](rabbit-mq.html).
 For more information about configuring Autoscaler to use a custom scaling metric as the scaling metric for an app, see [Using Custom Scaling
 Metrics](custom-metrics.html).
 
-### <a id='delete-rule'></a> Delete an Autoscaling Rule
+### <a id='delete-rule'></a> Delete an autoscaling rule
 
 To delete an autoscaling rule for an app:
 
@@ -360,7 +359,7 @@ Rules](#view-rules) above.
 
 1. When prompted, enter `y` to delete the autoscaling rule.
 
-### <a id='delete-all-rules'></a> Delete All Autoscaling Rules
+### <a id='delete-all-rules'></a> Delete all autoscaling rules
 
 To delete all autoscaling rules for an app:
 
@@ -381,7 +380,7 @@ To delete all autoscaling rules for an app:
 1. When prompted, enter `y` to delete all autoscaling rules for the app.
 
 
-## <a id='autoscaling-events'></a> View Autoscaling Events
+## <a id='autoscaling-events'></a> View autoscaling events
 
 To view a list of autoscaling events that Autoscaler has recorded for an app:
 
@@ -405,7 +404,7 @@ To view a list of autoscaling events that Autoscaler has recorded for an app:
     </pre>
 
 
-## <a id='scheduled-limit-changes'></a> Scheduled Limit Changes
+## <a id='scheduled-limit-changes'></a> Scheduled limit changes
 
 To configure scheduled limit changes for Autoscaler, see the sections below:
 
@@ -417,7 +416,7 @@ To configure scheduled limit changes for Autoscaler, see the sections below:
 
 For more information about scheduled limit changes, see [Scheduled Limit Changes](scheduled-limit-changes.html).
 
-### <a id='view-slcs'></a> View All Scheduled Limit Changes
+### <a id='view-slcs'></a> View all scheduled limit changes
 
 To view all scheduled limit changes for an app:
 
@@ -440,7 +439,7 @@ To view all scheduled limit changes for an app:
     f08f9803-6e5d-4519-abc3-fea640300d01      2018-06-12T22:00:00Z   0               1               Mo,Tu,We,Th,Fr
     </pre>
 
-### <a id='create-slc'></a> Create a Scheduled Limit Change
+### <a id='create-slc'></a> Create a scheduled limit change
 
 To create a scheduled limit change for an app:
 
@@ -488,7 +487,7 @@ To create a scheduled limit change for an app:
     7a19a8a2-e435-4c67-b038-cc4add8be686      2018-06-14T15:00:00Z   1               2               Sa
     </pre>
 
-### <a id='delete-slc'></a> Delete a Scheduled Limit Change
+### <a id='delete-slc'></a> Delete a scheduled limit change
 
 To delete a scheduled limit change for an app:
 
@@ -517,7 +516,7 @@ Changes](#view-slcs) above.
 1. When prompted, enter `y` to delete the scheduled limit change.
 
 
-## <a id='configure-autoscaling'></a> Configure Autoscaler Using a Manifest File
+## <a id='configure-autoscaling'></a> Configure Autoscaler by using a manifest file
 
 You can configure autoscaling rules, scaling limits, and scheduled limit changes for Autoscaler declaratively through a manifest file. This manifest file only
 configures Autoscaler, and does not interfere with any other existing app manifest files in your <%= vars.app_runtime_abbr %> deployment.

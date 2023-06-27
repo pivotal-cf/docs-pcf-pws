@@ -1,12 +1,12 @@
 ---
-title: Using HTTP Latency as a Scaling Metric
+title: Use HTTP latency as a scaling metric with App Autoscaler
 owner: Autoscaler
 ---
 
-This topic tells you about the HTTP latency metric and how to configure App Autoscaler to use this metric when scaling apps.
+You can configure App Autoscaler to use the HTTP latency metric to scale apps in your VMware TAS for VMs deployment. This article tells you how.
 
 
-## <a id='overview'></a> Overview of HTTP Latency
+## <a id='overview'></a> HTTP latency overview
 
 When an HTTP request is made to an app, the Gorouter in VMware Tanzu Application Service for VMs (TAS for VMs) generates several metrics. One of these
 metrics is `gorouter.latency`, or _HTTP latency_. The HTTP latency metric measures the length of time it takes to process an HTTP request, starting from when
@@ -40,7 +40,7 @@ Architecture](../../concepts/cf-routing-architecture.html).
 <% end %>
 
 
-## <a id='cf-cli-config'></a> Configuring HTTP Latency as the Scaling Metric for an App Through the cf CLI
+## <a id='cf-cli-config'></a> Configure HTTP latency as the scaling metric for an app through the cf CLI
 
 The procedures in this section describe how to configure Autoscaler to use HTTP latency as the scaling metric for an app through the cf CLI.
 
@@ -53,7 +53,7 @@ You can configure configure Autoscaler to use HTTP latency as the scaling metric
 For the procedures in this section, you must use the App Autoscaler CLI plug-in. To download and install the App Autoscaler CLI plug-in, see [Install the App
 Autoscaler CLI Plug-in](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
 
-### <a id='cf-cli-manifest-config'></a> Configure an Autoscaling Rule Using a Manifest File
+### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule by using a manifest file
 
 You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
 other existing app manifest files in your TAS for VMs deployment.
@@ -159,7 +159,7 @@ following configuration parameters:
     </ul>
 
 
-### <a id='cf-cli-commands-config'></a> Configure an Autoscaling Rule Using CLI Commands
+### <a id='cf-cli-commands-config'></a> Configure an autoscaling rule by using CLI commands
 
 To configure an autoscaling rule that defines HTTP latency as its scaling metric using CLI commands:
 
@@ -248,7 +248,7 @@ service instance by running:
     ```
 
 
-## <a id='apps-manager-config'></a> Configure HTTP Latency as the Scaling Metric for an App Through Apps Manager
+## <a id='apps-manager-config'></a> Configure HTTP latency as the scaling metric for an app through Apps Manager
 
 To configure Autoscaler to use HTTP latency as the scaling metric for an app through Apps Manager:
 
@@ -281,7 +281,7 @@ latency of the remaining 95% or 99% of HTTP requests.
 1. Click **Save**.
 
 
-## <a id='review-events'></a> Reviewing Autoscaling Events for Changes in HTTP Latency
+## <a id='review-events'></a> Reviewing autoscaling events for changes in HTTP latency
 
 When Autoscaler scales the number of app instances up after the HTTP latency metric increases above the maximum HTTP latency threshold, Autoscaler records an
 autoscaling event.
@@ -292,7 +292,9 @@ You can monitor the autoscaling events that Autoscaler records for changes in HT
 
 * Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through Apps Manager](#review-events-apps-manager).
 
-### <a id='review-events-cli'></a> Review Autoscaling Events for Changes in HTTP Latency Through the cf CLI
+* Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in HTTP Latency Through Apps Manager](#review-events-apps-manager)
+as follows
+### <a id='review-events-cli'></a> Review autoscaling events for changes in HTTP latency through the cf CLI
 
 To review the autoscaling events that Autoscaler records for changes in HTTP latency through the cf CLI:
 
@@ -311,7 +313,7 @@ To review the autoscaling events that Autoscaler records for changes in HTTP lat
     2022-05-23T21:47:45Z   Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
     </pre>
 
-### <a id='review-events-apps-manager'></a> Review Autoscaling Events for Changes in HTTP Latency Through Apps Manager
+### <a id='review-events-apps-manager'></a> Review autoscaling events for changes in HTTP latency through Apps Manager
 
 To review the autoscaling events that Autoscaler records for changes in HTTP latency through Apps Manager:
 
@@ -332,7 +334,7 @@ increases in the HTTP latency metric, the list of autoscaling events includes ev
     ```
 
 
-## <a id='special-considerations'></a> Special Considerations for Using HTTP Latency as a Scaling Metric
+## <a id='special-considerations'></a> Special considerations for using HTTP latency as a scaling metric
 
 This section describes use cases that may complicate or prevent you from configuring HTTP latency as the scaling metric for an app. For more information, see
 the sections below:
@@ -347,13 +349,13 @@ the sections below:
 
 * [Infrequent Requests](#infrequent-requests)
 
-### <a id='multiple-endpoints'></a> Multiple Endpoints
+### <a id='multiple-endpoints'></a> Multiple endpoints
 
 In an app that exposes multiple endpoints, the value of the HTTP latency metric is the average HTTP latency across all app endpoints. If one or more endpoints
 process requests at a slower rate than the others, HTTP latency might not be an ideal scaling metric to use. Even a fast endpoint can cause the average HTTP
 latency to increase if it receives a large number of requests.
 
-### <a id='external-factors'></a> External Factors
+### <a id='external-factors'></a> External factors
 
 Components or services that receive data from an app are known as _downstream_ components. If any downstream components respond slowly to requests from an
 app, they may cause HTTP latency to increase. In this case, scaling the app up does not improve its performance. In fact, scaling the app up might _increase_
@@ -363,7 +365,7 @@ or improved before scaling the app up can improve its performance.
 Other external factors, such as network congestion or database performance, can also cause HTTP latency to increase. In this case, scaling the app does not
 decrease HTTP latency that results from these external factors.
 
-### <a id='c2c'></a> Container-to-Container Networking
+### <a id='c2c'></a> Container-to-container networking
 
 Autoscaler can only use HTTP latency as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not currently support
 using HTTP latency as a scaling metric for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
@@ -372,7 +374,7 @@ If your app relies on back-end HTTP services that apps in your TAS for VMs deplo
 events for those requests. As a result, Autoscaler cannot scale those HTTP services. In order for Autoscaler to scale them, you must either use a different
 default scaling metric or create a custom scaling metric for them.
 
-### <a id='log-cache-eviction'></a> Log Cache Eviction
+### <a id='log-cache-eviction'></a> Log cache eviction
 
 Autoscaler retrieves HTTP metrics from Log Cache, which can hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of
 HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve
@@ -381,7 +383,7 @@ the app or causes of decreased app performance. However, in most cases, the HTTP
 
 For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
 
-### <a id='infrequent-requests'></a> Infrequent Requests
+### <a id='infrequent-requests'></a> Infrequent requests
 
 If an app receives requests infrequently and responds slowly, Autoscaler might continue scaling the app up because there are no other HTTP latency metrics to
 restore the average. In this case, Autoscaler usually stops scaling the app up after the original request falls outside of the metric collection interval.

@@ -1,18 +1,18 @@
 ---
-title: Scaling an App Using App Autoscaler
+title: Using App Autoscaler to scale apps in TAS for VMs
 owner: App Autoscaler
 ---
 
-This topic describes how users with the Space Developer role can set up and configure the App Autoscaler service in the Apps Manager UI to automatically scale apps based on rules that they set.
+With the Space Developer role, you can configure the App Autoscaler service in Apps Manager to automatically scale apps in your TAS for VMs deployment.
 
 You can use the App Autoscaler command-line interface (CLI) plugin to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
 <p class='note'><strong>Note:</strong> Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.</p>
 
 
-## <a id="overview"></a> Overview
+## <a id="overview"></a> App Autoscaler overview
 
-To use App Autoscaler to automatically scale your apps, you must create and bind the App Autoscaler service, then configure scaling rules for App Autoscaler.
+To use App Autoscaler to automatically scale your apps in you VMware Tanzu Application Service for VMs (TAS for VMs) deployment, you must create and bind the App Autoscaler service, then configure scaling rules for App Autoscaler.
 
 For more information about App Autoscaler, including information about how to create scaling rules, see [About App Autoscaler](about-app-autoscaler.html).
 
@@ -52,7 +52,7 @@ To configure App Autoscaler:
 
 1. Configure autoscaling instance limits for your app. See [Configure Autoscaling for an App](#config).
 
-### <a id="create-bind-service"></a> Create and Bind the App Autoscaler Service
+### <a id="create-bind-service"></a> Create and bind the App Autoscaler service
 
 To use App Autoscaler, you must create an instance of the App Autoscaler service and bind it to any app you want to autoscale. You can do this using either the Apps Manager or from the Cloud Foundry Command Line Interface (cf CLI):
 
@@ -76,7 +76,7 @@ To enable App Autoscaler for an app:
 1. Click **Manage Autoscaling** to configure instance limits, scaling rules, and scheduled limit changes for the app. For more information, see [Configure Autoscaling for an App](#config).
     <%= image_tag("images/manage-autoscaling.png", :alt => "At the top of the image is a black X to close the window, followed by the header 'Manage Autoscaling'. Below the header is a white, rectangular button labeled 'Disable Autoscaling'. To the far right of the button is a link,'Download Autoscaler CLI', which points to the Autoscaler CLI page on Tanzu Network. Below is a subheader, 'Instance Limits'. This section shows a thin gray progress bar with the first two fifths in blue, labeled 'Currently in use: 2'. Below the bar are two text fields. The text field on the left is labeled 'Minimum' and has a value of '1'. The text field on the right is labeled 'Maximum' and has a value of '5'. To the right of the text fields is a grayed-out blue, rectangular button labeled 'Apply Changes'.") %>
 
-### <a id="config"></a> Configure Autoscaling for an App
+### <a id="config"></a> Configure autoscaling for an app
 
 App Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values. The minimum and maximum values are called instance limits.
 
@@ -88,7 +88,7 @@ Follow the procedures in the sections below:
 * [Add or Delete Scaling Rules](#metric)
 * [Create or Modify Scheduled Limit Changes](#schedule)
 
-#### <a id="limits"></a> Create or Modify Instance Limits
+#### <a id="limits"></a> Create or modify instance limits
 
 This section describes how to create and edit instance limits for app scaling rules. You can also schedule changes to your instance limits for a specific date and time. For more information, see [Scheduled Limit Changes](#schedule).
 
@@ -102,7 +102,7 @@ To manually modify instance limits:
 
 1. Click **Apply Changes**.
 
-#### <a id="metric"></a> Add or Delete Scaling Rules
+#### <a id="metric"></a> Add or Delete scaling rules
 
 The following procedures describe how to add and delete scaling rules for your apps with App Autoscaler.
 
@@ -135,7 +135,7 @@ To delete a scaling rule for an app:
 
 1. Click **Save**.
 
-#### <a id="schedule"></a> Create or Modify Scheduled Limit Changes
+#### <a id="schedule"></a> Create or modify scheduled limit changes
 
 Because app demand often follows a weekly, daily, or hourly schedule, you can schedule App Autoscaler to change the allowable instance range to track expected surges or quiet periods.
 
@@ -174,18 +174,18 @@ For example, to schedule an app to scale down for a weekend, you can enter two r
 	* **Min** and **Max**: `3` and `5`
 
 
-## <a id="notifs"></a> View and Manage App Autoscaler Events and Notifications
+## <a id="notifs"></a> View and manage App Autoscaler events and notifications
 
 App Autoscaler logs all autoscaling events. You can view event history and manage notifications for App Autoscaler.
 
-### <a id='view-event-history'></a> View Event History
+### <a id='view-event-history'></a> View event history
 
 To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane.
 ![alt-text="At the top of the image is a subheader, 'Event History'.
 Below is the text, 'Most Recent:', and to the far right, the text 'Mon June 4, 2018 at 3:12 PM'
 in bold. Below this is the text, 'Rule Applied: Scaling Limits set to 2 to 5 instances'."](./images/event-history.png)
 
-### <a id='manage-notifications'></a> Manage App Autoscaler Notifications
+### <a id='manage-notifications'></a> Manage App Autoscaler notifications
 
 App Autoscaler emails or texts its event notifications to all users with the Space Developer role by default.
 

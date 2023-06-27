@@ -1,18 +1,17 @@
 ---
-title: Using the App Autoscaler API
+title: Using the App Autoscaler API for your TAS for VMs deployment
 owner: App Autoscaler
 ---
 
-This topic explains how to use the App Autoscaler API.
+You can use the App Autoscaler API as an interface to App Autoscaler to configure and control scaling apps in your TAS for VMs deployment.
 
-You can use the App Autoscaler API as an interface to App Autoscaler.
-You can also use the App Autoscaler Cloud Foundry command-line interface (cf CLI) plugin, which offers the same features as the App Autoscaler API.
+You can also use the App Autoscaler Cloud Foundry command-line interface (cf CLI) plug-in, which offers the same features as the App Autoscaler API.
 See [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
-## <a id="api-endpoints"></a>API Endpoints
+## <a id="api-endpoints"></a>API endpoints
 
-The API is exposed by the autoscale-api app that runs next to the autoscale app in the autoscaling space of the system org.
-This is the base URL of all the requests covered in the following sections:
+The API uses the autoscale-api app that runs next to the autoscale app in the autoscaling space of the system org.
+This is the base URL of all the requests covered in the following sections.
 
 If your system domain is `system-domain.com`, in most cases you can reach the autoscale app at `autoscale.sys.system-domain.com` and the API at `autoscale.sys.system-domain.com/api/v2`.
 Confirm that you can reach both the app and the API before you proceed.
@@ -27,7 +26,7 @@ When you are logged in to your foundation with the cf CLI, get an access token b
 
 <p class="note"><strong>Note:</strong> The App Autoscaler API often returns a 404 error when a token is incorrect. If you a receiving a lot of 404 errors, check your access token.</p>
 
-## <a id="content-type"></a>Content Type Header
+## <a id="content-type"></a>Content type header
 
 To make any PUT or POST requests, you must set the `Content-Type` header to `application/json`.
 If you do not set this, you might see the following error:
@@ -80,13 +79,13 @@ None
 A string denoting the App Autoscaler API version.
 
 
-## <a id="apps"></a>App Bindings
+## <a id="apps"></a>App bindings
 
 This section lists operations for app bindings.
 
 Apps that are bound to App Autoscaler are represented by the App Autoscaler API as apps.
 
-### <a id="app-object"></a>App Binding Object
+### <a id="app-object"></a>App binding object
 
 | **Name** | **Type** | **Description** |
 | ---- | ---- | ----------- |
@@ -99,7 +98,7 @@ Apps that are bound to App Autoscaler are represented by the App Autoscaler API 
 | scaling_factors.down | integer | The number of instances to decrement by when scaling down |
 | updated_at | string | The timestamp for when this object was last updated |
 
-### <a id="get-apps"></a>Get All App Bindings in a Space
+### <a id="get-apps"></a>Get All app bindings in a space
 
 ```
 GET /api/v2/apps
@@ -116,7 +115,7 @@ GET /api/v2/apps
 
 A paginated list of app bindings.
 
-### <a id="get-app"></a>Get an App Binding
+### <a id="get-app"></a>Get an app binding
 
 ```
 GET /api/v2/apps/:app_guid
@@ -133,7 +132,7 @@ GET /api/v2/apps/:app_guid
 
 An app binding.
 
-### <a id="update-app"></a>Update an App Binding
+### <a id="update-app"></a>Update an app binding
 
 ```
 PUT /api/v2/apps/:app_guid
@@ -161,7 +160,7 @@ This section lists operations to retrieve events.
 
 Scaling events include all scaling decisions made by App Autoscaler and other relevant changes. For example, an app is enabled or disabled.
 
-### <a id="event-object"></a>Event Object
+### <a id="event-object"></a>Event object
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
@@ -170,7 +169,7 @@ Scaling events include all scaling decisions made by App Autoscaler and other re
 | scaling_factor | integer | The change in number of instances |
 | updated_at | string | The timestamp for when this object was last updated |
 
-### <a id="get-events"></a>Get All Events for an App
+### <a id="get-events"></a>Get all events for an app
 
 ```
 GET /api/v2/apps/:app_guid/events
@@ -194,7 +193,7 @@ This section lists operations for rules.
 
 Rules are tied to individual apps, and no one app can have multiple rules of the same category.
 
-### <a id="rule-object"></a>Rule Object
+### <a id="rule-object"></a>Rule object
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
@@ -210,7 +209,7 @@ Rules are tied to individual apps, and no one app can have multiple rules of the
 | threshold.min | float | The threshold below which the app is scaled down |
 | updated_at | string | The timestamp for when this object was last updated |
 
-### <a id="get-rules"></a>Get All Rules for an App
+### <a id="get-rules"></a>Get all rules for an app
 
 ```
 GET /api/v2/apps/:app_guid/rules
@@ -227,7 +226,7 @@ GET /api/v2/apps/:app_guid/rules
 
 A paginated list of rules.
 
-### <a id="create-rule"></a>Create a Rule
+### <a id="create-rule"></a>Create a rule
 
 ```
 POST /api/v2/apps/:app_guid/rules
@@ -251,7 +250,7 @@ POST /api/v2/apps/:app_guid/rules
 
 A rule.
 
-### <a id="replace-rules"></a>Replace All Rules
+### <a id="replace-rules"></a>Replace all rules
 
 ```
 PUT /api/v2/apps/:app_guid/rules
@@ -268,7 +267,7 @@ PUT /api/v2/apps/:app_guid/rules
 
 A paginated list of rules.
 
-### <a id="delete-rules"></a>Delete All Rules
+### <a id="delete-rules"></a>Delete all rules
 
 ```
 DELETE /api/v2/apps/:app_guid/rules
@@ -284,7 +283,7 @@ DELETE /api/v2/apps/:app_guid/rules
 
 A 204 status code and empty body indicating that all rules were deleted.
 
-### <a id="get-rule"></a>Get a Rule
+### <a id="get-rule"></a>Get a rule
 
 ```
 GET /api/v2/apps/:app_guid/rules/:guid
@@ -301,7 +300,7 @@ GET /api/v2/apps/:app_guid/rules/:guid
 
 A rule.
 
-### <a id="delete-rule"></a>Delete a Rule
+### <a id="delete-rule"></a>Delete a rule
 
 ```
 DELETE /api/v2/apps/:app_guid/rules/:rule_guid
@@ -319,13 +318,13 @@ DELETE /api/v2/apps/:app_guid/rules/:rule_guid
 A 204 status code and empty body indicating that the rule was deleted.
 
 
-## <a id="slcs"></a>Scheduled Limit Changes
+## <a id="slcs"></a>Scheduled limit changes
 
 This section lists operations for scheduled limit changes (SLCs).
 
 SLCs are jobs scheduled for the future that alter app status, such as enabling, disabling, or instance limits.
 
-### <a id="slc-object"></a>Scheduled Limit Change Object
+### <a id="slc-object"></a>Scheduled limit change object
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
@@ -338,7 +337,7 @@ SLCs are jobs scheduled for the future that alter app status, such as enabling, 
 | recurrence | integer | A number that represents the days of the week that the change executes. Each bit in the number represents a day in the following order: sun, mon, tue, wed, thur, fri, sat. For example, repeat mon, wed, fri = 0101010 = 42. |
 | updated_at | string | The timestamp for when this object was last updated |
 
-### <a id="get-slcs"></a>Get All Scheduled Limit Changes for an App
+### <a id="get-slcs"></a>Get All scheduled limit changes for an app
 
 ```
 GET /api/v2/apps/:app_guid/scheduled_limit_changes
@@ -355,7 +354,7 @@ GET /api/v2/apps/:app_guid/scheduled_limit_changes
 
 A paginated list of SLCs.
 
-### <a id="create-slc"></a>Create a Scheduled Limit Change
+### <a id="create-slc"></a>Create a scheduled limit change
 
 ```
 POST /api/v2/apps/:app_guid/scheduled_limit_changes
@@ -376,7 +375,7 @@ POST /api/v2/apps/:app_guid/scheduled_limit_changes
 
 An SLC.
 
-### <a id="set-slcs"></a>Replace All Scheduled Limit Changes for an App
+### <a id="set-slcs"></a>Replace all scheduled limit changes for an app
 
 ```
 PUT /api/v2/apps/:app_guid/scheduled_limit_changes
@@ -393,7 +392,7 @@ PUT /api/v2/apps/:app_guid/scheduled_limit_changes
 
 A paginated list of SLCs.
 
-### <a id="delete-slcs"></a>Delete all Scheduled Limit Changes for an App
+### <a id="delete-slcs"></a>Delete all scheduled limit changes for an app
 
 ```
 DELETE /api/v2/apps/:app_guid/scheduled_limit_changes
@@ -409,7 +408,7 @@ DELETE /api/v2/apps/:app_guid/scheduled_limit_changes
 
 A 204 status code and empty body indicating that the SLCs were deleted.
 
-### <a id="get-slc"></a>Get a Scheduled Limit Change
+### <a id="get-slc"></a>Get a scheduled limit change
 
 ```
 GET /api/v2/apps/:app_guid/scheduled_limit_changes/:guid
@@ -426,7 +425,7 @@ GET /api/v2/apps/:app_guid/scheduled_limit_changes/:guid
 
 An SLC object.
 
-### <a id="delete-slc"></a>Delete a Scheduled Limit Change
+### <a id="delete-slc"></a>Delete a scheduled limit change
 
 ```
 DELETE /api/v2/apps/:app_guid/scheduled_limit_changes/:guid
