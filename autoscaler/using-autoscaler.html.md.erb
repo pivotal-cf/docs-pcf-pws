@@ -94,11 +94,14 @@ This section describes how to create and edit instance limits for app scaling ru
 
 To manually modify instance limits:
 
-1. In Apps Manager, navigate to the **Overview** page for your app. Under **Processes and Instances**, click **Manage Autoscaling**.
+1. In Apps Manager, go to the **Overview** page for your app. Under **Processes and Instances**, click **Manage Autoscaling**.
 
 1. In the **Instance Limits** section, set values for **Minimum** and **Maximum**.
-
-    <%= image_tag("images/instance-limits.png", :alt => "At the top of the image is a black X to close the window, followed by the header 'Manage Autoscaling'. Below the header, on the far right, is a link, 'Download Autoscaler CLI', which points to the Autoscaler CLI page on Tanzu Network. Next is a subheader, 'Instance Limits'. This section shows a thin gray progress bar with the first two fifths in blue, labeled 'Currently in use: 2'. Below the bar are two number input fields. The input field on the left is labeled 'Minimum' and has a value of '2'. The input field on the right is labeled 'Maximum' and has a value of '5'. To the right of the input fields is a grayed-out blue, rectangular button labeled 'Apply Changes'.") %>
+![alt-text="At the top of the
+image is a black X to close the window, followed by the header
+'Manage Autoscaling'. Below the header, on the far right, is a link,
+'Download Autoscaler CLI', which points to the Autoscaler CLI page on Tanzu
+Network."](./images/instance-limits.png)
 
 1. Click **Apply Changes**.
 
@@ -114,7 +117,7 @@ To add a scaling rule for an app:
 
 1. Click **Add Rule**.
 
-1. In the **Select type** dropdown, select the metric for the new scaling rule.
+1. In the **Select type** drop-down menu, select the metric for the new scaling rule.
 ![alt-text="At the top of the image is a gray left arrow that returns to the previous screen, next to a
 header, 'Edit Scaling Rules'. Below is the text: 'Apps scale by 1 instance per event. Apps can scale up
 when any metric maximum is met and scale down only when all metric minimums are met."](./images/scaling-rules.png)
@@ -149,8 +152,11 @@ To create or modify a scheduled limit change:
 	* **Date** and **Time (local)**: Set the date and time of the change.
 	* **Repeat (Optional)**: Set the day of the week for which you want to repeat the change.
 	* **Min** and **Max**: Set the allowable range within which App Autoscaler can change the instance count for an app.
+    ![alt-text="At the top of the image is a gray left
+    arrow that returns to the previous screen, next to a header,
+    'Scheduled Limit Changes: rails-docs-sample'. Below is a subheader,
+    'Configure'."](./images/scheduled-changes.png)
 
-      <%= image_tag("images/scheduled-changes.png", :alt => "At the top of the image is a gray left arrow that returns to the previous screen, next to a header, 'Scheduled Limit Changes: rails-docs-sample'. Below is a subheader, 'Configure'. This section contains, side by side, two sets of three dropdowns. The three dropdowns to the left are labeled 'Date': the first has the value 'June', the second has the value '4', and the third has the value '2018'. The three dropdowns to the right are labeled 'Time (local)': the first has the value '4', the second has the value '32', and the third has the value 'PM'. Immediately below is a row of seven checkboxes for 'Repeat (Optional)'. The checkboxes are labeled, from left to right, 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', and 'Sa'. Beside the checkboxes are two text fields, labeled 'Min' and 'Max'. Immediately below, on the far right, is a grayed-out blue, rectangular button labeled 'Save'. Next is a subheader, 'Scheduled', with a link to the far right, 'Add New'. Below this subheader is a table with five columns labeled, from left to right, 'Date', 'Time', 'Repeat', 'Min', and 'Max'. Below this is one row. Under 'Date' is the text 'Jun 11, 2018'. Under 'Time' is the text '3:12 PM'. Under 'Repeat' is the text 'Mo'. Under 'Min' is the number '2'. Under 'Max' is the number '5'. Beside this row, on the right, is a grayed-out link, 'Edit', and to the right of the link, a red X.") %>
 
 1. Click **Save**.
 
@@ -181,6 +187,7 @@ App Autoscaler logs all autoscaling events. You can view event history and manag
 ### <a id='view-event-history'></a> View event history
 
 To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane.
+
 ![alt-text="At the top of the image is a subheader, 'Event History'.
 Below is the text, 'Most Recent:', and to the far right, the text 'Mon June 4, 2018 at 3:12 PM'
 in bold. Below this is the text, 'Rule Applied: Scaling Limits set to 2 to 5 instances'."](./images/event-history.png)
