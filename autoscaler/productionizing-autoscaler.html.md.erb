@@ -157,11 +157,11 @@ Rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 ### <a id='c2c-networking'></a> Autoscaler and C2C networking
 
 Autoscaler can only use **HTTP Latency** and **HTTP Throughput** as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler
-does not currently support using these two metrics for apps that receive requests from other apps through container-to-container (C2C) networking or TCP
+does not support using these two metrics for apps that receive requests from other apps through container-to-container (C2C) networking or TCP
 routers.
 
 If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP
-events for those requests. As a result, Autoscaler cannot scale those HTTP services. In order for Autoscaler to scale them, you must either use a different
+events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different
 default scaling metric or create a custom scaling metric for them.
 
 
@@ -197,7 +197,7 @@ To configure scaling factors for an app:
       <li><code>SCALE-DOWN-FACTOR</code> is the number of app instances by which you want Autoscaler to scale down at a time.</li>
     </ul>
 
-    For example, running the following command configures Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
+    For example, running the following configures Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
 
     ```
     cf update-autoscaling-factors example-app 20 10
@@ -243,9 +243,9 @@ To monitor the autoscaling events that Autoscaler records as it scales an app:
 
 ### <a id='confirm-correct-calculation'></a> Confirming metric values from Autoscaler
 
-For some scaling metrics, you can determine whether Autoscaler is using the correct metric values by comparing the load that your load-testing tool generates
+For some scaling metrics, you can verify whether Autoscaler is using the correct metric values by comparing the load that your load-testing tool generates
 to the metric values that Autoscaler records. If these two values are not the same, such as if Autoscaler reports a lower number of requests per second than
-your load-testing tool generated, this may indicate that you need to further scale TAS for VMs components on which Autoscaler relies.
+your load-testing tool generated, this might indicate that you must further scale TAS for VMs components on which Autoscaler relies.
 
 For more information about TAS for VMs components you can scale to better support Autoscaler, see [Operating Autoscaler](operating-autoscaler.html).
 
@@ -255,7 +255,7 @@ For each autoscaling step that you test, you should confirm the following:
 
 * Autoscaler records when a scaling metric has crossed the maximum metric threshold
 
-* Autoscaler successfully scales the number of app instances up
+* Autoscaler successfully scaled the number of app instances up
 
 * Creating more app instances brings the scaling metric back to below the maximum metric threshold
 
