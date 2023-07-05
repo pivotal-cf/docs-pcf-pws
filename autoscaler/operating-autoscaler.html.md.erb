@@ -26,7 +26,7 @@ For information about the TAS for VMs components that you might need to adjust t
 * [Log Cache](#log-cache)
 
 
-## <a id='diego-cells'></a> Diego Cells
+## <a id='diego-cells'></a> Diego cells
 
 Before you configure Autoscaler to scale your apps, you must ensure that your Diego Cells have enough resources to meet the autoscaling demands of your
 apps. To ensure that your Diego Cells can accommodate autoscaling, VMware recommends monitoring the total available memory, total available disk, and
@@ -160,7 +160,7 @@ accommodate app traffic during peak hours. In cases like this, VMware recommends
 does not need them to accommodate the maximum amount of expected traffic.
 
 
-## <a id='log-cache'></a> Log Cache
+## <a id='log-cache'></a> Log cache
 
 Autoscaler scales the number of app instances based primarily on the metric envelopes it receives from Log Cache. To ensure that Log Cache can support
 Autoscaler, you must ensure that Log Cache can store enough metric envelopes that Autoscaler can make appropriate scaling decisions.
