@@ -135,7 +135,7 @@ For more information, see:
 
 * [MySQL](#mysql)
 
-### <a id='log-cache'></a> Log Cache
+### <a id='log-cache'></a> Log cache
 
 Autoscaler depends heavily on Log Cache, which provides the majority of metrics that Autoscaler uses to determine when to scale an app. If Log Cache fails or is insufficiently scaled, Autoscaler cannot retrieve metrics, so it cannot determine when to scale an app.
 
@@ -151,7 +151,7 @@ To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
 
 For more information about Log Cache, see [Logging and Metrics Architecture](../../loggregator/architecture.html) and [Log Components](../../loggregator/agent-architecture.html#log-egress) in _Log and Metric Agent Architecture (Beta)_.
 
-#### <a id='lc-gateway-unavailable'></a> Log Cache gateway is unavailable
+#### <a id='lc-gateway-unavailable'></a> Log cache gateway is unavailable
 
 When Autoscaler cannot connect to the Log Cache gateway, you see an autoscaling event similar to the following example:
 
@@ -165,7 +165,7 @@ You also see an error similar to the following example in the debug logs for Aut
 
 To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
 
-#### <a id='lc-node-failure'></a> Individual Log Cache instance fails
+#### <a id='lc-node-failure'></a> Individual log cache instance fails
 
 Log Cache holds the log and metric envelopes for an app on a single Log Cache instance. When that Log Cache instance fails, Autoscaler cannot retrieve those envelopes, so it cannot determine when to scale an app.
 
@@ -181,7 +181,7 @@ You also see an error similar to the following example in the debug logs for Aut
 
 To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
 
-#### <a id='lc-node-unresponsive'></a> Log Cache instances are unresponsive
+#### <a id='lc-node-unresponsive'></a> Log cache instances are unresponsive
 
 When Log Cache instances do not respond to requests from Autoscaler, you see an autoscaling event similar to the following example:
 
@@ -197,7 +197,7 @@ You also see an error similar to the following example in the debug logs for Aut
 
 To view autoscaling events for an app, see [View Event History](using-autoscaler.html#view-event-history) in _Scaling an App Using App Autoscaler_ or [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
 
-### <a id='cloud-controller'></a> Cloud Controller
+### <a id='cloud-controller'></a> Cloud controller
 
 Autoscaler reads the app metadata that the Cloud Controller stores to discover how many instances an app currently has. When Autoscaler scales the number of app instances up or down, it sends a request to the Cloud Controller. Then, the Cloud Controller directs the Diego Cell that runs the app to stage the number of app instances that Autoscaler has requested.
 
@@ -225,7 +225,7 @@ When scaling would cause the application to exceed a quota, you see an autoscali
 
 <pre class="terminal">Unable to scale. App instance quota has been reached</pre>
 
-#### <a id='cc-api-stopped'></a> Cloud Controller API is stopped
+#### <a id='cc-api-stopped'></a> Cloud controller API is stopped
 
 When the Cloud Controller API is stopped, you see an autoscaling event similar to the following example:
 
@@ -241,11 +241,11 @@ You also see an error similar to the following example in the debug logs for Aut
 
 To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
 
-#### <a id='cc-unresponsive'></a> Cloud Controller is unresponsive
+#### <a id='cc-unresponsive'></a> Cloud controller is unresponsive
 
 When the Cloud Controller does not respond to requests from Autoscaler or Log Cache, you see an autoscaling event similar to the following example:
 
-<pre class="terminal">Unable to scale due to Cloud Controller error.</pre>
+<pre class="terminal">Unable to scale due to cloud cntroller error.</pre>
 
 <p class='note'><strong>Note:</strong> To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.</p>
 

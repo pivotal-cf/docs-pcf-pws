@@ -6,7 +6,7 @@ read our [Developer Certificate of Origin](https://cla.vmware.com/dco). All cont
 signed as described on that page. Your signature certifies that you wrote the patch or have the right to pass it on
 as an open-source patch.
 
-## Contribution Flow
+## Contribution flow
 
 This is a rough outline of what a contributor's workflow looks like:
 
@@ -36,7 +36,7 @@ amend the commit.
 Be sure to add a comment to the PR indicating your new changes are ready to review, as GitHub does not generate a
 notification when you git push.
 
-### Formatting Commit Messages
+### Formatting commit messages
 
 We follow the conventions on [Conventional Commits](https://www.conventionalcommits.org/) and
 [How to Write a Git Commit Message](http://chris.beams.io/posts/git-commit/).
