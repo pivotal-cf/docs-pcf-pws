@@ -231,8 +231,8 @@ service instance by running:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-      <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below this number, Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above this number,
+      <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP latency threshold in milliseconds. If the average latency of HTTP requests falls below<!--฿ If referring to a page location, use |following| or |later| or, better, just use an anchor. If referring to product versions, use |earlier|. ฿--> this number, Autoscaler scales the number of app instances down.</li>
+      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP latency threshold in milliseconds. If the average latency of HTTP requests rises above<!--฿ If referring to a page location, use |earlier| or, better, just use an anchor. If referring to product versions, use |later|. ฿--> this number,
       Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least twice the value of the minimum threshold.</li>
       <li><code>PERCENTILE</code> is the percentile that Autoscaler uses in scaling decisions. Valid values are <code>avg_95th</code> or <code>avg_99th</code>. This value configures Autoscaler to
       ignore HTTP requests that fall outside either the 95th or 99th percentile and average the latency of the remaining 95% or 99% of HTTP requests.</li>
@@ -309,7 +309,7 @@ To review the autoscaling events that Autoscaler records for changes in HTTP lat
     2022-05-23T21:47:45Z   Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
     </pre>
 
-### <a id='review-events-apps-manager'></a> Review autoscaling events for changes in HTTP latency through Apps Manager
+### <a id='review-events-apps-manager'></a> Review autoscaling events for changes in HTTP latency through Apps Manager<!--฿ Shorten the anchor ID to 25 characters or fewer. Use dashes instead of spaces or periods. ฿-->
 
 To review the autoscaling events that Autoscaler records for changes in HTTP latency through Apps Manager:
 
@@ -353,7 +353,7 @@ latency to increase if it receives a large number of requests.
 
 ### <a id='external-factors'></a> External factors
 
-Components or services that receive data from an app are known as _downstream_ components. If any downstream components respond slowly to requests from an
+Components<!--฿ |components| is the preferred casing. ฿--> or services that receive data from an app are known as _downstream_ components. If any downstream components respond slowly to requests from an
 app, they can cause HTTP latency to increase. In this case, scaling the app up does not improve its performance. In fact, scaling the app up might _increase_
 HTTP latency, because requests from the additional app instances add a greater burden on the downstream component. The downstream component must be scaled up
 or improved before scaling the app up can improve its performance.
@@ -361,15 +361,15 @@ or improved before scaling the app up can improve its performance.
 Other external factors, such as network congestion or database performance, can also cause HTTP latency to increase. In this case, scaling the app does not
 decrease HTTP latency that results from these external factors.
 
-### <a id='c2c'></a> Container-to-container networking
+### <a id='c2c'></a> Container-to-container networking<!--฿ |CF Networking| is preferred. ฿-->
 
-Autoscaler can only use HTTP latency as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not currently support
+Autoscaler can only use HTTP latency as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not currently<!--฿ Do not use |currently| to refer to product releases. Instead, state the product name and version number. ฿--> support
 using HTTP latency as a scaling metric for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
 
 If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP
 events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
 
-### <a id='log-cache-eviction'></a> Log cache eviction
+### <a id='log-cache-eviction'></a> Log cache eviction<!--฿ |removal| or |ejection| is preferred. ฿-->
 
 Autoscaler retrieves HTTP metrics from Log Cache, which can hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of
 HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve
@@ -384,4 +384,4 @@ If an app receives requests infrequently and responds slowly, Autoscaler might c
 restore the average. In this case, Autoscaler usually stops scaling the app up after the original request falls outside of the metric collection interval.
 
 For more information about how Autoscaler's metric collection interval affects its scaling decisions, see [How App Autoscaler Decides When to
-Scale](about-app-autoscaler.html#about-scaling-decisions) in _About App Autoscaler_.
+Scale](about-app-autoscaler.html#about-scaling-decisions)<!--฿ If this file is a partial, do not use relative links. ฿--> in _About App Autoscaler_.

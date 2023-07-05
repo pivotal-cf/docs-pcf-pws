@@ -204,7 +204,7 @@ To view autoscaling events for an app, see [View Event History](using-autoscaler
 
 ### <a id='cloud-controller'></a> Cloud controller
 
-Autoscaler reads the app metadata that the Cloud Controller stores to discover how many instances an app currently has. When Autoscaler scales the number of app instances up or down, it sends a request to the Cloud Controller. Then, the Cloud Controller directs the Diego Cell that runs the app to stage the number of app instances that Autoscaler has requested.
+Autoscaler reads the app metadata that the Cloud Controller stores to discover how many instances an app has running. When Autoscaler scales the number of app instances up or down, it sends a request to the Cloud Controller. Then, the Cloud Controller directs the Diego Cell that runs the app to stage the number of app instances that Autoscaler has requested.
 
 Autoscaler also uses the Cloud Controller to retrieve the credentials stored in RabbitMQ service bindings. Autoscaler uses these credentials to read the metadata for RabbitMQ queues.
 
@@ -261,7 +261,7 @@ You also see an error similar to the following example in the debug logs for Aut
 
 <pre class="terminal">
 [APP/PROC/WEB/0] OUT level=error msg="[Cloud Controller - app summary] failure connecting to Cloud Controller. Error: Get \"https://apisys.example.com/v2/apps/85a6aff3-c739-4364-8df3-44f1aa50662b/summary\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
-[APP/PROC/WEB/1] OUT level=error msg="[Cloud Controller - app summary] CloudController- Failure"
+[APP/PROC/WEB/1] OUT level=error msg="[Cloud Controller - app summary] Cloud Controller- Failure"
 </pre>
 
 To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
