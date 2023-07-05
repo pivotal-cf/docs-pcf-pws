@@ -42,7 +42,9 @@ To configure Autoscaler to record debug logs:
     ```console
     cf restart autoscale
     ```
-    <p class='note'><strong>Note:</strong> Re-starting Autoscaler briefly interrupts any processes it is currently performing.</p>
+
+    >**Note**
+    >Re-starting Autoscaler briefly interrupts any processes it is currently performing.
 
 ## <a id='review-logs'></a> Review Autoscaler debug logs
 
@@ -74,7 +76,8 @@ If you have configured Autoscaler to record debug logs, Autoscaler logs the foll
 
 * `autoscale.enabled_bindings`: the number of Autoscaler service bindings that have been created
 
-<p class='note'><strong>Note:</strong> These metrics appear as log entries and are not emitted to Loggregator.</p>
+>**Note**
+>These metrics appear as log entries and are not emitted to Loggregator.
 
 To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
 
@@ -109,8 +112,9 @@ To identify apps that are using Autoscaler through CAPI:
         ```
         Where `SERVICE-PLAN-GUID` is the GUID of the service plan for Autoscaler that you recorded earlier in this procedure. For more information, see the [CAPI documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-plans).
 
-        <p class='note'><strong>Note:</strong> To run this command, you must have jq installed. To install jq, see the
-          <a href="https://stedolan.github.io/jq/">jq website</a>.</p>
+        >**Note**
+        >To run this command, you must have jq installed. To install jq, see the
+          <a href="https://stedolan.github.io/jq/">jq website</a>.
     * Retrieve a list of the GUIDs of Autoscaler service instances by running:
 
         ```console
@@ -145,7 +149,8 @@ If you have configured Autoscaler to record debug logs, Autoscaler logs the foll
 
 * `autoscale.logcache_metric_fetch_duration`: the time Autoscaler takes to retrieve metrics from Log Cache
 
-<p class='note'><strong>Note:</strong> These metrics appear as log entries and are not emitted to Loggregator.</p>
+>**Note**
+>These metrics appear as log entries and are not emitted to Loggregator.
 
 To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
 
@@ -213,7 +218,8 @@ If you have configured Autoscaler to record debug logs, Autoscaler logs the foll
 
 * `autoscale.cloud_controller.scale_errors`: the number of requests to scale an app that have resulted in an error
 
-<p class='note'><strong>Note:</strong> These metrics appear as log entries and are not emitted to Loggregator.</p>
+>**Note**
+>These metrics appear as log entries and are not emitted to Loggregator.
 
 To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
 
@@ -231,7 +237,8 @@ When the Cloud Controller API is stopped, you see an autoscaling event similar t
 
 <pre class="terminal">Unable to scale due to Cloud Controller error.</pre>
 
-<p class='note'><strong>Note:</strong> To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.</p>
+>**Note**
+>ß To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.</p>
 
 You also see an error similar to the following example in the debug logs for Autoscaler:
 
@@ -247,7 +254,8 @@ When the Cloud Controller does not respond to requests from Autoscaler or Log Ca
 
 <pre class="terminal">Unable to scale due to cloud cntroller error.</pre>
 
-<p class='note'><strong>Note:</strong> To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.</p>
+>**Note**
+> To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.</p>
 
 You also see an error similar to the following example in the debug logs for Autoscaler:
 
