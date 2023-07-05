@@ -321,9 +321,10 @@ in the RabbitMQ cluster.
       <li><code>SERVICE-NAME</code> is the name of the user-provided service you created in the previous step.</li>
     </ul>
 
-<p class='note'><strong>Note:</strong> Depending on the app to which you bind the user-provided service, you might need to configure the
+>**Note**
+>Depending on the app to which you bind the user-provided service, you might need to configure the
   <code>VCAP_SERVICES</code> environment variable to allow the app to access the user-provided service. For more information, see the
-  <a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html">VMware Tanzu RabbitMQ for VMs documentation</a>.</p>
+  <a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html">VMware Tanzu RabbitMQ for VMs documentation</a>.
 
 After you bind the user-provided service to the app, configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app by following one of the
 procedures in [Configuring RabbitMQ Queue Depth as the Scaling Metric for an App Through the cf CLI](#cf-cli-config) or [Configuring RabbitMQ Queue Depth as
