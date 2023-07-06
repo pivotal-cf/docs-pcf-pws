@@ -30,15 +30,14 @@ git push origin my-new-feature
 If your PR fails to pass CI or needs changes based on code review, you'll most likely want to squash these changes into
 existing commits.
 
-If your pull request contains a single commit or your changes are related to the most recent commit, you can simply
-amend the commit.
+If your pull request contains a single commit or your changes are related to the most recent commit, you can amend the commit.
 
-Be sure to add a comment to the PR indicating your new changes are ready to review, as GitHub does not generate a
-notification when you git push.
+You ahould add a comment to the PR indicating your new changes are ready to review, as GitHub does not generate a
+notification when you Git push.
 
 ### Formatting commit messages
 
-We follow the conventions on [Conventional Commits](https://www.conventionalcommits.org/) and
+VMware requires everyone to follow the conventions on [Conventional Commits](https://www.conventionalcommits.org/) and
 [How to Write a Git Commit Message](http://chris.beams.io/posts/git-commit/).
 
 Be sure to include any related GitHub issue references in the commit message.  See
