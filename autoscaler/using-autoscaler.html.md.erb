@@ -84,7 +84,7 @@ App Autoscaler keeps instance counts within an allowable range defined by minimu
 
 For more information about how App Autoscaler makes scaling decisions for an app, see [How App Autoscaler Determines When to Scale](about-app-autoscaler.html#about-scaling-decisions) in _About App Autoscaler_.
 
-Follow the procedures in the sections below:
+Follow the procedures in the sections that follows:
 
 * [Create or Modify Instance Limits](#limits)
 * [Add or Delete Scaling Rules](#metric)
@@ -123,7 +123,7 @@ when any metric maximum is met and scale down only when all metric minimums are 
 
 1. Set the minimum and maximum thresholds for the metric. For information about setting instance limits, see [About App Autoscaler Scaling Rules](about-app-autoscaler.html#about-scaling) in _About App Autoscaler_.
 
-1. Select or fill in any other fields that appear under the threshold text boxes:
+1. Select or fill in any other text boxes that appear under the threshold text boxes:
     * If you are adding an **HTTP Latency** rule, configure **Percent of traffic to apply**.
     * If you are adding a **RabbitMQ** depth rule, provide the name of the queue to measure.
     * If you are adding a **Custom** rule, enter your custom **Metric**.
@@ -198,7 +198,7 @@ To subscribe or unsubscribe from autoscaling event notifications:
   >**Note**
 >If installed, Notifications Management must be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>, where <code>SYSTEM-DOMAIN</code> is your system domain.</p>
 
-1. Choose which notifications you want to receive from App Autoscaler:
+1. Decide which notifications you want to receive from App Autoscaler:
 ![alt-text="At the top of the image is a header, 'Manage Notifications'.
 Below is the text, 'You will receive email notifications from checked items'. Next is a check box, checked,
 labeled 'Cloud Foundry Autoscaling Service'."](./images/manage-notifications.png)
