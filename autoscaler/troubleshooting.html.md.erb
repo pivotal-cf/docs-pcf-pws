@@ -58,7 +58,7 @@ To determine whether the app has reached the maximum number of instances:
     ```
     cf autoscaling-apps
     ```
-    The above command returns output similar to the example following:
+    The previous command returns output similar to the example following:
     <pre class="terminal">
     Name          Guid                                   Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
     example-app   85a6aff3-c739-4364-8df3-44f1aa50662b   true      1               20              5                 1
@@ -110,7 +110,7 @@ To review the available resource quotas for the space and org in which an app is
     Where `QUOTA-PLAN-NAME` is the name of the space quota plan that you recorded in a previous step.
     <br>
     <br>
-    The above command returns output similar to the following example:
+    The previous command returns output similar to the following example:
     <pre class="terminal">
     Getting quota example-space info as admin@example.com...
     OK
@@ -132,7 +132,7 @@ To review the available resource quotas for the space and org in which an app is
     Where `QUOTA-PLAN-NAME` is the name of the org quota plan that you recorded in a previous step.
     <br>
     <br>
-    The above command returns output similar to the following example:
+    This command returns output similar to the following example:
     <pre class="terminal">
     Getting quota example-org info as admin@example.com...
     OK
@@ -184,7 +184,7 @@ through the App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.ht
 autoscaling for an app through Apps Manager, see [Create and Bind the App Autoscaler Service](using-autoscaler.html#create-bind-service) in _Scaling an App
 Using App Autoscaler_.
 
-#### <a id='confirm-autoscaling-config'></a> View apps configured to autoscale
+#### <a id='autoscaling-config'></a> View apps configured to autoscale
 
 To see whether autoscaling is configured for the apps you want to scale:
 
@@ -285,7 +285,7 @@ To determine whether Log Cache might be underscaled:
     ```
     cf autoscaling-events
     ```
-    The above command returns a list of autoscaling events that Autoscaler has recorded, which include averaged values of the scaling metric for your app.
+    Thia command returns a list of autoscaling events that Autoscaler has recorded, which include averaged values of the scaling metric for your app.
 
 If the averaged metric values in the autoscaling events for an app are lower than the actual load that the app is processing, Log Cache might be evicting some
 metrics from its cache.
@@ -300,7 +300,7 @@ VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VM
 scale](../../devguide/deploy-apps/cf-scale.html).
 
 * Increase the maximum number of envelopes that Log Cache can store per app by configuring the **Maximum number of envelopes stored in Log Cache per source**
-field in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the maximum number of envelopes that
+text boxes in the **Advanced Features** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the maximum number of envelopes that
 Log Cache can store, see [Maximum Number of Envelopes Stored in Log Cache Per Source](../../operating/configure-pas.html#log-cache-max-per-source) in
 _Configuring TAS for VMs_.<% end %>
 
@@ -311,15 +311,15 @@ For more information about how Log Cache supports Autoscaler, see [Log Cache](op
 
 Autoscaler is itself an app that TAS for VMs deploys. By default, there are three instances of the Autoscaler app, `autoscale`, that can scale other apps in
 your TAS for VMs deployment. Each instance of Autoscaler queries the MySQL database in your TAS for VMs deployment to claim and process a set of apps that might
-need to be scaled. Each Autoscaler instance claims a different set of apps to process and scale independently of the other two Autoscaler instances. After an
+must be scaled. Each Autoscaler instance claims a different set of apps to process and scale independently of the other two Autoscaler instances. After an
 Autoscaler instance has processed and scaled one set of apps, it queries the MySQL database again and repeats the process.
 
-Each Autoscaler instance evaluates 10 apps at a time to determine whether they need to be scaled. The speed at which an Autoscaler instance can process a
-batch of apps is determined primarily by the number of metrics it retrieves from Log Cache for the apps within that batch. If Log Cache holds a large number
+Each Autoscaler instance evaluates 10 apps at a time to verify whether they must be scaled. The speed at which an Autoscaler instance can process a
+batch of apps is verified primarily by the number of metrics it retrieves from Log Cache for the apps within that batch. If Log Cache holds a large number
 of metrics for an app, Autoscaler does not begin processing the next batch of apps until either it retrieves all of those metrics or the request that
 Autoscaler makes to Log Cache for those metrics times out.
 
-To ensure that Autoscaler can scale all the apps for which you configured autoscaling in a timely manner, you might need to increase the number of
+To ensure that Autoscaler can scale all the apps for which you configured autoscaling,, you must increase the number of
 Autoscaler instances for your TAS for VMs deployment.
 
 To increase the number of Autoscaler instances:
@@ -328,7 +328,7 @@ To increase the number of Autoscaler instances:
 
 1. Click the **VMware Tanzu Application Service** tile.
 
-1. Select **App Autoscaler**.
+1. Click **App Autoscaler**.
 
 1. In the **App Autoscaler instance count** text box, enter the number of Autoscaler instances you want to deploy.
 
