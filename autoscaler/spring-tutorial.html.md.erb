@@ -143,7 +143,7 @@ To push the sample app:
 
 1. <a id="sample-app-ui></a>In a browser, navigate to the app URL you recorded in the previous step. The app UI looks like what you see in the image below.
 
-    <img src="images/sample-app-ui.png" alt="The text following the image describes the details of the UI." width="450px"><br>
+![alt-text="The text following the image describes the details of the UI."](./images/sample-app-ui.png)
 
     It has the following buttons:
 
@@ -223,28 +223,28 @@ _Managing Apps and Service Instances Using Apps Manager_.
 
 1. Click **Enable Autoscaling**.
 
-	<img src="images/enable-autoscaling.png" alt="The app page for an app named java-metric-registrar-demo shows the Enable Autoscaling button being clicked." width="600px">
+![alt-text="The app page for an app named java-metric-registrar-demo shows the Enable Autoscaling button being clicked."](./images/enable-autoscaling.png)
 
 1. Click **Manage Autoscaling**.
 
-1. Under **Instance Limits**, configure upper and lower scaling limits for the `java-spring-security` app:
+2. Under **Instance Limits**, configure upper and lower scaling limits for the `java-spring-security` app:
 	1. For **Minimum**, enter `1`.
-	1. For **Maximum**, enter `5`.
-	1. Click **Apply Changes**.
+	2. For **Maximum**, enter `5`.
+	3. Click **Apply Changes**.
 
-		<img src="images/manage-autoscaling.png" alt="The Manage Autoscaling form includes an Instance Limits section. This section includes two textboxes, one for Minimum and one for Maximum. To the right of these textboxes is the Apply Changes button. 1 is entered for Minimum and 5 is entered for Maximum" width="450px">
+		![alt-text="The Manage Autoscaling form includes an Instance Limits section. This section includes two textboxes, one for Minimum and one for Maximum. To the right of these text boxes is the Apply Changes button. 1 is entered for Minimum and 5 is entered for Maximum."](./images/enable-autoscaling.png)
 
-1. To create an autoscaling rule:
+3. To create an autoscaling rule:
 	1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
-	1. Click **Add rule**. The **Select type** dropdown appears.
-	1. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
-	1. For **Rule Type**, select `Custom`.
-	1. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
-	1. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
-	1. For **Metric**, enter `custom`.
-	1. Click **Save**.
+	2. Click **Add rule**. The **Select type** dropdown appears.
+	3. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
+	4. For **Rule Type**, select `Custom`.
+	5. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
+	6. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
+	7. For **Metric**, enter `custom`.
+	8. Click **Save**.
 
-		<img src="images/add-rule.png" alt="The Edit Scaling Rules form includes a dropdown menu labeled Rule Type, a textbox labeled Scale down if less than, a textbox labeled scale up if more than, and a textbox labeled Metric. They are configured according the corresponding instructions. The form also includes buttons labeled Add Rule, Cancel, and Save." width="450px">
+		![alt-text="The Edit Scaling Rules form includes a dropdown menu labeled Rule Type, a textbox labeled Scale down if less than, a textbox labeled scale up if more than, and a textbox labeled Metric. They are configured according the corresponding instructions. The form also includes buttons labeled Add Rule, Cancel, and Save."](./images/add-rule.png)
 
 ## <a id="trigger"></a> Trigger scaling
 
