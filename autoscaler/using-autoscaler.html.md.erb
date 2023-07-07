@@ -73,10 +73,9 @@ To enable App Autoscaler for an app:
 1. In Apps Manager, select an app from the space in which you created the App Autoscaler service.
 
 1. Under **Processes and Instances**, enable **Autoscaling**.
-<%= image_tag("./images/scale-app.png", :alt => "At the top of the image is the header 'Processes and Instances'. Below it is the subheader 'web', below which is a row of metrics: 'Instances: 2', 'Memory Allocated: 1 GB', and 'Disk Allocated: 512 MB'. To the right of these metrics is a grayed-out blue, rectangular button labeled 'Scale'. Below these metrics are a sliding button labeled 'Autoscaling' to the far left and the words 'Manage Autoscaling' in blue letters to the far right. Below these are a table with five columns labeled, from left to right, '#', 'CPU', 'Memory', 'Disk', and 'Uptime'. Below these are two rows. Under '#' are the number '0' in the first row and '1' in the second. Under 'CPU' is the text '0%' in both the first and second rows. Under 'Memory' is the text '6.63 MB' in the first row and '27.98 MB' in the second. Under 'Disk' is the text '51.07' in both the first and second rows. Under 'Uptime' is the text '4 d 21 hr 58 min' in the first row and '4 d 21 hr 56 min' in the second row.") %>
+
 
 1. Click **Manage Autoscaling** to configure instance limits, scaling rules, and scheduled limit changes for the app. For more information, see [Configure Autoscaling for an App](#config).
-    <%= image_tag("images/manage-autoscaling.png", :alt => "At the top of the image is a black X to close the window, followed by the header 'Manage Autoscaling'. Below the header is a white, rectangular button labeled 'Disable Autoscaling'. To the far right of the button is a link,'Download Autoscaler CLI', which points to the Autoscaler CLI page on Tanzu Network. Below is a subheader, 'Instance Limits'. This section shows a thin gray progress bar with the first two fifths in blue, labeled 'Currently in use: 2'. Below the bar are two text boxes. The text boxes on the left is labeled 'Minimum' and has a value of '1'. The text boxes on the right is labeled 'Maximum' and has a value of '5'. To the right of the text boxes is a grayed-out blue, rectangular button labeled 'Apply Changes'.") %>
 
 ### <a id="config"></a> Configure autoscaling for an app
 
@@ -99,8 +98,6 @@ To manually modify instance limits:
 1. In Apps Manager, navigate to the **Overview** page for your app. Under **Processes and Instances**, click **Manage Autoscaling**.
 
 1. In the **Instance Limits** section, set values for **Minimum** and **Maximum**.
-
-    <%= image_tag("images/instance-limits.png", :alt => "At the top of the image is a black X to close the window, followed by the header 'Manage Autoscaling'. Below the header, on the far right, is a link, 'Download Autoscaler CLI', which points to the Autoscaler CLI page on Tanzu Network. Next is a subheader, 'Instance Limits'. This section shows a thin gray progress bar with the first two fifths in blue, labeled 'Currently in use: 2'. Below the bar are two number input fields. The input field on the left is labeled 'Minimum' and has a value of '2'. The input boxes on the right is labeled 'Maximum' and has a value of '5'. To the right of the input text boxes is a grayed-out blue, rectangular button labeled 'Apply Changes'.") %>
 
 1. Click **Apply Changes**.
 
