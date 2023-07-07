@@ -3,7 +3,7 @@ title: About App Autoscaler
 owner: App Autoscaler
 ---
 
-You can use App Autoscaler with TAS for VMs to scale your apps and control costs of running them. This article gives a detailed overview of App Autoscaler.
+You can use App Autoscaler with TAS for VMs to scale your apps and control costs of running them.
 
 
 ## <a id="overview"></a> App Autoscaler overview
@@ -26,12 +26,11 @@ It also provides information about the custom metrics, comparison metrics, and d
 
 ### <a id="about-scaling-decisions"></a> How App Autoscaler decides when to scale
 
-Every 35 seconds, App Autoscaler makes a decision about whether to scale up, scale down, or keep the same number of instances.
+Every 35-seconds, App Autoscaler makes a decision about whether to scale up, scale down, or keep the same number of instances.
 
-To make a scaling decision, App Autoscaler averages the values of a metric for the most recent 120 seconds.
+To make a scaling decision, App Autoscaler averages the values of a metric for the most recent 120-seconds.
 
->**Note**
->Configure App Autoscaler</a> in <em>Configuring <%= vars.app_runtime_abbr %></em>.
+<a>Configure App Autoscaler</a> in <em>Configuring <%= vars.app_runtime_abbr %></em>.
 
 App Autoscaler scales as follows:
 
@@ -41,24 +40,26 @@ App Autoscaler scales as follows:
 
 The following diagram provides an example of how App Autoscaler makes scaling decisions:
 
-![alt-text="Read the description after this diagram for a description of the example shown in the diagram.](./images/autoscaler-scaling-decisions.png)
+![alt-text="Read the description of the example.](./images/autoscaler-scaling-decisions.png)
 
-As shown in the diagram, an app has a maximum threshold of 200 milliseconds and a minimum threshold of 80 milliseconds for an HTTP latency metric. The scale up factor and scale down factor are not set in the scaling manifest, so the default value is one.
+As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP latency metric. The scale up factor and
+scale down factor are not set in the scaling manifest, so the default value is one.
 
-If HTTP latency averages 220 milliseconds for 120 seconds, App Autoscaler scales the app up one instance.
+If HTTP latency averages 220-milliseconds for 120-seconds, App Autoscaler scales the app up one instance.
 
-If HTTP latency then averages 70 milliseconds over the next 120 second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
+If HTTP latency then averages 70-milliseconds over the next 120-second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
 
-If the average value for HTTP latency over a 120 second window falls below the maximum threshold of 200 milliseconds or the minimum threshold of 80 milliseconds, App Autoscaler maintains the same number of instances for the app.
+If the average value for HTTP latency over a 120-second window falls below the maximum threshold of 200-milliseconds or the minimum threshold of 80-milliseconds, App Autoscaler maintains the same number of instances for the app.
 
-You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of instances is already at the maximum number of instances, App Autoscaler does not scale up the app.
+You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of
+instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app.
 
 ### <a id="default-metrics"></a> Default metrics for scaling rules
 
 App Autoscaler includes several default metrics for which you can create scaling rules.
 
->**Note**
-> <%= vars.company_name %> recommends that you define custom metrics for scaling rules instead of using the default metrics. You can use custom metrics to more accurately monitor the performance of your apps based on your environment.</p>
+<p> <%= vars.company_name %> recommends that you define custom metrics for scaling rules instead of using the default metrics. Custom metrics allow you to more
+accurately monitor the performance of your apps based on your environment.</p>
 
 The following table lists the default metrics for App Autoscaler:
 
@@ -99,7 +100,8 @@ The following table lists the default metrics for App Autoscaler:
 
 <%= vars.company_name %> recommends that you define custom metrics for App Autoscaler scaling rules. You can use custom metrics define the metrics that are the best indicators of app performance for your environment.
 
-You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.pivotal.io/pivotalcf/metric-registrar/using.html).
+You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit
+custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
 
 ### <a id="comparison-metrics"></a> Comparison metrics for scaling rules
 
@@ -107,15 +109,19 @@ You can use the **Comparison Metric** text box in App Autoscaler to define a sca
 
 When you add a scaling rule, the **Metric** text box is the dividend and the **Comparison Metric** text box is the divisor.
 
-
 ## <a id="architecture"></a> App Autoscaler architecture
 
-The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components interact with <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) components to make app scaling decisions.
+The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components
+interact with <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) components to make app scaling decisions.
 
-![alt-text="Two boxes represent that represent App Autoscaler components are titled "Autoscale GO app" and "Autoscale api". app" that points to a box titled "MySQL proxy". The arrow pointing from the "Autoscale GO app" box to the MySQL proxy box indicates that the Autoscale app reads scaling rules that are stored in a MySQL databse. The diagram also includes arrows that point from "Autoscale api" to "MySQL proxy" and and box titled "UAA". These arrows indicate that the Autoscale API authenticates using UAA and that the API stores scaling rules in the MySQL database. There is also an arrow that points to "Autoscale api" from a box that represents both the Cloud Foundry Command Line Interface and Apps Manager."](./images/app-autoscaler-architecture.png)
+![alt-text="App Autoscaler components and architecture"](./images/app-autoscaler-architecture.png)
+
+[View a larger version of this image.](./images/app-autoscaler-architecture.png)
 
 As demonstrated in the architecture diagram, App Autoscaler makes scaling decisions based on autoscaling rules that users configure by using either the Cloud Foundry Command Line Interface (cf CLI) or Apps Manager. The Autoscale API stores these autoscaling rules in a MySQL database.
 
 At a predefined interval, known as the scaling interval, the App Autoscaler app reads the scaling rules and retrieves app metric data from the Loggregator Log Cache. Then, App Autoscaler makes a scaling decision and communicates with the Cloud Controller to scale the app, if necessary.
 
-For more information about Loggregator Log Cache, see [Loggregator Architecture](../../loggregator/architecture.html). For more information about the Cloud Controller, see [Cloud Controller](../../concepts/architecture/cloud-controller.html).
+For more information about Loggregator Log Cache, see [Loggregator Architecture](../../loggregator/architecture.html).
+
+For more information about the Cloud Controller, see [Cloud Controller](../../concepts/architecture/cloud-controller.html).
