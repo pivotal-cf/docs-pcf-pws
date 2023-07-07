@@ -133,8 +133,8 @@ The following list describes two of the default scaling metrics you can select w
 
 * **HTTP Latency:** Use this scaling metric if your app receives HTTP requests directly from the Gorouter, and you want to scale the number of app instances
 up as the average latency of the requests increases. Before choosing this metric as your scaling metric, consider whether scaling your app might increase HTTP
-latency. For example, if additional app instances must use the same external resource, such as a MySQL service instance or another app, this may increase HTTP
-latency. If Autoscaler scales the number of app instances up, and HTTP latency is still above the maximum metric threshold you configured because all app
+latency. For example, if additional app instances must use the same external resource, such as a MySQL service instance or another app, this might increase HTTP
+latency. If Autoscaler scales the number of app instances up, and HTTP latency is still over the maximum metric threshold you configured because all app
 instances rely on the same external resource, Autoscaler continues to create more app instances to no effect.
 
 * **RabbitMQ Queue Depth:** Use this scaling metric if your app reads messages from a RabbitMQ queue, and you want to scale the number of app instances up to
