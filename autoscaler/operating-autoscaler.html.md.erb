@@ -3,7 +3,7 @@ title: Operating App Autoscaler
 owner: App Autoscaler
 ---
 
-When scaling app instances using App Autoscaler, what must you consider for your TAS for VM deployment? This article discusses essential considerations.
+When scaling app instances using App Autoscaler, what must you consider for your TAS for VM deployment?
 
 
 ## <a id='overview'></a> Autoscaling considerations overview
@@ -56,12 +56,14 @@ Plans](../../adminguide/quota-plans.html).
 ### <a id='platform-capacity'></a> Platform capacity
 
 When creating or modifying quota plans for a space or org in your TAS for VMs deployment, consider whether you want to provision more or fewer resources for
-the apps you want Autoscaler to scale. The following descriptions of each scenario include their benefits and drawbacks:
+the apps you want Autoscaler to scale.
 
-* You could provision enough resources to allow all apps to use their maximum allocated resource quotas simultaneously. However, you risk over-provisioning
+The following descriptions of each scenario include their benefits and drawbacks:
+
+* You can provision enough resources to allow all apps to use their maximum allocated resource quotas simultaneously. However, you risk over-provisioning
 resources for your TAS for VMs deployment.
 
-* You could provision fewer resources, which allows you to provision more Diego Cells from the IaaS on which your Ops Manager foundation is deployed if you require them. However, you risk Autoscaler being unable to accommodate scaling requests.
+* You can provision fewer resources, which allows you to provision more Diego Cells from the IaaS on which your Ops Manager foundation is deployed if you require them. However, you risk Autoscaler being unable to accommodate scaling requests.
 
 ### <a id='quota-reached'></a> Apps that reach resource quotas
 
@@ -96,11 +98,10 @@ To configure verbose logging for Autoscaler:
 
 1. Click **Apply Changes**.
 
->**Note**
-> Re-deploying TAS for VMs briefly interrupts Autoscaler processes.</p>
+>p> Deploying TAS for VMs again briefly interrupts Autoscaler processes.</p>
 
-After you re-deploy TAS for VMs, you can review the verbose logs for Autoscaler to identify which apps have reached one or more of their allocated resource
-quota limits. To identify these apps, see [Identify Apps That Have Reached Resource Quota Limits](#identify-apps).
+After you deploy TAS for VMs again, you can review the verbose logs for Autoscaler to identify which apps have reached one or more of their allocated resource
+quota limits. To identify these apps, see [Identify Apps That Have Reached Resource Quota Limits](#identify-apps) as follows.
 
 #### <a id='identify-apps'></a> Identify apps that have reached resource quota limits
 
@@ -123,8 +124,8 @@ To identify which apps have reached one or more of their allocated resource quot
     2019-10-18T12:40:58.19-0400 [APP/PROC/WEB/0] OUT time="2019-10-18T16:40:58Z" level=info msg="Unable to scale. App instance quota has been reached. for app e59357x1-395a-4mp7-le36-ffbf4ec3de04 in space 9482047e-5x58-7a2m-p25l-es1w19o44b9a"
     </pre>
 
-1. Record the global unique identifiers (GUIDs) for the apps and spaces that you identified in the previous step. For example, in the example output in the
-previous step, the GUID for the app is `e59357x1-395a-4mp7-le36-ffbf4ec3de04`, and the GUID for the space is `9482047e-5x58-7a2m-p25l-es1w19o44b9a`.
+1. Record the global unique identifiers (GUIDs) for the apps and spaces that you identified in the earlier step. For example, in the example output in the
+previous stepit. The GUID for the app is `e59357x1-395a-4mp7-le36-ffbf4ec3de04`, and the GUID for the space is `9482047e-5x58-7a2m-p25l-es1w19o44b9a`.
 
 1. Send a `GET` request to the Cloud Controller API to learn more about the resource quotas allocated to the apps and spaces you identified in a previous
 step.
@@ -150,9 +151,9 @@ instances are necessary to sufficiently handle future request traffic.
 For example, if the overall app traffic follows a natural pattern, such as increased traffic during the local business day, review historical request traffic
 patterns for the app to see the following:
 
-* When the largest number of requests occurs each day
+* When the largest number of requests occurs each day.
 
-* The current static number of app instances that are necessary to accommodate the largest number of requests
+* The current static number of app instances that are necessary to accommodate the largest number of requests.
 
 The number of app instances needed to accommodate app traffic outside of peak hours might be significantly lower than the number of app instances needed to
 accommodate app traffic during peak hours. In cases like this, VMware recommends configuring Autoscaler for your app to avoid using resources when the app

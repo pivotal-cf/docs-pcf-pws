@@ -3,17 +3,18 @@ title: Using the App Autoscaler CLI for your TAS for VMs deployment
 owner: PCF Autoscaler
 ---
 
-You can use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your TAS for VMs deployment. This article explains how.
+You can use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your TAS for VMs deployment.
 
 ## <a id='overview'></a> App Autoscaler CLI overview
 
 The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI). It allows you to configure and control Autoscaler from your
 local command line to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
 
->**Note**
-> The return output from the App Autoscaler CLI might include odd characters in Windows shells that do not support text
-  color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do not support the <code>CF_COLOR</code> environment variable.</p>
-
+<p class="note important">
+<span class="note__title">Important</span> The return output from the App Autoscaler CLI might include odd characters in Windows shells that do not support text
+  color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do
+    not support the <code>CF_COLOR</code> environment variable.
+</p>
 
 ## <a id='install'></a> Install the App Autoscaler CLI plug-in
 
@@ -22,23 +23,26 @@ Before you can run App Autoscaler CLI commands, you must install the App Autosca
 To install the plug-in:
 
 1. Download the [VMware Tanzu App Autoscaler CLI Plug-in](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
-  >**Note**
-  >There are two versions of the App Autoscaler CLI. If you install the wrong version, you cannot use it with the
+
+<p class="note important">
+<span class="note__title">Important</span> There are two versions of the App Autoscaler CLI. If you install the wrong version, you cannot use it with the
     Autoscaler instance in your <%= vars.app_runtime_abbr %> deployment. For more information, see <a href="troubleshooting.html#oss-autoscaler">App
-    Autoscaler for Cloud Foundry Does Not Work with <%= vars.app_runtime_abbr %></a> in <em>Troubleshooting App Autoscaler</em>.
+    Autoscaler for Cloud Foundry Does Not Work with <%= vars.app_runtime_abbr %></a> in <em>Troubleshooting App Autoscaler</em>
+</p>
 
 1. In a terminal window, run:
 
-    ```
+    ```console
     cf install-plugin LOCATION-OF-PLUGIN
     ```
+
     Where `LOCATION-OF-PLUGIN` is the path to the binary file you downloaded from <%= vars.product_network %>. For example:
 
-    ```
+    ```console
     cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
     ```
-    For more information about installing cf CLI plug ins, see [Install a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI Plugins_.
 
+    For more information about installing cf CLI plugins, see [Install a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI Plugins_.
 
 ## <a id='create-and-bind'></a> Create and bind an Autoscaler service instance
 
@@ -49,7 +53,7 @@ To create and bind an Autoscaler service instance:
 
 1. In a terminal window, target the space in which the app you want to scale is deployed by running:
 
-    ```
+    ```console
     cf target -o ORG-NAME -s SPACE-NAME
     ```
 
@@ -61,7 +65,7 @@ To create and bind an Autoscaler service instance:
 
 1. Create an Autoscaler service instance by running:
 
-    ```
+    ```console
     cf create-service app-autoscaler PLAN-NAME SERVICE-NAME
     ```
 
@@ -73,7 +77,7 @@ To create and bind an Autoscaler service instance:
 
 1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
 
-    ```
+    ```console
     cf bind-service APP-NAME SERVICE-INSTANCE-NAME
     ```
 
@@ -83,8 +87,7 @@ To create and bind an Autoscaler service instance:
       <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
     </ul>
 
->**Note**
-> Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one
+Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one
   Autoscaler service instance in a space, the App Autoscaler CLI returns an error message. For more information, see
   <a href="troubleshooting.html#one-instance-per-space">One Autoscaler Service Instance Allowed Per Space</a> in <em>Troubleshooting App Autoscaler</em>.</p>
 
@@ -144,10 +147,9 @@ To allow autoscaling for an app:
     OK
     </pre>
 
->**Note**
-> By default, the upper and lower autoscaling limits for an app are <code>-1</code>. Before Autoscaler can scale an app,
+By default, the upper and lower autoscaling limits for an app are <code>-1</code>. Before Autoscaler can scale an app,
   you must update these upper and lower autoscaling limits. For more information, see <a href="#configure-autoscaling-limits">Configure Autoscaling Limits</a>
-  following.</p>
+  following.
 
 
 ## <a id='disallow-autoscaling'></a> Disallow autoscaling
@@ -241,13 +243,13 @@ For more information about scaling factors, see [Scaling Factors](productionizin
 
 To configure autoscaling rules for Autoscaler to use when making scaling decisions for an app, see the sections below:
 
-* [View All Autoscaling Rules](#view-rules)
+* [View All Autoscaling Rules](#view-rules).
 
-* [Create an Autoscaling Rule](#create-rule)
+* [Create an Autoscaling Rule](#create-rule).
 
-* [Delete an Autoscaling Rule](#delete-rule)
+* [Delete an Autoscaling Rule](#delete-rule).
 
-* [Delete All Autoscaling Rules](#delete-all-rules)
+* [Delete All Autoscaling Rules](#delete-all-rules).
 
 For more information about scaling metrics for which you can configure autoscaling rules, see [Scaling
 Metrics](productionizing-autoscaler.html#scaling-metrics) in _Using App Autoscaler in Production_.
@@ -287,7 +289,7 @@ To create a new autoscaling rule for an app:
 
 1. Run:
 
-    ```
+    ```console
     cf create-autoscaling-rule APP-NAME RULE-TYPE MINIMUM-THRESHOLD MAXIMUM-THRESHOLD --subtype SUBTYPE --metric METRIC-NAME --comparison-metric COMPARISON-METRIC-NAME --rabbitmq-instance SERVICE-INSTANCE-NAME
     ```
 
@@ -344,7 +346,7 @@ Rules](#view-rules) above.
 
 1. Run:
 
-    ```
+    ```console
     cf delete-autoscaling-rule APP-NAME RULE-GUID
     ```
 
@@ -356,7 +358,7 @@ Rules](#view-rules) above.
 
  Running the following command deletes the autoscaling rule with a GUID of `10a581c5-8fb4-48a2-b4de-8bc834aac146` for `example-app`:
 
-    ```
+    ```console
     cf delete-autoscaling-rule example-app 10a581c5-8fb4-48a2-b4de-8bc834aac146
     ```
 
@@ -368,7 +370,7 @@ To delete all autoscaling rules for an app:
 
 1. Run:
 
-    ```
+    ```console
     cf delete-autoscaling-rules APP-NAME
     ```
     Where `APP-NAME` is the name of the app for which you want to delete all autoscaling rules.
@@ -376,7 +378,7 @@ To delete all autoscaling rules for an app:
     <br>
     Running the following command deletes all autoscaling rules for `example-app`:
 
-    ```
+    ```console
     cf delete-autoscaling-rules example-app
     ```
 
@@ -397,25 +399,25 @@ To view a list of autoscaling events that Autoscaler has recorded for an app:
     <br>
     Running the following command returns a list of all recent autoscaling events that Autoscaler has recorded for `example-app`:
 
-    ```
+    ```console
     cf autoscaling-events example-app
     ```
-    The above command returns output similar to the following example:
+
+    The preceding command returns output similar to the following example:
     <pre class="terminal">
     Time                  Description
     2032-01-01T00:00:00Z  Scaled up from 3 to 4 instances. Current cpu of 20 is above upper threshold of 10.
     </pre>
 
-
 ## <a id='scheduled-limit-changes'></a> Scheduled limit changes
 
 To configure scheduled limit changes for Autoscaler, see the sections below:
 
-* [View All Scheduled Limit Changes](#view-slcs)
+* [View All Scheduled Limit Changes](#view-slcs).
 
-* [Create a Scheduled Limit Change](#create-slc)
+* [Create a Scheduled Limit Change](#create-slc).
 
-* [Delete a Scheduled Limit Change](#delete-slc)
+* [Delete a Scheduled Limit Change](#delete-slc).
 
 For more information about scheduled limit changes, see [Scheduled Limit Changes](scheduled-limit-changes.html).
 
@@ -425,7 +427,7 @@ To view all scheduled limit changes for an app:
 
 1. Run:
 
-    ```
+    ```console
     cf autoscaling-slcs APP-NAME
     ```
     Where `APP-NAME` is the name of the app for which you want to view all scheduled limit changes.
@@ -595,8 +597,8 @@ To configure Autoscaler using a manifest file:
 
    Running the following command applies the `autoscaler.yml` manifest file to `example-app`:
 
-    ```
-    cf configure-autoscaling example-app autoscaler-manifest.yml
+    ```console
+    cf configure-autoscaling example-app autoscaler-manifest.yml<!--฿ Per YAML.org, |.yaml| is the preferred extension. If the reader creates this YAML file, fix every instance of the filename in every topic as part of your commit. Files with the |.yml| extension downloaded from elsewhere are outside our control. ฿-->
     ```
     The above command returns output similar to the following example:
     <pre class="terminal">

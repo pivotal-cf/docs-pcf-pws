@@ -3,24 +3,24 @@ title: Troubleshoot App Autoscaler for your TAS for VMs deployment
 owner: App Autoscaler
 ---
 
-Troubleshoot when App Autoscaler fails to properly scale apps for your TAS for VMs deployment. This page gives you steps to fix the most common issues.
+Troubleshoot when App Autoscaler fails to properly scale apps for your TAS for VMs deployment.
 
 
 ## <a id='no-scale-up'></a> Autoscaler fails to scale an app when expected
 
 This section describes possible causes for Autoscaler failing to scale an app as you expect in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment. To determine the cause, see the following sections:
 
-* [Scaling Threshold Not Reached](#scaling-threshold)
+* [Scaling Threshold Not Reached](#scaling-threshold).
 
-* [Metrics Average Over Collection Interval is Too Low](#lower-average)
+* [Metrics Average Over Collection Interval is Too Low](#lower-average).
 
-* [App Has Reached Autoscaling Limit](#autoscaling-limit)
+* [App Has Reached Autoscaling Limit](#autoscaling-limit).
 
-* [Space or Org Quota is Reached](#quota-reached)
+* [Space or Org Quota is Reached](#quota-reached).
 
-* [Autoscaling is Disallowed](#autoscaling-disallowed)
+* [Autoscaling is Disallowed](#autoscaling-disallowed).
 
-* [TAS for VMs Components Are Failing](#platform-scale-out)
+* [TAS for VMs Components Are Failing](#platform-scale-out).
 
 ### <a id='scaling-threshold'></a> Scaling threshold not reached
 
@@ -218,9 +218,9 @@ Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Sto
 This section describes possible causes for Autoscaler failing to scale an app using RabbitMQ queue depth as its scaling metric. To determine the cause, see
 the following sections:
 
-* [Specified Queue Name in Autoscaling Rule is Incorrect](#check-rabbitmq-rule)
+* [Specified Queue Name in Autoscaling Rule is Incorrect](#check-rabbitmq-rule).
 
-* [Autoscaler Does Not Support Runtime CredHub](#rabbitmq-runtime-credhub)
+* [Autoscaler Does Not Support Runtime CredHub](#rabbitmq-runtime-credhub).
 
 #### <a id='check-rabbitmq-rule'></a> Specified queue name in autoscaling rule is incorrect
 
@@ -252,9 +252,9 @@ scaling metric for the app. For more information about custom metrics, see [Usin
 This section describes possible causes for Autoscaler scaling an app up to a certain number of instances, but not to the level that you expect. To determine
 the cause, see the following sections:
 
-* [Review Scaling Metric Values](#check-metrics)
+* [Review Scaling Metric Values](#check-metrics).
 
-* [TAS for VMs Components Are Underscaled](#platform-underscaled)
+* [TAS for VMs Components Are Underscaled](#platform-underscaled).
 
 ### <a id='check-metrics'></a> Review scaling metric values
 

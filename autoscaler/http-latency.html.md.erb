@@ -3,7 +3,7 @@ title: Use HTTP latency as a scaling metric with App Autoscaler
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use the HTTP latency metric to scale apps in your VMware TAS for VMs deployment. This article tells you how.
+You can configure App Autoscaler to use the HTTP latency metric to scale apps in your VMware TAS for VMs deployment.
 
 
 ## <a id='overview'></a> HTTP latency overview
@@ -14,8 +14,8 @@ the Gorouter receives a request and ending when the Gorouter finishes processing
 all back-end endpoints to respond, including other apps and TAS for VMs components such as Cloud Controller and UAA. Long uploads, downloads, or app responses
 increase the time.
 
-For example, you might have a Service Level Agreement (SLA) specifying that 95% of requests for an app must be processed in less than 300 milliseconds. To
-help achieve this, you can configure an autoscaling rule for Autoscaler to create additional instances of the app when the HTTP latency metric reaches 250
+For example, you might have a Service Level Agreement (SLA) specifying that 95% of requests for an app must be processed in less than 300-milliseconds. To
+help achieve this, you can configure an autoscaling rule for Autoscaler to create additional instances of the app when the HTTP latency metric reaches 250-
 milliseconds.
 
 You can configure Autoscaler to use HTTP latency as the scaling metric for an app in the following ways:
@@ -238,8 +238,8 @@ service instance by running:
       ignore HTTP requests that fall outside either the 95th or 99th percentile and average the latency of the remaining 95% or 99% of HTTP requests.</li>
     </ul>
 
-    The following example command configures an `http_latency` autoscaling rule for the `example-app` app, with a minimum HTTP latency threshold of 125
-    milliseconds, a maximum HTTP latency threshold of 250 milliseconds, and a percentile of 95%:
+    The following example command configures an `http_latency` autoscaling rule for the `example-app` app, with a minimum HTTP latency threshold of 125-milliseconds,
+    a maximum HTTP latency threshold of 250-milliseconds, and a percentile of 95%:
 
     ```
     cf create-autoscaling-rule example-app http_latency 125 250 --subtype avg_95th

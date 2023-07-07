@@ -3,7 +3,7 @@ title: Use RabbitMQ queue depth as a scaling metric with App Autoscaler
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use the RabbitMQ queue depth metric to scale apps in your VMware TAS for VMs deployment. This article tells you how.
+You can configure App Autoscaler to use the RabbitMQ queue depth metric to scale apps in your VMware TAS for VMs deployment.
 
 
 ## <a id='overview'></a> Overview of RabbitMQ queue depth
@@ -321,14 +321,15 @@ in the RabbitMQ cluster.
       <li><code>SERVICE-NAME</code> is the name of the user-provided service you created in the previous step.</li>
     </ul>
 
->**Note**
->Depending on the app to which you bind the user-provided service, you might need to configure the
-  <code>VCAP_SERVICES</code> environment variable to allow the app to access the user-provided service. For more information, see the
-  <a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html">VMware Tanzu RabbitMQ for VMs documentation</a>.
+    <p class="note important">
+    <span class="note__title">Important</span> Depending on the app to which you bind the user-provided service, you might need to configure the
+    <code>VCAP_SERVICES</code> environment variable to allow the app to access the user-provided service. For more information, see the
+    <a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html">VMware Tanzu RabbitMQ for VMs documentation.
+    </p>
 
 After you bind the user-provided service to the app, configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app by following one of the
 procedures in [Configuring RabbitMQ Queue Depth as the Scaling Metric for an App Through the cf CLI](#cf-cli-config) or [Configuring RabbitMQ Queue Depth as
-the Scaling Metric for an App Through Apps Manager](#apps-manager-config) above.
+the Scaling Metric for an App Through Apps Manager](#apps-manager-config).
 
 
 ## <a id='review-events'></a> Reviewing autoscaling events for changes in RabbitMQ queue depth
@@ -389,9 +390,9 @@ increases in the RabbitMQ queue depth metric, the list of autoscaling events inc
 This section describes use cases that may complicate or prevent you from configuring RabbitMQ queue depth as the scaling metric for an app. For more
 information, see the following sections:
 
-* [RabbitMQ Service Binding Credentials in Runtime CredHub](#credentials-credhub)
+* [RabbitMQ Service Binding Credentials in Runtime CredHub](#credentials-credhub).
 
-* [Multiple RabbitMQ Service Instances](#multiple-rmq-instances)
+* [Multiple RabbitMQ Service Instances](#multiple-rmq-instances).
 
 ### <a id='credentials-credhub'></a> RabbitMQ service binding credentials in runtime CredHub
 
