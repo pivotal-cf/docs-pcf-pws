@@ -3,7 +3,7 @@ title: Configure App Autoscaler to use custom scaling metrics
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use custom metrics when scaling apps in your VMware TAS for VMs deployment. This article describes several ways.
+You can configure App Autoscaler to use custom metrics when scaling apps in your VMware TAS for VMs deployment.
 
 For information about how to emit custom metrics, see [Using Metric Registrar](../../metric-registrar/using.html).
 
@@ -13,8 +13,8 @@ For information about how to emit custom metrics, see [Using Metric Registrar](.
 While Autoscaler can use several default metrics as scaling metrics for apps, your app might have specific autoscaling requirements that Autoscaler cannot
 meet by using the default scaling metrics to scale the app. In this case, you can create custom metrics for Autoscaler to use to scale the app.
 
->**Note**
->Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with the Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.
+Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with the
+Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.
 
 You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
 
@@ -29,7 +29,7 @@ Metric](#review-events) follows.
 For information about use cases that might complicate or prevent you from configuring a custom scaling metric for an app, see [Special Considerations for Using
 a Custom Scaling Metric](#special-considerations) follows.
 
-VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
+VMware recommends that you load test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-Testing Your
 App](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
 
 
@@ -43,7 +43,7 @@ You can configure Autoscaler to use a custom scaling metric for an app in the fo
 
 * Using CLI commands. For more information, see [Configure an Autoscaling Rule Using CLI Commands](#cf-cli-commands-config) follows.
 
-For the procedures in this section, you must use the App Autoscaler CLI plugin. To download and install the App Autoscaler CLI plugin, see [Install the App
+For the procedures in this section, you must use the App Autoscaler CLI plug-in. To download and install the App Autoscaler CLI plug-in, see [Install the App
 Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
 
 ### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule by using a manifest rile
@@ -349,7 +349,7 @@ Metric endpoints include potentially sensitive information about the state of an
 end users cannot access these endpoints.
 
 To prevent unauthorized end users from accessing an app, you can configure the metrics endpoint to process traffic through a separate port. When registering
-the endpoint using the Metric Registrar CLI, you can then use the `--internal-port` flag to specify which port the endpoint uses.
+the endpoint using the Metric Registrar CLI, you can use the `--internal-port` flag to specify which port the endpoint uses.
 
 ### <a id='counter-metrics'></a> Counter metrics
 
@@ -363,7 +363,8 @@ latency metrics with labels that describe the endpoint from which they came, Aut
 
 ### <a id='high-metric-load'></a> High metric load
 
-Configuring an app to emit a large number of custom scaling metrics can cause your TAS for VMs deployment to have difficulty processing those metrics. To create a large number of custom scaling metrics, consult the operator of your TAS for VMs deployment.
+Configuring an app to emit a large number of custom scaling metrics can cause your TAS for VMs deployment to have difficulty processing those metrics. To create a large number
+of custom scaling metrics, consult the operator of your TAS for VMs deployment.
 
 ### <a id='log-cache-eviction'></a> Log cache eviction
 
