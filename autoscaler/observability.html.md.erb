@@ -125,7 +125,7 @@ To identify apps that are using Autoscaler through CAPI:
 
 ## <a id='failure-modes'></a> Failure modes
 
-Rather than always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, Autoscaler allows you to provision only the number of instances that your apps require to handle the amount of traffic that you expect at any given time. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, Autoscaler cannot scale the number of app instances up enough to meet the needs of your apps.
+Rather than always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, you can use Autoscaler to provision only the number of instances that your apps require to handle the amount of traffic that you expect at any given time. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, Autoscaler cannot scale the number of app instances up enough to meet the needs of your apps.
 
 If you are not using Autoscaler, TAS for VMs component failures might have little impact on your apps. Because Autoscaler depends on TAS for VMs components such as Log Cache, the Cloud Controller, and MySQL to scale apps, using Autoscaler greatly increases the impact of TAS for VMs component failures on those apps.
 
