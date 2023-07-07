@@ -141,7 +141,7 @@ To push the sample app:
 1. From the `routes` section of the terminal output, record the URL of the `java-spring-security` app. In the example output in the previous step, this URL is
 `tutorial-example-random-route.cfapps.io`.
 
-1. <a id="sample-app-ui></a>In a browser, navigate to the app URL you recorded in the previous step. The app UI looks like what you see in the image below.
+1. <a id="sample-app-ui></a>In a browser, navigate to the app URL you recorded in the previous step. The app UI looks like what you see in the image that follows.
 
 ![alt-text="The text following the image describes the details of the UI."](./images/sample-app-ui.png)
 
@@ -187,7 +187,7 @@ To register a custom metrics endpoint for the app:
     ```
     Log Cache is a component of <%= vars.app_runtime_abbr %> that caches logs and metrics from across the platform.
 
-1. View the app metrics as they are emitted using the command below. The `--follow` flag appends output as metrics are emitted.
+1. View the app metrics as they are emitted using the command that follows. The `--follow` flag appends output as metrics are emitted.
 
 	```
 	cf tail java-spring-security --envelope-class metrics --follow
@@ -237,7 +237,7 @@ _Managing Apps and Service Instances Using Apps Manager_.
 3. To create an autoscaling rule:
 	1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
 	2. Click **Add rule**. The **Select type** dropdown appears.
-	3. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
+	3. From the **Select type** dropdown, select **Custom**. More configuration fields appear following.
 	4. For **Rule Type**, select `Custom`.
 	5. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
 	6. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
