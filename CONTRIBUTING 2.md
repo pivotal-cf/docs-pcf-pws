@@ -33,7 +33,7 @@ existing commits.
 If your pull request contains a single commit or your changes are related to the most recent commit, you can simply
 amend the commit.
 
-Be sure to add a comment to the PR indicating your new changes are ready to review, as GitHub does not generate a
+Add a comment to the PR indicating your new changes are ready to review, as GitHub does not generate a
 notification when you git push.
 
 ### Formatting Commit Messages
@@ -41,6 +41,6 @@ notification when you git push.
 We follow the conventions on [Conventional Commits](https://www.conventionalcommits.org/) and
 [How to Write a Git Commit Message](http://chris.beams.io/posts/git-commit/).
 
-Be sure to include any related GitHub issue references in the commit message.  See
+Include any related GitHub issue references in the commit message.  See
 [GFM syntax](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown) for referencing issues
 and commits.
