@@ -365,7 +365,7 @@ decrease HTTP latency that results from these external factors.
 
 ### <a id='c2c'></a> Container-to-container networking.
 
-Autoscaler may only use HTTP latency as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not currently<!--฿ Do not use |currently| to refer to product releases. Instead, state the product name and version number. ฿--> support
+Autoscaler may only use HTTP latency as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not support
 using HTTP latency as a scaling metric for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
 
 If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP

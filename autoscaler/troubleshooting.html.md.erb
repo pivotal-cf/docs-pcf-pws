@@ -359,7 +359,7 @@ When Autoscaler scales an app up, the new app instances may be slow to respond t
 as the scaling metric for the app, Autoscaler might scale the number of app instances up even more to compensate for the slow response time of the app instances
 it had previously created.
 
-When a new app instance is created, Diego runs health checks for the app instance. After all health checks have been completed successfully, Diego considers
+When a new app instance is created, Diego runs health checks for the app instance. After all health checks are finished successfully, Diego considers
 the app instance to be healthy. Diego then registers a route to the app instance with the Gorouter, and the Gorouter begins routing requests to the app
 instance.
 
