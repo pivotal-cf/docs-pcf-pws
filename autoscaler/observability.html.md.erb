@@ -3,18 +3,18 @@ title: Using debug logs for App Autoscaler
 owner: Autoscaler
 ---
 
-You may monitor App Autoscaler and its supporting VMware Tanzu Application Service for VMs (TAS for VMs) components through debug logging.
+You can monitor App Autoscaler and its supporting VMware Tanzu Application Service for VMs (TAS for VMs) components through debug logging.
 
 
 ## <a id='overview'></a> Overview of debug logging in Autoscaler
 
 Autoscaler does not record debug logs by default. When you configure Autoscaler to record debug logs, the list of logs that Autoscaler records includes debug logs with its normal logs. Debug logs include `DEBUG` in their log entries.
 
-You may use the debug logs that Autoscaler generates to:
+You can use the debug logs that Autoscaler generates to:
 
 * See whether developers of your apps are using Autoscaler to scale them, and measure the efficacy of apps that use Autoscaler. For more information, see [Reviewing Autoscaler Usage](#autoscaler-usage).
 
-* Verify if TAS for VMs components are failing to sufficiently support Autoscaler. For more information, see [Failure Modes](#failure-modes).
+* Verify that if TAS for VMs components are failing to sufficiently support Autoscaler. For more information, see [Failure Modes](#failure-modes).
 
 To configure Autoscaler to record debug logs, see [Configure Debug Logging for Autoscaler](#allow-debug).
 
@@ -82,12 +82,12 @@ If you configured Autoscaler correctly, it logs the following metrics:
 
 To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
 
-You may also use one of the following methods to identify which apps are using Autoscaler:
+You can use one of the following methods to identify which apps are using Autoscaler:
 
-* You may review the overall number of running app instances that Diego reports for each Diego Cell to measure how many app instances are running at any given time. <% if vars.platform_code != 'OFFLINE' %> For more information, see [Running App Instances, Rate of
+* You can review the overall number of running app instances that Diego reports for each Diego Cell to measure how many app instances are running at any given time. <% if vars.platform_code != 'OFFLINE' %> For more information, see [Running App Instances, Rate of
 Change](../../operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning) in _Key Performance Indicators_.<% end %>
 
-* You may use `cf curl` to retrieve information about Autoscaler service instances from the Cloud Foundry API (CAPI). To identify apps that are using Autoscaler through CAPI, see [Retrieve Autoscaler Service Instances from CAPI Endpoints](#capi).
+* You can use `cf curl` to retrieve information about Autoscaler service instances from the Cloud Foundry API (CAPI). To identify apps that are using Autoscaler through CAPI, see [Retrieve Autoscaler Service Instances from CAPI Endpoints](#capi).
 
 Because each team of developers may use different autoscaling rules for their apps, it might be difficult to accurately verify how effectively Autoscaler scales each app. However, you may gain a generalized understanding of the effect that Autoscaler has on the apps it scales by comparing the number of running app instances with other scaling metrics that the developers of your apps might be using. <% if vars.platform_code != 'OFFLINE' %> For more information about various scaling metrics you may use in your comparison review, see [Key Performance Indicators](../../operating/monitoring/kpi.html).<% end %>
 
@@ -175,7 +175,7 @@ To view autoscaling events for an app, see [View Autoscaling Events](using-autos
 
 #### <a id='lc-node-failure'></a> Individual log cache instance fails
 
-Log Cache holds the log and metric envelopes for an app on a single Log Cache instance. When that Log Cache instance fails, Autoscaler may noy retrieve those envelopes, so it may not determine when to scale an app.
+Log Cache holds the log and metric envelopes for an app on a single Log Cache instance. When that Log Cache instance fails, Autoscaler may not retrieve those envelopes, so it may not verify when to scale an app.
 
 When the Log Cache instance that holds the envelopes for an app fails, you see an autoscaling event similar to the following example:
 
