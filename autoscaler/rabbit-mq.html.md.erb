@@ -3,16 +3,16 @@ title: Use RabbitMQ queue depth as a scaling metric with App Autoscaler
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use the RabbitMQ queue depth metric to scale apps in your VMware TAS for VMs deployment.
+You may configure App Autoscaler to use the RabbitMQ queue depth metric to scale apps in your VMware TAS for VMs deployment.
 
 
 ## <a id='overview'></a> Overview of RabbitMQ queue depth
 
 RabbitMQ is a message broker that communicates using message queues. _Queue depth_ is the number of messages in a RabbitMQ queue that
-are waiting to be dequeued. You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric for apps that consume messages from RabbitMQ
-queues for processing. When Autoscaler scales these apps up, they can process these RabbitMQ queues more quickly.
+are waiting to be dequeued. You may configure Autoscaler to use RabbitMQ queue depth as the scaling metric for apps that consume messages from RabbitMQ
+queues for processing. When Autoscaler scales these apps up, they may process these RabbitMQ queues more quickly.
 
-You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app in the following ways:
+You may configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app in the following ways:
 
 * Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring RabbitMQ Queue Depth as the Scaling Metric for an App
 Through the cf CLI](#cf-cli-config) following.
@@ -20,7 +20,7 @@ Through the cf CLI](#cf-cli-config) following.
 * Through Apps Manager. For more information, see [Configure RabbitMQ Queue Depth as the Scaling Metric for an App Through Apps Manager](#apps-manager-config)
 following.
 
-You can also configure Autoscaler to query queues on an external RabbitMQ cluster by creating a user-provided service that represents the external RabbitMQ
+You may also configure Autoscaler to query queues on an external RabbitMQ cluster by creating a user-provided service that represents the external RabbitMQ
 cluster. For more information, see [Use an External RabbitMQ Cluster](#external-rabbitmq) following.
 
 To monitor when Autoscaler scales an app based on changes in RabbitMQ queue depth, see [Reviewing Autoscaling Events for Changes in RabbitMQ Queue
@@ -39,7 +39,7 @@ For more information about RabbitMQ queues, see the [RabbitMQ documentation](htt
 
 The procedures in this section describe how to configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app through the cf CLI.
 
-You can configure configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app in the following ways:
+You may configure configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app in the following ways:
 
 * Using a manifest file. For more information, see [Configure an Autoscaling Rule Using a Manifest File](#cf-cli-manifest-config) following.
 
@@ -50,7 +50,7 @@ Autoscaler CLI Plugin](using-autoscaler-cli.html#install) in _Using the App Auto
 
 ### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule using a manifest file
 
-You can configure autoscaling rules through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
+You may configure autoscaling rules through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
 other existing app manifest files in your TAS for VMs deployment.
 
 To configure an autoscaling rule that defines RabbitMQ queue depth as its scaling metric using a manifest file:
@@ -281,13 +281,13 @@ you want to scale.
 
 ## <a id='external-rabbitmq'></a> Use an external RabbitMQ cluster
 
-If your RabbitMQ queue is hosted on an external RabbitMQ cluster, you can create a user-provided service that represents the external RabbitMQ cluster.
-Autoscaler can query this user-provided service to retrieve queue metadata.
+If your RabbitMQ queue is hosted on an external RabbitMQ cluster, you may create a user-provided service that represents the external RabbitMQ cluster.
+Autoscaler may query this user-provided service to retrieve queue metadata.
 
 To use a user-provided service for your external RabbitMQ cluster:
 
 1. Activate the RabbitMQ management plug-in on your RabbitMQ cluster by following the procedures in the [RabbitMQ
-documentation](https://www.rabbitmq.com/management.html). Autoscaler can use the RabbitMQ HTTP Management API to discover the depth of the queues
+documentation](https://www.rabbitmq.com/management.html). Autoscaler may use the RabbitMQ HTTP Management API to discover the depth of the queues
 in the RabbitMQ cluster.
 
 1. In a terminal window, run:
@@ -337,7 +337,7 @@ the Scaling Metric for an App Through Apps Manager](#apps-manager-config).
 When Autoscaler scales the number of app instances up after the RabbitMQ queue depth metric increases above the maximum queue depth threshold, Autoscaler
 records an autoscaling event.
 
-You can monitor the autoscaling events that Autoscaler records for changes in RabbitMQ queue depth in the following ways:
+You may monitor the autoscaling events that Autoscaler records for changes in RabbitMQ queue depth in the following ways:
 
 * Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in RabbitMQ Queue Depth Through the cf CLI](#review-events-cli) following.
 
@@ -396,7 +396,7 @@ information, see the sections following:
 ### <a id='credentials-credhub'></a> RabbitMQ service binding credentials in runtime CredHub
 
 In order to receive RabbitMQ queue depth metrics, Autoscaler must retrieve service binding credentials for the RabbitMQ HTTP Management API from
-Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in runtime CredHub, Autoscaler cannot retrieve service binding
+Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in runtime CredHub, Autoscaler may not retrieve service binding
 credentials from Cloud Controller.
 
 For more information, see [Autoscaler Does Not Support Runtime CredHub](troubleshooting.html#rabbitmq-runtime-credhub) in _Troubleshooting App Autoscaler_.

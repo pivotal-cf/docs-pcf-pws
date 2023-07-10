@@ -30,7 +30,7 @@ git push origin my-new-feature
 If your PR fails to pass CI or needs changes based on code review, you'll most likely want to squash these changes into
 existing commits.
 
-If your pull request contains a single commit or your changes are related to the most recent commit, you can simply
+If your pull request contains a single commit or your changes are related to the most recent commit, you may
 amend the commit.
 
 Add a comment to the PR indicating your new changes are ready to review, as GitHub does not generate a

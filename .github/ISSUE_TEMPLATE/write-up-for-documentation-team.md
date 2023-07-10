@@ -29,7 +29,7 @@ Please fill out all of these fields!
 
 * **Versions to which this applies:** [Versions]
 
-* **Slack user(s) or channel that we can contact (for clarification, review, etc.):** [Usernames or channel name]
+* **Slack user(s) or channel that we may contact (for clarification, review, etc.):** [Usernames or channel name]
 
 ### Guidelines
 
@@ -43,7 +43,7 @@ Please include the following information in your write-up:
 
 * What are the benefits to customers?
 
-* Are there any example use cases that we can highlight?
+* Are there any example use cases that we may highlight?
 
 Other things to remember:
 
