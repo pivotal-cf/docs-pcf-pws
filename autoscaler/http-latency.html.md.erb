@@ -3,7 +3,7 @@ title: Use HTTP latency as a scaling metric with App Autoscaler
 owner: Autoscaler
 ---
 
-You commands configure App Autoscaler to use the HTTP latency metric to scale apps in your VMware TAS for VMs deployment.
+You can configure App Autoscaler to use the HTTP latency metric to scale apps in your VMware TAS for VMs deployment.
 
 
 ## <a id='overview'></a> HTTP latency overview
@@ -18,7 +18,7 @@ For example, you might have a Service Level Agreement (SLA) specifying that 95% 
 help achieve this, you may configure an autoscaling rule for Autoscaler to create additional instances of the app when the HTTP latency metric reaches 250-
 milliseconds.
 
-You can configure Autoscaler to use HTTP latency as the scaling metric for an app in the following ways:
+You may configure Autoscaler to use HTTP latency as the scaling metric for an app in the following ways:
 
 * Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring HTTP Latency as the Scaling Metric for an App Through the
 cf CLI](#cf-cli-config).
@@ -311,7 +311,7 @@ To review the autoscaling events that Autoscaler records for changes in HTTP lat
     2022-05-23T21:47:45Z   Scaled up from 10 to 11 instances. Current HTTP Latency of 1010.96ms is above upper threshold of 250.00ms.
     </pre>
 
-### <a id='review-events-apps-manager'></a> Review autoscaling events for changes in HTTP latency through Apps Manager.
+### <a id='review-latency-events'></a> Review autoscaling events for changes in HTTP latency through Apps Manager.
 
 To review the autoscaling events that Autoscaler records for changes in HTTP latency through Apps Manager:
 
