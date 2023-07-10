@@ -44,7 +44,7 @@ Quota plans ensure that inefficient autoscaling rules or malicious requests do n
 deployment. You cannot configure Autoscaler to scale apps without ensuring that the space and org in which your app is deployed have quota plans that can
 accommodate your autoscaling needs.
 
-When configuring Autoscaler to scale an app, you must ensure that the resource quotas allocated to the app are sufficient to allow Autoscaler to scale the
+When configuring Autoscaler to scale an app, you must ensure that the resource quotas allocated to the app are sufficient so Autoscaler can scale the
 app within the limits you configure. If the resource quotas that are available for the app to use are lower than the resources required to meet the upper
 scaling limit you configured, Autoscaler cannot scale up to that upper scaling limit.
 
@@ -60,10 +60,10 @@ the apps you want Autoscaler to scale.
 
 The following descriptions of each scenario include their benefits and drawbacks:
 
-* You can provision enough resources to allow all apps to use their maximum allocated resource quotas simultaneously. However, you risk over-provisioning
+* You can provision enough resources to set all apps to use their maximum allocated resource quotas simultaneously. However, you risk over-provisioning
 resources for your TAS for VMs deployment.
 
-* You can provision fewer resources, which allows you to provision more Diego Cells from the IaaS on which your Ops Manager foundation is deployed if you require them. However, you risk Autoscaler being unable to accommodate scaling requests.
+* You can provision fewer resources, you can provision more Diego Cells from the IaaS on which your Ops Manager foundation is deployed if you require them. However, you risk Autoscaler being unable to accommodate scaling requests.
 
 ### <a id='quota-reached'></a> Apps that reach resource quotas
 

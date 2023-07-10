@@ -171,9 +171,9 @@ For more information, see the following sections:
 
 * [View Apps Configured to Autoscale](#confirm-autoscaling-config)
 
-#### <a id='allow-autoscaling'></a> Allow autoscaling
+#### <a id='allow-autoscaling'></a> Approve Autoscaling
 
-To allow autoscaling for an app:
+Autoscaling for an app:
 
 1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To
 configure the **App Autoscaler Errand** to deploy Autoscaler, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for
@@ -384,7 +384,7 @@ Architecture_. For more information about app health checks, including how to co
 [Using App Health Checks](../../devguide/deploy-apps/healthchecks.html).
 
 
-## <a id='one-instance-per-space'></a> One Autoscaler service instance allowed per space
+## <a id='one-instance-per-space'></a> One Autoscaler service instance per space
 
 Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one Autoscaler service instance in a space, you see
 the following error:
@@ -395,7 +395,7 @@ Response code: 409
 CC code:       10001
 CC error code: CF-ServiceBrokerConflict
 Request ID:    b3b6236b-82f5-42a7-5015-338369d5fea2::9d7c8b3a-0c4f-4935-b493-d6fe3f417f3b
-Description:   Service broker error: Only One App Autoscaler Service Instance Allowed Per Space
+Description:   Service broker error: Only One App Autoscaler Service Instance Approved ed Per Space
 FAILED
 </pre>
 
