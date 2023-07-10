@@ -307,7 +307,7 @@ To review the autoscaling events that Autoscaler records for changes in the cust
     2022-05-25T23:13:27Z   Scaled up from 10 to 11 instances. Current example_metric of 60.83 is above upper threshold of 50.00.
     </pre>
 
-### <a id='review-events-apps-manager'></a> Review autoscaling events for changes in custom scaling metrics through Apps Manager
+### <a id='review-events'></a> Review autoscaling events for changes in custom scaling metrics through Apps Manager
 
 To review the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app through Apps Manager:
 
@@ -366,13 +366,13 @@ latency metrics with labels that describe the endpoint from which they came, Aut
 Configuring an app to emit a large number of custom scaling metrics may cause your TAS for VMs deployment to have difficulty processing those metrics. To create a large number
 of custom scaling metrics, consult the operator of your TAS for VMs deployment.
 
-### <a id='log-cache-eviction'></a> Log cache eviction
+### <a id='log-cache-ejection'></a> Log cache ejection
 
 The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
 seconds. You may configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in
 _Configuring TAS for VMs_. <% end %>
 
-Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache may hold a maximum of 100,000 envelopes per
+Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per
 app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log
 Cache custom metric history for Autoscaler to use in scaling decisions.
 
