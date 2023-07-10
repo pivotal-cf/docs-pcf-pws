@@ -52,13 +52,13 @@ If HTTP latency then averages 70-milliseconds over the next 120-second window an
 If the average value for HTTP latency over a 120-second window falls below the maximum threshold of 200-milliseconds or the minimum threshold of 80-milliseconds, App Autoscaler maintains the same number of instances for the app.
 
 You can also set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of
-instances is already at the maximum number of allowed instances, App Autoscaler does not scale up the app.
+instances is already at the maximum number of instances, App Autoscaler does not scale up the app.
 
 ### <a id="default-metrics"></a> Default metrics for scaling rules
 
 App Autoscaler includes several default metrics for which you can create scaling rules.
 
-<p> <%= vars.company_name %> recommends that you define custom metrics for scaling rules instead of using the default metrics. Custom metrics allow you to more
+<p> <%= vars.company_name %> recommends that you define custom metrics for scaling rules instead of using the default metrics. You can use Custom metrics to
 accurately monitor the performance of your apps based on your environment.</p>
 
 The following table lists the default metrics for App Autoscaler:

@@ -8,7 +8,7 @@ You can configure App Autoscaler to use the RabbitMQ queue depth metric to scale
 
 ## <a id='overview'></a> Overview of RabbitMQ queue depth
 
-RabbitMQ is a message broker that allows apps to communicate using message queues. _Queue depth_ is the number of messages in a RabbitMQ queue that
+RabbitMQ is a message broker that communicates using message queues. _Queue depth_ is the number of messages in a RabbitMQ queue that
 are waiting to be dequeued. You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric for apps that consume messages from RabbitMQ
 queues for processing. When Autoscaler scales these apps up, they can process these RabbitMQ queues more quickly.
 
@@ -213,7 +213,7 @@ service instance by running:
 
 </ul>
 
-5. Allow Autoscaler to begin making scaling decisions for the app by running:
+1. Set Autoscaler to begin making scaling decisions for the app by running:
 
     ```console
     cf enable-autoscaling APP-NAME
@@ -287,7 +287,7 @@ Autoscaler can query this user-provided service to retrieve queue metadata.
 To use a user-provided service for your external RabbitMQ cluster:
 
 1. Activate the RabbitMQ management plug-in on your RabbitMQ cluster by following the procedures in the [RabbitMQ
-documentation](https://www.rabbitmq.com/management.html). This allows Autoscaler to use the RabbitMQ HTTP Management API to discover the depth of the queues
+documentation](https://www.rabbitmq.com/management.html). Autoscaler can use the RabbitMQ HTTP Management API to discover the depth of the queues
 in the RabbitMQ cluster.
 
 1. In a terminal window, run:
@@ -323,7 +323,7 @@ in the RabbitMQ cluster.
 
     <p class="note important">
     <span class="note__title">Important</span> Depending on the app to which you bind the user-provided service, you might need to configure the
-    <code>VCAP_SERVICES</code> environment variable to allow the app to access the user-provided service. For more information, see the
+    <code>VCAP_SERVICES</code> environment variable to approve accessing the user-provided service. For more information, see the
     <a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html">VMware Tanzu RabbitMQ for VMs documentation.
     </p>
 
