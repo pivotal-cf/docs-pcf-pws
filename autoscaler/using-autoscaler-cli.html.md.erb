@@ -136,7 +136,7 @@ To set Autoscale for your app:
     Where `APP-NAME` is the name of the app for which you want to allow autoscaling.
     <br>
     <br>
-    If you run the following command, it allows Autoscaler to scale `example-app`:
+    For example, if you run the following, it allows Autoscaler to scale `example-app`:
 
     ```
     cf enable-autoscaling example-app
@@ -164,7 +164,7 @@ To disallow autoscaling for an app:
     Where `APP-NAME` is the name of the app for which you want to disallow autoscaling.
     <br>
     <br>
-    Runing the following command disallows Autoscaler from scaling `example-app`:
+    For example, if you run the following, it disallows Autoscaler from scaling `example-app`:
 
     ```
     cf disable-autoscaling example-app
@@ -176,7 +176,7 @@ To disallow autoscaling for an app:
     </pre>
 
 
-## <a id='autoscaling-limits'></a> Configure autoscaling limits
+## <a id='configure-autoscaling-limits'></a> Configure autoscaling limits
 
 To configure the upper and lower autoscaling limits for an app:
 
@@ -193,7 +193,7 @@ To configure the upper and lower autoscaling limits for an app:
       <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
     </ul>
 
-    Running the following command sets the lower scaling limit for `example-app` to `20` and the upper scaling limit to `100`:
+    For example, if you run the following, it sets the lower scaling limit for `example-app` to `20` and the upper scaling limit to `100`:
 
     ```
     cf update-autoscaling-limits example-app 20 100
@@ -225,7 +225,7 @@ To configure scaling factors for an app:
       <li><code>SCALE-DOWN-FACTOR</code> is the number of app instances by which you want Autoscaler to scale down at a time.</li>
     </ul>
 
-    Running the following command configures Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
+    For example, if you run the following, it will configure Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
 
     ```
     cf update-autoscaling-factors example-app 20 10
@@ -269,7 +269,7 @@ To view all autoscaling rules that are configured for an app:
     Where `APP-NAME` is the name of the app for which you want to view all autoscaling rules.
     <br>
     <br>
-    Running the following command returns a list of all autoscaling rules that are configured for `example-app`:
+    For example, if you run the following, it returns a list of all autoscaling rules that are configured for `example-app`:
 
     ```
     cf autoscaling-rules example-app
@@ -296,9 +296,19 @@ To create a new autoscaling rule for an app:
     Where:
     <ul>
     <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-    <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create. Valid values are <code>compare</code>, <code>CPU</code>, <code>custom</code>, <code>http_latency</code>, <code>http_throughput</code>, <code>memory</code>, or <code>rabbitmq</code>.
+    <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create.
+
+    Valid values are:
+       * <code>compare</code>
+       * <code>CPU</code>
+       * <code>custom</code>
+       * <code>http_latency</code>
+       * <code>http_throughput</code>
+       * <code>memory</code>
+       * <code>rabbitmq</code>.
    <ul>
-          <li>For more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based
+          <li><%= vars.company_name %> discourages open source. For
+            more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based
             Autoscaling rules do not fire</a> in the Knowledge Base.</li>
           <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
             the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the
@@ -356,7 +366,7 @@ Rules](#view-rules) above.
       <li><code>RULE-GUID</code> is the GUID of the autoscaling rule you want to delete.</li>
     </ul>
 
- Running the following command deletes the autoscaling rule with a GUID of `10a581c5-8fb4-48a2-b4de-8bc834aac146` for `example-app`:
+    Run the following to delete the autoscaling rule with a GUID of `10a581c5-8fb4-48a2-b4de-8bc834aac146` for `example-app`:
 
     ```console
     cf delete-autoscaling-rule example-app 10a581c5-8fb4-48a2-b4de-8bc834aac146
@@ -376,7 +386,7 @@ To delete all autoscaling rules for an app:
     Where `APP-NAME` is the name of the app for which you want to delete all autoscaling rules.
     <br>
     <br>
-    Running the following command deletes all autoscaling rules for `example-app`:
+    Run the following command to delete all autoscaling rules for `example-app`:
 
     ```console
     cf delete-autoscaling-rules example-app
@@ -397,7 +407,7 @@ To view a list of autoscaling events that Autoscaler has recorded for an app:
     Where `APP-NAME` is the name of your app.
     <br>
     <br>
-    Running the following command returns a list of all recent autoscaling events that Autoscaler has recorded for `example-app`:
+    Run the following command to return a list of all recent autoscaling events that Autoscaler has recorded for `example-app`:
 
     ```console
     cf autoscaling-events example-app
@@ -475,17 +485,17 @@ To create a scheduled limit change for an app:
       you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include <code>--recurrence Mo,We,Fr,Sa</code> in the preceding command.</li>
     </ul>
 
-    Running the following command configures Autoscaler to create a minimum of one instance and a maximum of two instances of `example-app` for
+    Run the following command< to configure Autoscaler to create a minimum of one instance and a maximum of two instances of `example-app` for
     the first time at 2018-06-14T15:00:00Z UTC and the same time every Saturday afterward:
 
     ```
     cf create-autoscaling-slc example-app 2018-06-14T15:00:00Z 1 2 --recurrence Sa
     ```
-    The preceding command returns output similar to the following example:
+    The following command returns output similar to the following example:
     <pre class="terminal">
     Created scheduled autoscaler instance limit change for app example-app in org example-org / space example-space as user
     OK
-    Guid                                      First Execution        Min Instances   Max Instances   Recurrence
+    Guid                                      First Execution        Min Instances   Maximum Instances   Recurrence
     7a19a8a2-e435-4c67-b038-cc4add8be686      2018-06-14T15:00:00Z   1               2               Sa
     </pre>
 
@@ -494,11 +504,11 @@ To create a scheduled limit change for an app:
 To delete a scheduled limit change for an app:
 
 1. View all scheduled limit changes for the app for which you want to delete a scheduled limit change by following the procedure in [View All Scheduled Limit
-Changes](#view-slcs) above.
+Changes](#view-slcs).
 
 1. From the `Guid` column of the terminal output, record the GUID of the scheduled limit change you want to delete.
 
-1. Run:
+2. Run:
 
     ```
     cf delete-autoscaling-slc APP-NAME SLC-GUID [--force]
@@ -509,13 +519,13 @@ Changes](#view-slcs) above.
       <li><code>SLC-GUID</code> is the GUID of the scheduled instance limit change that you recorded in the previous step.</li>
     </ul>
 
-    Running the following command deletes the scheduled limit change with a GUID of `d0077dc5-34bd-42c7-b377-e0fcb14d67f3` for `example-app`:
+    Run the following to delete the scheduled limit change with a GUID of `d0077dc5-34bd-42c7-b377-e0fcb14d67f3` for `example-app`:
 
     ```
     cf delete-autoscaling-slc example-app d0077dc5-34bd-42c7-b377-e0fcb14d67f3
     ```
 
-1. When prompted, enter `y` to delete the scheduled limit change.
+3. When prompted, enter `y` to delete the scheduled limit change.
 
 
 ## <a id='configure-autoscaling'></a> Configure Autoscaler by using a manifest file
@@ -595,7 +605,7 @@ To configure Autoscaler using a manifest file:
       <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
     </ul>
 
-   Running the following command applies the `autoscaler.yml` manifest file to `example-app`:
+   Run the following command to apply the `autoscaler.yml` manifest file to `example-app`:
 
     ```console
     cf configure-autoscaling example-app autoscaler-manifest.yml

@@ -3,7 +3,7 @@ title: About App Autoscaler
 owner: App Autoscaler
 ---
 
-App Autoscaler with TAS for VMs is used to scale your apps and control costs of running them.
+App Autoscaler with TAS for VMs scales your apps and control costs of running them.
 
 
 ## <a id="overview"></a> App Autoscaler overview
@@ -16,7 +16,7 @@ You can use App Autoscaler to do the following:
 * Modify the maximum and minimum number of instances for an app, either manually or following a schedule
 * Configure scaling factors so that the app scales more quickly. Use caution when setting the scaling factors by which to scale your applications up or down.
 
-For example, you may configure App Autoscaler to scale down the number of instances for an app over the weekend. You may configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold.
+For example, you might configure App Autoscaler to scale down the number of instances for an app over the weekend. You may configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold.
 
 ## <a id="about-scaling"></a> About app Autoscaler scaling rules
 
@@ -51,7 +51,7 @@ If HTTP latency then averages 70-milliseconds over the next 120-second window an
 
 If the average value for HTTP latency over a 120-second window falls below the maximum threshold of 200-milliseconds or the minimum threshold of 80-milliseconds, App Autoscaler maintains the same number of instances for the app.
 
-You may set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of
+You can set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of
 instances is already at the maximum number of instances, App Autoscaler does not scale up the app.
 
 ### <a id="default-metrics"></a> Default metrics for scaling rules
@@ -100,12 +100,12 @@ The following table lists the default metrics for App Autoscaler:
 
 <%= vars.company_name %> recommends that you define custom metrics for App Autoscaler scaling rules. You may use custom metrics define the metrics that are the best indicators of app performance for your environment.
 
-You may configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit
+You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit
 custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
 
 ### <a id="comparison-metrics"></a> Comparison metrics for scaling rules
 
-You may use the **Comparison Metric** text box in App Autoscaler to define a scaling rule that divides one custom metric by another.
+You can use the **Comparison Metric** text box in App Autoscaler to define a scaling rule that divides one custom metric by another.
 
 When you add a scaling rule, the **Metric** text box is the dividend and the **Comparison Metric** text box is the divisor.
 
