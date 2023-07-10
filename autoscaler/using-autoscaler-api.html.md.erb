@@ -91,7 +91,7 @@ Apps that are bound to App Autoscaler are represented by the App Autoscaler API 
 | **Name** | **Type** | **Description** |
 | ---- | ---- | ----------- |
 | created_at | string | The timestamp for when this object was created |
-| enabled | Boolean | Enables or disables scaling by App Autoscaler for this app |
+| enabled | Boolean | Activates or deactivates scaling by App Autoscaler for this app |
 | guid | string | The app GUID from CAPI |
 | instance_limits.max | integer | The maximum instance count that this app is approved |
 | instance_limits.min | integer | The minimum instance count that this app is approved |
@@ -144,7 +144,7 @@ PUT /api/v2/apps/:app_guid
 | Parameter | In | Type | Required | Description |
 | --------- | --- | ---- | -------- | ----------- |
 | app_guid | path | string | true | The GUID of the app to update the binding for |
-| enabled | body | Boolean | false | Enables or disables scaling by App Autoscaler for this app |
+| enabled | body | Boolean | false | Activates or deactivates  scaling by App Autoscaler for this app |
 | instance_limits.max | body | integer | false | The maximum instance count that this app is approved |
 | instance_limits.min | body | integer | false | The minimum instance count that this app is approved |
 | scaling_factors.up | |integer | | The number of instances to increment by when scaling up |
@@ -159,7 +159,7 @@ An app binding.
 
 This section lists operations to retrieve events.
 
-Scaling events include all scaling decisions made by App Autoscaler and other relevant changes. For example, an app is enabled or disabled.
+Scaling events include all scaling decisions made by App Autoscaler and other relevant changes. For example, an app is activated or deactivated.
 
 ### <a id="event-object"></a>Event object
 
@@ -330,7 +330,7 @@ SLCs are jobs scheduled for the future that alter app status, such as enabling, 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | created_at | string | The timestamp for when this object was created |
-| enabled | Boolean | Whether or not the app is enabled or disabled |
+| enabled | Boolean | Whether or not the app is activated or deactivated  |
 | executes_at | string | The UTC timestamp indicating when this SLC is first executed |
 | guid | string | The GUID of this object |
 | instance_limits.max | integer | The maximum instance count that is set on the app |
@@ -366,7 +366,7 @@ POST /api/v2/apps/:app_guid/scheduled_limit_changes
 | Parameter | In | Type | Required | Description |
 | --------- | --- | ---- | -------- | ----------- |
 | app_guid | path | string | true | The GUID of the app to create an SLC for |
-| enabled | body | Boolean | true | Whether or not the app is enabled or disabled |
+| enabled | body | Boolean | true | Whether or not the app is activated or deactivated  |
 | executes_at | body | string | true | The UTC timestamp indicating when this SLC is first executed |
 | instance_limits.max | body | integer | true | The maximum instance count that is set on the app |
 | instance_limits.min | body | integer | true | The minimum instance count that is set on the app |
