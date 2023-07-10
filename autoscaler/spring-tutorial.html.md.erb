@@ -5,7 +5,7 @@ owner: Autoscaler
 
 With App Autoscaler, you can scale an app in your <%= vars.app_runtime_abbr %> deployment based on a custom metric.
 
-In a <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) deployment, Autoscaler can automatically scale apps based on custom metrics.
+In a <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) deployment, Autoscaler can scale apps based on custom metrics.
 The following table describes the main components involved in this workflow and
 how they correspond to steps in this tutorial.
 
@@ -27,7 +27,7 @@ how they correspond to steps in this tutorial.
 	</tr>
 	<tr>
 		<td>App Autoscaler</td>
-		<td>Autoscaler is a service integrated with Apps Manager that automatically scales apps in your <%= vars.app_runtime_abbr %> deployment based on the scaling metrics or schedule that you configure. For more information, see <a href="../autoscaler/using-autoscaler.html">Scaling an App Using App Autoscaler</a>.</td>
+		<td>Autoscaler is a service integrated with Apps Manager that scales apps in your <%= vars.app_runtime_abbr %> deployment based on the scaling metrics or schedule that you configure. For more information, see <a href="../autoscaler/using-autoscaler.html">Scaling an App Using App Autoscaler</a>.</td>
 		<td><a href="#create-rules">Create and Autoscaling Rule</a> and <a href="#trigger">Trigger Scaling</a></td>
 	</tr>
 </table>
@@ -170,7 +170,7 @@ To register a custom metrics endpoint for the app:
     ```
     cf register-metrics-endpoint java-spring-security /actuator/prometheus --insecure
     ```
-    Because the app dependencies include the Micrometer Prometheus library, there is automatically a metrics endpoint at `/actuator/prometheus`.
+    Because the app dependencies include the Micrometer Prometheus library, there is a metrics endpoint at `/actuator/prometheus`.
 
     <p class="note caution">
           <span class="note__title">Caution</span> When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the

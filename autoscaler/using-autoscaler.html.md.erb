@@ -3,7 +3,7 @@ title: Using App Autoscaler to scale apps in TAS for VMs
 owner: App Autoscaler
 ---
 
-With the Space Developer role, you can configure the App Autoscaler service in Apps Manager to automatically scale apps in your TAS for VMs deployment.
+With the Space Developer role, you can configure the App Autoscaler service in Apps Manager to scale apps in your TAS for VMs deployment.
 
 You can use the App Autoscaler command-line interface (CLI) plug-in to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
@@ -13,7 +13,7 @@ Space Managers, Space Auditors, and all Org roles do not have permission to use 
 
 ## <a id="overview"></a> App Autoscaler overview
 
-To use App Autoscaler to automatically scale your apps in you VMware Tanzu Application Service for VMs (TAS for VMs) deployment, you must create and bind the App Autoscaler service, then configure scaling rules for App Autoscaler.
+To use App Autoscaler to scale your apps in you VMware Tanzu Application Service for VMs (TAS for VMs) deployment, you must create and bind the App Autoscaler service, then configure scaling rules for App Autoscaler.
 
 For more information about App Autoscaler, including information about how to create scaling rules, see [About App Autoscaler](about-app-autoscaler.html).
 
@@ -65,7 +65,7 @@ To use App Autoscaler, you must create an instance of the App Autoscaler service
   1. [Bind the service to an app](../../devguide/services/managing-services.html#bind).
 
 <p class="note important">
-<span class="note__title">Important</span> Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.
+<span class="note__title">Important</span> Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.
 </p>
 
 To enable App Autoscaler for an app:
