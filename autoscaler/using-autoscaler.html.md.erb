@@ -3,9 +3,9 @@ title: Using App Autoscaler to scale apps in TAS for VMs
 owner: App Autoscaler
 ---
 
-With the Space Developer role, you can configure the App Autoscaler service in Apps Manager to automatically scale apps in your TAS for VMs deployment.
+With the Space Developer role, you may configure the App Autoscaler service in Apps Manager to scale apps in your TAS for VMs deployment.
 
-You can use the App Autoscaler command-line interface (CLI) plugin to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
+You may use the App Autoscaler command-line interface (CLI) plug-in to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
 Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles,
   see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.
@@ -93,7 +93,7 @@ Follow the procedures in the sections that follows:
 
 #### <a id="limits"></a> Create or modify instance limits
 
-This section describes how to create and edit instance limits for app scaling rules. You can also schedule changes to your instance limits for a specific date and time. For more information, see [Scheduled Limit Changes](#schedule).
+This section describes how to create and edit instance limits for app scaling rules. You may also schedule changes to your instance limits for a specific date and time. For more information, see [Scheduled Limit Changes](#schedule).
 
 To manually modify instance limits:
 
@@ -139,7 +139,7 @@ To delete a scaling rule for an app:
 
 #### <a id="schedule"></a> Create or modify scheduled limit changes
 
-Because app demand often follows a weekly, daily, or hourly schedule, you can schedule App Autoscaler to change the allowable instance range to track expected surges or quiet periods.
+Because app demand often follows a weekly, daily, or hourly schedule, you may schedule App Autoscaler to change the allowable instance range to track expected surges or quiet periods.
 
 To create or modify a scheduled limit change:
 
@@ -150,7 +150,7 @@ To create or modify a scheduled limit change:
 1. Edit the following values:
   * **Date** and **Time (local)**: Set the date and time of the change.
   * **Repeat (Optional)**: Set the day of the week for which you want to repeat the change.
-  * **Min** and **Max**: Set the allowable range within which App Autoscaler can change the instance count for an app.
+  * **Min** and **Max**: Set the allowable range within which App Autoscaler may change the instance count for an app.
 
 2. Click **Save**.
 
@@ -161,7 +161,7 @@ In time zones that observe Daylight Saving Time, Apps Manager might not account 
 
 To delete an existing entry, click the **x** icon next to the entry you want to delete.
 
-For example, to schedule an app to scale down for a weekend, you can enter two rules as follows:
+For example, to schedule an app to scale down for a weekend, you may enter two rules as follows:
 
 1. Scale down to a single instance on Friday evening:
 	* **Date** and **Time (local)**: `Dec`, `2`, `2018` and `7:00 PM`
@@ -175,7 +175,7 @@ For example, to schedule an app to scale down for a weekend, you can enter two r
 
 ## <a id="notifs"></a> View and manage App Autoscaler events and notifications
 
-App Autoscaler logs all autoscaling events. You can view event history and manage notifications for App Autoscaler.
+App Autoscaler logs all autoscaling events. You may view event history and manage notifications for App Autoscaler.
 
 ### <a id='view-event-history'></a> View event history
 
