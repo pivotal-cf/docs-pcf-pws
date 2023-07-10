@@ -3,7 +3,7 @@ title: Using the App Autoscaler CLI for your TAS for VMs deployment
 owner: PCF Autoscaler
 ---
 
-You may use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your TAS for VMs deployment.
+You can use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your TAS for VMs deployment.
 
 ## <a id='overview'></a> App Autoscaler CLI overview
 
@@ -18,7 +18,7 @@ local command line to scale apps in your VMware Tanzu Application Service for VM
 
 ## <a id='install'></a> Install the App Autoscaler CLI plug-in
 
-Before you may run App Autoscaler CLI commands, you must install the App Autoscaler CLI Plug-in.
+Before you can run App Autoscaler CLI commands, you must install the App Autoscaler CLI Plug-in.
 
 To install the plug-in:
 
@@ -42,16 +42,16 @@ To install the plug-in:
     cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
     ```
 
-    For more information about installing cf CLI plugins, see [Install a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI Plugins_.
+    For more information about installing cf CLI plug-ins, see [Install a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI Plugins_.
 
 ## <a id='create-and-bind'></a> Create and bind an Autoscaler service instance
 
-Before you may use Autoscaler, you must create a service instance of Autoscaler and bind it to your app. For more information about service instances, see
+Before you can use Autoscaler, you must create a service instance of Autoscaler and bind it to your app. For more information about service instances, see
 [Managing Service Instances with the cf CLI](../../devguide/services/managing-services.html).
 
 To create and bind an Autoscaler service instance:
 
-1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+1. In a terminal window, target the space in which the app you want to scale by running:
 
     ```console
     cf target -o ORG-NAME -s SPACE-NAME
@@ -75,7 +75,7 @@ To create and bind an Autoscaler service instance:
       <li><code>SERVICE-INSTANCE-NAME</code> is the name you want to give the Autoscaler service instance. For example, <code>autoscaler</code>.</li>
     </ul>
 
-1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
+1. Bind the Autoscaler service instance you created in the eariler step to the app you want to scale by running:
 
     ```console
     cf bind-service APP-NAME SERVICE-INSTANCE-NAME
@@ -87,7 +87,7 @@ To create and bind an Autoscaler service instance:
       <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
     </ul>
 
-Only one service instance of Autoscaler may exist in each space in an org. If you try to create more than one
+Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one
   Autoscaler service instance in a space, the App Autoscaler CLI returns an error message. For more information, see
   <a href="troubleshooting.html#one-instance-per-space">One Autoscaler Service Instance Per Space</a> in <em>Troubleshooting App Autoscaler</em>.</p>
 
@@ -147,7 +147,7 @@ To set Autoscale for your app:
     OK
     </pre>
 
-By default, the upper and lower autoscaling limits for an app are <code>-1</code>. Before Autoscaler may scale an app,
+By default, the upper and lower autoscaling limits for an app are <code>-1</code>. Before Autoscaler can scale an app,
   you must update these upper and lower autoscaling limits. For more information, see <a href="#configure-autoscaling-limits">Configure Autoscaling Limits</a>
   following.
 
@@ -254,7 +254,7 @@ To configure autoscaling rules for Autoscaler to use when making scaling decisio
 For more information about scaling metrics for which you may configure autoscaling rules, see [Scaling
 Metrics](productionizing-autoscaler.html#scaling-metrics) in _Using App Autoscaler in Production_.
 
-For more information about the scaling metrics you may use when defining autoscaling rules for Autoscaler, see [Default Metrics for Scaling
+For more information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default Metrics for Scaling
 Rules](about-app-autoscaler.html#default-metrics) and [Custom Metrics for Scaling Rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 
 ### <a id='view-rules'></a> View all autoscaling rules
@@ -468,7 +468,7 @@ To create a scheduled limit change for an app:
     <ul>
       <li><code>APP-NAME</code> is the name of the app.</li>
       <li><code>TIME</code> is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, <code>2032-01-01T20:00:00Z</code>.
-       <li>You may only configure times for scheduled limit changes in UTC time.</li>
+       <li>You can only configure times for scheduled limit changes in UTC time.</li>
             <li>If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight Saving Time is observed in your
               time zone, the UTC offset for your time zone might change during the year.</li>
           </ul>
@@ -530,7 +530,7 @@ Changes](#view-slcs).
 
 ## <a id='configure-autoscaling'></a> Configure Autoscaler by using a manifest file
 
-You may configure autoscaling rules, scaling limits, and scheduled limit changes for Autoscaler declaratively through a manifest file. This manifest file only
+You can configure autoscaling rules, scaling limits, and scheduled limit changes for Autoscaler declaratively through a manifest file. This manifest file only
 configures Autoscaler, and does not interfere with any other existing app manifest files in your <%= vars.app_runtime_abbr %> deployment.
 
 To configure Autoscaler using a manifest file:

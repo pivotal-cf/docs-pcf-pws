@@ -3,9 +3,9 @@ title: Using the App Autoscaler API for your TAS for VMs deployment
 owner: App Autoscaler
 ---
 
-You may use the App Autoscaler API as an interface to App Autoscaler to configure and control scaling apps in your TAS for VMs deployment.
+You can the App Autoscaler API as an interface to App Autoscaler to configure and control scaling apps in your TAS for VMs deployment.
 
-You may also use the App Autoscaler Cloud Foundry command-line interface (cf CLI) plug-in, which offers the same features as the App Autoscaler API.
+You can use the App Autoscaler Cloud Foundry command-line interface (cf CLI) plug-in, which offers the same features as the App Autoscaler API.
 See [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
 ## <a id="api-endpoints"></a>API endpoints
@@ -13,8 +13,8 @@ See [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 The API uses the autoscale-api app that runs next to the autoscale app in the autoscaling space of the system org.
 This is the base URL of all the requests covered in the following sections.
 
-If your system domain is `system-domain.com`, in most cases you may reach the autoscale app at `autoscale.sys.system-domain.com` and the API at `autoscale.sys.system-domain.com/api/v2`.
-Confirm that you may reach both the app and the API before you proceed.
+If your system domain is `system-domain.com`, in most cases you can reach the autoscale app at `autoscale.sys.system-domain.com` and the API at `autoscale.sys.system-domain.com/api/v2`.
+Confirm that you can reach both the app and the API before you proceed.
 
 
 ## <a id="authentication"></a>Authentication
@@ -25,7 +25,7 @@ The access token expects as-is on the `Authorization` header of each request.
 When you are logged in to your foundation with the cf CLI, get an access token by running `cf oauth-token`.
 
 
-<p> The App Autoscaler API often returns a 404 error when a token is incorrect. If you a receiving a lot of 404 errors, check your access token.</p>
+<p> The App Autoscaler API often returns a 404 error when a token is incorrect. If you a receiving a lot of 404 errors, verify your access token.</p>
 
 ## <a id="content-type"></a>Content type header
 
