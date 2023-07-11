@@ -59,7 +59,7 @@ representative at an online or offline event.
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
+Instances of abusive, harassing, or otherwise unacceptable behavior might be
 reported to the community leaders responsible for enforcement at oss-coc@vmware.com.
 All complaints will be reviewed and investigated promptly and fairly.
 
@@ -78,7 +78,7 @@ unprofessional or unwelcome in the community.
 
 **Consequence**: A private, written warning from community leaders, providing
 clarity around the nature of the violation and an explanation of why the
-behavior was inappropriate. A public apology may be requested.
+behavior was inappropriate. A public apology might be requested.
 
 ### 2. Warning
 
@@ -89,7 +89,7 @@ of actions.
 interaction with the people involved, including unsolicited interaction with
 those enforcing the Code of Conduct, for a specified period of time. This
 includes avoiding interactions in community spaces as well as external channels
-like social media. Violating these terms may lead to a temporary or
+like social media. Violating these terms might lead to a temporary or
 permanent ban.
 
 ### 3. Temporary Ban
@@ -101,7 +101,7 @@ sustained inappropriate behavior.
 communication with the community for a specified period of time. No public or
 private interaction with the people involved, including unsolicited interaction
 with those enforcing the Code of Conduct, is allowed during this period.
-Violating these terms may lead to a permanent ban.
+Violating these terms might lead to a permanent ban.
 
 ### 4. Permanent Ban
 
