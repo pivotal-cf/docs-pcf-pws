@@ -177,7 +177,7 @@ defined reaching its maximum metric threshold. Because of this, using a particul
 the app in some circumstances. If networking issues or an unresponsive downstream service causes greater HTTP latency, configuring Autoscaler to
 scale app instances up by a larger number might cause HTTP latency to worsen even more.
 
-In many production deployments, the scale-down factor for an app is lower than the scale-up factor. This helps an app to scale up faster, then return to an
+In many production deployments, the scale-down factor for an app is lower than the scale-up factor. This helps an app to scale up, then return to an
 earlier baseline number of instances more slowly by stepping down in smaller increments. You might want to configure a lower scale-down factor if you do not
 want Autoscaler to scale the number of app instances down too quickly, and you are less concerned about freeing up resources.
 
