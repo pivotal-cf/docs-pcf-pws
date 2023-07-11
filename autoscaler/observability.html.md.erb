@@ -45,7 +45,6 @@ To configure Autoscaler to record debug logs:
 
     <p class="note">
     <span class="note__title">Note</span> Starting Autoscaler again briefly interrupts any processes it is performing.
-
 </p>
 
 ## <a id='review-logs'></a> Review Autoscaler debug logs
@@ -77,8 +76,10 @@ If you configured Autoscaler correctly, it logs the following metrics:
 
 * `autoscale.enabled_bindings`: The number of Autoscaler service bindings created.
 
->**Note**
->These metrics appear as log entries and are not emitted to Loggregator.
+<p class="note">
+<span class="note__title">Note</span>
+These metrics appear as log entries and are not emitted to Loggregator.
+</p>
 
 To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
 

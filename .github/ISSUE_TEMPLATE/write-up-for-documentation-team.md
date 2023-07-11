@@ -49,7 +49,7 @@ Other things to remember:
 
 * If the CLI is involved, please provide example steps, including example commands to run and example command output.
 
-* Log any extensions, plug-ins, or third-party tools that the user will need to follow the documentation.
+* Log any extensions, plug-ins, or third-party tools that the user must s follow the documentation.
 
 * If the GUI is involved, please provide example steps **and screenshots!**
 
