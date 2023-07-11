@@ -235,7 +235,7 @@ You might see an autoscaling event similar to the following example:
 Autoscaler did not receive any metrics for rabbitmq.example-queue during the scaling window. Scaling down is deferred until these metrics are available.
 </pre>
 
-In order to receive RabbitMQ queue depth metrics, Autoscaler must be able to retrieve service binding credentials for the RabbitMQ HTTP Management API from
+To receive RabbitMQ queue depth metrics, Autoscaler must be able to retrieve service binding credentials for the RabbitMQ HTTP Management API from
 Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in the runtime CredHub, Autoscaler may not retrieve service binding
 credentials from Cloud Controller.
 
