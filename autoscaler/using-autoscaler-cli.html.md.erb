@@ -8,7 +8,7 @@ You can use the App Autoscaler Command-Line Interface (CLI) to control scaling a
 ## <a id='overview'></a> App Autoscaler CLI overview
 
 The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI). You can configure and control Autoscaler from your
-local command line to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
+local CLF to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
 
 <p class="note important">
 <span class="note__title">Important</span> The return output from the App Autoscaler CLI might include odd characters in Windows shells that do not support text
@@ -176,7 +176,7 @@ To disallow autoscaling for an app:
     </pre>
 
 
-## <a id='configure-autoscaling-limits'></a> Configure autoscaling limits
+## <a id='configure-as-limits'></a> Configure autoscaling limits
 
 To configure the upper and lower autoscaling limits for an app:
 
@@ -225,7 +225,7 @@ To configure scaling factors for an app:
       <li><code>SCALE-DOWN-FACTOR</code> is the number of app instances by which you want Autoscaler to scale down at a time.</li>
     </ul>
 
-    For example, if you run the following, it will configure Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
+    Run the following to configure Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
 
     ```
     cf update-autoscaling-factors example-app 20 10
@@ -274,7 +274,11 @@ To view all autoscaling rules that are configured for an app:
     ```
     cf autoscaling-rules example-app
     ```
+<<<<<<< Updated upstream
     The preceding command returns output similar to the following example:
+=======
+    This command returns output similar to the following example:
+>>>>>>> Stashed changes
     <pre class="terminal">
     Presenting autoscaler rules for app example-app for org example-org / space example-space as user
     Guid                                    Type             Metric   Sub Type   Service Instance   Min Threshold   Max Threshold
@@ -350,7 +354,10 @@ Metrics](custom-metrics.html).
 To delete an autoscaling rule for an app:
 
 1. View all autoscaling rules for the app for which you want to delete an autoscaling rule by following the procedure in [View All Autoscaling
+<<<<<<< Updated upstream
 Rules](#view-rules).
+=======
+>>>>>>> Stashed changes
 
 1. From the `Guid` column of the terminal output, record the global unique identifier (GUID) of the autoscaling rule you want to delete.
 
@@ -421,7 +428,11 @@ To view a list of autoscaling events that Autoscaler has recorded for an app:
 
 ## <a id='scheduled-limit-changes'></a> Scheduled limit changes
 
+<<<<<<< Updated upstream
 To configure scheduled limit changes for Autoscaler, see the sections following:
+=======
+To configure scheduled limit changes for Autoscaler:
+>>>>>>> Stashed changes
 
 * [View All Scheduled Limit Changes](#view-slcs).
 
@@ -470,7 +481,11 @@ To create a scheduled limit change for an app:
       <li><code>TIME</code> is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, <code>2032-01-01T20:00:00Z</code>.
        <li>You can only configure times for scheduled limit changes in UTC time.</li>
             <li>If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight Saving Time is observed in your
+<<<<<<< Updated upstream
               time zone, the UTC offset for your time zone might change during the year.</li>
+=======
+              time zone, the UTC offset for your time zone can change during the year.</li>
+>>>>>>> Stashed changes
           </ul>
         </div>
       </li>

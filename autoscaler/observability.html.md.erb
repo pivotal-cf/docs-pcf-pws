@@ -68,7 +68,11 @@ To review the debug logs for Autoscaler:
 
 As an operator, you can use debug logs to see whether developers of your apps are using Autoscaler to scale them, and you can measure the efficacy of apps that use Autoscaler.
 
+<<<<<<< Updated upstream
 If you configured Autoscaler correctly, it logs the following metrics:
+=======
+If you configured Autoscaler to record debug logs, Autoscaler logs the following metrics:
+>>>>>>> Stashed changes
 
 * `autoscale.scale_up`: The number of times Autoscaler has scaled an app up.
 
@@ -146,9 +150,13 @@ For more information, see:
 
 ### <a id='log-cache'></a> Log cache
 
-Autoscaler depends heavily on Log Cache, which provides the majority of metrics that Autoscaler uses to verify when to scale an app. If Log Cache fails or is insufficiently scaled, Autoscaler might not retrieve metrics, so it can not determine when to scale an app.
+Autoscaler depends heavily on Log Cache, which provides the majority of metrics that Autoscaler uses to verify when to scale an app. If Log Cache fails or is insufficiently scaled, Autoscaler might not retrieve metrics.  This means that it can not  not determine when to scale an app.
 
+<<<<<<< Updated upstream
 If you configured Autoscaler correctly, it logs the following metrics:
+=======
+If you configured Autoscaler to record debug logs, Autoscaler logs the following metrics:
+>>>>>>> Stashed changes
 
 * `autoscale.logcache.read_errors`: Errors that Autoscaler encounters when reading from Log Cache.
 
@@ -184,7 +192,7 @@ When the Log Cache instance that holds the envelopes for an app fails, you see a
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down is deferred until these metrics are available.
 </pre>
 
-You also see an error similar to the following example in the debug logs for Autoscaler:
+You see an error similar to the following example in the debug logs for Autoscaler:
 
 <pre class="terminal">[APP/PROC/WEB/1] OUT logcache walker: unexpected status code 503</pre>
 
