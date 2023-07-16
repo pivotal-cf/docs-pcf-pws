@@ -10,7 +10,7 @@ You can configure App Autoscaler to use the HTTP latency metric to scale apps in
 
 When an HTTP request is made to an app, the Gorouter in VMware Tanzu Application Service for VMs (TAS for VMs) generates several metrics. One of these
 metrics is `gorouter.latency`, or _HTTP latency_. The HTTP latency metric measures the length of time it takes to process an HTTP request, starting from when
-the Gorouter receives a request and ending when the Gorouter finishes processing the response from the app. This metric includes the length of time it takes
+the Gorouter receives a request and ending when the Gorouter completes processing the response from the app. This metric includes the length of time it takes
 all back-end endpoints to respond, including other apps and TAS for VMs components such as Cloud Controller and UAA. Long uploads, downloads, or app responses
 increase the time.
 
