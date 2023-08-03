@@ -11,9 +11,8 @@ The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interfa
 local command line to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
 
 <p class="note important">
-<span class="note__title">Important</span> The return output from the App Autoscaler CLI might include odd characters in Windows shells that do not support text
-  color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do
-    not support the <code>CF_COLOR</code> environment variable.
+<span class="note__title">Important</span>
+The return output from the App Autoscaler CLI might include odd characters in Windows shells that do not support text color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do not support the <code>CF_COLOR</code> environment variable.
 </p>
 
 ## <a id='install'></a> Install the App Autoscaler CLI plug-in
@@ -22,13 +21,12 @@ Before you can run App Autoscaler CLI commands, you must install the App Autosca
 
 To install the plug-in:
 
-1. Download the [VMware Tanzu App Autoscaler CLI Plug-in](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
+1. Download the [VMware Tanzu App Autoscaler CLI plug-in](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
 
-<p class="note important">
-<span class="note__title">Important</span> There are two versions of the App Autoscaler CLI. If you install the wrong version, you can not use it with the
-    Autoscaler instance in your <%= vars.app_runtime_abbr %> deployment. For more information, see <a href="troubleshooting.html#oss-autoscaler">App
-    Autoscaler for Cloud Foundry Does Not Work with <%= vars.app_runtime_abbr %></a> in <em>Troubleshooting App Autoscaler</em>
-</p>
+  <p class="note important">
+  <span class="note__title">Important</span>
+  There are two versions of the App Autoscaler CLI. If you install the wrong version, you cannot use it with the Autoscaler instance in your <%= vars.app_runtime_abbr %> deployment. For more information, see <a href="troubleshooting.html#oss-autoscaler">App Autoscaler for Cloud Foundry does not work with <%= vars.app_runtime_abbr %></a> in <em>Troubleshooting App Autoscaler</em>
+  </p>
 
 1. In a terminal window, run:
 
@@ -42,7 +40,7 @@ To install the plug-in:
     cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
     ```
 
-    For more information about installing cf CLI plug-ins, see [Install a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI Plugins_.
+    For more information about installing cf CLI plug-ins, see [Install a plug-in](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI plug-ins_.
 
 ## <a id='create-and-bind'></a> Create and bind an Autoscaler service instance
 
@@ -148,8 +146,7 @@ To set Autoscale for your app:
     </pre>
 
 By default, the upper and lower autoscaling limits for an app are <code>-1</code>. Before Autoscaler can scale an app,
-  you must update these upper and lower autoscaling limits. For more information, see <a href="#configure-autoscaling-limits">Configure Autoscaling Limits</a>
-  following.
+you must update these upper and lower autoscaling limits. For more information, see [Configure autoscaling limits](#configure-autos-limits).
 
 
 ## <a id='disallow-autoscaling'></a> Disallow autoscaling
@@ -176,7 +173,7 @@ To disallow autoscaling for an app:
     </pre>
 
 
-## <a id='configure-autoscaling-limits'></a> Configure autoscaling limits
+## <a id='configure-auto-limits'></a> Configure autoscaling limits
 
 To configure the upper and lower autoscaling limits for an app:
 

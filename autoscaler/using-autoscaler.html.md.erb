@@ -21,7 +21,7 @@ For more information about App Autoscaler, including information about how to cr
 
 Before using the Autoscaler service in Apps Manager, you must configure the `search-server` app for any deployments that have restrictive networking policies around request proxying.
 
-Autoscaler controls can not appear for apps in Apps Manager if your <%= vars.app_runtime_abbr %> deployment has restrictive networking policies around request proxying.
+Autoscaler controls cannot appear for apps in Apps Manager if your <%= vars.app_runtime_abbr %> deployment has restrictive networking policies around request proxying.
 
 To resolve this issue and enable Autoscaler controls in Apps Manager:
 
@@ -65,7 +65,8 @@ To use App Autoscaler, you must create an instance of the App Autoscaler service
   1. [Bind the service to an app](../../devguide/services/managing-services.html#bind).
 
 <p class="note important">
-<span class="note__title">Important</span> Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.
+<span class="note__title">Important</span>
+Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing apps and service instances using Apps Manager</a>.
 </p>
 
 To enable App Autoscaler for an app:
@@ -85,11 +86,11 @@ App Autoscaler keeps instance counts within an allowable range defined by minimu
 
 For more information about how App Autoscaler makes scaling decisions for an app, see [How App Autoscaler Determines When to Scale](about-app-autoscaler.html#about-scaling-decisions) in _About App Autoscaler_.
 
-Follow the procedures in the sections that follows:
+Follow the procedures in these sections:
 
-* [Create or Modify Instance Limits](#limits).
-* [Add or Delete Scaling Rules](#metric).
-* [Create or Modify Scheduled Limit Changes](#schedule).
+* [Create or modify instance limits](#limits).
+* [Add or delete scaling rules](#metric).
+* [Create or modify scheduled limit changes](#schedule).
 
 #### <a id="limits"></a> Create or modify instance limits
 
@@ -148,6 +149,7 @@ To create or modify a scheduled limit change:
 1. Click **Add New** to add a new scheduled limit or select an existing entry to modify by clicking **EDIT** next to the entry.
 
 1. Edit the following values:
+
   * **Date** and **Time (local)**: Set the date and time of the change.
   * **Repeat (Optional)**: Set the day of the week for which you want to repeat the change.
   * **Min** and **Max**: Set the allowable range within which App Autoscaler can change the instance count for an app.
@@ -161,14 +163,16 @@ In time zones that observe Daylight Saving Time, Apps Manager might not account 
 
 To delete an existing entry, click the **x** icon next to the entry you want to delete.
 
-For example, to schedule an app to scale down for a weekend, you can enter two rules as follows:
+For example, to schedule an app to scale down for a weekend, you can enter these two rules:
 
 1. Scale down to a single instance on Friday evening:
+
   * **Date** and **Time (local)**: `Dec`, `2`, `2018` and `7:00 PM`
   * **Repeat (Optional)**: `Fr`
   * **Min** and **Max**: `1` and `1`
 
-1. Increase instances to between 3 and 5 on Monday morning:
+2. Increase instances to between 3 and 5 on Monday morning:
+
 	* **Date** and **Time (local)**: `Dec`, `5`, `2018` and `7:00 AM`
 	* **Repeat (Optional)**: `M`
 	* **Min** and **Max**: `3` and `5`

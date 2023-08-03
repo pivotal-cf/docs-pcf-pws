@@ -6,19 +6,18 @@ owner: Autoscaler
 You can monitor App Autoscaler and its supporting VMware Tanzu Application Service for VMs (TAS for VMs) components through debug logging.
 
 
-## <a id='overview'></a> Overview of debug logging in Autoscaler
+## <a id='overview'></a> Debug logging in Autoscaler
 
-Autoscaler does not record debug logs by default. When you configure Autoscaler to record debug logs, the list of logs that Autoscaler records includes debug logs with its normal logs. Debug logs include `DEBUG` in their log entries.
+Autoscaler does not record debug logs by default. When you configure Autoscaler to record debug logs, the list of logs that Autoscaler records includes debug logs with its normal logs. Debug log entries include `DEBUG`.
 
 You can use the debug logs that Autoscaler generates to:
 
-* See whether developers of your apps are using Autoscaler to scale them, and measure the efficacy of apps that use Autoscaler. For more information, see [Reviewing Autoscaler Usage](#autoscaler-usage).
+* See whether developers of your apps are using Autoscaler to scale them, and measure the efficacy of apps that use Autoscaler. For more information, see [Reviewing Autoscaler use](#autoscaler-usage).
 
-* Verify that if TAS for VMs components are failing to sufficiently support Autoscaler. For more information, see [Failure Modes](#failure-modes).
+* Verify that if TAS for VMs components are failing to sufficiently support Autoscaler. For more information, see [Failure modes](#failure-modes).
 
-To configure Autoscaler to record debug logs, see [Configure Debug Logging for Autoscaler](#allow-debug).
-
-To review the debug logs for Autoscaler, see [Review Autoscaler Debug Logs](#review-logs).
+To configure Autoscaler to record debug logs, see [Configure debug logging for Autoscaler](#allow-debug).
+To review the debug logs for Autoscaler, see [Review Autoscaler debug logs](#review-logs).
 
 
 ## <a id='allow-debug'></a> Configure debug logging for Autoscaler
@@ -44,8 +43,8 @@ To configure Autoscaler to record debug logs:
     ```
 
     <p class="note">
-    <span class="note__title">Note</span> Starting Autoscaler again briefly interrupts any processes it is performing.
-</p>
+    <span class="note__title">Note</span>
+    Starting Autoscaler again briefly interrupts any processes it is performing.</p>
 
 ## <a id='review-logs'></a> Review Autoscaler debug logs
 
@@ -81,14 +80,13 @@ If you configured Autoscaler correctly, it logs the following metrics:
 These metrics appear as log entries and are not emitted to Loggregator.
 </p>
 
-To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
+To view these metrics, see [Review Autoscaler debug logs](#review-logs).
 
 You can use one of the following methods to identify which apps are using Autoscaler:
 
-* You can review the overall number of running app instances that Diego reports for each Diego Cell to measure how many app instances are running at any given time. <% if vars.platform_code != 'OFFLINE' %> For more information, see [Running App Instances, Rate of
-Change](../../operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning) in _Key Performance Indicators_.<% end %>
+* You can review the overall number of running app instances that Diego reports for each Diego Cell to measure how many app instances are running at any given time. <% if vars.platform_code != 'OFFLINE' %> For more information, see [Running app instances, rate of change](../../operating/monitoring/kpi.html#1hraverageofbbs.LRPsRunning) in _Key Performance Indicators_.<% end %>
 
-* You can use `cf curl` to retrieve information about Autoscaler service instances from the Cloud Foundry API (CAPI). To identify apps that are using Autoscaler through CAPI, see [Retrieve Autoscaler Service Instances from CAPI Endpoints](#capi).
+* You can use `cf curl` to retrieve information about Autoscaler service instances from the Cloud Foundry API (CAPI). To identify apps that are using Autoscaler through CAPI, see [Retrieve Autoscaler service instances from CAPI endpoints](#capi).
 
 Because each team of developers might use different autoscaling rules for their apps, it might be difficult to accurately verify how effectively Autoscaler scales each app. However, you can gain a generalized understanding of the effect that Autoscaler has on the apps it scales by comparing the number of running app instances with other scaling metrics that the developers of your apps might be using. <% if vars.platform_code != 'OFFLINE' %> For more information about various scaling metrics you can use in your comparison review, see [Key Performance Indicators](../../operating/monitoring/kpi.html).<% end %>
 
@@ -102,8 +100,7 @@ To identify apps that are using Autoscaler through CAPI:
     cf curl /v3/service_plans/:guid
     ```
 
-    In the output for this command, the value of `guid` is the GUID of the service plan for Autoscaler. For more information, see the [CAPI
-    documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#get-a-service-plan).
+    In the output for this command, the value of `guid` is the GUID of the service plan for Autoscaler. For more information, see the [CAPI     documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#get-a-service-plan).
 
 1. Record the value of `guid` you retrieved earlier in this procedure.
 
@@ -116,8 +113,7 @@ To identify apps that are using Autoscaler through CAPI:
 
         Where `SERVICE-PLAN-GUID` is the GUID of the service plan for Autoscaler that you recorded earlier in this procedure. For more information, see the [CAPI documentation](https://v3-apidocs.cloudfoundry.org/version/3.117.0/index.html#list-service-plans).
 
-        To run this command, you must have jq installed. To install jq, see
-        the <a href="https://stedolan.github.io/jq/">jq website</a>.
+        To run this command, you must have jq installed. To install jq, see the [jq website](https://stedolan.github.io/jq/).
 
     * Retrieve a list of the GUIDs of Autoscaler service instances by running:
 
@@ -130,23 +126,15 @@ To identify apps that are using Autoscaler through CAPI:
 
 ## <a id='failure-modes'></a> Failure modes
 
-Rather than always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, you can use Autoscaler to provision only the number of instances that your apps require to handle the amount of traffic that you expect at any given time. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, Autoscaler can not scale the number of app instances up enough to meet the needs of your apps.
+Rather than always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, you can use Autoscaler to provision only the number of instances that your apps require to handle the amount of traffic that you expect at any given time. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, Autoscaler cannot scale the number of app instances up enough to meet the needs of your apps.
 
 If you are not using Autoscaler, TAS for VMs component failures might have little impact on your apps. Because Autoscaler depends on TAS for VMs components such as Log Cache, the Cloud Controller, and MySQL to scale apps, using Autoscaler greatly increases the impact of TAS for VMs component failures on those apps.
 
 This section describes some of the ways in which the TAS for VMs components that support Autoscaler might fail, with examples of the debug log metrics, autoscaling events, and errors in Autoscaler debug logs that might appear when these TAS for VMs components fail.
 
-For more information, see:
-
-* [Log Cache](#log-cache)
-
-* [Cloud Controller](#cloud-controller)
-
-* [MySQL](#mysql)
-
 ### <a id='log-cache'></a> Log cache
 
-Autoscaler depends heavily on Log Cache, which provides the majority of metrics that Autoscaler uses to verify when to scale an app. If Log Cache fails or is insufficiently scaled, Autoscaler might not retrieve metrics, so it can not determine when to scale an app.
+Autoscaler depends heavily on Log Cache, which provides the majority of metrics that Autoscaler uses to verify when to scale an app. If Log Cache fails or is insufficiently scaled, Autoscaler might not retrieve metrics, so it cannot determine when to scale an app.
 
 If you configured Autoscaler correctly, it logs the following metrics:
 
@@ -156,13 +144,13 @@ If you configured Autoscaler correctly, it logs the following metrics:
 
 These metrics appear as log entries and are not emitted to Loggregator.
 
-To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
+To view these metrics, see [Review Autoscaler debug logs](#review-logs).
 
-For more information about Log Cache, see [Logging and Metrics Architecture](../../loggregator/architecture.html) and [Log Components](../../loggregator/agent-architecture.html#log-egress) in _Log and Metric Agent Architecture (Beta)_.
+For more information about Log Cache, see [Logging and metrics architecture](../../loggregator/architecture.html) and [Log components](../../loggregator/agent-architecture.html#log-egress) in _Log and Metric Agent Architecture (Beta)_.
 
 #### <a id='lc-gateway-unavailable'></a> Log cache gateway is unavailable
 
-When Autoscaler can not connect to the Log Cache gateway, you see an autoscaling event similar to the following example:
+When Autoscaler cannot connect to the Log Cache gateway, you see an autoscaling event similar to the following example:
 
 <pre class="terminal">
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down is deferred until these metrics are available.
@@ -172,11 +160,11 @@ You also see an error similar to the following example in the debug logs for Aut
 
 <pre class="terminal">[APP/PROC/WEB/2] OUT logcache walker: unexpected status code 502</pre>
 
-To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
+To view autoscaling events for an app, see [View Autoscaling events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler debug logs](#review-logs).
 
 #### <a id='lc-node-failure'></a> Individual log cache instance fails
 
-Log Cache holds the log and metric envelopes for an app on a single Log Cache instance. When that Log Cache instance fails, Autoscaler can not retrieve those envelopes, so it can not verify when to scale an app.
+Log Cache holds the log and metric envelopes for an app on a single Log Cache instance. When that Log Cache instance fails, Autoscaler cannot retrieve those envelopes, so it cannot verify when to scale an app.
 
 When the Log Cache instance that holds the envelopes for an app fails, you see an autoscaling event similar to the following example:
 
@@ -188,7 +176,7 @@ You also see an error similar to the following example in the debug logs for Aut
 
 <pre class="terminal">[APP/PROC/WEB/1] OUT logcache walker: unexpected status code 503</pre>
 
-To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
+To view autoscaling events for an app, see [View Autoscaling events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler debug logs](#review-logs).
 
 #### <a id='lc-node-unresponsive'></a> Log cache instances are unresponsive
 
@@ -204,9 +192,9 @@ You also see an error similar to the following example in the debug logs for Aut
 [APP/PROC/WEB/2] OUT logcache walker: Get "https://log-cache.sys.example.com/api/v1/read/85a6aff3-c739-4364-8df3-44f1aa50662b": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
 </pre>
 
-To view autoscaling events for an app, see [View Event History](using-autoscaler.html#view-event-history) in _Scaling an App Using App Autoscaler_ or [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
+To view autoscaling events for an app, see [View event history](using-autoscaler.html#view-event-history) in _Scaling an App Using App Autoscaler_ or [View Autoscaling events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler debug Logs](#review-logs).
 
-### <a id='cloud-controller'></a> Cloud controller
+### <a id='cloud-controller'></a> Cloud Controller
 
 Autoscaler reads the app metadata that the Cloud Controller stores to discover how many instances an app has running. When Autoscaler scales the number of app instances up or down, it sends a request to the Cloud Controller. Then, the Cloud Controller directs the Diego Cell that runs the app to stage the number of app instances that Autoscaler has requested.
 
@@ -224,7 +212,7 @@ If you configured Autoscaler to record debug logs, Autoscaler logs the following
 
 These metrics appear as log entries and are not emitted to Loggregator.
 
-To view these metrics, see [Review Autoscaler Debug Logs](#review-logs).
+To view these metrics, see [Review Autoscaler debug logs](#review-logs).
 
 For more information about the Cloud Controller, see [Cloud Controller](../../concepts/architecture/cloud-controller.html).
 
@@ -234,7 +222,7 @@ When scaling causes the application to exceed a quota, you see an autoscaling ev
 
 <pre class="terminal">Unable to scale. App instance quota has been reached</pre>
 
-#### <a id='cc-api-stopped'></a> Cloud controller API is stopped
+#### <a id='cc-api-stopped'></a> Cloud Controller API is stopped
 
 When the Cloud Controller API is stopped, you see an autoscaling event similar to the following example:
 
@@ -248,15 +236,15 @@ You also see an error similar to the following example in the debug logs for Aut
 [APP/PROC/WEB/0] OUT level=error msg="[Cloud Controller - app summary] CloudController - route not found"`
 </pre>
 
-To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
+To view autoscaling events for an app, see [View Autoscaling events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler debug logs](#review-logs).
 
-#### <a id='cc-unresponsive'></a> Cloud controller is unresponsive
+#### <a id='cc-unresponsive'></a> Cloud Controller is unresponsive
 
 When the Cloud Controller does not respond to requests from Autoscaler or Log Cache, you see an autoscaling event similar to the following example:
 
-<pre class="terminal">Unable to scale due to cloud cntroller error.</pre>
+<pre class="terminal">Unable to scale due to Cloud Controller error.</pre>
 
->p> To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.</p>
+To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.
 
 You also see an error similar to the following example in the debug logs for Autoscaler:
 
@@ -265,11 +253,11 @@ You also see an error similar to the following example in the debug logs for Aut
 [APP/PROC/WEB/1] OUT level=error msg="[Cloud Controller - app summary] Cloud Controller- Failure"
 </pre>
 
-To view autoscaling events for an app, see [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
+To view autoscaling events for an app, see [View Autoscaling events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler debug logs](#review-logs).
 
 ### <a id='mysql'></a> MySQL
 
-Autoscaler uses a MySQL database to store persistent information about Autoscaler service bindings and the autoscaling rules you configure. If Autoscaler fails to select from or update the MySQL database, Autoscaler can not scale your apps.
+Autoscaler uses a MySQL database to store persistent information about Autoscaler service bindings and the autoscaling rules you configure. If Autoscaler fails to select from or update the MySQL database, Autoscaler cannot scale your apps.
 
 You see an error similar to the following example in the debug logs for Autoscaler:
 
@@ -278,4 +266,4 @@ You see an error similar to the following example in the debug logs for Autoscal
 [APP/PROC/WEB/2] ERR [mysql] packets.go:37: unexpected EOF
 </pre>
 
-To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
+To review Autoscaler debug logs, see [Review Autoscaler debug logs](#review-logs).
