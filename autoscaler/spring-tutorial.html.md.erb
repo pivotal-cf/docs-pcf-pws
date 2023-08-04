@@ -17,17 +17,17 @@ The table describes the main components involved in this workflow and how they c
 	<tr>
 		<td>App</td>
 		<td>The app must emit custom metrics by exposing a Prometheus endpoint. This tutorial includes a sample Spring app, <code>java-spring-security</code>, that emits such metrics. For more information about Prometheus, see the <a href="https://prometheus.io/docs/introduction/overview/#what-is-prometheus">Prometheus documentation</a>.</td>
-		<td><a href="#review">Review the Sample App</a> and <a href="#push">Push the Sample App</a></td>
+		<td><a href="#review">Review the sample spp</a> and <a href="#push">Push the sample app</a></td>
 	</tr>
 	<tr>
 		<td>Metric Registrar</td>
-		<td>The Metric Registrar is a component of <%= vars.app_runtime_abbr %> you can export custom app metrics to Loggregator. You issue commands to the Metric Registrar through the Metric Registrar CLI plug-in. For more information about the Metric Registrar, see <a href="../../metric-registrar/index.html">Metric Registrar and Custom App Metrics</a>.</td>
-		<td><a href="#register-endpoint">Register a Custom Metrics Endpoint</a></td>
+		<td>The Metric Registrar is a component of <%= vars.app_runtime_abbr %> you can export custom app metrics to Loggregator. You issue commands to the Metric Registrar through the Metric Registrar CLI plug-in. For more information about the Metric Registrar, see <a href="../../metric-registrar/index.html">Metric registrar and custom app metrics</a>.</td>
+		<td><a href="#register-endpoint">Register a custom metrics endpoint</a></td>
 	</tr>
 	<tr>
 		<td>App Autoscaler</td>
-		<td>Autoscaler is a service integrated with Apps Manager that scales apps in your <%= vars.app_runtime_abbr %> deployment based on the scaling metrics or schedule that you configure. For more information, see <a href="../autoscaler/using-autoscaler.html">Scaling an App Using App Autoscaler</a>.</td>
-		<td><a href="#create-rules">Create and Autoscaling Rule</a> and <a href="#trigger">Trigger Scaling</a></td>
+		<td>Autoscaler is a service integrated with Apps Manager that scales apps in your <%= vars.app_runtime_abbr %> deployment based on the scaling metrics or schedule that you configure. For more information, see <a href="../autoscaler/using-autoscaler.html">Scaling an app using App Autoscaler</a>.</td>
+		<td><a href="#create-rules">Create and Autoscaling Rule</a> and <a href="#trigger">Trigger scaling</a></td>
 	</tr>
 </table>
 
@@ -37,6 +37,7 @@ The table describes the main components involved in this workflow and how they c
 This tutorial requires:
 
 * A <%= vars.app_runtime_abbr %> deployment in which the Metric Registrar is activated. To configure the Metric Registrar, see [Configure the Metric Registrar](../../metric-registrar/index.html#configure) in _Metric Registrar and Custom App Metrics_.
+
 * Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE' %> To access Apps Manager, see [Logging in to Apps Manager](../../operating/console-login.html).<% end %>
 
 * The ability to push an app to the <%= vars.app_runtime_abbr %> deployment. For more information, see [Prerequisites](../../devguide/deploy-apps/deploy-app.html#prepare) in _Pushing an App_ and [Manage users and roles](../../cf-cli/getting-started.html#managing-roles) in _Getting Started with the cf CLI_.
@@ -46,15 +47,13 @@ This tutorial requires:
   You must have <code>SpaceDeveloper</code> permissions in at least one space.
   </p>
 
-* The Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html).
-* A Java 17 JRE.
-* Access to a command-line for running commands such as cf CLI and GIT commands.
+* The Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html)
+* A Java 17 JRE
+* Access to a command-line for running commands such as cf CLI and GIT commands
 
 ## <a id="review"></a> Review the sample app
 
-To review the code for the sample app, `java-spring-security`, see the [metric-registrar-examples](https://github.com/pivotal-cf/metric-registrar-examples/)
-repository on GitHub. This sample app is a Spring app with a user interface (UI) that includes several buttons to call different endpoints. Some of
-these endpoints are instrumented to produce metrics.
+To review the code for the sample app, `java-spring-security`, see the [metric-registrar-examples](https://github.com/pivotal-cf/metric-registrar-examples/) repository on GitHub. This sample app is a Spring app with a user interface (UI) that includes several buttons to call different endpoints. Some of these endpoints are instrumented to produce metrics.
 
 You can see what the UI looks like in [Push the sample app](#sample-app-ui). The following sections provide some details about the code.
 
@@ -146,7 +145,7 @@ To push the sample app:
   The screen has the following buttons:
 
   * **Increment Custom gauge:** Causes the `custom` metric to increase by a value of `1`. You use this button in [Trigger scaling](#trigger).
-  * **Decrement custom gauge:** Causes the `custom` metric to decrease by a value of `1`.
+  * **Decrement custom gauge:** Causes the `custom` metric to decrease by a value of `1`
   * **See the metrics:** Opens `/actuator/prometheus` in your browser. The Metric Registrar uses this page to collect metrics. You can view the values of the `custom` metric and all metrics from the Micrometer Prometheus library.
   * **Increment Simple counter** and **Call an endpoint with high latency:** These buttons are not used in this tutorial. To learn about these functions, see [java-spring-security](https://github.com/pivotal-cf/metric-registrar-examples/tree/master/java-spring-security) on GitHub.
 
@@ -233,7 +232,7 @@ To create an autoscaling rule for the `java-spring-security` app that uses the `
 	7. For **Metric**, enter `custom`.
 	8. Click **Save**.
 
-		 ![alt-text="The Edit Scaling Rules form includes a drop-down menu labeled Rule Type."](./images/add-rule.png)
+![alt-text="The Edit Scaling Rules form includes a drop-down menu labeled Rule Type."](./images/add-rule.png)
 
 ## <a id="trigger"></a> Trigger scaling
 

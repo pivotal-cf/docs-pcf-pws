@@ -135,7 +135,7 @@ memory quota_exceeded
 FAILED
 </pre>
 
-To scale an app manually, see [Scale an app manually](../../console/manage-apps.html#manual-scale) in _Managing Apps and Service Instances Using Apps Manager_ or [Scaling an app using cf scale](../../devguide/deploy-apps/cf-scale.html).
+To scale an app manually, see [Scale an app manually](../../console/manage-apps.html#manual-scale) in _Managing apps and service instances using Apps Manager_ or [Scaling an app using cf scale](../../devguide/deploy-apps/cf-scale.html).
 
 Additionally, operators can configure verbose logging for Autoscaler that shows logs if Autoscaler fails to scale an app as a result of reaching a resource quota limit. For more information, see [Configure verbose logging for Autoscaler](operating-autoscaler.html#verbose-logging) in _Operating Autoscaler_.
 
@@ -195,13 +195,11 @@ Autoscaler did not receive any metrics for rabbitmq.example-queue during the sca
 </pre>
 
 To receive RabbitMQ queue depth metrics, Autoscaler must be able to retrieve service binding credentials for the RabbitMQ HTTP Management API from
-Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in the runtime CredHub, Autoscaler cannot retrieve service binding
-credentials from Cloud Controller.
+Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in the runtime CredHub, Autoscaler cannot retrieve service binding credentials from Cloud Controller.
 
 If the operator of your deployment has selected **Yes** under **On Demand - Secure Service Instance Credentials with Runtime CredHub** in the **Global Settings for On-Demand Plans** pane of the VMware Tanzu RabbitMQ for VMs tile and selected the **Secure service instance credentials** check box in the **CredHub** pane of the TAS for VMs tile, Autoscaler is unable to use RabbitMQ queue depth as the scaling metric for apps bound to RabbitMQ service instances.
 
-As a workaround, you can configure your app to emit a custom metric containing the RabbitMQ queue depth and configure Autoscaler to use this metric as its
-scaling metric for the app. For more information about custom metrics, see [Using custom scaling metrics](custom-metrics.html).
+As a workaround, you can configure your app to emit a custom metric containing the RabbitMQ queue depth and configure Autoscaler to use this metric as its scaling metric for the app. For more information about custom metrics, see [Using custom scaling metrics](custom-metrics.html).
 
 
 ## <a id='underscaling'></a> Autoscaler does not scale an app to expected number of instances
@@ -210,7 +208,7 @@ This section describes possible causes for Autoscaler scaling an app up to a cer
 
 ### <a id='check-metrics'></a> Review scaling metric values
 
-The values of the scaling metric you configured Autoscaler to use for your app might be lower than you expect. For example, if you are load-testing your app and your load-testing tool is not working correctly, you might be generating less load on the app than you expect. For more information about load-testing an app, see [Load-testing your app](productionizing-autoscaler.html#load-testing) in _Using App Autoscaler in Production_.
+The values of the scaling metric you configured Autoscaler to use for your app might be lower than you expect. For example, if you are load-testing your app and your load-testing tool is not working correctly, you might be generating less load on the app than you expect. For more information about load-testing an app, see [Load-testing your app](productionizing-autoscaler.html#load-testing) in _Using App Autoscaler in production_.
 
 To review the values of your scaling metric, review the observability service that you use for your TAS for VMs deployment.
 
@@ -222,9 +220,7 @@ For more information about how to determine which TAS for VMs components might b
 
 #### <a id='log-cache-underscaled'></a> Log cache is underscaled
 
-When the averaged metric values that you see in autoscaling events are lower than you expect, it often means that Log Cache is underscaled. If Log Cache is
-underscaled, Autoscaler might not be able to retrieve all of the metrics associated with your app. When Autoscaler cannot retrieve enough metrics, it cannot
-calculate an accurate average metric value to record in autoscaling events.
+When the averaged metric values that you see in autoscaling events are lower than you expect, it often means that Log Cache is underscaled. If Log Cache is underscaled, Autoscaler might not be able to retrieve all of the metrics associated with your app. When Autoscaler cannot retrieve enough metrics, it cannot calculate an accurate average metric value to record in autoscaling events.
 
 To determine whether Log Cache might be underscaled:
 
@@ -330,7 +326,7 @@ Description:   Service broker error: Only One App Autoscaler Service Instance Ap
 FAILED
 </pre>
 
-You must use the existing Autoscaler service instance in your space and bind it to the app you want to autoscale. For more information, see [Create and bind the App Autoscaler service](using-autoscaler.html#create-bind-service) in _Scaling an App Using App Autoscaler_.
+You must use the existing Autoscaler service instance in your space and bind it to the app you want to autoscale. For more information, see [Create and bind the App Autoscaler service](using-autoscaler.html#create-bind-service) in _Scaling an App using App Autoscaler_.
 
 
 ## <a id='oss-autoscaler'></a> App Autoscaler for Cloud Foundry does not work with TAS for VMs

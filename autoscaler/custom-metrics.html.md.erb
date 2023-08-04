@@ -10,11 +10,10 @@ For information about how to emit custom metrics, see [Using Metric Registrar](.
 
 ## <a id='overview'></a> Custom scaling metrics overview
 
-While Autoscaler can use several default metrics as scaling metrics for apps, your app might require specific autoscaling requirements that Autoscaler cannot
-meet by using the default scaling metrics to scale the app. In this case, you might create custom metrics for Autoscaler to use to scale the app.
+While Autoscaler can use several default metrics as scaling metrics for apps, your app might require specific autoscaling requirements that Autoscaler cannot meet by using the default scaling metrics to scale the app. In this case, you might create custom metrics for Autoscaler to use to scale the app.
 
 Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with the
-Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.
+Metric Registrar. For more information, see [Using Metric Registrar](../../metric-registrar/using.html).
 
 You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
 
@@ -274,10 +273,9 @@ records an autoscaling event.
 
 You can monitor the autoscaling events that Autoscaler records for changes in the custom scaling metric for an app in the following ways:
 
-* Through the cf CLI. For more information, see [Review Autoscaling Events for Changes in Custom Scaling Metrics Through the cf CLI](#review-events-cli).
+* Through the cf CLI. For more information, see [Review Autoscaling events for changes in custom scaling metrics through the cf CLI](#review-events-cli).
 
-* Through Apps Manager. For more information, see [Review Autoscaling Events for Changes in Custom Scaling Metrics Through Apps
-Manager](#review-events-apps-manager).
+* Through Apps Manager. For more information, see [Review Autoscaling events for changes in custom scaling metrics through Apps Manager](#review-events-apps-manager).
 
 ### <a id='review-events-cli'></a> Review autoscaling events for changes in custom scaling metrics through the cf CLI
 
@@ -320,50 +318,31 @@ increases in the custom scaling metric for the app, the list of autoscaling even
 
 ## <a id='special-considerations'></a> Special considerations for using custom scaling metrics
 
-This section describes use cases that might complicate or prevent you from configuring a custom scaling metric for an app. For more information, see the
-sections that follow:
-
-* [Metric Visibility](#metric-visibility)
-
-* [Counter Metrics](#counter-metrics)
-
-* [Metric Labels](#metric-labels)
-
-* [High Metric Load](#high-metric-load)
-
-* [Log Cache Eviction](#log-cache-eviction)
+This section describes use cases that might complicate or prevent you from configuring a custom scaling metric for an app.
 
 ### <a id='metric-visibility'></a> Metric visibility
 
-Metric endpoints include potentially sensitive information about the state of an app. Before you configure a custom scaling metric, ensure that unauthorized
-end users cannot access these endpoints.
+Metric endpoints include potentially sensitive information about the state of an app. Before you configure a custom scaling metric, ensure that unauthorized end users cannot access these endpoints.
 
-To prevent unauthorized end users from accessing an app, you can configure the metrics endpoint to process traffic through a separate port. When registering
-the endpoint using the Metric Registrar CLI, you can use the `--internal-port` flag to specify which port the endpoint uses.
+To prevent unauthorized end users from accessing an app, you can configure the metrics endpoint to process traffic through a separate port. When registering the endpoint using the Metric Registrar CLI, you can use the `--internal-port` flag to specify which port the endpoint uses.
 
 ### <a id='counter-metrics'></a> Counter metrics
 
-Autoscaler cannot use counter metrics as custom scaling metrics. If you register a metrics endpoint that includes counter metrics, the counter metrics are
-sent to Loggregator, but Autoscaler does not retrieve them from Log Cache.
+Autoscaler cannot use counter metrics as custom scaling metrics. If you register a metrics endpoint that includes counter metrics, the counter metrics are sent to Loggregator, but Autoscaler does not retrieve them from Log Cache.
 
 ### <a id='metric-labels'></a> Metric labels
 
-Autoscaler does not differentiate between metrics based on labels. If the metrics endpoint features the same metric with different labels, such as HTTP
-latency metrics with labels that describe the endpoint from which they came, Autoscaler does not recognize the labels.
+Autoscaler does not differentiate between metrics based on labels. If the metrics endpoint features the same metric with different labels, such as HTTP latency metrics with labels that describe the endpoint from which they came, Autoscaler does not recognize the labels.
 
 ### <a id='high-metric-load'></a> High metric load
 
-Configuring an app to emit a large number of custom scaling metrics might cause your TAS for VMs deployment to have difficulty processing those metrics. To create a large number
-of custom scaling metrics, consult the operator of your TAS for VMs deployment.
+Configuring an app to emit a large number of custom scaling metrics might cause your TAS for VMs deployment to have difficulty processing those metrics. To create a large number of custom scaling metrics, consult the operator of your TAS for VMs deployment.
 
 ### <a id='log-cache-ejection'></a> Log cache ejection
 
 The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
-seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in
-_Configuring TAS for VMs_. <% end %>
+seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in _Configuring TAS for VMs_. <% end %>
 
-Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per
-app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log
-Cache custom metric history for Autoscaler to use in scaling decisions.
+Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log Cache custom metric history for Autoscaler to use in scaling decisions.
 
 For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
