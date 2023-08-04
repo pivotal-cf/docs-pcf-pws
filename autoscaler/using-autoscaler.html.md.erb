@@ -7,8 +7,7 @@ With the Space Developer role, you can configure the App Autoscaler service in A
 
 You can use the App Autoscaler command-line interface (CLI) plug-in to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
-Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles,
-  see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.
+Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see [Managing user accounts and permissions using Apps Manager](../../console/console-roles.html).
 
 
 ## <a id="overview"></a> App Autoscaler overview
@@ -48,9 +47,9 @@ To resolve this issue and enable Autoscaler controls in Apps Manager:
 
 To configure App Autoscaler:
 
-1. Create and bind the App Autoscaler service to your app. See [Create and Bind the App Autoscaler Service](#create-bind-service).
+1. Create and bind the App Autoscaler service to your app. See [Create and bind the App Autoscaler service](#create-bind-service).
 
-1. Configure autoscaling instance limits for your app. See [Configure Autoscaling for an App](#config).
+1. Configure autoscaling instance limits for your app. See [Configure Autoscaling for an app](#config).
 
 ### <a id="create-bind-service"></a> Create and bind the App Autoscaler service
 
@@ -76,7 +75,7 @@ To enable App Autoscaler for an app:
 1. Under **Processes and Instances**, enable **Autoscaling**.
 ![alt-text=""](./images/scale-app.png)
 
-1. Click **Manage Autoscaling** to configure instance limits, scaling rules, and scheduled limit changes for the app. For more information, see [Configure Autoscaling for an App](#config).
+1. Click **Manage Autoscaling** to configure instance limits, scaling rules, and scheduled limit changes for the app. For more information, see [Configure Autoscaling for an app](#config).
 
 ![alt-text=""](./images/manage-autoscaling.png)
 
@@ -84,19 +83,13 @@ To enable App Autoscaler for an app:
 
 App Autoscaler keeps instance counts within an allowable range defined by minimum and maximum values. The minimum and maximum values are called instance limits.
 
-For more information about how App Autoscaler makes scaling decisions for an app, see [How App Autoscaler Determines When to Scale](about-app-autoscaler.html#about-scaling-decisions) in _About App Autoscaler_.
+For more information about how App Autoscaler makes scaling decisions for an app, see [How App Autoscaler determines when to scale](about-app-autoscaler.html#about-scaling-decisions) in _About App Autoscaler_.
 
-Follow the procedures in these sections:
+#### <a id="limits"></a> Create or change instance limits
 
-* [Create or modify instance limits](#limits).
-* [Add or delete scaling rules](#metric).
-* [Create or modify scheduled limit changes](#schedule).
+This section describes how to create and edit instance limits for app scaling rules. You can also schedule changes to your instance limits for a specific date and time. For more information, see [Scheduled limit changes](#schedule).
 
-#### <a id="limits"></a> Create or modify instance limits
-
-This section describes how to create and edit instance limits for app scaling rules. You can also schedule changes to your instance limits for a specific date and time. For more information, see [Scheduled Limit Changes](#schedule).
-
-To manually modify instance limits:
+To manually edit instance limits:
 
 1. In Apps Manager, navigate to the **Overview** page for your app. Under **Processes and Instances**, click **Manage Autoscaling**.
 
@@ -105,11 +98,11 @@ To manually modify instance limits:
 
 2. Click **Apply Changes**.
 
-#### <a id="metric"></a> Add or Delete scaling rules
+#### <a id="metric"></a> Add or delete scaling rules
 
 The following procedures describe how to add and delete scaling rules for your apps with App Autoscaler.
 
-For more information about scaling rules and metrics in App Autoscaler, see [About App Autoscaler Scaling Rules](#about-scaling).
+For more information about scaling rules and metrics in App Autoscaler, see [About App Autoscaler scaling rules](#about-scaling).
 
 To add a scaling rule for an app:
 
@@ -119,10 +112,9 @@ To add a scaling rule for an app:
 
 1. In the **Select type** drop-down menu, select the metric for the new scaling rule.
 
-![alt-text="At the top of the image is a gray left arrow that returns to the previous screen, next to a
-header, 'Edit Scaling Rules'."](./images/scaling-rules.png)
+![alt-text=""](./images/scaling-rules.png)
 
-1. Set the minimum and maximum thresholds for the metric. For information about setting instance limits, see [About App Autoscaler Scaling Rules](about-app-autoscaler.html#about-scaling) in _About App Autoscaler_.
+1. Set the minimum and maximum thresholds for the metric. For information about setting instance limits, see [About App Autoscaler scaling rules](about-app-autoscaler.html#about-scaling) in _About App Autoscaler_.
 
 2. Select or fill in any other text boxes that appear under the threshold text boxes:
     * If you are adding an **HTTP Latency** rule, configure **Percent of traffic to apply**.
@@ -138,15 +130,15 @@ To delete a scaling rule for an app:
 
 1. Click **Save**.
 
-#### <a id="schedule"></a> Create or modify scheduled limit changes
+#### <a id="schedule"></a> Create or edit scheduled limit changes
 
 Because app demand often follows a weekly, daily, or hourly schedule, you can schedule App Autoscaler to change the allowable instance range to track expected surges or quiet periods.
 
-To create or modify a scheduled limit change:
+To create or edit a scheduled limit change:
 
-1. Click **Edit** next to **Scheduled Limits**.
+1. Next to **Scheduled Limits**, click **Edit**.
 
-1. Click **Add New** to add a new scheduled limit or select an existing entry to modify by clicking **EDIT** next to the entry.
+1. Click **Add New** to add a new scheduled limit, or select an existing entry and click **EDIT** next to the entry.
 
 1. Edit the following values:
 
@@ -185,9 +177,7 @@ App Autoscaler logs all autoscaling events. You can view event history and manag
 
 To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane.
 
-![alt-text="At the top of the image is a subheader, 'Event History'.
-Below is the text, 'Most Recent:', and to the far right, the text 'Mon June 4, 2018 at 3:12 PM'
-in bold. Below this is the text, 'Rule Applied: Scaling Limits set to 2 to 5 instances'."](./images/event-history.png)
+![alt-text=""](./images/event-history.png)
 
 ### <a id='manage-notifications'></a> Manage App Autoscaler notifications
 
@@ -199,6 +189,6 @@ To subscribe or unsubscribe from autoscaling event notifications:
   If installed, Notifications Management must be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>,
   where <code>SYSTEM-DOMAIN</code> is your system domain.
 
-1. Decide which notifications you want to receive from App Autoscaler:
+1. Decide which notifications you want to receive from App Autoscaler.
 
-![alt-text="Manage Notifications'."](./images/manage-notifications.png)
+![alt-text=""](./images/manage-notifications.png)

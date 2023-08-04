@@ -100,7 +100,7 @@ Apps that are bound to App Autoscaler are represented by the App Autoscaler API 
 | scaling_factors.down | integer | The number of instances to decrement by when scaling down |
 | updated_at | string | The timestamp for when this object was last updated |
 
-### <a id="get-apps"></a>Get All app bindings in a space
+### <a id="get-apps"></a>Get all app bindings in a space
 
 ```
 GET /api/v2/apps
@@ -263,7 +263,7 @@ PUT /api/v2/apps/:app_guid/rules
 | Parameter | In | Type | Required | Description |
 | --------- | --- | ---- | -------- | ----------- |
 | app_guid | path | string | true | The GUID of the app to set rules for |
-| array of rules | body | array | true | An array of rule objects. See [Create a Rule](#create-rule). |
+| array of rules | body | array | true | An array of rule objects. See [Create a rule](#create-rule). |
 
 **Returns**
 
@@ -388,7 +388,7 @@ PUT /api/v2/apps/:app_guid/scheduled_limit_changes
 | Parameter | In | Type | Required | Description |
 | --------- | --- | ---- | -------- | ----------- |
 | app_guid | path | string | true | The GUID of the app to replace SLCs for |
-| array of SLCs | body | array | true | An array of SLC objects. See [Create a Scheduled Limit Change](#create-slc). |
+| array of SLCs | body | array | true | An array of SLC objects. See [Create a scheduled limit change](#create-slc). |
 
 **Returns**
 
