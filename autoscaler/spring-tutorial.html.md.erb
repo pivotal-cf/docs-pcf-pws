@@ -27,7 +27,7 @@ how they correspond to steps in this tutorial.
 	</tr>
 	<tr>
 		<td>App Autoscaler</td>
-		<td>Autoscaler is a service integrated with Apps Manager that automatically scales apps in your <%= vars.app_runtime_abbr %> deployment based on the scaling metrics or schedule that you configure. For more information, see <a href="../autoscaler/using-autoscaler.html">Scaling an App Using App Autoscaler</a>.</td>
+		<td>Autoscaler is a service integrated with Apps Manager that automatically scales apps in your <%= vars.app_runtime_abbr %> deployment based on the scaling metrics or schedule that you configure. For more information, see <a href="../autoscaler/using-autoscaler.html">Scaling an app using App Autoscaler</a>.</td>
 		<td><a href="#create-rules">Create and Autoscaling Rule</a> and <a href="#trigger">Trigger Scaling</a></td>
 	</tr>
 </table>
@@ -38,22 +38,20 @@ how they correspond to steps in this tutorial.
 This tutorial requires the following:
 
 * A <%= vars.app_runtime_abbr %> deployment in which the Metric Registrar is activated. To configure the Metric Registrar, see [Configure the Metric Registrar](../../metric-registrar/index.html#configure) in _Metric Registrar and Custom App Metrics_.
-* Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE' %> To access Apps Manager, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
+* Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE' %> To access Apps Manager, see [Logging in to Apps Manager](../../operating/console-login.html).<% end %>
 * The ability to push an app to the <%= vars.app_runtime_abbr %> deployment. For more information, see [Prerequisites](../../devguide/deploy-apps/deploy-app.html#prepare) in _Pushing an App_ and [Manage Users and Roles](../../cf-cli/getting-started.html#managing-roles) in _Getting Started with the cf CLI_.
 
 <p class="note important">
-<span class="note__title">Important</span> You must have <code>SpaceDeveloper</code> permissions in at least one space.
-</p>
+<span class="note__title">Important</span>
+You must have <code>SpaceDeveloper</code> permissions in at least one space.</p>
 
 * The Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html).
-* A Java 17 JRE.
-* Access to a command-line for running commands such as cf CLI and GIT commands.
+* A Java 17 JRE
+* Access to a command-line for running commands such as cf CLI and GIT commands
 
 ## <a id="review"></a> Review the sample app
 
-To review the code for the sample app, `java-spring-security`, see the [metric-registrar-examples](https://github.com/pivotal-cf/metric-registrar-examples/)
-repository on GitHub. This sample app is a Spring app with a user interface (UI) that includes several buttons to call different endpoints. Some of
-these endpoints are instrumented to produce metrics.
+To review the code for the sample app, `java-spring-security`, see the [metric-registrar-examples](https://github.com/pivotal-cf/metric-registrar-examples/) repository on GitHub. This sample app is a Spring app with a user interface (UI) that includes several buttons to call different endpoints. Some of these endpoints are instrumented to produce metrics.
 
 You can see what the UI looks like in the [Push the Sample App](#sample-app-ui) section, which includes a screenshot. The following sections provide some details about the code.
 
@@ -173,12 +171,8 @@ To register a custom metrics endpoint for the app:
     Because the app dependencies include the Micrometer Prometheus library, there is automatically a metrics endpoint at `/actuator/prometheus`.
 
     <p class="note caution">
-          <span class="note__title">Caution</span> When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the
-      metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware
-      strongly recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including
-      the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port
-      and limits access to the app.
-</p>
+    <span class="note__title">Caution</span>
+	When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port and limits access to the app.</p>
 
 
 1. Install the Log Cache CLI by running:
@@ -216,10 +210,9 @@ Autoscaler is integrated with Apps Manager. You can create autoscaling rules in 
 
 To create an autoscaling rule for the `java-spring-security` app that uses the `custom` metric as its scaling metric:
 
-1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging in to Apps Manager](../../operating/console-login.html).<% end %>
 
-1. In Apps Manager, go to the `java-spring-security` app overview. For more information, see [View App Overview](../../console/manage-apps.html#view) in
-_Managing Apps and Service Instances Using Apps Manager_.
+1. In Apps Manager, go to the `java-spring-security` app overview. For more information, see [View app overview](../../console/manage-apps.html#view) in _Managing apps and service instances using Apps Manager_.
 
 1. Click **Enable Autoscaling**.
 

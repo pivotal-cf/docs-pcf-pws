@@ -8,7 +8,7 @@ With the Space Developer role, you can configure the App Autoscaler service in A
 You can use the App Autoscaler command-line interface (CLI) plug-in to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
 Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles,
-  see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.
+see <a href="../../console/console-roles.html">Managing user accounts and permissions using Apps Manager</a>.
 
 
 ## <a id="overview"></a> App Autoscaler overview
@@ -21,7 +21,7 @@ For more information about App Autoscaler, including information about how to cr
 
 Before using the Autoscaler service in Apps Manager, you must configure the `search-server` app for any deployments that have restrictive networking policies around request proxying.
 
-Autoscaler controls can not appear for apps in Apps Manager if your <%= vars.app_runtime_abbr %> deployment has restrictive networking policies around request proxying.
+Autoscaler controls cannot appear for apps in Apps Manager if your <%= vars.app_runtime_abbr %> deployment has restrictive networking policies around request proxying.
 
 To resolve this issue and enable Autoscaler controls in Apps Manager:
 
@@ -65,8 +65,8 @@ To use App Autoscaler, you must create an instance of the App Autoscaler service
 	1. [Bind the service to an app](../../devguide/services/managing-services.html#bind).
 
 <p class="note important">
-<span class="note__title">Important</span> Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.
-</p>
+<span class="note__title">Important</span>
+Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing apps and service instances using Apps Manager</a>.</p>
 
 To enable App Autoscaler for an app:
 

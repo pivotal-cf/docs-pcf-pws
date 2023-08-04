@@ -11,10 +11,8 @@ The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interfa
 local CLF to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
 
 <p class="note important">
-<span class="note__title">Important</span> The return output from the App Autoscaler CLI might include odd characters in Windows shells that do not support text
-  color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do
-    not support the <code>CF_COLOR</code> environment variable.
-</p>
+<span class="note__title">Important</span>
+The return output from the App Autoscaler CLI might include odd characters in Windows shells that do not support text color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do not support the <code>CF_COLOR</code> environment variable.</p>
 
 ## <a id='install'></a> Install the App Autoscaler CLI plug-in
 
@@ -25,10 +23,8 @@ To install the plug-in:
 1. Download the [VMware Tanzu App Autoscaler CLI Plug-in](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
 
 <p class="note important">
-<span class="note__title">Important</span> There are two versions of the App Autoscaler CLI. If you install the wrong version, you can not use it with the
-    Autoscaler instance in your <%= vars.app_runtime_abbr %> deployment. For more information, see <a href="troubleshooting.html#oss-autoscaler">App
-    Autoscaler for Cloud Foundry Does Not Work with <%= vars.app_runtime_abbr %></a> in <em>Troubleshooting App Autoscaler</em>
-</p>
+<span class="note__title">Important</span>
+There are two versions of the App Autoscaler CLI. If you install the wrong version, you cannot use it with the Autoscaler instance in your <%= vars.app_runtime_abbr %> deployment. For more information, see <a href="troubleshooting.html#oss-autoscaler">App Autoscaler for Cloud Foundry Does Not Work with <%= vars.app_runtime_abbr %></a> in <em>Troubleshooting App Autoscaler</em>.</p>
 
 1. In a terminal window, run:
 
@@ -87,9 +83,7 @@ To create and bind an Autoscaler service instance:
       <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
     </ul>
 
-Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one
-  Autoscaler service instance in a space, the App Autoscaler CLI returns an error message. For more information, see
-  <a href="troubleshooting.html#one-instance-per-space">One Autoscaler Service Instance Per Space</a> in <em>Troubleshooting App Autoscaler</em>.</p>
+Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one Autoscaler service instance in a space, the App Autoscaler CLI returns an error message. For more information, see <a href="troubleshooting.html#one-instance-per-space">One Autoscaler Service Instance Per Space</a> in <em>Troubleshooting App Autoscaler</em>.
 
 
 ## <a id='view-apps'></a> View apps bound to Autoscaler
@@ -204,8 +198,7 @@ To configure the upper and lower autoscaling limits for an app:
     OK
     </pre>
 
-For more information about autoscaling limits, see [Autoscaling Limits](productionizing-autoscaler.html#autoscaling-limits) in _Using App Autoscaler in
-Production_.
+For more information about autoscaling limits, see [Autoscaling limits](productionizing-autoscaler.html#autoscaling-limits) in _Using App Autoscaler in production_.
 
 
 ## <a id='configure-scaling-factors'></a> Configure scaling factors
@@ -236,26 +229,16 @@ To configure scaling factors for an app:
     OK
     </pre>
 
-For more information about scaling factors, see [Scaling Factors](productionizing-autoscaler.html#scaling-factors) in _Using App Autoscaler in Production_.
+For more information about scaling factors, see [Scaling Factors](productionizing-autoscaler.html#scaling-factors) in _Using App Autoscaler in production_.
 
 
 ## <a id='autoscaling-rules'></a> Autoscaling rules and scaling metrics
 
-To configure autoscaling rules for Autoscaler to use when making scaling decisions for an app, see the sections below:
+To configure autoscaling rules for Autoscaler to use when making scaling decisions for an app, see the following sections.
 
-* [View All Autoscaling Rules](#view-rules).
+For more information about scaling metrics for which you can configure autoscaling rules, see [Scaling metrics](productionizing-autoscaler.html#scaling-metrics) in _Using App Autoscaler in production_.
 
-* [Create an Autoscaling Rule](#create-rule).
-
-* [Delete an Autoscaling Rule](#delete-rule).
-
-* [Delete All Autoscaling Rules](#delete-all-rules).
-
-For more information about scaling metrics for which you can configure autoscaling rules, see [Scaling
-Metrics](productionizing-autoscaler.html#scaling-metrics) in _Using App Autoscaler in Production_.
-
-For more information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default Metrics for Scaling
-Rules](about-app-autoscaler.html#default-metrics) and [Custom Metrics for Scaling Rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
+For more information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default metrics for scaling rules](about-app-autoscaler.html#default-metrics) and [Custom metrics for scaling rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 
 ### <a id='view-rules'></a> View all autoscaling rules
 
@@ -336,14 +319,11 @@ To create a new autoscaling rule for an app:
     not unnecessarily query other RabbitMQ service instances that are bound to the app.</li>
     </ul>
 
-For more information about configuring Autoscaler to use HTTP latency as the scaling metric for an app, see [Using HTTP Latency as a Scaling
-Metric](http-latency.html).
+For more information about configuring Autoscaler to use HTTP latency as the scaling metric for an app, see [Using HTTP latency as a scaling metric](http-latency.html).
 
-For more information about configuring Autoscaler to use RabbitMQ queue depth as the scaling metric for an app, see [Using RabbitMQ Queue Depth as a Scaling
-Metric](rabbit-mq.html).
+For more information about configuring Autoscaler to use RabbitMQ queue depth as the scaling metric for an app, see [Using RabbitMQ queue depth as a scaling metric](rabbit-mq.html).
 
-For more information about configuring Autoscaler to use a custom scaling metric as the scaling metric for an app, see [Using Custom Scaling
-Metrics](custom-metrics.html).
+For more information about configuring Autoscaler to use a custom scaling metric as the scaling metric for an app, see [Using custom scaling metrics](custom-metrics.html).
 
 ### <a id='delete-rule'></a> Delete an autoscaling rule
 
@@ -561,19 +541,14 @@ To configure Autoscaler using a manifest file:
       <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances that you want Autoscaler to create for the app by default.</li>
       <li>(Optional) If you include a <code>rules</code> block:
         <ul>
-          <li><code>RULE-TYPE</code> is the type of autoscaling rule you want Autoscaler to use for autoscaling decisions. For more information about configuring autoscaling
-          rules using a manifest file, see <a href="http-latency.html">Using HTTP Latency as a Scaling Metric</a>, <a href="rabbit-mq.html">Using RabbitMQ Queue Depth as a Scaling
-          Metric</a>, and <a href="custom-metrics.html">Using Custom Scaling Metrics</a>.</li>
+          <li><code>RULE-TYPE</code> is the type of autoscaling rule you want Autoscaler to use for autoscaling decisions. For more information about configuring autoscaling rules using a manifest file, see <a href="http-latency.html">Using HTTP latency as a scaling metric</a>, <a href="rabbit-mq.html">Using RabbitMQ queue depth as a scaling metric</a>, and <a href="custom-metrics.html">Using custom scaling metrics</a>.</li>
         </ul>
       </li>
-      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler
-      scales the number of app instances down.</li>
-      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler
-      scales the number of app instances up.</li>
+      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler scales the number of app instances down.</li>
+      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler scales the number of app instances up.</li>
       <li>(Optional) If you include a <code>scheduled_limit_changes</code> block:
         <ul>
-          <li><code>RECURRENCE</code> is the calculated value of the bitmasked days of the week on which you want Autoscaler to re-apply the scheduled limit change. For more
-          information, see <a href="scheduled-limit-changes.html#recurrence-value">Calculating a Recurrence Schedule Value</a> in <em>Scheduled Limit Changes</em>.</li>
+          <li><code>RECURRENCE</code> is the calculated value of the bitmasked days of the week on which you want Autoscaler to re-apply the scheduled limit change. For more information, see <a href="scheduled-limit-changes.html#recurrence-value">Calculating a recurrence schedule value</a> in <em>Scheduled limit changes</em>.</li>
           <li>
             <code>TIME</code> is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, <code>2032-01-01T20:00:00Z</code>.
             If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight

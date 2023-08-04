@@ -44,9 +44,8 @@ To configure Autoscaler to record debug logs:
     ```
 
     <p class="note">
-    <span class="note__title">Note</span> Starting Autoscaler again briefly interrupts any processes it is performing.
-
-</p>
+    <span class="note__title">Note</span>
+    Starting Autoscaler again briefly interrupts any processes it is performing.</p>
 
 ## <a id='review-logs'></a> Review Autoscaler debug logs
 
@@ -129,7 +128,7 @@ To identify apps that are using Autoscaler through CAPI:
 
 ## <a id='failure-modes'></a> Failure modes
 
-Rather than always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, you can use Autoscaler to provision only the number of instances that your apps require to handle the amount of traffic that you expect at any given time. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, Autoscaler can not scale the number of app instances up enough to meet the needs of your apps.
+Rather than always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, you can use Autoscaler to provision only the number of instances that your apps require to handle the amount of traffic that you expect at any given time. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, Autoscaler cannot scale the number of app instances up enough to meet the needs of your apps.
 
 If you are not using Autoscaler, TAS for VMs component failures might have little impact on your apps. Because Autoscaler depends on TAS for VMs components such as Log Cache, the Cloud Controller, and MySQL to scale apps, using Autoscaler greatly increases the impact of TAS for VMs component failures on those apps.
 
@@ -145,7 +144,7 @@ For more information, see:
 
 ### <a id='log-cache'></a> Log cache
 
-Autoscaler depends heavily on Log Cache, which provides the majority of metrics that Autoscaler uses to verify when to scale an app. If Log Cache fails or is insufficiently scaled, Autoscaler might not retrieve metrics.  This means that it can not  not determine when to scale an app.
+Autoscaler depends heavily on Log Cache, which provides the majority of metrics that Autoscaler uses to verify when to scale an app. If Log Cache fails or is insufficiently scaled, Autoscaler might not retrieve metrics. This means that it cannot  not determine when to scale an app.
 
 If you configured Autoscaler correctly, it logs the following metrics:
 
@@ -161,7 +160,7 @@ For more information about Log Cache, see [Logging and Metrics Architecture](../
 
 #### <a id='lc-gateway-unavailable'></a> Log cache gateway is unavailable
 
-When Autoscaler can not connect to the Log Cache gateway, you see an autoscaling event similar to the following example:
+When Autoscaler cannot connect to the Log Cache gateway, you see an autoscaling event similar to the following example:
 
 <pre class="terminal">
 Autoscaler did not receive any metrics for memory during the scaling window. Scaling down is deferred until these metrics are available.
@@ -175,7 +174,7 @@ To view autoscaling events for an app, see [View Autoscaling Events](using-autos
 
 #### <a id='lc-node-failure'></a> Individual log cache instance fails
 
-Log Cache holds the log and metric envelopes for an app on a single Log Cache instance. When that Log Cache instance fails, Autoscaler can not retrieve those envelopes, so it can not verify when to scale an app.
+Log Cache holds the log and metric envelopes for an app on a single Log Cache instance. When that Log Cache instance fails, Autoscaler cannot retrieve those envelopes, so it cannot verify when to scale an app.
 
 When the Log Cache instance that holds the envelopes for an app fails, you see an autoscaling event similar to the following example:
 
@@ -203,7 +202,7 @@ You also see an error similar to the following example in the debug logs for Aut
 [APP/PROC/WEB/2] OUT logcache walker: Get "https://log-cache.sys.example.com/api/v1/read/85a6aff3-c739-4364-8df3-44f1aa50662b": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
 </pre>
 
-To view autoscaling events for an app, see [View Event History](using-autoscaler.html#view-event-history) in _Scaling an App Using App Autoscaler_ or [View Autoscaling Events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler Debug Logs](#review-logs).
+To view autoscaling events for an app, see [View event history](using-autoscaler.html#view-event-history) in _Scaling an app using App Autoscaler_ or [View Autoscaling events](using-autoscaler-cli.html#autoscaling-events) in _Using the App Autoscaler CLI_. To review Autoscaler debug logs, see [Review Autoscaler debug logs](#review-logs).
 
 ### <a id='cloud-controller'></a> Cloud controller
 
@@ -239,7 +238,7 @@ When the Cloud Controller API is stopped, you see an autoscaling event similar t
 
 <pre class="terminal">Unable to scale due to Cloud Controller error.</pre>
 
-<p> To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.</p>
+To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.
 
 You also see an error similar to the following example in the debug logs for Autoscaler:
 
@@ -255,7 +254,7 @@ When the Cloud Controller does not respond to requests from Autoscaler or Log Ca
 
 <pre class="terminal">Unable to scale due to cloud cntroller error.</pre>
 
->p> To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.</p>
+To discover the cause of this error, see <a href="https://community.pivotal.io/s/article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error">Autoscaler Shows Error "Unable to scale due to Cloud Controller error"</a> in the VMware Tanzu Knowledge Base.
 
 You also see an error similar to the following example in the debug logs for Autoscaler:
 
@@ -268,7 +267,7 @@ To view autoscaling events for an app, see [View Autoscaling Events](using-autos
 
 ### <a id='mysql'></a> MySQL
 
-Autoscaler uses a MySQL database to store persistent information about Autoscaler service bindings and the autoscaling rules you configure. If Autoscaler fails to select from or update the MySQL database, Autoscaler can not scale your apps.
+Autoscaler uses a MySQL database to store persistent information about Autoscaler service bindings and the autoscaling rules you configure. If Autoscaler fails to select from or update the MySQL database, Autoscaler cannot scale your apps.
 
 You see an error similar to the following example in the debug logs for Autoscaler:
 
