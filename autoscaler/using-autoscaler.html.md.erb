@@ -97,11 +97,7 @@ To manually modify instance limits:
 1. In Apps Manager, go to the **Overview** page for your app. Under **Processes and Instances**, click **Manage Autoscaling**.
 
 1. In the **Instance Limits** section, set values for **Minimum** and **Maximum**.
-![alt-text="At the top of the
-image is a black X to close the window, followed by the header
-'Manage Autoscaling'. Below the header, on the far right, is a link,
-'Download Autoscaler CLI', which points to the Autoscaler CLI page on Tanzu
-Network."](./images/instance-limits.png)
+![alt-text="At the top of the image is a black X to close the window, followed by the header 'Manage Autoscaling'. Below the header, on the far right, is a link, 'Download Autoscaler CLI', which points to the Autoscaler CLI page on Tanzu Network."](./images/instance-limits.png)
 
 1. Click **Apply Changes**.
 
@@ -118,9 +114,7 @@ To add a scaling rule for an app:
 1. Click **Add Rule**.
 
 1. In the **Select type** drop-down menu, select the metric for the new scaling rule.
-![alt-text="At the top of the image is a gray left arrow that returns to the previous screen, next to a
-header, 'Edit Scaling Rules'. Below is the text: 'Apps scale by 1 instance per event. Apps can scale up
-when any metric maximum is met and scale down only when all metric minimums are met."](./images/scaling-rules.png)
+![alt-text="At the top of the image is a gray left arrow that returns to the previous screen, next to a header, 'Edit Scaling Rules'. Below is the text: 'Apps scale by 1 instance per event. Apps can scale up when any metric maximum is met and scale down only when all metric minimums are met."](./images/scaling-rules.png)
 
 1. Set the minimum and maximum thresholds for the metric. For information about setting instance limits, see [About App Autoscaler Scaling Rules](about-app-autoscaler.html#about-scaling) in _About App Autoscaler_.
 
@@ -152,10 +146,7 @@ To create or modify a scheduled limit change:
 	* **Date** and **Time (local)**: Set the date and time of the change.
 	* **Repeat (Optional)**: Set the day of the week for which you want to repeat the change.
 	* **Min** and **Max**: Set the allowable range within which App Autoscaler can change the instance count for an app.
-    ![alt-text="At the top of the image is a gray left
-    arrow that returns to the previous screen, next to a header,
-    'Scheduled Limit Changes: rails-docs-sample'. Below is a subheader,
-    'Configure'."](./images/scheduled-changes.png)
+    ![alt-text="At the top of the image is a gray left arrow that returns to the previous screen, next to a header, 'Scheduled Limit Changes: rails-docs-sample'. Below is a subheader, 'Configure'."](./images/scheduled-changes.png)
 
 
 1. Click **Save**.
@@ -188,9 +179,7 @@ App Autoscaler logs all autoscaling events. You can view event history and manag
 
 To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane.
 
-![alt-text="At the top of the image is a subheader, 'Event History'.
-Below is the text, 'Most Recent:', and to the far right, the text 'Mon June 4, 2018 at 3:12 PM'
-in bold. Below this is the text, 'Rule Applied: Scaling Limits set to 2 to 5 instances'."](./images/event-history.png)
+![alt-text="At the top of the image is a subheader, 'Event History'.  Below is the text, 'Most Recent:', and to the far right, the text 'Mon June 4, 2018 at 3:12 PM' in bold. Below this is the text, 'Rule Applied: Scaling Limits set to 2 to 5 instances'."](./images/event-history.png)
 
 ### <a id='manage-notifications'></a> Manage App Autoscaler notifications
 
@@ -202,7 +191,5 @@ To subscribe or unsubscribe from autoscaling event notifications:
   <p class="note"><strong>Note:</strong> If installed, Notifications Management must be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>, where <code>SYSTEM-DOMAIN</code> is your system domain.</p>
 
 1. Choose which notifications you want to receive from App Autoscaler:
-![alt-text="At the top of the image is a header, 'Manage Notifications'.
-Below is the text, 'You will receive email notifications from checked items'. Next is a check box, checked,
-labeled 'Cloud Foundry Autoscaling Service'."](./images/manage-notifications.png)
+![alt-text="At the top of the image is a header, 'Manage Notifications'.  Below is the text, 'You will receive email notifications from checked items'. Next is a check box, checked, labeled 'Cloud Foundry Autoscaling Service'."](./images/manage-notifications.png)
 
