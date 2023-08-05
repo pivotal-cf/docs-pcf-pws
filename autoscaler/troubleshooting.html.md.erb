@@ -142,21 +142,13 @@ Additionally, operators can configure verbose logging for Autoscaler that shows 
 
 In order for Autoscaler to function in a TAS for VMs deployment, you must set the **App Autoscaler Errand** to **On** in the **Errands** pane of the TAS for VMs tile, and you must configure Autoscaler to scale the apps you want to autoscale.
 
-For more information, see the sections below:
-
-* [Allow Autoscaling](#allow-autoscaling)
-
-* [View Apps Configured to Autoscale](#confirm-autoscaling-config)
-
-#### <a id='allow-autoscaling'></a> Enable Autoscaling
-
 Autoscaling for an app:
 
-1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the **App Autoscaler Errand** to deploy Autoscaler, see [Configure Errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.<% end %>
+1. Ensure that the **App Autoscaler Errand** is set to **On** in the **Errands** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the **App Autoscaler Errand** to deploy Autoscaler, see [Configure errands](../../operating/configure-pas.html#errands) in _Configuring TAS for VMs_.<% end %>
 
 1. Configure Autoscaler to scale the app through either the App Autoscaler Command-Line Interface (CLI) or Apps Manager. To configure autoscaling for an app through the App Autoscaler CLI, see [Enable Autoscaling](using-autoscaler-cli.html#enable-autoscaling) in _Using the App Autoscaler CLI_. To configure autoscaling for an app through Apps Manager, see [Create and bind the App Autoscaler service](using-autoscaler.html#create-bind-service) in _Scaling an App using App Autoscaler_.
 
-#### <a id='autoscaling-config'></a> View apps configured to autoscale
+#### <a id='autoscaling-config'></a> View apps configured to Autoscale
 
 To see whether autoscaling is configured for the apps you want to scale:
 
@@ -220,7 +212,7 @@ To review the values of your scaling metric, review the observability service th
 
 If any TAS for VMs components on which Autoscaler depends are underscaled, Autoscaler cannot scale the number of app instances up enough to accommodate the amount of traffic that the app is receiving.
 
-For more information about how to determine which TAS for VMs components might be too underscaled to adequately support Autoscaler, see [Failure Modes](observability.html#failure-modes) in _Using debug logs for App Autoscaler_.
+For more information about how to determine which TAS for VMs components might be too underscaled to adequately support Autoscaler, see [Failure modes](observability.html#failure-modes) in _Using debug logs for App Autoscaler_.
 
 #### <a id='log-cache-underscaled'></a> Log cache is underscaled
 
@@ -240,7 +232,7 @@ If the averaged metric values in the autoscaling events for an app are lower tha
 To fix this issue, you can try the following actions:
 
 * Scale Log Cache horizontally by increasing the number of Log Cache instances in the **Resource Config** pane of the TAS for VMs tile.
-<% if vars.platform_code != 'OFFLINE' %> To scale Log Cache horizontally, see [Scaling Up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
+<% if vars.platform_code != 'OFFLINE' %> To scale Log Cache horizontally, see [Scaling up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
 
 * Scale Log Cache vertically by increasing the amount of memory in each instance of Log Cache. To scale Log Cache vertically, see [Scaling an app using cf scale](../../devguide/deploy-apps/cf-scale.html).
 
@@ -340,5 +332,4 @@ If you attempt to use the Cloud Foundry App Auto-Scaler plugin to control the Ap
 
 <pre class="terminal">Error: Invalid AutoScaler API endpoint</pre>
 
-You must instead use the VMware Tanzu App Autoscaler CLI Plugin. To download the VMware Tanzu App Autoscaler CLI Plugin, go to [VMware Tanzu
-Network](https://network.pivotal.io/products/pcf-app-autoscaler/).
+You must instead use the VMware Tanzu App Autoscaler CLI Plugin. To download the VMware Tanzu App Autoscaler CLI Plugin, go to [VMware Tanzu Network](https://network.pivotal.io/products/pcf-app-autoscaler/).

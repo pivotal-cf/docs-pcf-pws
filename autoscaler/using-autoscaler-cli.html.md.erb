@@ -5,8 +5,6 @@ owner: PCF Autoscaler
 
 You can use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your TAS for VMs deployment.
 
-## <a id='overview'></a> App Autoscaler CLI overview
-
 The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI). You can configure and control Autoscaler from your
 local CLF to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
 
@@ -20,7 +18,7 @@ Before you can run App Autoscaler CLI commands, you must install the App Autosca
 
 To install the plug-in:
 
-1. Download the [VMware Tanzu App Autoscaler CLI Plug-in](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
+1. Download the [VMware Tanzu App Autoscaler CLI plug-in](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
 
 <p class="note important">
 <span class="note__title">Important</span>
@@ -38,12 +36,11 @@ There are two versions of the App Autoscaler CLI. If you install the wrong versi
     cf install-plugin ~/Downloads/autoscaler-for-pcf-cliplugin-macosx64-binary-2.0.91
     ```
 
-    For more information about installing cf CLI plug-ins, see [Install a Plugin](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI Plugins_.
+    For more information about installing cf CLI plug-ins, see [Install a plug-in](../../cf-cli/use-cli-plugins.html#plugin-install) in _Using cf CLI Plugins_.
 
 ## <a id='create-and-bind'></a> Create and bind an Autoscaler service instance
 
-Before you can use Autoscaler, you must create a service instance of Autoscaler and bind it to your app. For more information about service instances, see
-[Managing Service Instances with the cf CLI](../../devguide/services/managing-services.html).
+Before you can use Autoscaler, you must create a service instance of Autoscaler and bind it to your app. For more information about service instances, see [Managing service instances with the cf CLI](../../devguide/services/managing-services.html).
 
 To create and bind an Autoscaler service instance:
 
@@ -229,7 +226,7 @@ To configure scaling factors for an app:
     OK
     </pre>
 
-For more information about scaling factors, see [Scaling Factors](productionizing-autoscaler.html#scaling-factors) in _Using App Autoscaler in production_.
+For more information about scaling factors, see [Scaling factors](productionizing-autoscaler.html#scaling-factors) in _Using App Autoscaler in production_.
 
 
 ## <a id='autoscaling-rules'></a> Autoscaling rules and scaling metrics
@@ -315,26 +312,26 @@ To create a new autoscaling rule for an app:
     <li>(Optional) Include the <code>--comparison-metric</code> or <code>-</code>c parameter to specify a comparison metric for a <code>compare</code> rule, where <code>COMPARISON-METRIC-NAME</code> is
     the name of the metric you want to compare to the scaling metric.</li>
     <li>(Optional) Include the <code>--rabbitmq-instance</code> or <code>-r</code> parameter to specify a RabbitMQ service instance for a <code>rabbitmq</code> rule, where
-    <code>SERVICE-INSTANCE-NAME</code> is the name of the RabbitMQ service instance you want Autoscaler to query. Defining this parameter ensures that Autoscaler does
-    not unnecessarily query other RabbitMQ service instances that are bound to the app.</li>
+    <code>SERVICE-INSTANCE-NAME</code> is the name of the RabbitMQ service instance you want Autoscaler to query. Defining this parameter ensures that Autoscaler does not unnecessarily query other RabbitMQ service instances that are bound to the app.</li>
     </ul>
 
-For more information about configuring Autoscaler to use HTTP latency as the scaling metric for an app, see [Using HTTP latency as a scaling metric](http-latency.html).
+See also:
 
-For more information about configuring Autoscaler to use RabbitMQ queue depth as the scaling metric for an app, see [Using RabbitMQ queue depth as a scaling metric](rabbit-mq.html).
+* For more information about configuring Autoscaler to use HTTP latency as the scaling metric for an app, see [Using HTTP latency as a scaling metric](http-latency.html).
 
-For more information about configuring Autoscaler to use a custom scaling metric as the scaling metric for an app, see [Using custom scaling metrics](custom-metrics.html).
+* For more information about configuring Autoscaler to use RabbitMQ queue depth as the scaling metric for an app, see [Using RabbitMQ queue depth as a scaling metric](rabbit-mq.html).
+
+* For more information about configuring Autoscaler to use a custom scaling metric as the scaling metric for an app, see [Using custom scaling metrics](custom-metrics.html).
 
 ### <a id='delete-rule'></a> Delete an autoscaling rule
 
 To delete an autoscaling rule for an app:
 
-1. View all autoscaling rules for the app for which you want to delete an autoscaling rule by following the procedure in [View All Autoscaling
-Rules](#view-rules).
+1. View all autoscaling rules for the app for which you want to delete an autoscaling rule by following the procedure in [View all Autoscaling rules](#view-rules).
 
 1. From the `Guid` column of the terminal output, record the global unique identifier (GUID) of the autoscaling rule you want to delete.
 
-1. Run:
+2. Run:
 
     ```console
     cf delete-autoscaling-rule APP-NAME RULE-GUID
@@ -352,7 +349,7 @@ Rules](#view-rules).
     cf delete-autoscaling-rule example-app 10a581c5-8fb4-48a2-b4de-8bc834aac146
     ```
 
-1. When prompted, enter `y` to delete the autoscaling rule.
+3. When prompted, enter `y` to delete the autoscaling rule.
 
 ### <a id='delete-all-rules'></a> Delete all autoscaling rules
 
@@ -401,15 +398,7 @@ To view a list of autoscaling events that Autoscaler has recorded for an app:
 
 ## <a id='scheduled-limit-changes'></a> Scheduled limit changes
 
-To configure scheduled limit changes for Autoscaler, see the sections following:
-
-* [View All Scheduled Limit Changes](#view-slcs).
-
-* [Create a Scheduled Limit Change](#create-slc).
-
-* [Delete a Scheduled Limit Change](#delete-slc).
-
-For more information about scheduled limit changes, see [Scheduled Limit Changes](scheduled-limit-changes.html).
+To configure scheduled limit changes for Autoscaler, see the following sections.
 
 ### <a id='view-slcs'></a> View all scheduled limit changes
 
@@ -483,8 +472,7 @@ To create a scheduled limit change for an app:
 
 To delete a scheduled limit change for an app:
 
-1. View all scheduled limit changes for the app for which you want to delete a scheduled limit change by following the procedure in [View All Scheduled Limit
-Changes](#view-slcs).
+1. View all scheduled limit changes for the app for which you want to delete a scheduled limit change by following the procedure in [View all scheduled limit changes](#view-slcs).
 
 1. From the `Guid` column of the terminal output, record the GUID of the scheduled limit change you want to delete.
 

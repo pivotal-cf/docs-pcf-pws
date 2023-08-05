@@ -39,8 +39,7 @@ For the procedures in this section, you must use the App Autoscaler CLI plug-in.
 
 ### <a id='cf-cli-manifest-config'></a> Configure scheduled limit changes by using a manifest file
 
-You can configure scheduled limit changes declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with
-any other existing app manifest files in your TAS for VMs deployment.
+You can configure scheduled limit changes declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any other existing app manifest files in your TAS for VMs deployment.
 
 To configure scheduled limit changes using a manifest file:
 
@@ -141,12 +140,9 @@ service instance by running:
 
 #### <a id='recurrence-value'></a> Calculating a recurrence schedule value
 
-When you configure a recurring scheduled limit change for Autoscaler using a manifest file, Autoscaler uses the `recurrence` value and `executes at` value to
-set the date and time of the first occurrence of a scheduled limit change. Autoscaler then uses the `time` value to set the time of day for all subsequent
-scheduled limit changes.
+When you configure a recurring scheduled limit change for Autoscaler using a manifest file, Autoscaler uses the `recurrence` value and `executes at` value to set the date and time of the first occurrence of a scheduled limit change. Autoscaler then uses the `time` value to set the time of day for all subsequent scheduled limit changes.
 
-Because Autoscaler bitmasks the days of the week in its recurrence schedule, you must calculate the correct value to enter for the `recurrence` property in
-your Autoscaler manifest file.
+Because Autoscaler bitmasks the days of the week in its recurrence schedule, you must calculate the correct value to enter for the `recurrence` property in your Autoscaler manifest file.
 
 To calculate a `recurrence` value:
 
@@ -203,7 +199,7 @@ scheduled_limit_changes:
     max: 12
 ```
 
-### <a id='cf-cli-commands-config'></a> Configure scheduled limit changes by using CLI commands
+### <a id='cf-cli-commands-config'></a> Configure scheduled limit changes using CLI commands
 
 To configure scheduled limit changes using CLI commands:
 

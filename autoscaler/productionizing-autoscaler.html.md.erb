@@ -59,8 +59,7 @@ You can create quota plans for spaces and orgs. If you do not have permissions t
 When defining resource quotas for a space or org, you must consider not only the scaling needs of an individual app, but the potential scaling needs of other apps in the same space or org.
 
 <% if vars.platform_code != 'OFFLINE' %>
-For more information about creating and modifying quota plans for spaces and orgs, see [Creating and Modifying Quota
-Plans](../../adminguide/quota-plans.html).
+For more information about creating and modifying quota plans for spaces and orgs, see [Creating and modifying quota plans](../../adminguide/quota-plans.html).
 <% end %>
 
 ### <a id='quotas-limiting-scaling'></a> Reviewing space and org quota plans
@@ -78,7 +77,7 @@ If your app is configured with a memory limit of 1&nbsp;G per app instance, and 
 
 When an app reaches a resource quota limit for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. You can review the quota plans for the space or org to determine if an app has reached a resource quota limits.
 
-For more information about reviewing space and org quota plans, see [Space or Org Quota is Reached](troubleshooting.html#quota-reached) in _Troubleshooting App Autoscaler_.
+For more information about reviewing space and org quota plans, see [Space or org quota is reached](troubleshooting.html#quota-reached) in _Troubleshooting App Autoscaler_.
 
 ### <a id='per-app-limits'></a> Setting per-app limits
 
@@ -111,13 +110,14 @@ If your app deployment is comprised of multiple TAS for VMs apps, consider using
 <span class="note__title">Note</span>
 If the autoscaling metric thresholds you configured are too low, scaling the number of app instances up might not be enough to bring the scaling metric back back below the maximum metric threshold.</p>
 
-To define autoscaling rules for Autoscaler, see [Add or Delete Scaling Rules](using-autoscaler.html#metric) in _About App Autoscaler_ and [Create an Autoscaling Rule](using-autoscaler-cli.html#create-rule) in _Using the App Autoscaler CLI_. For more information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default Metrics for Scaling Rules](about-app-autoscaler.html#default-metrics) and [Custom Metrics for Scaling Rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
+To define autoscaling rules for Autoscaler, see [Add or delete scaling rules](using-autoscaler.html#metric) in _About App Autoscaler_ and [Create an Autoscaling rule](using-autoscaler-cli.html#create-rule) in _Using the App Autoscaler CLI_.
+For more information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default metrics for scaling rules](about-app-autoscaler.html#default-metrics) and [Custom metrics for scaling rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 
-### <a id='c2c-networking'></a> Autoscaler and C2C networking
+### <a id='c2c-networking'></a> Autoscaler and CF networking
 
-Autoscaler can only use **HTTP Latency** and **HTTP Throughput** as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not support using these two metrics for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
+Autoscaler can only use **HTTP Latency** and **HTTP Throughput** as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not support using these two metrics for apps that receive requests from other apps through container-to-container (CF) networking or TCP routers.
 
-If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
+If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through CF networking, the Gorouter does not generate HTTP events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
 
 
 ## <a id='scaling-factors'></a> Scaling factors
@@ -154,32 +154,19 @@ To configure scaling factors for an app:
 
 ## <a id='load-testing'></a> Load-testing your app
 
-To ensure that you have configured effective autoscaling for an app, VMware recommends that you load-test the app. Load testing demonstrates that Autoscaler
-scales the number of app instances as expected when the scaling metric you define for the app increases or decreases.
+To ensure that you have configured effective autoscaling for an app, VMware recommends that you load-test the app. Load testing demonstrates that Autoscaler scales the number of app instances as expected when the scaling metric you define for the app increases or decreases.
 
 To load test an app effectively, you must do so in an environment that is as similar to your production deployment as possible.
 
-Before you begin load-testing an app, you can plan your load test with the operator or team that operates your TAS for VMs deployment. This ensures that
-they are accepting of and can plan for the load you intend to generate. Additionally, VMware recommends working with the operator or team that operates your
-TAS for VMs deployment during your load test, because load testing can sometimes reveal performance issues within your TAS for VMs deployment.
+Before you begin load-testing an app, you can plan your load test with the operator or team that operates your TAS for VMs deployment. This ensures that they are accepting of and can plan for the load you intend to generate. Additionally, VMware recommends working with the operator or team that operates your TAS for VMs deployment during your load test, because load testing can sometimes reveal performance issues within your TAS for VMs deployment.
 
-For more information about load testing to confirm the efficacy of Autoscaler for an app, see the following sections:
-
-* [Generating Load and Monitoring Scaling Events](#generate-load).
-
-* [Confirming Metric Values from Autoscaler](#confirm-correct-calculation).
-
-* [Confirming Scaling Efficacy](#confirm-efficacy).
+For more information about load testing to confirm the efficacy of Autoscaler for an app, see the following sections.
 
 ### <a id='generate-load'></a> Generating load and monitoring scaling events
 
-There are a variety of tools you can use for load-testing. The method that you use for generating load varies based on both the load-testing tool you use and
-the scaling metric that you define for the app, because you must generate load that causes the scaling metric to fluctuate. For example, you might generate
-HTTP requests for apps that use HTTP latency as their scaling metric, or you might generate RabbitMQ messages for apps that use RabbitMQ queue depth as their
-scaling metric.
+There are a variety of tools you can use for load-testing. The method that you use for generating load varies based on both the load-testing tool you use and the scaling metric that you define for the app, because you must generate load that causes the scaling metric to fluctuate. For example, you might generate HTTP requests for apps that use HTTP latency as their scaling metric, or you might generate RabbitMQ messages for apps that use RabbitMQ queue depth as their scaling metric.
 
-VMware recommends incrementally increasing the load you generate for an app. With each increase, you can see whether Autoscaler is scaling the number of app
-instances as expected by monitoring the autoscaling events that Autoscaler records.
+VMware recommends incrementally increasing the load you generate for an app. With each increase, you can see whether Autoscaler is scaling the number of app instances as expected by monitoring the autoscaling events that Autoscaler records.
 
 To monitor the autoscaling events that Autoscaler records as it scales an app:
 
@@ -191,9 +178,7 @@ To monitor the autoscaling events that Autoscaler records as it scales an app:
 
 ### <a id='correct-calculation'></a> Confirming metric values from Autoscaler
 
-For some scaling metrics, you can verify whether Autoscaler is using the correct metric values by comparing the load that your load-testing tool generates
-to the metric values that Autoscaler records. If these two values are not the same, such as if Autoscaler reports a lower number of requests per second than
-your load-testing tool generated, this might indicate that you must further scale TAS for VMs components on which Autoscaler relies.
+For some scaling metrics, you can verify whether Autoscaler is using the correct metric values by comparing the load that your load-testing tool generates to the metric values that Autoscaler records. If these two values are not the same, such as if Autoscaler reports a lower number of requests per second than your load-testing tool generated, this might indicate that you must further scale TAS for VMs components on which Autoscaler relies.
 
 For more information about TAS for VMs components you can scale to better support Autoscaler, see [Operating Autoscaler](operating-autoscaler.html).
 
@@ -207,7 +192,4 @@ To test each autoscaling step, verify that:
 
 * Creating more app instances brings the scaling metric back to below the maximum metric threshold
 
-If Autoscaler continues to scale app instances up, but the increased number of app instances does not bring the scaling metric back to below the maximum
-metric threshold, another part of your TAS for VMs deployment might be experiencing issues that are causing the value of the scaling metric to remain above the
-maximum metric threshold. You can identify and troubleshoot the issue by monitoring the app or working with the operator or team that operates
-your TAS for VMs deployment.
+If Autoscaler continues to scale app instances up, but the increased number of app instances does not bring the scaling metric back to below the maximum metric threshold, another part of your TAS for VMs deployment might be experiencing issues that are causing the value of the scaling metric to remain above the maximum metric threshold. You can identify and troubleshoot the issue by monitoring the app or working with the operator or team that operates your TAS for VMs deployment.

@@ -6,14 +6,14 @@ owner: App Autoscaler
 This topic describes how to use App Autoscaler for scaling your apps in a production environment.
 
 
-## <a id='overview'></a> Overview of Autoscaling in a Production Environment
+## <a id='overview'></a> Overview of Autoscaling in a production environment
 
 When using Autoscaler to scale an app in a production environment, you should consider your goals for the app.
 
 For example, you may want your app to be capable of processing a certain number of business transactions per second. Each of those transactions may be comprised of multiple HTTP requests to the app itself, as well as to services and other apps in your TAS for VMs deployment. With this number of HTTP requests, you can determine how many instances of each app are necessary to allow your app to process your desired number of business transactions per second. You can then use this information to create effective autoscaling rules with Autoscaler.
 
 
-## <a id='autoscaling-limits'></a> Autoscaling Limits
+## <a id='autoscaling-limits'></a> Autoscaling limits
 
 The autoscaling limits for an app are the upper and lower limits for the number of instances Autoscaler can create for that app. The lower scaling limit is the minimum number of instances to which Autoscaler can scale an app down, and the upper scaling limit is the maximum number of instances to which Autoscaler can scale an app up. Setting appropriate upper and lower scaling limits ensures that Autoscaler does not create too few or too many app instances.
 
@@ -21,7 +21,7 @@ Apps often have dependencies on an external app or service that can constrain Au
 
 VMware recommends load-testing your app to confirm that you have set appropriate scaling limits before pushing the app to a production environment. For more information, see [Load-testing your app](#load-testing).
 
-### <a id='configure-autoscaling-limits'></a> Configure Autoscaling Limits
+### <a id='configure-autoscaling-limits'></a> Configure Autoscaling limits
 
 To configure the upper and lower scaling limits for an app:
 
@@ -45,31 +45,23 @@ To configure the upper and lower scaling limits for an app:
     ```
 
 
-## <a id='quotas'></a> Resource Quotas
+## <a id='quotas'></a> Resource quotas
 
-Each space and org in a TAS for VMs deployment has a quota plan that defines memory, service, and instance usage quotas for all apps and services deployed in
-them. For example, a quota plan for a space might allow up to 10 services, 10 routes, and 2 GB of RAM, while a quota plan for an org might allow up to 100
-services, 100 routes, and 10 GB of RAM.
+Each space and org in a TAS for VMs deployment has a quota plan that defines memory, service, and instance usage quotas for all apps and services deployed in them. For example, a quota plan for a space might allow up to 10 services, 10 routes, and 2 GB of RAM, while a quota plan for an org might allow up to 100 services, 100 routes, and 10 GB of RAM.
 
-When setting autoscaling limits for Autoscaler, you must ensure that the resource quotas allocated to the app are sufficient to allow Autoscaler to scale the
-app within those limits. If the resource quotas that are available for the app to use are lower than the resources required to meet the upper scaling limit
-you set, Autoscaler cannot scale up to that upper scaling limit.
+When setting autoscaling limits for Autoscaler, you must ensure that the resource quotas allocated to the app are sufficient to allow Autoscaler to scale the app within those limits. If the resource quotas that are available for the app to use are lower than the resources required to meet the upper scaling limit you set, Autoscaler cannot scale up to that upper scaling limit.
 
-You can create quota plans for spaces and orgs. If you do not have permissions to create quota plans or you need an existing resource quota limit increased,
-contact the operator for your TAS for VMs deployment.
+You can create quota plans for spaces and orgs. If you do not have permissions to create quota plans or you need an existing resource quota limit increased, contact the operator for your TAS for VMs deployment.
 
-When defining resource quotas for a space or org, you must consider not only the scaling needs of an individual app, but the potential scaling needs of other
-apps in the same space or org.
+When defining resource quotas for a space or org, you must consider not only the scaling needs of an individual app, but the potential scaling needs of other apps in the same space or org.
 
 <% if vars.platform_code != 'OFFLINE' %>
-For more information about creating and modifying quota plans for spaces and orgs, see [Creating and Modifying Quota
-Plans](../../adminguide/quota-plans.html).
+For more information about creating and modifying quota plans for spaces and orgs, see [Creating and modifying quota plans](../../adminguide/quota-plans.html).
 <% end %>
 
-### <a id='quotas-limiting-scaling'></a> Reviewing Space and Org Quota Plans
+### <a id='quotas-limiting-scaling'></a> Reviewing space and org quota plans
 
-In order for Autoscaler to scale the number of app instances up to the upper scaling limit you configure, the quota plans for both the space and org must have
-enough of the following resources available for the app to use:
+For Autoscaler to scale the number of app instances up to the upper scaling limit you configure, the quota plans for both the space and org must have enough of the following resources available for the app to use:
 
 * **App Instances:** The number of instances allowed per app.
 
@@ -77,13 +69,13 @@ enough of the following resources available for the app to use:
 
 * **Instance Memory:** The amount of memory allowed per app instance.
 
-For example, if your app is configured with a memory limit of 1&nbsp;G per app instance, and the upper scaling limit you configured is 20 app instances, 20&nbsp;G of memory must be available in your space or org quota plan. Otherwise, Autoscaler cannot scale the app up to the upper scaling limit.
+For example, if your app is configured with a memory limit of 1&nbsp;GB per app instance, and the upper scaling limit you configured is 20 app instances, 20&nbsp;GB of memory must be available in your space or org quota plan. Otherwise, Autoscaler cannot scale the app up to the upper scaling limit.
 
 When an app reaches a resource quota limit for the space or org in which it is deployed, Autoscaler does not record an autoscaling event. You can review the quota plans for the space or org to determine if an app has reached a resource quota limits.
 
-For more information about reviewing space and org quota plans, see [Space or Org Quota is Reached](troubleshooting.html#quota-reached) in _Troubleshooting App Autoscaler_.
+For more information about reviewing space and org quota plans, see [Space or org quota is reached](troubleshooting.html#quota-reached) in _Troubleshooting App Autoscaler_.
 
-### <a id='per-app-limits'></a> Setting Per-App Limits
+### <a id='per-app-limits'></a> Setting per-app limits
 
 You can adjust the resource limits for individual apps. For example, if an app is allocated significantly more RAM than it needs, you can reduce the maximum amount of RAM allowed per app instance. This allows Autoscaler to create more app instances using the same number of resources.
 
@@ -91,10 +83,10 @@ You can adjust the resource limits for individual apps. For example, if an app i
 <span class="note__title">Important</span>
 In a TAS for VMs deployment, the amount of memory allocated to an app instance determines the number of CPU shares available to it. Reducing the amount of memory allocated to an app instance also reduces its CPU shares.</p>
 
-To set resource limits for individual apps, you can deploy your apps with app manifests or vertically scale them  using the Cloud Foundry Command-Line Interface (cf CLI). For more information about app manifests, see [App Manifest Attribute Reference](../../devguide/deploy-apps/manifest-attributes.html). For more information about vertically scaling an app, see [Scaling vertically](../../devguide/deploy-apps/cf-scale.html#vertical) in _Scaling an app using cf scale_.
+To set resource limits for individual apps, you can deploy your apps with app manifests or vertically scale them  using the Cloud Foundry Command-Line Interface (cf CLI). For more information about app manifests, see [App manifest attribute reference](../../devguide/deploy-apps/manifest-attributes.html). For more information about vertically scaling an app, see [Scaling vertically](../../devguide/deploy-apps/cf-scale.html#vertical) in _Scaling an app using cf scale_.
 
 
-## <a id='scaling-metrics'></a> Scaling Metrics
+## <a id='scaling-metrics'></a> Scaling metrics
 
 You can define rules for Autoscaler to scale your app instances up or down using a particular scaling metric.
 
@@ -114,16 +106,16 @@ If your app deployment is comprised of multiple TAS for VMs apps, consider using
 <span class="note__title">Important</span>
 If the autoscaling metric thresholds you configured are too low, scaling the number of app instances up may not be enough to bring the scaling metric back below the maximum metric threshold.</p>
 
-To define autoscaling rules for Autoscaler, see [Add or delete scaling rules](using-autoscaler.html#metric) in _About App Autoscaler_ and [Create an Autoscaling Rule](using-autoscaler-cli.html#create-rule) in _Using the App Autoscaler CLI_. For more information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default metrics for scaling rules](about-app-autoscaler.html#default-metrics) and [Custom Metrics for Scaling Rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
+To define autoscaling rules for Autoscaler, see [Add or delete scaling rules](using-autoscaler.html#metric) in _About App Autoscaler_ and [Create an Autoscaling rule](using-autoscaler-cli.html#create-rule) in _Using the App Autoscaler CLI_. For more information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default metrics for scaling rules](about-app-autoscaler.html#default-metrics) and [Custom metrics for scaling rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 
-### <a id='c2c-networking'></a> Autoscaler and C2C Networking
+### <a id='c2c-networking'></a> Autoscaler and CF networking
 
-Autoscaler can only use **HTTP Latency** and **HTTP Throughput** as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not currently support using these two metrics for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
+Autoscaler can only use **HTTP Latency** and **HTTP Throughput** as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not currently support using these two metrics for apps that receive requests from other apps through container-to-container (CF) networking or TCP routers.
 
-If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP events for those requests. As a result, Autoscaler cannot scale those HTTP services. In order for Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
+If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through CF networking, the Gorouter does not generate HTTP events for those requests. As a result, Autoscaler cannot scale those HTTP services. In order for Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
 
 
-## <a id='scaling-factors'></a> Scaling Factors
+## <a id='scaling-factors'></a> Scaling factors
 
 You can define scale-up and scale-down factors to control how quickly Autoscaler scales app instances in each direction. For example, when you configure an app with a scale-up factor of `20` and a scale-down factor of `10`, Autoscaler scales the number of app instances up by 20 instances at a time and down by 10 instances at a time.
 
@@ -131,7 +123,7 @@ When you define a larger scale-up factor for an app, Autoscaler scales the numbe
 
 In many production deployments, the scale-down factor for an app is lower than the scale-up factor. This allows an app to scale up faster, then return to an earlier baseline number of instances more slowly by stepping down in smaller increments. You may want to configure a lower scale-down factor if you do not want Autoscaler to scale the number of app instances down too quickly, and you are less concerned about freeing up resources.
 
-### <a id='configure-scaling-factors'></a> Configure Scaling Factors
+### <a id='configure-scaling-factors'></a> Configure scaling factors
 
 To configure scaling factors for an app:
 
@@ -155,7 +147,7 @@ To configure scaling factors for an app:
     ```
 
 
-## <a id='load-testing'></a> Load-Testing Your App
+## <a id='load-testing'></a> Load-testing your app
 
 To ensure that you have configured effective autoscaling for an app, VMware recommends that you load-test the app. Load-testing demonstrates that Autoscaler scales the number of app instances as expected when the scaling metric you define for the app increases or decreases.
 
@@ -165,7 +157,7 @@ Before you begin load-testing an app, you should plan your load test with the op
 
 For more information about load-testing to confirm the efficacy of Autoscaler for an app, see the sections below.
 
-### <a id='generate-load'></a> Generating Load and Monitoring Scaling Events
+### <a id='generate-load'></a> Generating Load and monitoring scaling events
 
 There are a variety of tools you can use for load-testing. The method that you use for generating load varies based on both the load-testing tool you use and the scaling metric that you define for the app, because you must generate load that causes the scaling metric to fluctuate. For example, you might generate HTTP requests for apps that use HTTP latency as their scaling metric, or you might generate RabbitMQ messages for apps that use RabbitMQ queue depth as their scaling metric.
 
@@ -179,13 +171,13 @@ To monitor the autoscaling events that Autoscaler records as it scales an app:
     cf autoscaling-events
     ```
 
-### <a id='confirm-correct-calculation'></a> Confirming Metric Values from Autoscaler
+### <a id='confirm-correct-calculation'></a> Confirming metric values from Autoscaler
 
 For some scaling metrics, you can determine whether Autoscaler is using the correct metric values by comparing the load that your load-testing tool generates to the metric values that Autoscaler records. If these two values are not the same, such as if Autoscaler reports a lower number of requests per second than your load-testing tool generated, this may indicate that you need to further scale TAS for VMs components on which Autoscaler relies.
 
 For more information about TAS for VMs components you can scale to better support Autoscaler, see [Operating Autoscaler](operating-autoscaler.html).
 
-### <a id='confirm-efficacy'></a> Confirming Scaling Efficacy
+### <a id='confirm-efficacy'></a> Confirming scaling efficacy
 
 For each autoscaling step that you test, you should confirm the following:
 

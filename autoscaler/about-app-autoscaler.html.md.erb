@@ -40,10 +40,9 @@ App Autoscaler scales as follows:
 
 The following diagram provides an example of how App Autoscaler makes scaling decisions:
 
-![alt-text="Read the description of the example.](./images/autoscaler-scaling-decisions.png)
+![alt-text=""](./images/autoscaler-scaling-decisions.png)
 
-As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP latency metric. The scale up factor and
-scale down factor are not set in the scaling manifest, so the default value is one.
+As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP latency metric. The scale up factor and scale down factor are not set in the scaling manifest, so the default value is one.
 
 If HTTP latency averages 220-milliseconds for 120-seconds, App Autoscaler scales the app up one instance.
 
@@ -100,7 +99,7 @@ The following table lists the default metrics for App Autoscaler:
 <%= vars.company_name %> recommends that you define custom metrics for App Autoscaler scaling rules. You can use custom metrics define the metrics that are the best indicators of app performance for your environment.
 
 You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit
-custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
+custom metrics with Metric Registrar, see [Registering custom app metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
 
 ### <a id="comparison-metrics"></a> Comparison metrics for scaling rules
 
@@ -121,6 +120,6 @@ As demonstrated in the architecture diagram, App Autoscaler makes scaling decisi
 
 At a predefined interval, known as the scaling interval, the App Autoscaler app reads the scaling rules and retrieves app metric data from the Loggregator Log Cache. Then, App Autoscaler makes a scaling decision and communicates with the Cloud Controller to scale the app, if necessary.
 
-For more information about Loggregator Log Cache, see [Loggregator Architecture](../../loggregator/architecture.html).
+For more information about Loggregator Log Cache, see [Loggregator architecture](../../loggregator/architecture.html).
 
 For more information about the Cloud Controller, see [Cloud Controller](../../concepts/architecture/cloud-controller.html).
