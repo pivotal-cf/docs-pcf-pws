@@ -249,16 +249,11 @@ To configure Autoscaler to use HTTP latency as the scaling metric for an app thr
 
 2. From the **Select type** drop-down menu, select **HTTP Latency**.
 
-3. For **Scale down if less than**, enter in milliseconds the minimum HTTP latency threshold you want to configure. If the average latency of HTTP requests
-falls below this number, Autoscaler scales the number of app instances down.
+   1. For **Scale down if less than**, enter in milliseconds the minimum HTTP latency threshold you want to configure. If the average latency of HTTP requests falls below this number, Autoscaler scales the number of app instances down.
 
-1. For **Scale up if more than**, enter in milliseconds the maximum HTTP latency threshold you want to configure. If the average latency of HTTP requests
-rises above this number, Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum
-threshold that is at least twice the value of the minimum threshold.
+   1. For **Scale up if more than**, enter in milliseconds the maximum HTTP latency threshold you want to configure. If the average latency of HTTP requests rises above this number, Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least twice the value of the minimum threshold.
 
-1. Under **Percent of traffic to apply**, select either **95%** or **99%**. This configuration setting is the percentile that Autoscaler uses in scaling
-decisions. Depending on which option you select, Autoscaler ignores HTTP requests that fall outside either the 95th or 99th percentile and averages the
-latency of the remaining 95% or 99% of HTTP requests.
+   2. Under **Percent of traffic to apply**, select either **95%** or **99%**. This configuration setting is the percentile that Autoscaler uses in scaling decisions. Depending on which option you select, Autoscaler ignores HTTP requests that fall outside either the 95th or 99th percentile and averages the latency of the remaining 95% or 99% of HTTP requests.
 
 1. Click **Save**.
 
