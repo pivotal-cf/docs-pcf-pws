@@ -10,7 +10,7 @@ associated with your workloads.
 
 For TAS resources to show up in the Runtime Resources Visibility plug-in, use label selectors on
 entities of the Tanzu Application Service. A label selector consists of any string KEY and VALUE.
-For more information, see [Labels and electors](https://v3-apidocs.cloudfoundry.org/version/3.78.0/index.html#labels-and-selectors).
+For more information, see [Labels and Selectors](https://v3-apidocs.cloudfoundry.org/version/3.78.0/index.html#labels-and-selectors).
 
 ## <a id="selectors"></a> Selectors
 
@@ -21,8 +21,7 @@ A selector consists of one or more requirements in a comma-separated list. For e
 
 `env=dev,!chargeback-code,tier in (backend,worker)`
 
-1. Add a label selector in the metadata of the entity in Backstage. Add the following attribute to
-   the YAML file of the Backstage entity:
+1. Add a label selector in the metadata of the entity in Backstage. Add the following attribute to the YAML file of the Backstage entity:
 
     ```yaml
       annotations:

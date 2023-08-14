@@ -42,7 +42,7 @@ To determine whether the app has reached the maximum number of instances:
     ```
     cf autoscaling-apps
     ```
-    The previous command returns output similar to the example following:
+    The previous command returns output similar to this example:
     <pre class="terminal">
     Name          Guid                                   Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
     example-app   85a6aff3-c739-4364-8df3-44f1aa50662b   true      1               20              5                 1
@@ -229,7 +229,7 @@ To determine whether Log Cache might be underscaled:
 
 If the averaged metric values in the autoscaling events for an app are lower than the actual load that the app is processing, Log Cache may be evicting some metrics from its cache.
 
-To fix this issue, you can try the following actions:
+To fix this issue, try the following actions:
 
 * Scale Log Cache horizontally by increasing the number of Log Cache instances in the **Resource Config** pane of the TAS for VMs tile.
 <% if vars.platform_code != 'OFFLINE' %> To scale Log Cache horizontally, see [Scaling up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>

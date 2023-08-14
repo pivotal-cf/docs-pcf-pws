@@ -3,16 +3,11 @@ title: Operating App Autoscaler
 owner: App Autoscaler
 ---
 
-When scaling app instances using App Autoscaler, what must you consider for your TAS for VM deployment?
-
-
-## <a id='overview'></a> Autoscaling considerations overview
+When scaling app instances using App Autoscaler, here is what you must consider for your TAS for VMs deployment?
 
 Autoscaler can ensure that an app always has the number of instances it needs to handle the amount of traffic that it receives. However, in order for Autoscaler to create more app instances, you must ensure that TAS for VMs is sufficiently scaled.
 
 Using Autoscaler to scale your apps might cause the workload that your TAS for VMs deployment manages to fluctuate more widely and often. As a result, provisioning resources for a TAS for VMs deployment that includes Autoscaler is more challenging than provisioning resources for a TAS for VMs deployment in which apps are static or scaled manually.
-
-For information about the TAS for VMs components that you might want to adjust to accommodate autoscaling, see the following sections.
 
 ## <a id='diego-cells'></a> Diego cells
 

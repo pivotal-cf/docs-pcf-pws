@@ -127,7 +127,7 @@ To set Autoscale for your app:
     Where `APP-NAME` is the name of the app for which you want to allow autoscaling.
     <br>
     <br>
-    For example, if you run the following, it allows Autoscaler to scale `example-app`:
+    For example, if you run this command, it allows Autoscaler to scale `example-app`:
 
     ```
     cf enable-autoscaling example-app
@@ -139,8 +139,7 @@ To set Autoscale for your app:
     </pre>
 
 By default, the upper and lower autoscaling limits for an app are <code>-1</code>. Before Autoscaler can scale an app,
-  you must update these upper and lower autoscaling limits. For more information, see <a href="#configure-autoscaling-limits">Configure Autoscaling Limits</a>
-  following.
+  you must update these upper and lower autoscaling limits. For more information, see <a href="#configure-autoscaling-limits">Configure Autoscaling Limits</a>.
 
 
 ## <a id='disallow-autoscaling'></a> Disallow autoscaling
@@ -454,13 +453,13 @@ To create a scheduled limit change for an app:
       you want Autoscaler to re-apply the scheduled limit change on Monday, Wednesday, Friday, and Saturday, include <code>--recurrence Mo,We,Fr,Sa</code> in the preceding command.</li>
     </ul>
 
-    Run the following command< to configure Autoscaler to create a minimum of one instance and a maximum of two instances of `example-app` for
+    Run the following command to configure Autoscaler to create a minimum of one instance and a maximum of two instances of `example-app` for
     the first time at 2018-06-14T15:00:00Z UTC and the same time every Saturday afterward:
 
     ```
     cf create-autoscaling-slc example-app 2018-06-14T15:00:00Z 1 2 --recurrence Sa
     ```
-    The following command returns output similar to the following example:
+    The command returns output similar to the following example:
     <pre class="terminal">
     Created scheduled autoscaler instance limit change for app example-app in org example-org / space example-space as user
     OK

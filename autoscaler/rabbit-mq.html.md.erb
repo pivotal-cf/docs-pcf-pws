@@ -249,13 +249,13 @@ To configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an
 
 1. Click **Add rule**. The **Select type** dropdown appears.
 
-1. From the **Select type** drop-down menu, select **RabbitMQ**. More configuration text boxes appear following.
+1. From the **Select type** drop-down menu, select **RabbitMQ**. More configuration text boxes appear.
 
-1. For **Scale down if less than**, enter the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales the number of app instances down.
+    1. For **Scale down if less than**, enter the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales the number of app instances down.
 
-1. For **Scale up if more than**, enter the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales the number of app instances up.
+    1. For **Scale up if more than**, enter the maximum queue depth threshold. If the average queue depth rises above this number of messages, Autoscaler scales the number of app instances up.
 
-1. For **Queue name**, enter the name of the queue you want Autoscaler to monitor. This queue must be on a RabbitMQ service instance that is bound to the app you want to scale.
+    1. For **Queue name**, enter the name of the queue you want Autoscaler to monitor. This queue must be on a RabbitMQ service instance that is bound to the app you want to scale.
 
 1. Click **Save**.
 
