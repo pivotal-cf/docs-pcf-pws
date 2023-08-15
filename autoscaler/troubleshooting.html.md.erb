@@ -206,11 +206,9 @@ To see whether autoscaling is configured for the apps you want to scale:
 
 ### <a id='platform-scale-out'></a> TAS for VMs components are failing or underscaled
 
-Autoscaler may fail to scale an app if one of the TAS for VMs components on which it depends is failing or underscaled. For more information about these
-components, see [Failure Modes](observability.html#failure-modes) in _Using Debug Logs for App Autoscaler_.
+Autoscaler may fail to scale an app if one of the TAS for VMs components on which it depends is failing or underscaled.
 
-These components may need to be restarted or scaled up before Autoscaler can scale your app.<% if vars.platform_code != 'OFFLINE' %> To restart TAS for VMs components, see [Stopping and Starting
-Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Stopping and Starting Virtual Machines_. To scale TAS for VMs components up, see
+These components may need to be restarted or scaled up before Autoscaler can scale your app.<% if vars.platform_code != 'OFFLINE' %> To restart TAS for VMs components, see [Stopping and Starting Individual TAS for VMs VMs](../../adminguide/start-stop-vms.html#manual) in _Stopping and Starting Virtual Machines_. To scale TAS for VMs components up, see
 [Scaling Up TAS for VMs](../../operating/scaling-ert-components.html#scaleup) in _Scaling TAS for VMs_.<% end %>
 
 ### <a id='rabbitmq-queue-depth'></a> Autoscaler fails to scale apps based on RabbitMQ queue depth metric
@@ -243,14 +241,12 @@ If the operator of your deployment has selected **Yes** under **On Demand - Secu
 Settings for On-Demand Plans** pane of the VMware Tanzu RabbitMQ for VMs tile and activated the **Secure service instance credentials** checkbox in the
 **CredHub** pane of the TAS for VMs tile, Autoscaler is unable to use RabbitMQ queue depth as the scaling metric for apps bound to RabbitMQ service instances.
 
-As a workaround, you can configure your app to emit a custom metric containing the RabbitMQ queue depth and configure Autoscaler to use this metric as its
-scaling metric for the app. For more information about custom metrics, see [Using Custom Scaling Metrics](custom-metrics.html).
+As a workaround, you can configure your app to emit a custom metric containing the RabbitMQ queue depth and configure Autoscaler to use this metric as its scaling metric for the app.
 
 
 ## <a id='underscaling'></a> Autoscaler does not scale an app to expected number of instances
 
-This section describes possible causes for Autoscaler scaling an app up to a certain number of instances, but not to the level that you expect. To determine
-the cause, see the following sections:
+This section describes possible causes for Autoscaler scaling an app up to a certain number of instances, but not to the level that you expect. To determine the cause, see the following sections:
 
 * [Review Scaling Metric Values](#check-metrics)
 
@@ -266,11 +262,7 @@ To review the values of your scaling metric, review the observability service th
 
 ### <a id='platform-underscaled'></a> TAS for VMs components are underscaled
 
-If any TAS for VMs components on which Autoscaler depends are underscaled, Autoscaler cannot scale the number of app instances up enough to accommodate the
-amount of traffic that the app is receiving.
-
-For more information about how to determine which TAS for VMs components might be too underscaled to adequately support Autoscaler, see [Failure
-Modes](observability.html#failure-modes) in _Using Debug Logs for App Autoscaler_.
+If any TAS for VMs components on which Autoscaler depends are underscaled, Autoscaler cannot scale the number of app instances up enough to accommodate the amount of traffic that the app is receiving.
 
 #### <a id='log-cache-underscaled'></a> Log Cache is underscaled
 
