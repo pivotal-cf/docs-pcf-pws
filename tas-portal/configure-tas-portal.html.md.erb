@@ -12,7 +12,7 @@ On the TAS Portal, you can:
   * Provide a Backstage user configuration. This is done using a YAML file that can extend or
     overwrite existing settings.
 
-In the beta implementation, three App Accelerators are available. You can not add or delete App
+In the beta implementation, three App Accelerators are available. You cannot add or delete App
 Accelerators in this beta release.
 
   * Node Express
@@ -34,12 +34,11 @@ Before configuring and using App Accelerators, you must:
 An example Backstage configuration file is shown in the following procedure. For Backstage
 resources, see:
 
-  * [Writing Backstage Configuration
-    files](https://backstage.io/docs/conf/writing#configuration-files)
+  * [Writing Backstage Configuration files](https://backstage.io/docs/conf/writing#configuration-files)
   * [GitLab Locations](https://backstage.io/docs/integrations/gitlab/locations)
   * [GitLab Discovery](https://backstage.io/docs/integrations/gitlab/discovery)
 
-1. In Tanzu Ops Manager, on the TAS for VMs tile, click the **Settings** tab.
+1. In Tanzu Operations Manager, on the TAS for VMs tile, click the **Settings** tab.
 
 1. On the left panel, click **TAS Portal**.
 
@@ -47,7 +46,7 @@ resources, see:
 
 2. To activate the App Accelerator, click the **Use App Accelerator** check box.
 
-2. In **TAS Portal memory usage**, enter a value. The minimum is 512 MB.
+2. In **TAS Portal memory usage**, enter a value. The minimum is 512&nbsp;MB.
 
 3. You configure Backstage using a YAML file. A typical application is to provide access to a
   private repository. For example:
@@ -61,8 +60,7 @@ resources, see:
            token: ${GITLAB_TOKEN}
      ```
 
-     Where: GITLAB token can be created by running `cf set-env tas-portal GITLAB_TOKEN
-     "secret-token"`
+     Where: GITLAB token can be created by running `cf set-env tas-portal GITLAB_TOKEN "secret-token"`
 
      <p class="note caution">
      <span class="note__title">Caution</span>
@@ -79,7 +77,7 @@ resources, see:
 If you activated App Accelerators when configuring TAS Portal, you can see them in **Component**, in
 the **Overview** tab.
 
-The three default App Accelerators are shown:
+Three default App Accelerators are shown:
 
   * Node Express
   * Spring Cloud Serverless

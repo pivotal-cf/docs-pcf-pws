@@ -3,7 +3,7 @@ title: About App Autoscaler
 owner: App Autoscaler
 ---
 
-App Autoscaler with TAS for VMs scales your apps and control costs of running them.
+App Autoscaler with VMware Tanzu Application Service for VMs scales your apps and controls the costs of running them.
 
 
 ## <a id="overview"></a> App Autoscaler overview
@@ -18,9 +18,9 @@ To use App Autoscaler:
 
 For example, you might configure App Autoscaler to scale down the number of instances for an app over the weekend. You can configure App Autoscaler to scale up the number of instances for an app when the value of the CPU Usage metric increases above a custom threshold.
 
-## <a id="about-scaling"></a> About app Autoscaler scaling rules
+## <a id="about-scaling"></a> About App Autoscaler scaling rules
 
-This section describes how the app Autoscaler decides when to scale an app up or down.
+This section describes how the App Autoscaler decides when to scale an app up or down.
 
 It also provides information about the custom metrics, comparison metrics, and default metrics that you can use when you create scaling rules for an app in App Autoscaler.
 
@@ -34,13 +34,13 @@ To make a scaling decision, App Autoscaler averages the values of a metric for t
 
 App Autoscaler scales as follows:
 
-* Increment the instances by the app's scale up factor when any metric exceeds its maximum threshold.
-* Decrement the instances by the app's scale down factor where the selected metrics fall their minimum thresholds.
-* Keep the same number of instances when app metrics do not exceed thresholds.
+* Increments the instances by the app's scale up factor when any metric exceeds its maximum threshold.
+* Decrements the instances by the app's scale down factor where the selected metrics fall their minimum thresholds.
+* Keeps the same number of instances when app metrics do not exceed thresholds.
 
 The following diagram provides an example of how App Autoscaler makes scaling decisions:
 
-![alt-text="Read the description of the example.](./images/autoscaler-scaling-decisions.png)
+![alt-text=""](./images/autoscaler-scaling-decisions.png)
 
 As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP latency metric. The scale up factor and
 scale down factor are not set in the scaling manifest, so the default value is one.
@@ -58,8 +58,8 @@ instances is already at the maximum number of instances, App Autoscaler does not
 
 App Autoscaler includes several default metrics for which you might create scaling rules.
 
-<p> <%= vars.company_name %> recommends that you define custom metrics for scaling rules instead of using the default metrics. You can use Custom metrics to
-accurately monitor the performance of your apps based on your environment.</p>
+<p class="note">
+<span class="note__title">Note</span><%= vars.company_name %> recommends that you define custom metrics for scaling rules instead of using the default metrics. You can use Custom metrics to accurately monitor the performance of your apps based on your environment.</p>
 
 The following table lists the default metrics for App Autoscaler:
 
@@ -100,8 +100,7 @@ The following table lists the default metrics for App Autoscaler:
 
 <%= vars.company_name %> recommends that you define custom metrics for App Autoscaler scaling rules. You can use custom metrics define the metrics that are the best indicators of app performance for your environment.
 
-You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit
-custom metrics with Metric Registrar, see [Registering Custom App Metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
+You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering custom app metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
 
 ### <a id="comparison-metrics"></a> Comparison metrics for scaling rules
 
@@ -122,6 +121,6 @@ As demonstrated in the architecture diagram, App Autoscaler makes scaling decisi
 
 At a predefined interval, known as the scaling interval, the App Autoscaler app reads the scaling rules and retrieves app metric data from the Loggregator Log Cache. Then, App Autoscaler makes a scaling decision and communicates with the Cloud Controller to scale the app, if necessary.
 
-For more information about Loggregator Log Cache, see [Loggregator Architecture](../../loggregator/architecture.html).
+For more information about Loggregator Log Cache, see [Loggregator architecture](../../loggregator/architecture.html).
 
 For more information about the Cloud Controller, see [Cloud Controller](../../concepts/architecture/cloud-controller.html).

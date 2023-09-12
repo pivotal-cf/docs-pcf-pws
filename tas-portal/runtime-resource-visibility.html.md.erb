@@ -10,7 +10,7 @@ associated with your workloads.
 
 For TAS for VMs resources to show up in the Runtime Resources Visibility plug-in, use label selectors on
 entities of the Tanzu Application Service. A label selector consists of any string KEY and VALUE.
-For more information, see [Labels and Selectors](https://v3-apidocs.cloudfoundry.org/version/3.78.0/index.html#labels-and-selectors).
+For more information, see [Labels and selectors](https://v3-apidocs.cloudfoundry.org/version/3.78.0/index.html#labels-and-selectors).
 
 ## <a id="selectors"></a> Selectors
 
@@ -22,20 +22,18 @@ A selector consists of one or more requirements in a comma-separated list. For e
 `env=dev,!chargeback-code,tier in (backend,worker)`
 
 1. Add a label selector in the metadata of the entity in Backstage. Add the following attribute to
-   the YAML file of the Backstage entity:
+the YAML file of the Backstage entity:
 
     ```yaml
       annotations:
       'backstage.io/kubernetes-label-selector': 'KEY=VALUE'
     ```
 
-2. Add a label selector to the matching Tanzu Application Service entity using the [Cloud Foundry
-  API](https://docs.cloudfoundry.org/adminguide/metadata.html#add). Alternatively, you can add the
-  label selector to the matching TAS for VMs entity using the [CF CLI](https://docs.cloudfoundry.org/adminguide/metadata.html#add-cli).
+2. Add a label selector to the matching Tanzu Application Service entity using the [Cloud Foundry API](https://docs.cloudfoundry.org/adminguide/metadata.html#add). Alternatively, you can add the label selector to the matching TAS for VMs entity using the [CF CLI](https://docs.cloudfoundry.org/adminguide/metadata.html#add-cli).
 
 1. Go to the Runtime Resources. You can view the list of running resources
-   and the details of their status, type, usage statistics and ownership, if applicable for the
-   resource type.
+and the details of their status, type, usage statistics and ownership, if applicable for the
+resource type.
 
 
 ## <a id="nav-rr-vis-screen"></a> View runtime resources
@@ -47,12 +45,12 @@ To view the list of your running resources:
 
 1. Select your component from the **TAS Portal Catalog** index page.
 
-    ![alt=""](./images/select-component.png)
+  ![alt=""](./images/select-component.png)
 
 2. Click the **TAS Runtime Resources** tab. The runtime resources for the selected component are
-   displayed in table format.
+displayed in table format.
 
-    ![alt="See the TAS Runtime Resources."](./images/runtime-resources.png)
+  ![alt="See the TAS Runtime Resources."](./images/runtime-resources.png)
 
 ### <a id="resources-included"></a> Resources
 
