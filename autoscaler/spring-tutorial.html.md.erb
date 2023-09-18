@@ -42,7 +42,7 @@ This tutorial requires the following:
 * A <%= vars.app_runtime_abbr %> deployment in which the Metric Registrar is activated. To configure the Metric Registrar, see [Configure the Metric Registrar](../../metric-registrar/index.html#configure) in _Metric Registrar and Custom App Metrics_.
 * Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE' %> To access Apps Manager, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
 * The ability to push an app to the <%= vars.app_runtime_abbr %> deployment. For more information, see [Prerequisites](../../devguide/deploy-apps/deploy-app.html#prepare) in _Pushing an App_ and [Manage Users and Roles](../../cf-cli/getting-started.html#managing-roles) in _Getting Started with the cf CLI_.
-  <p class='note'><strong>Note:</strong> You must have <code>SpaceDeveloper</code> permissions in at least one space.</p>
+* You have <code>SpaceDeveloper</code> permissions in at least one space.
 * The Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html).
 * A Java 17 JRE.
 * Access to a command-line for running commands such as cf CLI and git commands.
@@ -90,10 +90,10 @@ See the [ExampleController.java](https://github.com/pivotal-cf/metric-registrar-
             customGauge.decrementAndGet();
         }
 	```
-	<p class="note"><strong>Note</strong>: The App Autoscaler only scales on a gauge,
-           or metric, that can go up and down.
-           The standard metrics of CPU, disk, HTTP throughput, and HTTP latency are all gauges.
-        </p>
+	<p class="note">
+	<span class="note__title">Note</span>
+	The App Autoscaler only scales on a gauge, or metric, that can go up and down.
+    The standard metrics of CPU, disk, HTTP throughput, and HTTP latency are all gauges.</p>
 
 
 ## <a id="push"></a> Push the sample app
@@ -172,11 +172,13 @@ To register a custom metrics endpoint for the app:
     cf register-metrics-endpoint java-spring-security /actuator/prometheus --insecure
     ```
     Because the app dependencies include the Micrometer Prometheus library, there is automatically a metrics endpoint at `/actuator/prometheus`.
-    <p class='note warning'><strong>Caution:</strong> When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the
-      metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware
-      strongly recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including
-      the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port
-      and limits access to the app.</p>
+
+    <p class="note caution">
+	<span class="note__title">Caution</span>
+	When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the
+    metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware
+    strongly recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including
+    the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port and limits access to the app.</p>
 
 1. Install the Log Cache CLI by running:
 
@@ -200,13 +202,13 @@ To register a custom metrics endpoint for the app:
 	2019-08-28T09:17:56.50-0700 [tutorial-example/0] GAUGE custom:1.000000
 	</pre>
 
-    <div class='note'><strong>Note:</strong>
-      <ul>
-	<li>In the <code>java-spring-security</code> app UI, you must click <strong>Increment Custom gauge</strong> at least one time to cause the app to emit
-	  the <code>custom</code> metric.</li>
-	<li>If you do not see output similar to the previous example, the Metric Registrar might not exist in your <%= vars.app_runtime_abbr %> deployment. To
-	  verify this, consult the operator of your <%= vars.app_runtime_abbr %> deployment.</li>
-      </ul>
+    <div class="note">
+	<span class="note__title">Note</span>
+		<ul>
+			<li>In the <code>java-spring-security</code> app UI, you must click <strong>Increment Custom gauge</strong> at least one time to cause the app to emit the <code>custom</code> metric.</li>
+			<li>If you do not see output similar to the previous example, the Metric Registrar might not exist in your <%= vars.app_runtime_abbr %> deployment. To
+			verify this, consult the operator of your <%= vars.app_runtime_abbr %> deployment.</li>
+		</ul>
     </div>
 
 ## <a id="create-rules"></a> Create an autoscaling rule
@@ -231,19 +233,19 @@ _Managing Apps and Service Instances Using Apps Manager_.
 	1. For **Maximum**, enter `5`.
 	1. Click **Apply Changes**.
 
-		<img src="images/manage-autoscaling.png" alt="The Manage Autoscaling form includes an Instance Limits section. This section includes two textboxes, one for Minimum and one for Maximum. To the right of these textboxes is the Apply Changes button. 1 is entered for Minimum and 5 is entered for Maximum" width="450px">
+		<img src="images/manage-autoscaling.png" alt="" width="450px">
 
-1. To create an autoscaling rule:
+2. To create an autoscaling rule:
 	1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
-	1. Click **Add rule**. The **Select type** dropdown appears.
-	1. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
-	1. For **Rule Type**, select `Custom`.
-	1. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
-	1. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
-	1. For **Metric**, enter `custom`.
-	1. Click **Save**.
+	2. Click **Add rule**. The **Select type** dropdown appears.
+	3. From the **Select type** dropdown, select **Custom**. More configuration fields appear below.
+	4. For **Rule Type**, select `Custom`.
+	5. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
+	6. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
+	7. For **Metric**, enter `custom`.
+	8. Click **Save**.
 
-		<img src="images/add-rule.png" alt="The Edit Scaling Rules form includes a dropdown menu labeled Rule Type, a textbox labeled Scale down if less than, a textbox labeled scale up if more than, and a textbox labeled Metric. They are configured according the corresponding instructions. The form also includes buttons labeled Add Rule, Cancel, and Save." width="450px">
+		<img src="images/add-rule.png" alt="" width="450px">
 
 ## <a id="trigger"></a> Trigger scaling
 
