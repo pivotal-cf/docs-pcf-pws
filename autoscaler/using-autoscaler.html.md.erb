@@ -7,7 +7,9 @@ With the Space Developer role, you can configure the App Autoscaler service in A
 
 You can use the App Autoscaler command-line interface (CLI) plugin to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
-<p class='note'><strong>Note:</strong> Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.</p>
+<p class="note">
+<span class="note__title">Note</span>
+pace Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.</p>
 
 
 ## <a id="overview"></a> Overview on how to auto scale your apps with App Autoscaler
@@ -64,7 +66,9 @@ To use App Autoscaler, you must create an instance of the App Autoscaler service
 	1. [Create an instance of the service](../../devguide/services/managing-services.html#marketplace).
 	1. [Bind the service to an app](../../devguide/services/managing-services.html#bind).
 
-<p class="note"><strong>Note:</strong> Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.</p>
+<p class="note important">
+<span class="note__title">Important</span>
+Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.</p>
 
 To enable App Autoscaler for an app:
 
@@ -146,15 +150,16 @@ To create or modify a scheduled limit change:
 	* **Date** and **Time (local)**: Set the date and time of the change.
 	* **Repeat (Optional)**: Set the day of the week for which you want to repeat the change.
 	* **Min** and **Max**: Set the allowable range within which App Autoscaler can change the instance count for an app.
-    ![alt-text="At the top of the image is a gray left arrow that returns to the previous screen, next to a header, 'Scheduled Limit Changes: rails-docs-sample'. Below is a subheader, 'Configure'."](./images/scheduled-changes.png)
-
+    ![alt-text=""](./images/scheduled-changes.png)
 
 1. Click **Save**.
 
-<p class='note'><strong>Note:</strong> In time zones that observe Daylight Saving Time, Apps Manager may not account for changes in offset from UTC time when
-  it applies scheduled limit changes. For more information, see
-  <a href="https://community.pivotal.io/s/article/5000e00001pKKiE1614674788257?language=en_US">Apps Manager might not respect the day of the week when
-  creating an autoscaler scheduled limit change</a> in the VMware Tanzu Knowledge Base.</p>
+<p class="note">
+<span class="note__title">Note</span>
+In time zones that observe Daylight Saving Time, Apps Manager may not account for changes in offset from UTC time when
+it applies scheduled limit changes. For more information, see
+<a href="https://community.pivotal.io/s/article/5000e00001pKKiE1614674788257?language=en_US">Apps Manager might not respect the day of the week when
+creating an autoscaler scheduled limit change</a> in the VMware Tanzu Knowledge Base.</p>
 
 To delete an existing entry, click the **x** icon next to the entry you want to delete.
 
@@ -165,7 +170,7 @@ For example, to schedule an app to scale down for a weekend, you can enter two r
 	* **Repeat (Optional)**: `Fr`
 	* **Min** and **Max**: `1` and `1`
 
-1. Increase instances to between 3 and 5 on Monday morning:
+2. Increase instances to between 3 and 5 on Monday morning:
 	* **Date** and **Time (local)**: `Dec`, `5`, `2018` and `7:00 AM`
 	* **Repeat (Optional)**: `M`
 	* **Min** and **Max**: `3` and `5`
@@ -177,9 +182,9 @@ App Autoscaler logs all autoscaling events. You can view event history and manag
 
 ### <a id='view-event-history'></a> View event history
 
-To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane.
+To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane. You will see the **Most Recent** event and its corresponding date. The type of event is also shown, such as the Rule Applied, for example.
 
-![alt-text="At the top of the image is a subheader, 'Event History'.  Below is the text, 'Most Recent:', and to the far right, the text 'Mon June 4, 2018 at 3:12 PM' in bold. Below this is the text, 'Rule Applied: Scaling Limits set to 2 to 5 instances'."](./images/event-history.png)
+![alt-text=""](./images/event-history.png)
 
 ### <a id='manage-notifications'></a> Manage App Autoscaler notifications
 
@@ -188,8 +193,17 @@ App Autoscaler emails or texts its event notifications to all users with the Spa
 To subscribe or unsubscribe from autoscaling event notifications:
 
 1. Go to the **Manage Notifications** page in <%= vars.platform_name %>.
-  <p class="note"><strong>Note:</strong> If installed, Notifications Management must be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>, where <code>SYSTEM-DOMAIN</code> is your system domain.</p>
 
-1. Choose which notifications you want to receive from App Autoscaler:
-![alt-text="At the top of the image is a header, 'Manage Notifications'.  Below is the text, 'You will receive email notifications from checked items'. Next is a check box, checked, labeled 'Cloud Foundry Autoscaling Service'."](./images/manage-notifications.png)
+  <p class="note important">
+  <span class="note__title">Important</span>
+  If installed, Notifications Management must be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>, where <code>SYSTEM-DOMAIN</code> is your system domain.</p>
 
+1. Choose which email notifications you want to receive from App Autoscaler. Choices are:
+
+* Scaling Down
+* Manual Scaling Detected
+* Maximum Instance Limit Reached
+* Quota Limit Reached
+* Scaling Up
+* 
+![alt-text=""](./images/manage-notifications.png)

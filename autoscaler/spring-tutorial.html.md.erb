@@ -42,7 +42,7 @@ This tutorial requires the following:
 * A <%= vars.app_runtime_abbr %> deployment in which the Metric Registrar is activated. To configure the Metric Registrar, see [Configure the Metric Registrar](../../metric-registrar/index.html#configure) in _Metric Registrar and Custom App Metrics_.
 * Access to Apps Manager in the <%= vars.app_runtime_abbr %> deployment.<% if vars.platform_code != 'OFFLINE' %> To access Apps Manager, see [Logging In to Apps Manager](../../operating/console-login.html).<% end %>
 * The ability to push an app to the <%= vars.app_runtime_abbr %> deployment. For more information, see [Prerequisites](../../devguide/deploy-apps/deploy-app.html#prepare) in _Pushing an App_ and [Manage Users and Roles](../../cf-cli/getting-started.html#managing-roles) in _Getting Started with the cf CLI_.
-  <p class='note'><strong>Note:</strong> You must have <code>SpaceDeveloper</code> permissions in at least one space.</p>
+* `SpaceDeveloper` permissions in at least one space.
 * The Cloud Foundry Command-Line Interface (cf CLI). To install the cf CLI, see [Installing the cf CLI](../../cf-cli/index.html).
 * A Java 17 JRE.
 * Access to a command-line for running commands such as cf CLI and git commands.
@@ -90,10 +90,10 @@ See the [ExampleController.java](https://github.com/pivotal-cf/metric-registrar-
             customGauge.decrementAndGet();
         }
 	```
-	<p class="note"><strong>Note</strong>: The App Autoscaler only scales on a gauge,
-           or metric, that can go up and down.
-           The standard metrics of CPU, disk, HTTP throughput, and HTTP latency are all gauges.
-        </p>
+	<p class="note">
+	<span class="note__title">Note</span>
+	The App Autoscaler only scales on a gauge, or metric, that can go up and down.
+    The standard metrics of CPU, disk, HTTP throughput, and HTTP latency are all gauges.</p>
 
 
 ## <a id="push"></a> Push the sample app
@@ -172,11 +172,14 @@ To register a custom metrics endpoint for the app:
     cf register-metrics-endpoint java-spring-security /actuator/prometheus --insecure
     ```
     Because the app dependencies include the Micrometer Prometheus library, there is automatically a metrics endpoint at `/actuator/prometheus`.
-    <p class='note warning'><strong>Caution:</strong> When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the
-      metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware
-      strongly recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including
-      the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port
-      and limits access to the app.</p>
+
+    <p class="note caution">
+	<span class="note__title">Caution</span>
+	When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the
+	metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware
+	strongly recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including
+	the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port
+	and limits access to the app.</p>
 
 1. Install the Log Cache CLI by running:
 
@@ -200,12 +203,13 @@ To register a custom metrics endpoint for the app:
 	2019-08-28T09:17:56.50-0700 [tutorial-example/0] GAUGE custom:1.000000
 	</pre>
 
-    <div class='note'><strong>Note:</strong>
+    <div class="note important">
+	<span class="note__title">Important</span>
       <ul>
-	<li>In the <code>java-spring-security</code> app UI, you must click <strong>Increment Custom gauge</strong> at least one time to cause the app to emit
-	  the <code>custom</code> metric.</li>
-	<li>If you do not see output similar to the previous example, the Metric Registrar might not exist in your <%= vars.app_runtime_abbr %> deployment. To
-	  verify this, consult the operator of your <%= vars.app_runtime_abbr %> deployment.</li>
+		<li>In the <code>java-spring-security</code> app UI, you must click <strong>Increment Custom gauge</strong> at least one time to cause the app to emit
+		the <code>custom</code> metric.</li>
+		<li>If you do not see output similar to the previous example, the Metric Registrar might not exist in your <%= vars.app_runtime_abbr %> deployment. To
+		verify this, consult the operator of your <%= vars.app_runtime_abbr %> deployment.</li>
       </ul>
     </div>
 

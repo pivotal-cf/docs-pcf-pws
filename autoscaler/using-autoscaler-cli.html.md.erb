@@ -10,8 +10,10 @@ You can use the App Autoscaler Command-Line Interface (CLI) to control scaling a
 The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI). It allows you to configure and control Autoscaler from your
 local command line to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
 
-<p class='note'><strong>Note:</strong> The return output from the App Autoscaler CLI may include odd characters in Windows shells that do not support text
-  color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do not support the <code>CF_COLOR</code> environment variable.</p>
+<p class="note">
+<span class="note__title">Note</span>
+The return output from the App Autoscaler CLI may include odd characters in Windows shells that do not support text
+color. To prevent this error, run <code>SET CF_COLOR=false</code> in your Windows shell pane before you use the App Autoscaler CLI. Some Windows shells do not support the <code>CF_COLOR</code> environment variable.</p>
 
 
 ## <a id='install'></a> Install the App Autoscaler CLI plug-in
@@ -21,7 +23,10 @@ Before you can run App Autoscaler CLI commands, you must install the App Autosca
 To install the plugin:
 
 1. Download the [VMware Tanzu App Autoscaler CLI Plugin](https://network.pivotal.io/products/pcf-app-autoscaler) from <%= vars.product_network %>.
-  <p class='note'><strong>Note:</strong> There are two versions of the App Autoscaler CLI. If you install the wrong version, you cannot use it with the
+
+    <p class="note caution">
+    <span class="note__title">Caution</span>
+    There are two versions of the App Autoscaler CLI. If you install the wrong version, you cannot use it with the
     Autoscaler instance in your <%= vars.app_runtime_abbr %> deployment. For more information, see <a href="troubleshooting.html#oss-autoscaler">App
     Autoscaler for Cloud Foundry Does Not Work with <%= vars.app_runtime_abbr %></a> in <em>Troubleshooting App Autoscaler</em>.</p>
 
@@ -81,9 +86,11 @@ To create and bind an Autoscaler service instance:
       <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
     </ul>
 
-<p class='note'><strong>Note:</strong> Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one
-  Autoscaler service instance in a space, the App Autoscaler CLI returns an error message. For more information, see
-  <a href="troubleshooting.html#one-instance-per-space">One Autoscaler Service Instance Allowed Per Space</a> in <em>Troubleshooting App Autoscaler</em>.</p>
+<p class="note important">
+<span class="note__title">Important</span>
+Only one service instance of Autoscaler can exist in each space in an org. If you try to create more than one
+Autoscaler service instance in a space, the App Autoscaler CLI returns an error message. For more information, see
+<a href="troubleshooting.html#one-instance-per-space">One Autoscaler Service Instance Allowed Per Space</a> in <em>Troubleshooting App Autoscaler</em>.</p>
 
 
 ## <a id='view-apps'></a> View apps bound to Autoscaler
@@ -141,9 +148,10 @@ To allow autoscaling for an app:
     OK
     </pre>
 
-<p class='note'><strong>Note:</strong> By default, the upper and lower autoscaling limits for an app are <code>-1</code>. Before Autoscaler can scale an app,
-  you must update these upper and lower autoscaling limits. For more information, see <a href="#configure-autoscaling-limits">Configure Autoscaling Limits</a>
-  below.</p>
+<p class="note important">
+<span class="note__title">Important</span>
+By default, the upper and lower autoscaling limits for an app are <code>-1</code>. Before Autoscaler can scale an app,
+you must update these upper and lower autoscaling limits. For more information, see <a href="#configure-autoscaling-limits">Configure Autoscaling Limits</a>.</p>
 
 
 ## <a id='disallow-autoscaling'></a> Disallow autoscaling
@@ -290,22 +298,23 @@ To create a new autoscaling rule for an app:
     Where:
     <ul>
     <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-    <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create. Valid values are <code>compare</code>, <code>CPU</code>, <code>custom</code>, <code>http_latency</code>, <code>http_throughput</code>, <code>memory</code>, or <code>rabbitmq</code>.
-      <div class='note'><strong>Notes:</strong>
-        <ul>
-          <li><%= vars.company_name %> does not recommend using <code>http_throughput</code> as a scaling rule when logging volume is high in the system. For
-            more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based
-            Autoscaling rules do not fire</a> in the Knowledge Base.</li>
-          <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
-            the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the
-            Gorouter. HTTP latency is not calculated between the user and the app.</li>
-          <li>If you specify <code>http_latency</code> as the rule type, you must also specify a rule subtype using the <code>--subtype</code> or
-            <code>-s</code> parameter.</li>
-          <li>If you specify <code>compare</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
-            parameter and a comparison metric using the <code>--comparison-metric</code> or <code>-c</code> parameter.</li>
-          <li>If you specify <code>custom</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
-            parameter.</li>
-        </ul>
+    <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create. Valid values are <code>compare</code>,      <code>CPU</code>, <code>custom</code>, <code>http_latency</code>, <code>http_throughput</code>, <code>memory</code>, or <code>rabbitmq</code>.
+
+      <div class="note">
+      <span class="note__title">Note</span>
+          <ul>
+              <li><%= vars.company_name %> does not recommend using <code>http_throughput</code> as a scaling rule when logging volume is high in the system. For
+              more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based
+              Autoscaling rules do not fire</a> in the Knowledge Base.</li>
+              <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
+              the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the
+              Gorouter. HTTP latency is not calculated between the user and the app.</li>
+              <li>If you specify <code>http_latency</code> as the rule type, you must also specify a rule subtype using the <code>--subtype</code> or <code>-s</code> parameter.</li>
+              <li>If you specify <code>compare</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
+              parameter and a comparison metric using the <code>--comparison-metric</code> or <code>-c</code> parameter.</li>
+              <li>If you specify <code>custom</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
+              parameter.</li>
+          </ul>
       </div>
     </li>
     <li><code>MINIMUM-THRESHOLD</code> is the minimum threshold for the scaling metric.</li>
@@ -454,12 +463,13 @@ To create a scheduled limit change for an app:
     <ul>
       <li><code>APP-NAME</code> is the name of the app.</li>
       <li><code>TIME</code> is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, <code>2032-01-01T20:00:00Z</code>.
-        <div class='note'><strong>Notes:</strong>
-          <ul>
-            <li>You can only configure times for scheduled limit changes in UTC time.</li>
-            <li>If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight Saving Time is observed in your
-              time zone, the UTC offset for your time zone may change during the year.</li>
-          </ul>
+        <div class="note">
+        <span class="note__title">Note</span>
+            <ul>
+                <li>You can only configure times for scheduled limit changes in UTC time.</li>
+                <li>If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight Saving Time is observed in your
+                time zone, the UTC offset for your time zone may change during the year.</li>
+            </ul>
         </div>
       </li>
       <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the current
@@ -565,10 +575,10 @@ To configure Autoscaler using a manifest file:
           information, see <a href="scheduled-limit-changes.html#recurrence-value">Calculating a Recurrence Schedule Value</a> in <em>Scheduled Limit Changes</em>.</li>
           <li>
             <code>TIME</code> is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, <code>2032-01-01T20:00:00Z</code>.
-            <p class='note'>
-              <strong>Note:</strong> If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight
-              Saving Time is observed in your time zone, the UTC offset for your time zone may change during the year.
-            </p>
+            <p class="note">
+            <span class="note__title">Note</span>
+            If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight
+            Saving Time is observed in your time zone, the UTC offset for your time zone may change during the year.</p>
           </li>
           <li><code>SCHEDULED-LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the
           current number of app instances is fewer than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances up to

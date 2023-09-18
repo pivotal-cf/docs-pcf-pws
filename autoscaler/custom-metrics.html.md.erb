@@ -13,8 +13,10 @@ For information about how to emit custom metrics, see [Using Metric Registrar](.
 While Autoscaler can use several default metrics as scaling metrics for apps, your app might have specific autoscaling requirements that Autoscaler cannot
 meet by using the default scaling metrics to scale the app. In this case, you can create custom metrics for Autoscaler to use to scale the app.
 
-<p class='note'><strong>Note:</strong> Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with
-  the Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.</p>
+<p class="note important">
+<span class="note__title">Important</span>
+Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with
+the Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.</p>
 
 You can configure Autoscaler to use a custom scaling metric for an app in the following ways:
 
