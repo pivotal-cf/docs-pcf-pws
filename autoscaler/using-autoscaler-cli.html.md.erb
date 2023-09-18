@@ -93,11 +93,12 @@ Enabled autoscaling for app test-app-2 for org my-org / space my-space as user
 OK
 </pre>
 
-<p class='note'><strong>Note:</strong> By default, instance limits are set to
-    <code>Min Instances:-1</code> and <code>Max Instances:-1</code>.
-    To enable autoscaling, you must first update instance limits.
-    See <a href="#updating-instance-limits">Update Instance Limits</a> above.
-</p>
+class="note">
+<span class="note__title">Note</span>
+By default, instance limits are set to
+<code>Min Instances:-1</code> and <code>Max Instances:-1</code>.
+To enable autoscaling, you must first update instance limits.
+See <a href="#updating-instance-limits">Update Instance Limits</a> above.</p>
 
 ## <a id="disable-autoscaling"></a>Disable autoscaling
 
@@ -173,23 +174,26 @@ For a list of valid types and subtypes, see the following:
 * type `CPU`
 * type `memory`
 * type `http_throughput`
-  <p class='note'><strong>Note:</strong> <%= vars.company_name %> does not recommend using
-     <code>http_throughput</code> as a scaling rule when logging volume is high in the system.
-     For more information,
-     see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">
-     HTTP throughput based Autoscaling rules do not fire</a> in the Knowledge Base.
-  </p>
+
+    <p class="note">
+    <span class="note__title">Note</span>
+    <%= vars.company_name %> does not recommend using
+    <code>http_throughput</code> as a scaling rule when logging volume is high in the system.
+    For more information,
+    see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">
+    HTTP throughput based Autoscaling rules do not fire</a> in the Knowledge Base.</p>
+
 * type `http_latency`
   * sub\_type `avg_99th` or `avg_95th`
-  <p class='note'>
-    <strong>Note:</strong> <code>http_latency</code> requires a rule <code>subtype</code>.<br/>
-  </p>
-  <p class='note'>
-    <strong>Note:</strong> <code>http_latency</code> threshold units are in ms.<br/>
-    In general, the value for <code>MAX-THRESHOLD</code> should be at least twice the value for <code>MIN-THRESHOLD</code> to avoid excessive cycling.
-    Latency is calculated from the Gorouter to the app and back to the Gorouter.
-    Latency is not calculated between the user and the app.
-  </p>
+
+      <p class="note">
+      <span class="note__title">Note</span>
+      <code>http_latency</code> requires a rule <code>subtype</code>.<br/>
+      <code>http_latency</code> threshold units are in ms.<br/>
+      In general, the value for <code>MAX-THRESHOLD</code> should be at least twice the value for <code>MIN-THRESHOLD</code> to avoid excessive cycling.
+      Latency is calculated from the Gorouter to the app and back to the Gorouter.
+      Latency is not calculated between the user and the app.</p>
+
 * type `rabbitmq`
   * sub\_type `YOUR-QUEUE-NAME`
 * type `compare`

@@ -7,7 +7,9 @@ With the Space Developer role, you can configure the App Autoscaler service in A
 
 You can use the App Autoscaler command-line interface (CLI) plugin to configure App Autoscaler rules from the command line. For more information, see [Using the App Autoscaler CLI](using-autoscaler-cli.html).
 
-<p class='note'><strong>Note:</strong> Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.</p>
+<p class="note">
+<span class="note__title">Note</span>
+Space Managers, Space Auditors, and all Org roles do not have permission to use App Autoscaler. For help managing user roles, see <a href="../../console/console-roles.html">Managing User Accounts and Permissions Using Apps Manager</a>.</p>
 
 
 ## <a id="overview"></a> Overview
@@ -64,7 +66,9 @@ To use App Autoscaler, you must create an instance of the App Autoscaler service
 	1. [Create an instance of the service](../../devguide/services/managing-services.html#marketplace).
 	1. [Bind the service to an app](../../devguide/services/managing-services.html#bind).
 
-<p class="note"><strong>Note:</strong> Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.</p>
+<p class="note important">
+<span class="note__title">Important</span>
+Manual scaling overrides scaling rules that you configure with App Autoscaler. If you manually scale an app bound to an App Autoscaler service instance, the App Autoscaler instance automatically unbinds from that app, and the app scales to the manual setting. For more information, see <a href="../../console/manage-apps.html">Managing Apps and Service Instances Using Apps Manager</a>.</p>
 
 To enable App Autoscaler for an app:
 
@@ -150,7 +154,7 @@ To create or modify a scheduled limit change:
 	* **Repeat (Optional)**: Set the day of the week for which you want to repeat the change.
 	* **Min** and **Max**: Set the allowable range within which App Autoscaler can change the instance count for an app.
 
-      <%= image_tag("images/scheduled-changes.png", :alt => "At the top of the image is a gray left arrow that returns to the previous screen, next to a header, 'Scheduled Limit Changes: rails-docs-sample'. Below is a subheader, 'Configure'. This section contains, side by side, two sets of three dropdowns. The three dropdowns to the left are labeled 'Date': the first has the value 'June', the second has the value '4', and the third has the value '2018'. The three dropdowns to the right are labeled 'Time (local)': the first has the value '4', the second has the value '32', and the third has the value 'PM'. Immediately below is a row of seven checkboxes for 'Repeat (Optional)'. The checkboxes are labeled, from left to right, 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', and 'Sa'. Beside the checkboxes are two text fields, labeled 'Min' and 'Max'. Immediately below, on the far right, is a grayed-out blue, rectangular button labeled 'Save'. Next is a subheader, 'Scheduled', with a link to the far right, 'Add New'. Below this subheader is a table with five columns labeled, from left to right, 'Date', 'Time', 'Repeat', 'Min', and 'Max'. Below this is one row. Under 'Date' is the text 'Jun 11, 2018'. Under 'Time' is the text '3:12 PM'. Under 'Repeat' is the text 'Mo'. Under 'Min' is the number '2'. Under 'Max' is the number '5'. Beside this row, on the right, is a grayed-out link, 'Edit', and to the right of the link, a red X.") %>
+      <%= image_tag("images/scheduled-changes.png", :alt => "At the top of the image is a gray left arrow that returns to the previous screen, next to a header, 'Scheduled Limit Changes: rails-docs-sample'. Below is a subheader, 'Configure'. This section contains, side by side, two sets of three dropdowns. The three dropdowns to the left are labeled 'Date': the first has the value 'June', the second has the value '4', and the third has the value '2018'. The three dropdowns to the right are labeled 'Time (local)': the first has the value '4', the second has the value '32', and the third has the value 'PM'. Immediately below is a row of seven check boxes for 'Repeat (Optional)'. The check boxes are labeled, from left to right, 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', and 'Sa'. Beside the check boxes are two text fields, labeled 'Min' and 'Max'. Immediately below, on the far right, is a grayed-out blue, rectangular button labeled 'Save'. Next is a subheader, 'Scheduled', with a link to the far right, 'Add New'. Below this subheader is a table with five columns labeled, from left to right, 'Date', 'Time', 'Repeat', 'Min', and 'Max'. Below this is one row. Under 'Date' is the text 'Jun 11, 2018'. Under 'Time' is the text '3:12 PM'. Under 'Repeat' is the text 'Mo'. Under 'Min' is the number '2'. Under 'Max' is the number '5'. Beside this row, on the right, is a grayed-out link, 'Edit', and to the right of the link, a red X.") %>
 
 1. Click **Save**.
 
@@ -186,8 +190,8 @@ App Autoscaler emails or texts its event notifications to all users with the Spa
 To subscribe or unsubscribe from autoscaling event notifications:
 
 1. Navigate to the **Manage Notifications** page in <%= vars.platform_name %>.
-	<p class="note"><strong>Note:</strong> If installed, Notifications Management should be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>, where <code>SYSTEM-DOMAIN</code> is your system domain.</p>
+If installed, Notifications Management should be available at `https://notifications-ui.SYSTEM-DOMAIN/preferences`, where `SYSTEM-DOMAIN` is your system domain.
 
 1. Choose which notifications you want to receive from App Autoscaler:
 
-    <%= image_tag("./images/manage-notifications.png", :alt => "At the top of the image is a header, 'Manage Notifications'. Below is the text, 'You will receive email notifications from checked items'. Next is a checkbox, checked, labeled 'Cloud Foundry Autoscaling Service'. It is followed by five nested checkboxes, all checked, labeled 'Scaling Down', 'Manual Scaling Detected', 'Maximum Instance Limit Reached', 'Quota Limit Reached', and 'Scaling Up'.") %>
+    <%= image_tag("./images/manage-notifications.png", :alt => "At the top of the image is a header, 'Manage Notifications'. Below is the text, 'You will receive email notifications from checked items'. Next is a check box, checked, labeled 'Cloud Foundry Autoscaling Service'. It is followed by five nested check boxes, all checked, labeled 'Scaling Down', 'Manual Scaling Detected', 'Maximum Instance Limit Reached', 'Quota Limit Reached', and 'Scaling Up'.") %>
