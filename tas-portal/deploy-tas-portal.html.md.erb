@@ -3,7 +3,12 @@ title: Deploy TAS Portal (beta) with TAS for VMs
 owner: TAS Portal
 ---
 
-After you install or update TAS for VMs, you can deploy the Tanzu Application Service Portal.
+After you install or update TAS for VMs, you can deploy the TAS Portal.
+For information about configuring TAS Portal and the app accelerators, see:
+
+* [Configure App Accelerators on TAS Portal (beta)](./configure-tas-portal.html.md.erb)
+* [Runtime Resources plug-in (beta)](./runtime-resource-visibility.html.md.erb)
+
 
 ## <a id="deploy"></a> Deploy TAS portal
 
@@ -11,13 +16,14 @@ After you install or update TAS for VMs, you can deploy the Tanzu Application Se
 
 2. Click the **TAS Portal Errand** check box.
 
-   Deploy the <code>tas-portal</code> application under the <code>system</code> space of the <code>system</code> org.
+   Deploy the `tas-portal` application under the `system` space of the `system` org.
 
 3. Click **Apply Changes**.
+
 
 ## <a id="remove"></a> Deactivate TAS portal
 
 There are two ways to deactivate the TAS Portal:
 
-  * Delete the `tas-portal` application.
-  * On the **Review Pending Changes** screen, deselect **TAS Portal Errand**, and click **Apply Changes**.
+* Delete the `tas-portal` application.
+* On the **Review Pending Changes** screen, deselect **TAS Portal Errand**, and click **Apply Changes**.

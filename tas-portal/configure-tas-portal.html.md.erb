@@ -1,32 +1,42 @@
 ---
-title: Configuring App Accelerators on TAS Portal (beta)
+title: Configure App Accelerators on TAS Portal (beta)
 owner: TAS Portal
 ---
 
 You can configure the App Accelerators on the Tanzu Application Service Portal (TAS Portal). This article tells you how.
 
+
+TAS Portal uses the same UI as the Tanzu Developer Portal in VMware Tanzu Application Platform. See [Customize the Tanzu Developer Portal](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-customize-customize-portal.html).
+The TAS Portal uses the same configuration, with the following differences:
+
+* The list of plug-ins is limited.
+* Configuration settings for Kubernetes are ignored.
+
+
+## <a id="overview"></a> Overview
+
 On the TAS Portal, you can:
 
-  * Activate an App Accelerator
-  * Change instance memory
-  * Provide a Backstage user configuration. This is done using a YAML file that can extend or
-    overwrite existing settings.
+* Activate an App Accelerator
+* Change instance memory
+* Provide a Backstage user configuration. This is done using a YAML file that can extend or
+  overwrite existing settings.
 
 In the beta implementation, three App Accelerators are available. You cannot add or delete App
 Accelerators in this beta release.
 
-  * Node Express
-  * Spring Cloud Serverless
-  * Steeltoe Weather Forecast
+* Node Express
+* Spring Cloud Serverless
+* Steeltoe Weather Forecast
 
 
 ## <a id="prerequisite"></a> Prerequisites
 
 Before configuring and using App Accelerators, you must:
 
-  * Install the TAS Portal app. See [Deploy TAS Portal](./deploy-tas-portal.html).
-  * Verify that the `tas-portal` application is deployed under the `system` space of the `system`
-    org.
+* Install the TAS Portal app. See [Deploy TAS Portal](./deploy-tas-portal.html).
+* Verify that the `tas-portal` application is deployed under the `system` space of the `system`
+  org.
 
 
 ## <a id="config-tas-portal"></a> Configure TAS portal
@@ -44,13 +54,13 @@ resources, see:
 
    ![alt-text=""](./images/TAS-portal-settings-tab.png)
 
-2. To activate the App Accelerator, click the **Use App Accelerator** check box.
+2. To activate the App Accelerator, select the **Use App Accelerator** check box.
 
-1. You can define the use of an external SQL database. Select **Use System Database**.
+3. To use an external SQL or PostgreSQL database, select **Use System Database**. Then follow the instructions in [Configure the Tanzu Developer Portal database](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-database.html), substituting your YAML file. (The in-memory database is not available for TAS Portal.)
 
-3. In **TAS Portal memory usage**, enter a value. The minimum is 512&nbsp;MB.
+4. In **TAS Portal memory usage**, enter a value. The minimum is 512&nbsp;MB.
 
-4. You configure Backstage using a YAML file. A typical application is to provide access to a
+5. You configure Backstage using a YAML file. A typical application is to provide access to a
   private repository. For example:
 
      ```yaml
@@ -72,6 +82,10 @@ resources, see:
    ![alt-text=""](./images/TAS-portal-settings-example.png)
 
 1. To apply the settings, run `cf restage tas-portal`.
+
+<p class="note">
+<span class="note__title">Note</span>
+For more information, see <a href="https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-customize-customize-portal.html">Customize the Tanzu Developer Portal</a>.</p>
 
 
 ## <a id="view-app-accel"></a> View app accelerators
