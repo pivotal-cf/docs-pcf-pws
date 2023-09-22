@@ -1,13 +1,13 @@
 ---
-title: Configure App Accelerators on TAS Portal (beta)
-owner: TAS Portal
+title: Configure App Accelerators on TAS Developer Portal (beta)
+owner: TAS Developer Portal
 ---
 
-You can configure the App Accelerators on the TAS Portal.
-App Accelerators have changed to be more consistent with the Tanzu Developer Portal, but in the TAS Portal, the App Accelerators don't need any special installations. The App Accelerators are built into TAS Portal.
+You can configure the App Accelerators on the TAS Developer Portal.
+App Accelerators have changed to be more consistent with the Tanzu Developer Portal, but in the TAS Developer Portal, the App Accelerators don't need any special installations. The App Accelerators are built into TAS Developer Portal.
 
-TAS Portal uses the same UI as the Tanzu Developer Portal in VMware Tanzu Application Platform. See [Customize the Tanzu Developer Portal](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-customize-customize-portal.html).
-The TAS Portal uses the same configuration, with the following differences:
+TAS Developer Portal uses the same UI as the Tanzu Developer Portal in VMware Tanzu Application Platform. See [Customize the Tanzu Developer Portal](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-customize-customize-portal.html).
+The TAS Developer Portal uses the same configuration, with the following differences:
 
 * The list of plug-ins is limited.
 * Configuration settings for Kubernetes are ignored.
@@ -15,7 +15,7 @@ The TAS Portal uses the same configuration, with the following differences:
 
 ## <a id="overview"></a> Overview
 
-On the TAS Portal, you can:
+On the TAS Developer Portal, you can:
 
 * Activate an App Accelerator
 * Change instance memory
@@ -34,12 +34,12 @@ Accelerators in this beta release.
 
 Before configuring and using App Accelerators, you must:
 
-* Install the TAS Portal app. See [Deploy TAS Portal](./deploy-tas-portal.html).
+* Install the TAS Developer Portal app. See [Deploy TAS Developer Portal](./deploy-tas-portal.html).
 * Verify that the `tas-portal` application is deployed under the `system` space of the `system`
   org.
 
 
-## <a id="config-tas-portal"></a> Configure TAS Portal and App Accelerators
+## <a id="config-tas-portal"></a> Configure TAS Developer Portal and App Accelerators
 
 An example Backstage configuration file is shown in the following procedure. For Backstage
 resources, see:
@@ -50,15 +50,15 @@ resources, see:
 
 1. In Tanzu Operations Manager, on the TAS for VMs tile, click the **Settings** tab.
 
-1. On the left panel, click **TAS Portal**.
+1. On the left panel, click **TAS Developer Portal**.
 
    ![alt-text=""](./images/TAS-portal-settings-tab.png)
 
 2. To activate the App Accelerator, select the **Use App Accelerator** check box. Then follow the instructions in [Create accelerators](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/application-accelerator-creating-accelerators-creating-accelerators.html).
 
-3. To use an external SQL or PostgreSQL database, select **Use System Database**. Then follow the instructions in [Configure the Tanzu Developer Portal database](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-database.html), substituting your YAML file. (The in-memory database is not available for TAS Portal.)
+3. To use an external SQL or PostgreSQL database, select **Use System Database**. Then follow the instructions in [Configure the Tanzu Developer Portal database](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-database.html), substituting your YAML file. (The in-memory database is not available for TAS Developer Portal.)
 
-4. In **TAS Portal memory usage**, enter a value. The minimum is 512&nbsp;MB.
+4. In **TAS Developer Portal memory usage**, enter a value. The minimum is 512&nbsp;MB.
 
 5. You configure Backstage using a YAML file. A typical application is to provide access to a
   private repository. For example:
@@ -90,7 +90,7 @@ For more information, see <a href="https://docs.vmware.com/en/VMware-Tanzu-Appli
 
 ## <a id="view-app-accel"></a> View app accelerators
 
-If you activated App Accelerators when configuring TAS Portal, you can see them in **Component**, in
+If you activated App Accelerators when configuring TAS Developer Portal, you can see them in **Component**, in
 the **Overview** tab.
 
 Three default App Accelerators are shown:
