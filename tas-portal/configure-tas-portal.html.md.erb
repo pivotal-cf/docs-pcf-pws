@@ -3,8 +3,8 @@ title: Configure App Accelerators on TAS Portal (beta)
 owner: TAS Portal
 ---
 
-You can configure the App Accelerators on the Tanzu Application Service Portal (TAS Portal). This article tells you how.
-
+You can configure the App Accelerators on the TAS Portal.
+App Accelerators have changed to be more consistent with the Tanzu Developer Portal, but in the TAS Portal, the App Accelerators don't need any special installations. The App Accelerators are built into TAS Portal.
 
 TAS Portal uses the same UI as the Tanzu Developer Portal in VMware Tanzu Application Platform. See [Customize the Tanzu Developer Portal](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-customize-customize-portal.html).
 The TAS Portal uses the same configuration, with the following differences:
@@ -39,7 +39,7 @@ Before configuring and using App Accelerators, you must:
   org.
 
 
-## <a id="config-tas-portal"></a> Configure TAS portal
+## <a id="config-tas-portal"></a> Configure TAS Portal and App Accelerators
 
 An example Backstage configuration file is shown in the following procedure. For Backstage
 resources, see:
@@ -54,7 +54,7 @@ resources, see:
 
    ![alt-text=""](./images/TAS-portal-settings-tab.png)
 
-2. To activate the App Accelerator, select the **Use App Accelerator** check box.
+2. To activate the App Accelerator, select the **Use App Accelerator** check box. Then follow the instructions in [Create accelerators](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/application-accelerator-creating-accelerators-creating-accelerators.html).
 
 3. To use an external SQL or PostgreSQL database, select **Use System Database**. Then follow the instructions in [Configure the Tanzu Developer Portal database](https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/tap-gui-database.html), substituting your YAML file. (The in-memory database is not available for TAS Portal.)
 
