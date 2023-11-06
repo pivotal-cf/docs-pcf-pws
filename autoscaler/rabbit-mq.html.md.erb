@@ -201,13 +201,14 @@ service instance by running:
       <li><code>APP-NAME</code> is the name of the app.</li>
       <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
       <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
-</ul>
+    </ul>
 
 1. Set Autoscaler to begin making scaling decisions for the app by running:
 
     ```
     cf enable-autoscaling APP-NAME
     ```
+    
     Where `APP-NAME` is the name of the app.
 
 1. Create a `rabbitmq` autoscaling rule by running:
@@ -306,8 +307,7 @@ in the RabbitMQ cluster.
 
 <p class="note important">
 <span class="note__title">Important</span>
-Depending on the app to which you bind the user-provided service, you might need to configure the <code>VCAP_SERVICES</code> environment variable to approve accessing the user-provided service. For more information, see the <a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html">VMware Tanzu RabbitMQ for VMs documentation.
-</p>
+Depending on the app to which you bind the user-provided service, you might need to configure the <code>VCAP_SERVICES</code> environment variable to approve accessing the user-provided service. For more information, see the <a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-VMs/2.1/tanzu-rmq/GUID-reference.html">VMware Tanzu RabbitMQ for VMs documentation</a>.</p>
 
 After you bind the user-provided service to the app, configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app by following one of the procedures in [Configuring RabbitMQ queue depth as the scaling metric for an app through the cf CLI](#cf-cli-config) or [Configuring RabbitMQ queue depth as the scaling metric for an app through Apps Manager](#apps-manager-config).
 
