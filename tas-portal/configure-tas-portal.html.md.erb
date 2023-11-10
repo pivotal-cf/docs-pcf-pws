@@ -26,15 +26,24 @@ Before configuring and using App Accelerators, you must:
 * Install the TAS Portal app. See [Deploy TAS Portal](./deploy-tas-portal.html).
 * Verify that the `tas-portal` application is deployed under the `system` space of the `system` org.
 
+### <a id="config-backstage"></a> Configure Backstage
 
-## <a id="config-tas-portal"></a> Configure TAS portal
+First, configure Backstage using the instructions in [Getting Started](https://backstage.io/docs/getting-started/configuration/).
+All parts of the `app-config.yaml` configuration can be extended or replaced using the **TAS Portal** section of Tanzu Operations Manager, in **User Configuration** input.
 
-An example TAS Portal backstage user configuration file is shown in the following procedure. For Backstage
-resources, see:
+For Backstage configuration instructions, see:
+
+* [Getting Started, configuring Backstage](https://backstage.io/docs/getting-started/configuration/)
+* [Static Configuration in Backstage](https://backstage.io/docs/conf/)
+
+For Backstage resources, see:
 
 * [Writing Backstage Configuration files](https://backstage.io/docs/conf/writing#configuration-files)
 * [GitLab Locations](https://backstage.io/docs/integrations/gitlab/locations)
 * [GitLab Discovery](https://backstage.io/docs/integrations/gitlab/discovery)
+
+
+## <a id="config-tas-portal"></a> Configure TAS Developer Portal and App Accelerators
 
 1. In Tanzu Operations Manager, on the TAS for VMs tile, click the **Settings** tab.
 
