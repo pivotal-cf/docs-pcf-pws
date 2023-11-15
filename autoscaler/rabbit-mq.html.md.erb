@@ -16,7 +16,7 @@ You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric f
 
 You can also configure Autoscaler to query queues on an external RabbitMQ cluster by creating a user-provided service that represents the external RabbitMQ cluster. For more information, see [Use an external RabbitMQ cluster](#external-rabbitmq).
 
-To monitor when Autoscaler scales an app based on changes in RabbitMQ queue depth, see [Reviewing Autoscaling events for changes in RabbitMQ queue depth](#review-events).
+To monitor when Autoscaler scales an app based on changes in RabbitMQ queue depth, see [Reviewing autoscaling events for changes in RabbitMQ queue depth](#review-events).
 
 For information about use cases that might complicate or prevent you from configuring RabbitMQ queue depth as the scaling metric for an app, see [Special considerations for using RabbitMQ queue depth as a scaling metric](#special-considerations).
 
@@ -31,9 +31,9 @@ The procedures in this section describe how to configure Autoscaler to use Rabbi
 
 You can configure configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an app in the following ways:
 
-* Using a manifest file. For more information, see [Configure an Autoscaling rule using a manifest file](#cf-cli-manifest-config).
+* Using a manifest file. For more information, see [Configure an autoscaling rule using a manifest file](#cf-cli-manifest-config).
 
-* Using CLI commands. For more information, see [Configure an Autoscaling rule using CLI commands](#cf-cli-commands-config).
+* Using CLI commands. For more information, see [Configure an autoscaling rule using CLI commands](#cf-cli-commands-config).
 
 For the procedures in this section, you must use the App Autoscaler CLI plug-in. To download and install the App Autoscaler CLI plug-in, see [Install the App Autoscaler CLI plug-in](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
 
@@ -318,9 +318,9 @@ When Autoscaler scales the number of app instances up after the RabbitMQ queue d
 
 You can monitor the autoscaling events that Autoscaler records for changes in RabbitMQ queue depth:
 
-* Through the cf CLI. See [Review Autoscaling events for changes in RabbitMQ queue depth through the cf CLI](#review-events-cli).
+* Through the cf CLI. See [Review autoscaling events for changes in RabbitMQ queue depth through the cf CLI](#review-events-cli).
 
-* Through Apps Manager. See [Review Autoscaling events for changes in RabbitMQ queue depth through Apps Manager](#review-events-apps-manager).
+* Through Apps Manager. See [Review autoscaling events for changes in RabbitMQ queue depth through Apps Manager](#review-events-apps-manager).
 
 ### <a id='review-events-cli'></a> Review autoscaling events for changes in RabbitMQ queue depth through the cf CLI
 
