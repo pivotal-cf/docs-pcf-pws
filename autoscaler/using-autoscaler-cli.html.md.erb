@@ -118,7 +118,7 @@ You can view a list of all the apps that are bound to an Autoscaler service inst
     </pre>
 
 
-## <a id='allow-autoscaling'></a> Allow Autoscaling
+## <a id='allow-autoscaling'></a> Allow autoscaling
 
 1. To set Autoscale for your app, run:
 
@@ -143,7 +143,7 @@ By default, the upper and lower autoscaling limits for an app are <code>-1</code
 you must update these upper and lower autoscaling limits. For more information, see [Configure autoscaling limits](#configure-autos-limits).
 
 
-## <a id='disallow-autoscaling'></a> Disallow Autoscaling
+## <a id='disallow-autoscaling'></a> Disallow autoscaling
 
 To disallow autoscaling for an app:
 
@@ -167,7 +167,7 @@ To disallow autoscaling for an app:
     </pre>
 
 
-## <a id='configure-auto-limits'></a> Configure Autoscaling limits
+## <a id='configure-auto-limits'></a> Configure autoscaling limits
 
 To configure the upper and lower autoscaling limits for an app:
 
@@ -239,7 +239,7 @@ See also:
 
 * For information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default metrics for scaling rules](about-app-autoscaler.html#default-metrics) and [Custom metrics for scaling rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 
-### <a id='view-rules'></a> View all Autoscaling rules
+### <a id='view-rules'></a> View all autoscaling rules
 
 To view all autoscaling rules that are configured for an app:
 
@@ -265,7 +265,7 @@ To view all autoscaling rules that are configured for an app:
     OK
     </pre>
 
-### <a id='create-rule'></a> Create an Autoscaling rule
+### <a id='create-rule'></a> Create an autoscaling rule
 
 To create a new autoscaling rule for an app:
 
@@ -290,7 +290,7 @@ To create a new autoscaling rule for an app:
        * <code>rabbitmq</code>.
    <ul>
           <li><%= vars.company_name %> discourages open source. For
-            more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput-based Autoscaling rules do not fire</a> in the Knowledge Base.</li>
+            more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput-based autoscaling rules do not fire</a> in the Knowledge Base.</li>
           <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> must be at least twice the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the Gorouter. HTTP latency is not calculated between the user and the app.</li>
           <li>If you specify <code>http_latency</code> as the rule type, you must also specify a rule subtype using the <code>--subtype</code> or
             <code>-s</code> parameter.</li>
@@ -321,11 +321,11 @@ See also:
 
 * For information about configuring Autoscaler to use a custom scaling metric as the scaling metric for an app, see [Using custom scaling metrics](custom-metrics.html).
 
-### <a id='delete-rule'></a> Delete an Autoscaling rule
+### <a id='delete-rule'></a> Delete an autoscaling rule
 
 To delete an autoscaling rule for an app:
 
-1. To view all autoscaling rules for the app for which you want to delete an autoscaling rule, follow the procedure in [View all Autoscaling rules](#view-rules).
+1. To view all autoscaling rules for the app for which you want to delete an autoscaling rule, follow the procedure in [View all autoscaling rules](#view-rules).
 
 1. From the `Guid` column of the terminal output, record the global unique identifier (GUID) of the autoscaling rule you want to delete.
 
@@ -349,7 +349,7 @@ To delete an autoscaling rule for an app:
 
 2. When prompted, enter `y` to delete the autoscaling rule.
 
-### <a id='delete-all-rules'></a> Delete all Autoscaling rules
+### <a id='delete-all-rules'></a> Delete all autoscaling rules
 
 To delete all autoscaling rules for an app:
 
@@ -370,7 +370,7 @@ To delete all autoscaling rules for an app:
 2. When prompted, enter `y` to delete all autoscaling rules for the app.
 
 
-## <a id='autoscaling-events'></a> View Autoscaling events
+## <a id='autoscaling-events'></a> View autoscaling events
 
 To view a list of autoscaling events that Autoscaler has recorded for an app:
 
