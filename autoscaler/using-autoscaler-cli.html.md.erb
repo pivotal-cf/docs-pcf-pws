@@ -286,9 +286,6 @@ To create a new autoscaling rule for an app:
        * <code>memory</code>
        * <code>rabbitmq</code>.
    <ul>
-          <li><%= vars.company_name %> discourages open source. For
-            more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput based
-            Autoscaling rules do not fire</a> in the Knowledge Base.</li>
           <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
             the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the
             Gorouter. HTTP latency is not calculated between the user and the app.</li>
