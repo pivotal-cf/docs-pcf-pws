@@ -275,27 +275,20 @@ To create a new autoscaling rule for an app:
     Where:
     <ul>
     <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-    <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create.
+    <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create. Valid values are <code>compare</code>,      <code>CPU</code>, <code>custom</code>, <code>http_latency</code>, <code>http_throughput</code>, <code>memory</code>, or <code>rabbitmq</code>.
 
-    Valid values are:
-       * <code>compare</code>
-       * <code>CPU</code>
-       * <code>custom</code>
-       * <code>http_latency</code>
-       * <code>http_throughput</code>
-       * <code>memory</code>
-       * <code>rabbitmq</code>.
-   <ul>
-          <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
-            the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the
-            Gorouter. HTTP latency is not calculated between the user and the app.</li>
-          <li>If you specify <code>http_latency</code> as the rule type, you must also specify a rule subtype using the <code>--subtype</code> or
-            <code>-s</code> parameter.</li>
-          <li>If you specify <code>compare</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
-            parameter and a comparison metric using the <code>--comparison-metric</code> or <code>-c</code> parameter.</li>
-          <li>If you specify <code>custom</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
-            parameter.</li>
-        </ul>
+      <div class="note">
+      <span class="note__title">Note</span>
+          <ul>
+              <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
+              the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the
+              Gorouter. HTTP latency is not calculated between the user and the app.</li>
+              <li>If you specify <code>http_latency</code> as the rule type, you must also specify a rule subtype using the <code>--subtype</code> or <code>-s</code> parameter.</li>
+              <li>If you specify <code>compare</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
+              parameter and a comparison metric using the <code>--comparison-metric</code> or <code>-c</code> parameter.</li>
+              <li>If you specify <code>custom</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
+              parameter.</li>
+          </ul>
       </div>
     </li>
     <li><code>MINIMUM-THRESHOLD</code> is the minimum threshold for the scaling metric.</li>
