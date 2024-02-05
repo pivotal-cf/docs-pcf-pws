@@ -297,7 +297,6 @@ To create a new autoscaling rule for an app:
           <li>If you specify <code>compare</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code> parameter and a comparison metric using the <code>--comparison-metric</code> or <code>-c</code> parameter.</li>
           <li>If you specify <code>custom</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code> parameter.</li>
         </ul>
-      </div>
     </li>
     <li><code>MINIMUM-THRESHOLD</code> is the minimum threshold for the scaling metric.</li>
     <li><code>MAXIMUM-THRESHOLD</code> is the maximum threshold for the scaling metric.</li>
@@ -439,7 +438,6 @@ To create a scheduled limit change for an app:
             <li>If the value that you configure for <code>TIME</code> is your local time converted to UTC time, and Daylight Saving Time is observed in your
               time zone, the UTC offset for your time zone might change during the year.</li>
           </ul>
-        </div>
       </li>
       <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the current
       number of app instances is fewer than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances up to this
