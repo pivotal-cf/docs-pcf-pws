@@ -72,6 +72,10 @@ The following table lists the default metrics for App Autoscaler:
   </tr>
   </thead>
   <tr>
+    <td>CPU Entitlement Utilization</td>
+    <td>Average usage of the app's CPU entitlement across all instances of the app. This metric is a percentage of the amount of CPU that each instance of the app can rely on always being available to it.</td>
+    <td></td>
+  </tr><tr>
     <td>CPU Processor Utilization (Deprecated)</td>
     <td>Average CPU percentage for all instances of the app.</td>
     <td>App CPU utilization data might vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the Knowledge Base.</td>
