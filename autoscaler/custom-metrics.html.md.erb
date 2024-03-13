@@ -3,14 +3,14 @@ title: Configure App Autoscaler to use custom scaling metrics
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use custom metrics when scaling apps in your VMware TAS for VMs deployment.
+You can configure App Autoscaler to use Custom App Metrics when scaling apps in your VMware TAS for VMs deployment.
 
-For information about how to emit custom metrics, see [Using metric registrar](../../metric-registrar/using.html).
+For information about how to emit Custom App Metrics, see [Using Metric Registrar](../../metric-registrar/using.html).
 
 
 ## <a id='overview'></a> Custom scaling metrics overview
 
-While Autoscaler can use several default metrics as scaling metrics for apps, your app might require specific autoscaling requirements that Autoscaler cannot meet by using the default scaling metrics to scale the app. In this case, you might create custom metrics for Autoscaler to use to scale the app.
+While Autoscaler can use several default metrics as scaling metrics for apps, your app might require specific autoscaling requirements that Autoscaler cannot meet by using the default scaling metrics to scale the app. In this case, you might create Custom App Metrics for Autoscaler to use to scale the app.
 
 Before configuring Autoscaler to use a custom scaling metric, you must register the metrics endpoint of the app with the
 Metric Registrar. For more information, see <a href="../../metric-registrar/using.html">Using Metric Registrar</a>.
@@ -345,6 +345,6 @@ Configuring an app to emit a large number of custom scaling metrics might cause 
 The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
 seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the scrape interval for the Metric Registrar, see [Edit default scraping interval](../../operating/configure-pas.html#scraping-interval) in _Configuring TAS for VMs_. <% end %>
 
-Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log Cache custom metric history for Autoscaler to use in scaling decisions.
+Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log Cache Custom App Metric history for Autoscaler to use in scaling decisions.
 
 For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
