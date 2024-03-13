@@ -283,7 +283,7 @@ Because other scaling metrics are not emitted when an app has zero instances, Au
 
 ## <a id='slow-response'></a> New app instances are slow to respond to requests
 
-When Autoscaler scales an app up, the new app instances can be slow to respond to requests. As a result, if you configure Autoscaler to use HTTP latency as the scaling metric for the app, Autoscaler might scale the number of app instances up even more to compensate for the slow response time of the app instances it had previously created.
+When Autoscaler scales an app up, the new app instances can be slow to respond to requests. As a result, if you configure Autoscaler to use HTTP Request Latency as the scaling metric for the app, Autoscaler might scale the number of app instances up even more to compensate for the slow response time of the app instances it had previously created.
 
 When a new app instance is created, Diego runs health checks for the app instance. After all health checks are finished successfully, Diego considers the app instance to be healthy. Diego then registers a route to the app instance with the Gorouter, and the Gorouter begins routing requests to the app instance.
 
