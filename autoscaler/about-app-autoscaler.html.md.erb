@@ -22,7 +22,7 @@ For example, you might configure App Autoscaler to scale down the number of inst
 
 This section describes how the app Autoscaler decides when to scale an app up or down.
 
-It also provides information about the Custom App Metrics, comparison metrics, and default metrics that you can use when you create scaling rules for an app in App Autoscaler.
+It also provides information about the Custom App Metrics, Custom App Metric Ratios, and default metrics that you can use when you create scaling rules for an app in App Autoscaler.
 
 ### <a id="about-scaling-decisions"></a> How App Autoscaler decides when to scale
 
@@ -63,7 +63,7 @@ App Autoscaler includes several default metrics for which you might create scali
 
 The following table lists the default metrics for App Autoscaler:
 
-<table class="table" >
+<table class="table">
 <thead>
   <tr>
     <th>Metric</th>
@@ -101,9 +101,9 @@ The following table lists the default metrics for App Autoscaler:
 
 You can configure apps to emit Custom App Metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit Custom App Metrics with Metric Registrar, see [Registering custom app metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
 
-### <a id="comparison-metrics"></a> Comparison metrics for scaling rules
+### <a id="comparison-metrics"></a> Custom App Metric Ratios
 
-You can use the **Comparison Metric** text box in App Autoscaler to define a scaling rule that divides one Custom App Metric by another.
+You can use the **Comparison Metric** text box in Apps Manager to define a scaling rule that divides one Custom App Metric by another.
 
 When you add a scaling rule, the **Metric** text box is the dividend and the **Comparison Metric** text box is the divisor.
 
