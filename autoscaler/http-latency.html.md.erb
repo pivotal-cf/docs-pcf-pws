@@ -118,19 +118,19 @@ following configuration parameters:
     </ul>
 
     The following example shows an Autoscaler manifest file with a percentile of 95%, a minimum HTTP Request Latency threshold of 125 milliseconds, and a maximum HTTP
-    latency threshold of 250 milliseconds:
+    Request Latency threshold of 250 milliseconds:
 
     ```
     ---
     instance_limits:
-      min: LOWER-SCALING-LIMIT
-      max: UPPER-SCALING-LIMIT
+      min: 10
+      max: 100
     rules:
     - rule_type: http_latency
-      rule_sub_type: PERCENTILE
+      rule_sub_type: avg_95th
       threshold:
-        min: MINIMUM-LATENCY-THRESHOLD
-        max: MAXIMUM-LATENCY-THRESHOLD
+        min: 125
+        max: 250
     scheduled_limit_changes: []
     ```
 
@@ -254,9 +254,7 @@ To configure Autoscaler to use HTTP Request Latency as the scaling metric for an
 
    1. For **Scale up if more than**, enter in milliseconds the maximum HTTP Request Latency threshold you want to configure. If the average latency of HTTP requests rises above this number, Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least twice the value of the minimum threshold.
 
-1. Under **Percent of traffic to apply**, select either **95%** or **99%**. This configuration setting is the percentile that Autoscaler uses in scaling
-decisions. Depending on which option you select, Autoscaler ignores HTTP requests that fall outside either the 95th or 99th percentile and averages the
-latency of the remaining 95% or 99% of HTTP requests.
+   1. Under **Percent of traffic to apply**, select either **95%** or **99%**. This configuration setting is the percentile that Autoscaler uses in scaling decisions. Depending on which option you select, Autoscaler ignores HTTP requests that fall outside either the 95th or 99th percentile and averages the latency of the remaining 95% or 99% of HTTP requests.
 
 1. Click **Save**.
 
@@ -332,7 +330,7 @@ If your app relies on back-end HTTP services that apps in your TAS for VMs deplo
 
 ### <a id='log-cache-eviction'></a> Log cache ejection
 
-Autoscaler retrieves HTTP metrics from Log Cache, which mmight hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve some of the total timer envelopes it requires to calculate accurate metrics, then the HTTP Request Latency metric might inaccurately represent the actual HTTP Request Latency of the app or causes of decreased app performance. However, in most cases, the HTTP Request Latency metric still approximates the actual HTTP Request Latency of the app.
+Autoscaler retrieves HTTP metrics from Log Cache, which might hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve some of the total timer envelopes it requires to calculate accurate metrics, then the HTTP Request Latency metric might inaccurately represent the actual HTTP Request Latency of the app or causes of decreased app performance. However, in most cases, the HTTP Request Latency metric still approximates the actual HTTP Request Latency of the app.
 
 For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
 
