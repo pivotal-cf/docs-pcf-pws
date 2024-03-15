@@ -73,12 +73,12 @@ The following table lists the default metrics for App Autoscaler:
   </thead>
   <tr>
     <td>CPU Entitlement Utilization</td>
-    <td>Average usage of the app's CPU entitlement across all instances of the app. This metric is a percentage of the amount of CPU that each instance of the app can rely on always being available to it.</td>
-    <td></td>
+    <td>Average usage of the CPU entitlement for the app, across all instances of the app. This metric is a percentage of the amount of CPU that is always available to each instance of the app.</td>
+    <td><em>n/a</em></td>
   </tr><tr>
     <td>CPU Processor Utilization (Deprecated)</td>
     <td>Average CPU percentage for all instances of the app.</td>
-    <td>App CPU utilization data might vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the Knowledge Base.</td>
+    <td>App CPU utilization data might vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the VMware by Broadcom Tanzu Support Hub.</td>
   </tr><tr>
     <td>Container Memory Utilization</td>
     <td>Average memory percentage across all instances of the app.</td>
@@ -89,7 +89,7 @@ The following table lists the default metrics for App Autoscaler:
     <td><em>n/a</em></td>
   </tr><tr>
     <td>HTTP Request Latency</td>
-    <td>Average latency of apps response to HTTP requests. This does not include Gorouter processing time or other network latency.<br>
+    <td>Average latency of app response to HTTP requests. This does not include Gorouter processing time or other network latency.<br>
     Average is calculated on the middle 99% or middle 95% of all HTTP requests.</td>
     <td><em>n/a</em></td>
   </tr><tr>
