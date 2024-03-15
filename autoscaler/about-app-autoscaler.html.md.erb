@@ -22,7 +22,7 @@ For example, you might configure App Autoscaler to scale down the number of inst
 
 This section describes how the App Autoscaler decides when to scale an app up or down.
 
-It also provides information about the custom metrics, comparison metrics, and default metrics that you can use when you create scaling rules for an app in App Autoscaler.
+It also provides information about the Custom App Metrics, Custom App Metric Ratios, and default metrics that you can use when you create scaling rules for an app in App Autoscaler.
 
 ### <a id="about-scaling-decisions"></a> How App Autoscaler decides when to scale
 
@@ -42,14 +42,14 @@ The following diagram provides an example of how App Autoscaler makes scaling de
 
 ![alt-text=""](./images/autoscaler-scaling-decisions.png)
 
-As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP latency metric. The scale up factor and
+As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP Request Latency metric. The scale up factor and
 scale down factor are not set in the scaling manifest, so the default value is one.
 
-If HTTP latency averages 220-milliseconds for 120-seconds, App Autoscaler scales the app up one instance.
+If HTTP Request Latency averages 220-milliseconds for 120-seconds, App Autoscaler scales the app up one instance.
 
-If HTTP latency then averages 70-milliseconds over the next 120-second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
+If HTTP Request Latency then averages 70-milliseconds over the next 120-second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
 
-If the average value for HTTP latency over a 120-second window falls below the maximum threshold of 200-milliseconds or the minimum threshold of 80-milliseconds, App Autoscaler maintains the same number of instances for the app.
+If the average value for HTTP Request Latency over a 120-second window falls below the maximum threshold of 200-milliseconds or the minimum threshold of 80-milliseconds, App Autoscaler maintains the same number of instances for the app.
 
 You can set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of
 instances is already at the maximum number of instances, App Autoscaler does not scale up the app.
@@ -59,54 +59,55 @@ instances is already at the maximum number of instances, App Autoscaler does not
 App Autoscaler includes several default metrics for which you might create scaling rules.
 
 <p class="note">
-<span class="note__title">Note</span><%= vars.company_name %> recommends that you define custom metrics for scaling rules instead of using the default metrics. You can use Custom metrics to accurately monitor the performance of your apps based on your environment.</p>
+<span class="note__title">Note</span><%= vars.company_name %> recommends that you define Custom App Metrics for scaling rules instead of using the default metrics. You can use Custom App Metrics to accurately monitor the performance of your apps based on your environment.</p>
 
 The following table lists the default metrics for App Autoscaler:
 
-<table class="table" >
+<table class="table">
 <thead>
   <tr>
     <th>Metric</th>
     <th>Description</th>
-    <th>**Note:**</th>
+    <th>Note</th>
   </tr>
   </thead>
   <tr>
-    <td>CPU Utilization</td>
-    <td>
-      Average CPU percentage for all instances of the app.
-    </td>
-    <td>
-      App CPU utilization data might vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the Knowledge Base.
-    </td>
+    <td>CPU Entitlement Utilization</td>
+    <td>Average usage of the app's CPU entitlement across all instances of the app. This metric is a percentage of the amount of CPU that each instance of the app can rely on always being available to it.</td>
+    <td></td>
+  </tr><tr>
+    <td>CPU Processor Utilization (Deprecated)</td>
+    <td>Average CPU percentage for all instances of the app.</td>
+    <td>App CPU utilization data might vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the Knowledge Base.</td>
   </tr><tr>
     <td>Container Memory Utilization</td>
-    <td>Average memory percentage for all instances of the app.</td>
+    <td>Average memory percentage across all instances of the app.</td>
     <td><em>n/a</em></td>
   </tr><tr>
-    <td>HTTP Throughput</td>
-    <td>Total HTTP requests per second (divided by the total number of app instances).</td>
+    <td>HTTP Request Throughput</td>
+    <td>Average number of HTTP requests per second across all of the app instances.</td>
+    <td><em>n/a</em></td>
   </tr><tr>
-    <td>HTTP Latency</td>
+    <td>HTTP Request Latency</td>
     <td>Average latency of apps response to HTTP requests. This does not include Gorouter processing time or other network latency.<br>
     Average is calculated on the middle 99% or middle 95% of all HTTP requests.</td>
     <td><em>n/a</em></td>
   </tr><tr>
-    <td>RabbitMQ Depth</td>
-    <td>The queue length of the specified queue.</td>
+    <td>RabbitMQ Queue Depth</td>
+    <td>The queue length of the specified RabbitMQ queue.</td>
     <td><em>n/a</em></td>
   </tr>
 </table>
 
-### <a id="custom-metrics"></a> Custom metrics for scaling rules
+### <a id="custom-metrics"></a> Custom App Metrics for scaling rules
 
-<%= vars.company_name %> recommends that you define custom metrics for App Autoscaler scaling rules. You can use custom metrics define the metrics that are the best indicators of app performance for your environment.
+<%= vars.company_name %> recommends that you define Custom App Metrics for App Autoscaler scaling rules. You can use Custom App Metrics to define the metrics that are the best indicators of app performance for your environment.
 
-You can configure apps to emit custom metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit custom metrics with Metric Registrar, see [Registering custom app metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
+You can configure apps to emit Custom App Metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit Custom App Metrics with Metric Registrar, see [Registering custom app metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
 
-### <a id="comparison-metrics"></a> Comparison metrics for scaling rules
+### <a id="comparison-metrics"></a> Custom App Metric Ratios
 
-You can use the **Comparison Metric** text box in App Autoscaler to define a scaling rule that divides one custom metric by another.
+You can use the **Comparison Metric** text box in Apps Manager to define a scaling rule that divides one Custom App Metric by another.
 
 When you add a scaling rule, the **Metric** text box is the dividend and the **Comparison Metric** text box is the divisor.
 

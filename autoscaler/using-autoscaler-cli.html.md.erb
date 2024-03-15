@@ -237,7 +237,7 @@ See also:
 
 * For information about scaling metrics for which you can configure autoscaling rules, see [Scaling metrics](productionizing-autoscaler.html#scaling-metrics) in _Using App Autoscaler in Production_.
 
-* For information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default metrics for scaling rules](about-app-autoscaler.html#default-metrics) and [Custom metrics for scaling rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
+* For information about the scaling metrics you can use when defining autoscaling rules for Autoscaler, see [Default metrics for scaling rules](about-app-autoscaler.html#default-metrics) and [Custom App Metrics for scaling rules](about-app-autoscaler.html#custom-metrics) in _About App Autoscaler_.
 
 ### <a id='view-rules'></a> View all autoscaling rules
 
@@ -278,25 +278,22 @@ To create a new autoscaling rule for an app:
     Where:
     <ul>
     <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
-    <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create.
+    <li><code>RULE-TYPE</code> is the rule type of the autoscaling rule you want to create. Valid values are <code>compare</code>, <code>cpu</code>, <code>cpu_entitlement</code>, <code>custom</code>, <code>http_latency</code>, <code>http_throughput</code>, <code>memory</code>, or <code>rabbitmq</code>.
 
-    Valid values are:
-       * <code>compare</code>
-       * <code>CPU</code>
-       * <code>custom</code>
-       * <code>http_latency</code>
-       * <code>http_throughput</code>
-       * <code>memory</code>
-       * <code>rabbitmq</code>.
-   <ul>
-          <li><%= vars.company_name %> discourages open source. For
-            more information, see <a href="https://community.pivotal.io/s/article/http-throughput-based-autoscaling-rules-do-not-fire">HTTP throughput-based autoscaling rules do not fire</a> in the Knowledge Base.</li>
-          <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> must be at least twice the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP latency is calculated from the Gorouter to the app and back to the Gorouter. HTTP latency is not calculated between the user and the app.</li>
-          <li>If you specify <code>http_latency</code> as the rule type, you must also specify a rule subtype using the <code>--subtype</code> or
-            <code>-s</code> parameter.</li>
-          <li>If you specify <code>compare</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code> parameter and a comparison metric using the <code>--comparison-metric</code> or <code>-c</code> parameter.</li>
-          <li>If you specify <code>custom</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code> parameter.</li>
-        </ul>
+      <div class="note">
+      <span class="note__title">Note</span>
+          <ul>
+              <li><code>http_latency</code> threshold units are in milliseconds. In general, the value for <code>MAXIMUM-THRESHOLD</code> should be at least twice
+              the value for <code>MINIMUM-THRESHOLD</code> to avoid excessive cycling. HTTP Request Latency is calculated from the Gorouter to the app and back to the
+              Gorouter. HTTP Request Latency is not calculated between the user and the app.</li>
+              <li>If you specify <code>http_latency</code> as the rule type, you must also specify a rule subtype using the <code>--subtype</code> or <code>-s</code> parameter.</li>
+              <li>The <code>cpu</code> rule type is deprecated in favor of the <code>cpu_entitlement</code> rule type.</li>
+              <li>If you specify <code>compare</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
+              parameter and a comparison metric using the <code>--comparison-metric</code> or <code>-c</code> parameter.</li>
+              <li>If you specify <code>custom</code> as the rule type, you must also specify a scaling metric using the <code>--metric</code> or <code>-m</code>
+              parameter.</li>
+          </ul>
+      </div>
     </li>
     <li><code>MINIMUM-THRESHOLD</code> is the minimum threshold for the scaling metric.</li>
     <li><code>MAXIMUM-THRESHOLD</code> is the maximum threshold for the scaling metric.</li>
@@ -314,9 +311,11 @@ To create a new autoscaling rule for an app:
 
 See also:
 
-* For information about configuring Autoscaler to use HTTP latency as the scaling metric for an app, see [Using HTTP latency as a scaling metric](http-latency.html).
+* For information about configuring Autoscaler to use HTTP Request Latency as the scaling metric for an app, see [Using HTTP Request Latency as a scaling metric](http-latency.html).
 
 * For information about configuring Autoscaler to use RabbitMQ queue depth as the scaling metric for an app, see [Using RabbitMQ queue depth as a scaling metric](rabbit-mq.html).
+
+* For information about configuring Autoscaler to use CPU Entitlement Usage as the scaling metric for an app, see [Using CPU Entitlement Utilization as a scaling metric](cpu-entitlement.html).
 
 * For information about configuring Autoscaler to use a custom scaling metric as the scaling metric for an app, see [Using custom scaling metrics](custom-metrics.html).
 
@@ -524,7 +523,7 @@ To configure Autoscaler using a manifest file:
       <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances that you want Autoscaler to create for the app by default.</li>
       <li>(Optional) If you include a <code>rules</code> block:
         <ul>
-          <li><code>RULE-TYPE</code> is the type of autoscaling rule you want Autoscaler to use for autoscaling decisions. For more information about configuring autoscaling rules using a manifest file, see <a href="http-latency.html">Using HTTP latency as a scaling metric</a>, <a href="rabbit-mq.html">Using RabbitMQ queue depth as a scaling metric</a>, and <a href="custom-metrics.html">Using custom scaling metrics</a>.</li>
+          <li><code>RULE-TYPE</code> is the type of autoscaling rule you want Autoscaler to use for autoscaling decisions. For more information about configuring autoscaling rules using a manifest file, see <a href="http-latency.html">Using HTTP Request Latency as a scaling metric</a>, <a href="rabbit-mq.html">Using RabbitMQ queue depth as a scaling metric</a>, and <a href="custom-metrics.html">Using custom scaling metrics</a>.</li>
         </ul>
       </li>
       <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler scales the number of app instances down.</li>

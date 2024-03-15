@@ -1,0 +1,329 @@
+---
+title: Use CPU Entitlement Utilization as a scaling metric with App Autoscaler
+owner: Autoscaler
+---
+
+You can configure App Autoscaler to use the CPU Entitlement Utilization metric to scale apps in your <%= vars.company_name %> <%= vars.app_runtime_abbr %> deployment.
+
+
+## <a id='overview'></a> CPU Entitlement Utilization Overview
+
+Every application running on <%= vars.app_runtime_abbr %> is given a CPU Entitlement. This controls the share of the CPU that the application is entitled to, relative
+to the other applications running on the platform. The CPU Entitlement is calculated based on the amount of memory that the application has been configured with.
+For example an application with a 2G memory limit will have double the CPU Entitlement of an application with a 1G memory limit.
+
+App Autoscaler can be configured to scale out additional instances of your application when the utilization of the CPU Entitlement is over a threshold. This can be useful
+for applications that are CPU intensive.
+
+You may also find it helpful to use CPU Entitlement Utilization as a scaling metric when other metrics are not applicable. For example if your application is dependent on
+a backend service that can be slow then scaling on HTTP Request Latency may not be helpful.
+
+Support for scaling on CPU Entitlement Utilization replaces the now deprecated CPU scaling rule type. <%= vars.company_name %> recommends that you use CPU Entitlement
+Utilization as the scaling metric instead of the older CPU scaling metric. When migrating your autoscaling rules from the old CPU scaling metric to the CPU Entitlement Utilization
+metric <%= vars.company_name %> recommends reviewing the thresholds to ensure they behave as expected.
+
+You can configure Autoscaler to use CPU Entitlement Utilization as the scaling metric for an app in the following ways:
+
+* Through the Cloud Foundry Command-Line Interface (cf CLI). For more information, see [Configuring CPU Entitlement Utilization as the scaling metric for an app through the cf CLI](#cf-cli-config).
+
+* Through Apps Manager. For more information, see [Configure CPU Entitlement Utilization as the scaling metric for an app through Apps Manager](#apps-manager-config).
+
+To monitor when Autoscaler scales an app based on changes in CPU Entitlement Utilization, see [Reviewing autoscaling events for changes in CPU Entitlement Utilization](#review-events).
+
+For information about use cases that might complicate or prevent you from configuring CPU Entitlement Utilization as the scaling metric for an app, see [Special considerations for using CPU Entitlement Utilization as a scaling metric](#special-considerations).
+
+<%= vars.company_name %> recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-testing your app](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
+
+## <a id='cf-cli-config'></a> Configure CPU Entitlement Utilization as the scaling metric for an app through the cf CLI
+
+The procedures in this section describe how to configure Autoscaler to use CPU Entitlement Utilization as the scaling metric for an app through the cf CLI.
+
+You can configure Autoscaler to use CPU Entitlement Utilization as the scaling metric for an app in the following ways:
+
+* Using a manifest file. For more information, see [Configure an autoscaling rule using a manifest file](#cf-cli-manifest-config).
+
+* Using CLI commands. For more information, see [Configure an autoscaling rule using CLI commands](#cf-cli-commands-config).
+
+For the procedures in this section, you must use the App Autoscaler CLI plug-in. To download and install the App Autoscaler CLI plug-in, see [Install the App Autoscaler CLI plug-in](using-autoscaler-cli.html#install) in _Using the App Autoscaler CLI_.
+
+### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule by using a manifest file
+
+You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any other existing app manifest files in your <%= vars.app_runtime_abbr %> deployment.
+
+To configure an autoscaling rule that defines CPU Entitlement Utilization as its scaling metric using a manifest file:
+
+1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+
+    ```
+    cf target -o ORG-NAME -s SPACE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>ORG-NAME</code> is the name of the org containing the space in which the app you want to scale is deployed.</li>
+      <li><code>SPACE-NAME</code> is the name of the space in which the app you want to scale is deployed.</li>
+    </ul>
+
+1. If the space in which the app you want to scale is deployed does not already have an Autoscaler service instance of Autoscaler deployed in it, create an
+Autoscaler service instance by running:
+
+    ```
+    cf create-service app-autoscaler PLAN-NAME SERVICE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>PLAN-NAME</code> is the name of the service plan you want to use for the Autoscaler service instance.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name you want to give the Autoscaler service instance. For example, <code>autoscaler</code>.</li>
+    </ul>
+
+    If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
+
+1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
+
+    ```
+    cf bind-service APP-NAME SERVICE-INSTANCE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app you want to scale.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
+    </ul>
+
+1. To create a manifest file for Autoscaler that configures an autoscaling rule with CPU Entitlement Utilization as its scaling metric, create a YAML file that includes the
+following configuration parameters:
+
+    ```
+    ---
+    instance_limits:
+      min: LOWER-SCALING-LIMIT
+      max: UPPER-SCALING-LIMIT
+    rules:
+    - rule_type: cpu_entitlement
+      threshold:
+        min: MINIMUM-CPU-PERCENT-THRESHOLD
+        max: MAXIMUM-CPU-PERCENT-THRESHOLD
+    scheduled_limit_changes: []
+    ```
+
+    Where:
+    <ul>
+      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>MINIMUM-CPU-PERCENT-THRESHOLD</code> is the minimum CPU Entitlement Utilization threshold as a percentage. If the average CPU Entitlement Utilization falls below this number, Autoscaler scales the number of app instances down. <%= vars.company_name %> recommends 30% as a default minimum threshold value.</li>
+      <li><code>MAXIMUM-CPU-PERCENT-THRESHOLD</code> is the maximum CPU Entitlement Utilization threshold as a percentage. If the average CPU Entitlement Utilization rises above this number, Autoscaler scales the number of app instances up. <%= vars.company_name %> recommends 80% as a default maximum threshold value.</li>
+    </ul>
+
+    The following example shows an Autoscaler manifest file with a minimum CPU Entitlement Utilization threshold of 30% and a maximum CPU Entitlement Utilization threshold of 80%:
+
+    ```
+    ---
+    instance_limits:
+      min: 10
+      max: 100
+    rules:
+    - rule_type: cpu_entitlement
+      threshold:
+        min: 30
+        max: 80
+    scheduled_limit_changes: []
+    ```
+
+1. Apply the autoscaling rule you configured in the previous step to the app you want to scale by running:
+
+    ```
+    cf configure-autoscaling APP-NAME MANIFEST-FILENAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app.</li>
+      <li><code>MANIFEST-FILENAME</code> is the filename of the manifest file you created in the previous step. For example, <code>autoscaler.yml</code>.</li>
+    </ul>
+
+
+### <a id='cf-cli-commands-config'></a> Configure an autoscaling rule by using CLI commands
+
+To configure an autoscaling rule that defines CPU Entitlement Utilization as its scaling metric using CLI commands:
+
+1. In a terminal window, target the space in which the app you want to scale is deployed by running:
+
+    ```
+    cf target -o ORG-NAME -s SPACE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>ORG-NAME</code> is the name of the org containing the space in which the app you want to scale is deployed.</li>
+      <li><code>SPACE-NAME</code> is the name of the space in which the app you want to scale is deployed.</li>
+    </ul>
+
+1. If the space in which the app you want to scale is deployed does not already have a service instance of Autoscaler deployed in it, create an Autoscaler
+service instance by running:
+
+    ```
+    cf create-service app-autoscaler PLAN-NAME SERVICE-INSTANCE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>PLAN-NAME</code> is the name of the service plan you want to use for the Autoscaler service instance.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name you want to give the Autoscaler service instance. For example, <code>autoscaler</code>.</li>
+    </ul>
+
+    If there is already an Autoscaler service instance in the space in which the app you want to scale is deployed, skip this step.
+
+1. Bind the Autoscaler service instance you created in the previous step to the app you want to scale by running:
+
+    ```
+    cf bind-service APP-NAME SERVICE-INSTANCE-NAME
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app you want to scale.</li>
+      <li><code>SERVICE-INSTANCE-NAME</code> is the name of the Autoscaler service instance in the previous step.</li>
+    </ul>
+
+1. Configure upper and lower scaling limits for the app by running:
+
+    ```
+    cf update-autoscaling-limits APP-NAME LOWER-SCALING-LIMIT UPPER-SCALING-LIMIT
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app.</li>
+      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
+    </ul>
+
+1. Allow Autoscaler to begin making scaling decisions for the app by running:
+
+    ```
+    cf enable-autoscaling APP-NAME
+    ```
+    Where `APP-NAME` is the name of the app.
+
+1. Create a `cpu_entitlement` autoscaling rule by running:
+
+    ```
+    cf create-autoscaling-rule APP-NAME cpu_entitlement MINIMUM-CPU-PERCENT-THRESHOLD MAXIMUM-CPU-PERCENT-THRESHOLD
+    ```
+
+    Where:
+    <ul>
+      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
+      <li><code>MINIMUM-CPU-PERCENT-THRESHOLD</code> is the minimum CPU Entitlement Utilization threshold as a percentage. If the average CPU Entitlement Utilization falls below this number, Autoscaler scales the number of app instances down. <%= vars.company_name %> recommends 30% as a default minimum threshold value.</li>
+      <li><code>MAXIMUM-CPU-PERCENT-THRESHOLD</code> is the maximum CPU Entitlement Utilization threshold as a percentage. If the average CPU Entitlement Utilization rises above this number, Autoscaler scales the number of app instances up. <%= vars.company_name %> recommends 80% as a default maximum threshold value.</li>
+    </ul>
+
+    The following example command configures a `cpu_entitlement` autoscaling rule for the `example-app` app, with a minimum CPU Entitlement Utilization threshold of 30% and a maximum CPU Entitlement Utilization threshold of 80%:
+
+    ```
+    cf create-autoscaling-rule example-app cpu_entitlement 30 80
+    ```
+
+
+## <a id='apps-manager-config'></a> Configure CPU Entitlement Utilization as the scaling metric for an app through Apps Manager
+
+To configure Autoscaler to use CPU Entitlement Utilization as the scaling metric for an app through Apps Manager:
+
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging in to Apps Manager](../../operating/console-login.html).<% end %>
+
+1. Select the org that contains the space in which the app you want to scale is deployed.
+
+1. Select the space in which the app you want to scale is deployed.
+
+1. Under **Under Processes and Instances**, click **Manage Autoscaling**. The **Manage Autoscaling** window appears.
+
+1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
+
+1. Click **Add rule**. The **Select type** drop-down menu appears.
+
+2. From the **Select type** drop-down menu, select **CPU Entitlement Utilization**.
+
+   1. For **Scale down if less than**, enter the minimum CPU Entitlement Utilization percentage threshold you want to configure. If the average CPU Entitlement Utilization falls below this number, Autoscaler scales the number of app instances down. <%= vars.company_name %> recommends 30% as a default minimum threshold value.
+
+   1. For **Scale up if more than**, enter the maximum CPU Entitlement Utilization percentage threshold you want to configure. If the average CPU Entitlement Utilization rises above this number, Autoscaler scales the number of app instances up. <%= vars.company_name %> recommends 80% as a default maximum threshold value.
+
+1. Click **Save**.
+
+
+## <a id='review-events'></a> Reviewing autoscaling events for changes in CPU Entitlement Utilization
+
+When Autoscaler scales the number of app instances up after the CPU Entitlement Utilization metric increases above the maximum threshold, Autoscaler records an autoscaling event.
+
+You can monitor the autoscaling events that Autoscaler records for changes in CPU Entitlement Utilization in the following ways:
+
+* Through the cf CLI. See [Review autoscaling events for changes in CPU Entitlement Utilization through the cf CLI](#review-events-cli).
+
+* Through Apps Manager. See [Review autoscaling events for changes in CPU Entitlement Utilization through Apps Manager](#review-events-apps-manager).
+
+### <a id='review-events-cli'></a> Review autoscaling events for changes in CPU Entitlement Utilization through the cf CLI
+
+To review the autoscaling events that Autoscaler records for changes in CPU Entitlement Utilization through the cf CLI:
+
+1. In a terminal window, run:
+
+    ```
+    cf autoscaling-events APP-NAME
+    ```
+    Where `APP-NAME` is the name of the app for which you want to review autoscaling events.
+    <br>
+    <br>
+    If Autoscaler has scaled the number of app instances up due to increases in the CPU Entitlement Utilization metric, the above command returns output that contains
+    autoscaling events similar to the following example:
+    <pre class="terminal">
+    Time                   Description
+    2024-03-13T21:47:45Z   Scaled up from 10 to 11 instances. Current CPU Entitlement usage of 172.28% is above upper threshold of 80.00%.
+    </pre>
+
+### <a id='review-latency-events'></a> Review autoscaling events for changes in CPU Entitlement Utilization through Apps Manager
+
+To review the autoscaling events that Autoscaler records for changes in CPU Entitlement Utilization through Apps Manager:
+
+1. Log in to Apps Manager.<% if vars.platform_code != 'OFFLINE' %> For more information, see [Logging in to Apps Manager](../../operating/console-login.html).<% end %>
+
+1. Select the org that contains the space in which the app you want to scale is deployed.
+
+1. Select the space in which the app you want to scale is deployed.
+
+1. Under **Under Processes and Instances**, click **Manage Autoscaling**.
+
+1. Under **Event History**, click **View More**. A list of autoscaling events appears. If Autoscaler has scaled the number of app instances up due to increases in the CPU Entitlement Utilization metric, the list of autoscaling events includes events similar to the following example:
+
+    ```
+    Scaled up from 10 to 11 instances. Current CPU Entitlement usage of 172.28% is above upper threshold of 80.00%.
+    ```
+
+
+## <a id='special-considerations'></a> Special considerations for using CPU Entitlement Utilization as a scaling metric
+
+This section describes use cases that might complicate or prevent you from configuring CPU Entitlement Utilization as the scaling metric for an app.
+
+### <a id='determining-cpu-entitlement-utilization'></a> Determining current CPU Entitlement Utilization
+
+The cf CLI currently displays the older CPU metric rather than the CPU Entitlement Utilization. To review the CPU Entitlement Utilization of an app you can install the
+Log Cache cf CLI plugin and view the `cpu_entitlement` metric.
+
+1. Install the Log Cache CLI by running:
+
+    ```
+    cf install-plugin -r CF-Community "log-cache"
+    ```
+    Log Cache is a component of <%= vars.app_runtime_abbr %> that caches logs and metrics from across the platform.
+
+1. View the app CPU Entitlement Utilization metric values as they are emitted by running this command. The `--follow` flag appends output as metrics are emitted.
+
+    ```
+    cf tail example-app --name-filter cpu_entitlement --follow
+    ```
+
+### <a id='log-cache-ejection'></a> Log cache ejection
+
+Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log Cache Custom App Metric history for Autoscaler to use in scaling decisions.
+
+For more information, see [Log Cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
