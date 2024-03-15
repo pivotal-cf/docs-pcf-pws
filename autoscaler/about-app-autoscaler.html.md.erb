@@ -42,14 +42,14 @@ The following diagram provides an example of how App Autoscaler makes scaling de
 
 ![alt-text=""](./images/autoscaler-scaling-decisions.png)
 
-As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP latency metric. The scale up factor and
+As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP Request Latency metric. The scale up factor and
 scale down factor are not set in the scaling manifest, so the default value is one.
 
-If HTTP latency averages 220-milliseconds for 120-seconds, App Autoscaler scales the app up one instance.
+If HTTP Request Latency averages 220-milliseconds for 120-seconds, App Autoscaler scales the app up one instance.
 
-If HTTP latency then averages 70-milliseconds over the next 120-second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
+If HTTP Request Latency then averages 70-milliseconds over the next 120-second window and the app's other scaling metrics also fall below their minimum thresholds, App Autoscaler scales the app down one instance.
 
-If the average value for HTTP latency over a 120-second window falls below the maximum threshold of 200-milliseconds or the minimum threshold of 80-milliseconds, App Autoscaler maintains the same number of instances for the app.
+If the average value for HTTP Request Latency over a 120-second window falls below the maximum threshold of 200-milliseconds or the minimum threshold of 80-milliseconds, App Autoscaler maintains the same number of instances for the app.
 
 You can set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of
 instances is already at the maximum number of instances, App Autoscaler does not scale up the app.
