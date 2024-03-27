@@ -19,11 +19,11 @@ The table describes the main components involved in this workflow and how they c
 	<tr>
 		<td>App</td>
 		<td>The app must emit Custom App Metrics by exposing a Prometheus endpoint. This tutorial includes a sample Spring app, <code>java-spring-security</code>, that emits such metrics. For more information about Prometheus, see the <a href="https://prometheus.io/docs/introduction/overview/#what-is-prometheus">Prometheus documentation</a>.</td>
-		<td><a href="#review">Review the sample spp</a> and <a href="#push">Push the sample app</a></td>
+		<td><a href="#review">Review the sample app</a> and <a href="#push">Push the sample app</a></td>
 	</tr>
 	<tr>
 		<td>Metric Registrar</td>
-		<td>The Metric Registrar is a component of <%= vars.app_runtime_abbr %> you can export custom app metrics to Loggregator. You issue commands to the Metric Registrar through the Metric Registrar CLI plug-in. For more information about the Metric Registrar, see <a href="../../metric-registrar/index.html">Metric registrar and custom app metrics</a>.</td>
+		<td>The Metric Registrar is a component of <%= vars.app_runtime_abbr %> through which you can export custom app metrics to Loggregator. You issue commands to the Metric Registrar through the Metric Registrar CLI plug-in. For more information about the Metric Registrar, see <a href="../../metric-registrar/index.html">Metric registrar and custom app metrics</a>.</td>
 		<td><a href="#register-endpoint">Register a Custom App Metrics endpoint</a></td>
 	</tr>
 	<tr>
@@ -170,7 +170,7 @@ To register a Custom App Metrics endpoint for the app:
 
     <p class="note caution">
     <span class="note__title">Caution</span>
-	When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. VMware recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port and limits access to the app.</p>
+	When you include the <code>--insecure</code> flag in the above command, the Metric Registrar scrapes the metrics endpoint on the default app port. Exposing metrics on the default app port makes the metrics available to anyone with access to the app. <%= vars.company_name %> recommends that you do not use the <code>--insecure</code> flag in a production environment. Instead, specify an alternative port by including the <code>--internal-port</code> flag. Specifying an alternative port the <code>--internal-port</code> flag exposes the metrics endpoint on that port and limits access to the app.</p>
 
 
 1. Install the Log Cache CLI by running:
@@ -245,10 +245,10 @@ To trigger scaling:
 
 1. Go to the web UI of the app. Use the same URL from [Push the sample app](#push).
 
-1. Click **Increment Custom gauge** enough times to bring the Custom App Metric  over the threshold of `5` that you set in the scaling rule. You can see the value of the `custom` metric using the **See Metrics** button.
+1. Click **Increment Custom gauge** enough times to bring the Custom App Metric over the threshold of `5` that you set in the scaling rule. You can see the value of the `custom` metric using the **See Metrics** button.
 
 1. Monitor the app page in Apps Manager for about two minutes. App Autoscaler begins to scale the app. It adds one instance at a time until it reaches the **Maximum** instance limit of `5`.
 
 ## <a id="next-steps"></a> Next steps
 
-Now that you completed this tutorial, explore the app emitting Custom App Metrics and creating scaling rules with your own app. Review the resources listed in the Overview section to learn more. After you instrument your app to emit Custom App Metrics, you can follow the steps outlined in this tutorial to scale based on those metrics.
+Now that you have completed this tutorial, explore the app, emitting Custom App Metrics and creating scaling rules with your own app. After you instrument your app to emit Custom App Metrics, you can follow the steps outlined in this tutorial to scale based on those metrics.
