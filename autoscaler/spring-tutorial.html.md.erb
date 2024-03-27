@@ -211,28 +211,27 @@ To create an autoscaling rule for the `java-spring-security` app that uses the `
 
 1. In Apps Manager, go to the `java-spring-security` app overview. For more information, see [View app overview](../../console/manage-apps.html#view) in _Managing Apps and Service Instances Using Apps Manager_.
 
-1. Click **Enable Autoscaling**.
+1. Click **Autoscaling Deactivated**.
 
-![alt-text="The app page for an app named java-metric-registrar-demo shows the Enable Autoscaling button being clicked."](./images/enable-autoscaling.png)
+![alt-text="The app page for an app named java-metric-registrar-demo shows the Autoscaling Deactivated button being clicked."](./images/enable-autoscaling.png)
 
-1. Click **Manage Autoscaling**.
+1. Click **Activate Autoscaling**.
 
-2. Under **Instance Limits**, configure upper and lower scaling limits for the `java-spring-security` app:
+2. Under **Instance Limits and Scaling**, configure upper and lower scaling limits for the `java-spring-security` app:
 	1. For **Minimum**, enter `1`.
-	2. For **Maximum**, enter `5`.
-	3. Click **Apply Changes**.
+	1. For **Maximum**, enter `5`.
+	1. Click **Apply Changes**.
 
-		![alt-text="The Manage Autoscaling form includes an Instance Limits section. This section includes two text boxes, one for Minimum and one for Maximum. 1 is entered for Minimum and 5 is entered for Maximum."](./images/enable-autoscaling.png)
+		![alt-text="The Manage Autoscaling form includes an Instance Limits and Scaling section. This section includes two text boxes, one for Minimum and one for Maximum. 1 is entered for Minimum and 5 is entered for Maximum."](./images/instance-limits.png)
 
 3. To create an autoscaling rule:
 	1. Click **Edit**. The **Edit Scaling Rules** window appears.
-	2. Click **Add rule**. The **Select type** drop-down menu appears.
-	3. From the **Select type** drop-down menu, click **Custom**. More configuration text box appear.
-	4. For **Rule Type**, select `Custom`.
-	5. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
-	6. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
-	7. For **Metric**, enter `custom`.
-	8. Click **Save**.
+	1. Click **Add rule**. The **Select type** drop-down menu appears.
+	1. From the **Select type** drop-down menu, click **Custom App Metric**. More configuration text boxes appear.
+	1. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
+	1. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
+	1. For **Metric**, enter `custom`.
+	1. Click **Save**.
 
 ![alt-text="The Edit Scaling Rules form includes a drop-down menu labeled Rule Type."](./images/add-rule.png)
 
