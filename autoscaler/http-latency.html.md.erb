@@ -3,12 +3,12 @@ title: Use HTTP Request Latency as a scaling metric with App Autoscaler
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use the HTTP Request Latency metric to scale apps in your VMware TAS for VMs deployment.
+You can configure App Autoscaler to use the HTTP Request Latency metric to scale apps in your <%= vars.app_runtime_first %> deployment.
 
 
 ## <a id='overview'></a> HTTP Request Latency Overview
 
-When an HTTP request is made to an app, the Gorouter in VMware Tanzu Application Service for VMs (TAS for VMs) generates several metrics. One of these metrics is `gorouter.latency`, or _HTTP Request Latency_. The HTTP Request Latency metric measures the length of time it takes to process an HTTP request, starting from when the Gorouter receives a request and ending when the Gorouter completes processing the response from the app. This metric includes the length of time it takes all back-end endpoints to respond, including other apps and TAS for VMs components such as Cloud Controller and UAA. Long uploads, downloads, or app responses increase the time.
+When an HTTP request is made to an app, the Gorouter in <%= vars.app_runtime_abbr %> generates several metrics. One of these metrics is `gorouter.latency`, or _HTTP Request Latency_. The HTTP Request Latency metric measures the length of time required to process an HTTP request, starting when the Gorouter receives a request and ending when the Gorouter completes processing the response from the app. This metric includes the length of time required for all back-end endpoints to respond, including other apps and <%= vars.app_runtime_abbr %> components such as Cloud Controller and UAA. Long uploads, downloads, or app responses increase the time.
 
 For example, you might have a Service Level Agreement (SLA) specifying that 95% of requests for an app must be processed in less than 300-milliseconds. To help achieve this, you can configure an autoscaling rule for Autoscaler to create additional instances of the app when the HTTP Request Latency metric reaches 250 milliseconds.
 
@@ -22,10 +22,10 @@ To monitor when Autoscaler scales an app based on changes in HTTP Request Latenc
 
 For information about use cases that might complicate or prevent you from configuring HTTP Request Latency as the scaling metric for an app, see [Special considerations for using HTTP Request Latency as a scaling metric](#special-considerations).
 
-VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-testing your app](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
+<%= vars.company_name %> recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-testing your app](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
 
 <% if vars.platform_code != 'OFFLINE' %>
-For more information about the HTTP Request Latency metric, see [Router handling latency](../../operating/monitoring/kpi.html#latency) in _Key Performance Indicators_. For more information about how TAS for VMs routes HTTP requests, see [TAS for VMs routing architecture](../../concepts/cf-routing-architecture.html).
+For more information about the HTTP Request Latency metric, see [Router handling latency](../../operating/monitoring/kpi.html#latency) in _Key Performance Indicators_. For more information about how <%= vars.app_runtime_abbr %> routes HTTP requests, see [TAS for VMs routing architecture](../../concepts/cf-routing-architecture.html).
 <% end %>
 
 
@@ -33,7 +33,7 @@ For more information about the HTTP Request Latency metric, see [Router handling
 
 The procedures in this section describe how to configure Autoscaler to use HTTP Request Latency as the scaling metric for an app through the cf CLI.
 
-You can configure configure Autoscaler to use HTTP Request Latency as the scaling metric for an app in the following ways:
+You can configure Autoscaler to use HTTP Request Latency as the scaling metric for an app in the following ways:
 
 * Using a manifest file. For more information, see [Configure an autoscaling rule using a manifest file](#cf-cli-manifest-config).
 
@@ -43,7 +43,7 @@ For the procedures in this section, you must use the App Autoscaler CLI plug-in.
 
 ### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule by using a manifest file
 
-You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any other existing app manifest files in your TAS for VMs deployment.
+You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any other existing app manifest files in your <%= vars.app_runtime_abbr %> deployment.
 
 To configure an autoscaling rule that defines HTTP Request Latency as its scaling metric using a manifest file:
 
@@ -112,7 +112,7 @@ following configuration parameters:
       <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP Request Latency threshold in milliseconds. If the average latency of HTTP requests falls below this number,
       Autoscaler scales the number of app instances down.</li>
       <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP Request Latency threshold in milliseconds. If the average latency of HTTP requests rises above this number,
-      Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least
+      Autoscaler scales the number of app instances up. To avoid excessive cycling, <%= vars.company_name %> recommends that you configure a maximum threshold that is at least
       twice the value of the minimum threshold.</li>
     </ul>
 
@@ -219,7 +219,7 @@ service instance by running:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to create an autoscaling rule.</li>
       <li><code>MINIMUM-LATENCY-THRESHOLD</code> is the minimum HTTP Request Latency threshold in milliseconds. If the average latency of HTTP requests falls below this number, Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP Request Latency threshold in milliseconds. If the average latency of HTTP requests rises above this number, Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least twice the value of the minimum threshold.</li>
+      <li><code>MAXIMUM-LATENCY-THRESHOLD</code> is the maximum HTTP Request Latency threshold in milliseconds. If the average latency of HTTP requests rises above this number, Autoscaler scales the number of app instances up. To avoid excessive cycling, <%= vars.company_name %> recommends that you configure a maximum threshold that is at least twice the value of the minimum threshold.</li>
       <li><code>PERCENTILE</code> is the percentile that Autoscaler uses in scaling decisions. Valid values are <code>avg_95th</code> or <code>avg_99th</code>. This value configures Autoscaler to ignore HTTP requests that fall outside either the 95th or 99th percentile and average the latency of the remaining 95% or 99% of HTTP requests.</li>
     </ul>
 
@@ -247,11 +247,11 @@ To configure Autoscaler to use HTTP Request Latency as the scaling metric for an
 
 1. Click **Add rule**. The **Select type** drop-down menu appears.
 
-2. From the **Select type** drop-down menu, select **HTTP Request Latency**.
+1. From the **Select type** drop-down menu, select **HTTP Request Latency**.
 
    1. For **Scale down if less than**, enter in milliseconds the minimum HTTP Request Latency threshold you want to configure. If the average latency of HTTP requests falls below this number, Autoscaler scales the number of app instances down.
 
-   1. For **Scale up if more than**, enter in milliseconds the maximum HTTP Request Latency threshold you want to configure. If the average latency of HTTP requests rises above this number, Autoscaler scales the number of app instances up. To avoid excessive cycling, VMware recommends that you configure a maximum threshold that is at least twice the value of the minimum threshold.
+   1. For **Scale up if more than**, enter in milliseconds the maximum HTTP Request Latency threshold you want to configure. If the average latency of HTTP requests rises above this number, Autoscaler scales the number of app instances up. To avoid excessive cycling, <%= vars.company_name %> recommends that you configure a maximum threshold that is at least twice the value of the minimum threshold.
 
    1. Under **Percent of traffic to apply**, select either **95%** or **99%**. This configuration setting is the percentile that Autoscaler uses in scaling decisions. Depending on which option you select, Autoscaler ignores HTTP requests that fall outside either the 95th or 99th percentile and averages the latency of the remaining 95% or 99% of HTTP requests.
 
@@ -312,11 +312,11 @@ This section describes use cases that might complicate or prevent you from confi
 
 ### <a id='multiple-endpoints'></a> Multiple endpoints
 
-In an app that exposes multiple endpoints, the value of the HTTP Request Latency metric is the average HTTP Request Latency across all app endpoints. If one or more endpoints process requests at a slower rate than the others, HTTP Request Latency might not be an ideal scaling metric to use. Even a fast endpoint might cause the average HTTP Request Latency to increase if it receives a large number of requests.
+In an app that exposes multiple endpoints, the value of the HTTP Request Latency metric is the average HTTP Request Latency across all app endpoints. If one or more endpoints process requests at a slower rate than the others, HTTP Request Latency might not be an ideal scaling metric to use. Even a fast endpoint might cause the average HTTP Request Latency to increase if the endpoint receives a large number of requests.
 
 ### <a id='external-factors'></a> External factors
 
-Components or services that receive data from an app are known as _downstream_ components. If any downstream components respond slowly to requests from an app, they might cause HTTP Request Latency to increase. In this case, scaling the app up does not improve its performance. In fact, scaling the app up might _increase_ HTTP Request Latency, because requests from the additional app instances add a greater burden on the downstream component. The downstream component must be scaled up or improved before scaling the app up might improve its performance.
+Components or services that receive data from an app are known as _downstream_ components. If any downstream components respond slowly to requests from an app, they might cause HTTP Request Latency to increase. In this case, scaling the app up does not improve its performance. In fact, scaling the app up might _increase_ HTTP Request Latency, because requests from the additional app instances add a greater burden on the downstream component. Before attempting to improve the performance of the app by scaling it up, determine whether the downstream component can be scaled up or improved.
 
 Other external factors, such as network congestion or database performance, can also cause HTTP Request Latency to increase. In this case, scaling the app does not decrease HTTP Request Latency that results from these external factors.
 
@@ -325,11 +325,11 @@ Other external factors, such as network congestion or database performance, can 
 Autoscaler can only use HTTP Request Latency as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not support
 using HTTP Request Latency as a scaling metric for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
 
-If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
+If your app relies on back-end HTTP services that apps in your <%= vars.app_runtime_abbr %> deployment must access through C2C networking, the Gorouter does not generate HTTP events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
 
 ### <a id='log-cache-eviction'></a> Log cache ejection
 
-Autoscaler retrieves HTTP metrics from Log Cache, which might hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve some of the total timer envelopes it requires to calculate accurate metrics, then the HTTP Request Latency metric might inaccurately represent the actual HTTP Request Latency of the app or causes of decreased app performance. However, in most cases, the HTTP Request Latency metric still approximates the actual HTTP Request Latency of the app.
+Autoscaler retrieves HTTP metrics from Log Cache, which might hold a maximum of 100,000 envelopes per app by default. If your app receives a large number of HTTP requests or is configured to create very verbose logs, Log Cache might drop some of the timer envelopes that it holds. If Autoscaler can only retrieve some of the total timer envelopes that it requires to calculate accurate metrics, then the HTTP Request Latency metric might inaccurately represent the actual HTTP Request Latency of the app or causes of decreased app performance. However, in most cases, the HTTP Request Latency metric still approximates the actual HTTP Request Latency of the app.
 
 For more information, see [Log cache](operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
 

@@ -3,12 +3,12 @@ title: About App Autoscaler
 owner: App Autoscaler
 ---
 
-App Autoscaler with VMware Tanzu Application Service for VMs scales your apps and controls the costs of running them.
+App Autoscaler with <%= vars.app_runtime_first %> scales your apps and controls the costs of running them.
 
 
 ## <a id="overview"></a> App Autoscaler overview
 
-App Autoscaler is a VMware Tanzu Application Service for VMs (TAS for VMs) Marketplace service that scales apps in your environment based on app performance metrics or a schedule. This controls the cost of running apps while maintaining app performance.
+App Autoscaler is a <%= vars.app_runtime_abbr %> Marketplace service that scales apps in your environment based on app performance metrics or a schedule. This controls the cost of running apps while maintaining app performance.
 
 To use App Autoscaler:
 
@@ -74,14 +74,14 @@ The following table lists the default metrics for App Autoscaler:
   <tr>
     <td>CPU Processor Utilization</td>
     <td>Average CPU percentage for all instances of the app.</td>
-    <td>App CPU utilization data might vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the Knowledge Base.</td>
+    <td>App CPU utilization data might vary greatly based on the number of CPU cores on Diego Cells and app density. For more information, see <a href="https://community.pivotal.io/s/article/PCF-Autoscaler-Advisory-for-Scaling-Apps-Based-on-the-CPU-utilization">App Autoscaler advisory for scaling Apps based on the CPU utilization</a> in the VMware by Broadcom Tanzu Support Hub.</td>
   </tr><tr>
     <td>Container Memory Utilization</td>
     <td>Average memory percentage across all instances of the app.</td>
     <td><em>n/a</em></td>
   </tr><tr>
     <td>HTTP Request Throughput</td>
-    <td>Average number of HTTP requests per second across all of the app instances.</td>
+    <td>Average number of HTTP requests per second across all instances of the app.</td>
     <td><em>n/a</em></td>
   </tr><tr>
     <td>HTTP Request Latency</td>
@@ -99,7 +99,7 @@ The following table lists the default metrics for App Autoscaler:
 
 <%= vars.company_name %> recommends that you define Custom App Metrics for App Autoscaler scaling rules. You can use Custom App Metrics to define the metrics that are the best indicators of app performance for your environment.
 
-You can configure apps to emit Custom App Metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit Custom App Metrics with Metric Registrar, see [Registering custom app metrics](https://docs.vmware.com/en/VMware-Tanzu-Application-Service/4.0/tas-for-vms/metric-registrar-index.html).
+You can configure apps to emit Custom App Metrics out of the Loggregator Firehose using Metric Registrar. For steps on how to configure your apps to emit Custom App Metrics with Metric Registrar, see [Registering custom app metrics](../../metric-registrar/index.html).
 
 ### <a id="comparison-metrics"></a> Custom App Metric Ratios
 

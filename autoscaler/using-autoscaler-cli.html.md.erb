@@ -3,12 +3,12 @@ title: Using the App Autoscaler CLI for your TAS for VMs deployment
 owner: PCF Autoscaler
 ---
 
-You can use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your TAS for VMs deployment.
+You can use the App Autoscaler Command-Line Interface (CLI) to control scaling apps in your <%= vars.app_runtime_first %> deployment.
 
 ## <a id='overview'></a> App Autoscaler CLI overview
 
 The App Autoscaler CLI is an extension of the Cloud Foundry Command-Line Interface (cf CLI). You can configure and control Autoscaler from your
-local command line to scale apps in your VMware Tanzu Application Service for VMs (TAS for VMs) deployment.
+local command line to scale apps in your <%= vars.app_runtime_abbr %> deployment.
 
 <p class="note important">
 <span class="note__title">Important</span>
@@ -515,7 +515,7 @@ To configure Autoscaler using a manifest file:
       <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances that you want Autoscaler to create for the app by default.</li>
       <li>(Optional) If you include a <code>rules</code> block:
         <ul>
-          <li><code>RULE-TYPE</code> is the type of autoscaling rule you want Autoscaler to use for autoscaling decisions. For more information about configuring autoscaling rules using a manifest file, see <a href="http-latency.html">Using HTTP Request Latency as a scaling metric</a>, <a href="rabbit-mq.html">Using RabbitMQ queue depth as a scaling metric</a>, and <a href="custom-metrics.html">Using custom scaling metrics</a>.</li>
+          <li><code>RULE-TYPE</code> is the type of autoscaling rule you want Autoscaler to use for autoscaling decisions. For more information about configuring autoscaling rules using a manifest file, see <a href="http-latency.html">Use HTTP Request Latency as a scaling metric with App Autoscaler</a>, <a href="rabbit-mq.html">Use RabbitMQ queue depth as a scaling metric with App Autoscaler</a>, and <a href="custom-metrics.html">Configure App Autoscaler to use custom scaling metrics</a>.</li>
         </ul>
       </li>
       <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler scales the number of app instances down.</li>

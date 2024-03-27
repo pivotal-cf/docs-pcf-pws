@@ -3,7 +3,7 @@ title: Configure App Autoscaler to use custom scaling metrics
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use Custom App Metrics when scaling apps in your VMware TAS for VMs deployment.
+You can configure App Autoscaler to use Custom App Metrics when scaling apps in your <%= vars.app_runtime_first %> deployment.
 
 For information about how to emit Custom App Metrics, see [Using Metric Registrar](../../metric-registrar/using.html).
 
@@ -25,7 +25,7 @@ To monitor when Autoscaler scales an app based on changes in a custom scaling me
 
 For information about use cases that might complicate or prevent you from configuring a custom scaling metric for an app, see [Special Considerations for using a custom scaling metric](#special-considerations).
 
-VMware recommends that you load test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-testing your app](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
+<%= vars.company_name %> recommends that you load test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-testing your app](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
 
 
 ## <a id='cf-cli-config'></a> Configure a custom scaling metric for an app through the cf CLI
@@ -43,7 +43,7 @@ For the procedures in this section, you must use the App Autoscaler CLI plug-in.
 ### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule by using a manifest rule
 
 You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
-other existing app manifest files in your TAS for VMs deployment.
+other existing app manifest files in your <%= vars.app_runtime_abbr %> deployment.
 
 To configure an autoscaling rule that defines a custom scaling metric using a manifest file:
 
@@ -336,12 +336,12 @@ Autoscaler does not differentiate between metrics based on labels. If the metric
 
 ### <a id='high-metric-load'></a> High metric load
 
-Configuring an app to emit a large number of custom scaling metrics might cause your TAS for VMs deployment to have difficulty processing those metrics. To create a large number of custom scaling metrics, consult the operator of your TAS for VMs deployment.
+Configuring an app to emit a large number of custom scaling metrics might cause your <%= vars.app_runtime_abbr %> deployment to have difficulty processing those metrics. To create a large number of custom scaling metrics, consult the operator of your <%= vars.app_runtime_abbr %> deployment.
 
 ### <a id='log-cache-ejection'></a> Log cache ejection
 
 The Metric Registrar scrapes the metrics endpoint on an app and emits the custom scaling metrics it receives. By default, the interval between scrapes is 35
-seconds. You can configure this scrape interval in the **Metric Registrar** pane of the TAS for VMs tile.<% if vars.platform_code != 'OFFLINE' %> To configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in _Configuring TAS for VMs_. <% end %>
+seconds. You can configure this scrape interval in the **Metric Registrar** pane of the <%= vars.app_runtime_abbr %> tile.<% if vars.platform_code != 'OFFLINE' %> To configure the scrape interval for the Metric Registrar, see [Edit Default Scraping Interval](../../operating/configure-pas.html#scraping-interval) in _Configuring TAS for VMs_. <% end %>
 
 Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log Cache Custom App Metric history for Autoscaler to use in scaling decisions.
 
