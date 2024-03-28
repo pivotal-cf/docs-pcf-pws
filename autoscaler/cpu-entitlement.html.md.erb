@@ -329,6 +329,6 @@ Log Cache cf CLI plug-in and view the `cpu_entitlement` metric.
 
 ### <a id='log-cache-ejection'></a> Log cache ejection
 
-Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log Cache Custom App Metric history for Autoscaler to use in scaling decisions.
+Within Log Cache, each app has its own bucket, which contains both app metrics and logs. By default, Log Cache can hold a maximum of 100,000 envelopes per app. Because the platform generates several envelopes per request, and recent app logs are held in the same bucket, a busy app might not have sufficient Log Cache CPU Entitlement Utilization history for Autoscaler to use in scaling decisions.
 
 For more information, see [Log Cache](./operating-autoscaler.html#log-cache) in _Operating App Autoscaler_.
