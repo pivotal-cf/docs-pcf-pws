@@ -225,15 +225,15 @@ To create an autoscaling rule for the `java-spring-security` app that uses the `
 		![alt-text="The Manage Autoscaling form includes an Instance Limits and Scaling section. This section includes two text boxes, one for Minimum and one for Maximum. 1 is entered for Minimum and 5 is entered for Maximum."](./images/instance-limits.png)
 
 3. To create an autoscaling rule:
-	1. Click **Edit**. The **Edit Scaling Rules** window appears.
-	1. Click **Add rule**. The **Select type** drop-down menu appears.
-	1. From the **Select type** drop-down menu, click **Custom App Metric**. More configuration text boxes appear.
+	1. Next to **Scaling Rules**, click **Add Rule**. The **Add Rule** window appears.
+	1. From the **Rule Type** options, select **Custom App Metric**.
+	1. Click **Next**. More configuration text boxes appear.
 	1. For **Scale down if less than**, enter `2`. If the average value of the `custom` metric falls below this number, Autoscaler scales the number of app instances down.
 	1. For **Scale up if more than**, enter `5`. If the average value of the `custom` metric rises above this number, Autoscaler scales the number of app instances up.
 	1. For **Metric**, enter `custom`.
 	1. Click **Save**.
 
-![alt-text="The Edit Scaling Rules form includes a drop-down menu labeled Rule Type."](./images/add-rule.png)
+![alt-text="The Add Rule form after custom app metrics is selected as the type, with thresholds of 2 and 5, and a metric input of custom."](./images/add-rule.png)
 
 ## <a id="trigger"></a> Trigger scaling
 
