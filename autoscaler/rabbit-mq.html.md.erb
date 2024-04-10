@@ -248,13 +248,11 @@ To configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an
 
 1. Select the space in which the app you want to scale is deployed.
 
-1. Under **Under Processes and Instances**, click **Manage Autoscaling**. The **Manage Autoscaling** window appears.
+1. Under **Processes and Instances**, click **Autoscaling Activated**. The **Manage Autoscaling** window appears.
 
-1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
+1. Next to **Scaling Rules**, click **Add Rule**. The **Add Rule** window appears.
 
-2. Click **Add rule**.
-
-3. From the **Select type** drop-down menu, select **RabbitMQ**.
+1. From the **Rule Type** options, select **RabbitMQ**. Then click **Next**.
 
    1. For **Scale down if less than**, enter the minimum queue depth threshold. If the average queue depth falls below this number of messages, Autoscaler scales the number of app instances down.
 
@@ -262,7 +260,7 @@ To configure Autoscaler to use RabbitMQ queue depth as the scaling metric for an
 
    3. For **Queue name**, enter the name of the queue you want Autoscaler to monitor. This queue must be on a RabbitMQ service instance that is bound to the app you want to scale.
 
-4. Click **Save**.
+1. Click **Save**.
 
 
 ## <a id='external-rabbitmq'></a> Use an external RabbitMQ cluster
@@ -351,7 +349,7 @@ To review the autoscaling events that Autoscaler records for changes in RabbitMQ
 
 1. Select the space in which the app you want to scale is deployed.
 
-1. Under **Under Processes and Instances**, click **Manage Autoscaling**.
+1. Under **Processes and Instances**, click **Autoscaling Activated**.
 
 1. Under **Event History**, click **View More**. A list of autoscaling events appears. If Autoscaler has scaled the number of app instances up due to
 increases in the RabbitMQ queue depth metric, the list of autoscaling events includes events similar to the following example:

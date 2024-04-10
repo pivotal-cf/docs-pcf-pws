@@ -241,13 +241,11 @@ To configure Autoscaler to use HTTP Request Latency as the scaling metric for an
 
 1. Select the space in which the app you want to scale is deployed.
 
-1. Under **Under Processes and Instances**, click **Manage Autoscaling**. The **Manage Autoscaling** window appears.
+1. Under **Processes and Instances**, click **Autoscaling Activated**. The **Manage Autoscaling** window appears.
 
-1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
+1. Next to **Scaling Rules**, click **Add Rule**. The **Add Rule** window appears.
 
-1. Click **Add rule**. The **Select type** drop-down menu appears.
-
-2. From the **Select type** drop-down menu, select **HTTP Request Latency**.
+1. From the **Rule Type** options, select **HTTP Request Latency**. Then click **Next**.
 
    1. For **Scale down if less than**, enter in milliseconds the minimum HTTP Request Latency threshold you want to configure. If the average latency of HTTP requests falls below this number, Autoscaler scales the number of app instances down.
 
@@ -297,7 +295,7 @@ To review the autoscaling events that Autoscaler records for changes in HTTP Req
 
 1. Select the space in which the app you want to scale is deployed.
 
-1. Under **Under Processes and Instances**, click **Manage Autoscaling**.
+1. Under **Processes and Instances**, click **Autoscaling Activated**.
 
 1. Under **Event History**, click **View More**. A list of autoscaling events appears. If Autoscaler has scaled the number of app instances up due to increases in the HTTP Request Latency metric, the list of autoscaling events includes events similar to the following example:
 
