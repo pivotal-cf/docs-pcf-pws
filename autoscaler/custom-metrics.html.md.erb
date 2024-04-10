@@ -249,13 +249,11 @@ To configure Autoscaler to use a custom scaling metric for an app using Apps Man
 
 1. Select the space in which the app you want to scale is deployed.
 
-1. Under **Under Processes and Instances**, click **Manage Autoscaling**. The **Manage Autoscaling** window appears.
+1. Under **Processes and Instances**, click **Autoscaling Activated**. The **Manage Autoscaling** window appears.
 
-1. Next to **Scaling Rules**, click **Edit**. The **Edit Scaling Rules** window appears.
+1. Next to **Scaling Rules**, click **Add Rule**. The **Add Rule** window appears.
 
-1. Click **Add rule**. The **Select type** drop-down menu appears.
-
-1. From the **Select type** drop-down menu, select **Custom**.
+1. From the **Rule Type** options, select **Custom**. Then click **Next**.
 
    1. For **Scale down if less than**, enter the minimum custom scaling metric threshold. If the average value of the custom scaling metric falls below this number, Autoscaler scales the number of app instances down.
 
@@ -306,7 +304,7 @@ To review the autoscaling events that Autoscaler records for changes in the cust
 
 1. Select the space in which the app you want to scale is deployed.
 
-1. Under **Under Processes and Instances**, click **Manage Autoscaling**.
+1. Under **Processes and Instances**, click **Autoscaling Activated**.
 
 1. Under **Event History**, click **View More**. A list of autoscaling events appears. If Autoscaler has scaled the number of app instances up due to
 increases in the custom scaling metric for the app, the list of autoscaling events includes events similar to the following example:
