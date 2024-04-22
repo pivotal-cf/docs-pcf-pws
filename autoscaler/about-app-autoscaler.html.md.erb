@@ -40,7 +40,7 @@ App Autoscaler scales as follows:
 
 The following diagram provides an example of how App Autoscaler makes scaling decisions:
 
-![alt-text=""](./images/autoscaler-scaling-decisions.png)
+![App Autoscaler Decision timing](./images/autoscaler-scaling-decisions.png)
 
 As shown in the diagram, an app has a maximum threshold of 200-milliseconds and a minimum threshold of 80-milliseconds for an HTTP Request Latency metric. The scale up factor and
 scale down factor are not set in the scaling manifest, so the default value is one.
@@ -112,7 +112,7 @@ When you add a scaling rule, the **Metric** text box is the dividend and the **C
 The following diagram shows the components and architecture of App Autoscaler. It also shows how App Autoscaler components
 interact with <%= vars.app_runtime_full %> (<%= vars.app_runtime_abbr %>) components to make app scaling decisions.
 
-![alt-text="App Autoscaler components and architecture"](./images/app-autoscaler-architecture.png)
+![App Autoscaler components and architecture](./images/app-autoscaler-architecture.png)
 
 [View a larger version of this image.](./images/app-autoscaler-architecture.png)
 
