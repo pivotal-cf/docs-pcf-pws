@@ -73,11 +73,11 @@ To enable App Autoscaler for an app:
 1. In Apps Manager, select an app from the space in which you created the App Autoscaler service.
 
 1. Under **Processes and Instances**, click **Autoscaling Deactivated** to manage autoscaling.
-![alt-text=""](./images/scale-app.png)
+![Processes and Instances table](./images/scale-app.png)
 
 1. Click **Activate Autoscaling** to activate App Autoscaler. You can then configure instance limits, scaling rules, and scheduled limit changes for the app. For more information, see [Configure autoscaling for an app](#config).
 
-![alt-text=""](./images/manage-autoscaling.png)
+![Instance limits and scaling configuration](./images/manage-autoscaling.png)
 
 ### <a id="config"></a> Configure autoscaling for an app
 
@@ -94,7 +94,7 @@ To manually edit instance limits:
 1. In Apps Manager, navigate to the **Overview** page for your app. Under **Processes and Instances**, click **Autoscaling Activated**.
 
 1. In the **Instance Limits** section, set values for **Minimum** and **Maximum**.
-    ![alt-text=""](./images/instance-limits.png)
+    ![Instance limits and scaling configuration](./images/instance-limits.png)
 
 2. Click **Apply Changes**.
 
@@ -110,7 +110,7 @@ To add a scaling rule for an app:
 
 1. From the **Rule Type** options, select the metric for the new scaling rule.
 
-![alt-text=""](./images/scaling-rules.png)
+![Rule type configuration](./images/scaling-rules.png)
 
 1. Set the minimum and maximum thresholds for the metric. For information about setting instance limits, see [About App Autoscaler scaling rules](about-app-autoscaler.html#about-scaling) in _About App Autoscaler_.
 
@@ -170,7 +170,7 @@ App Autoscaler logs all autoscaling events. You can view event history and manag
 
 To view all autoscaling events in the past 24 hours, click **View More** in the **Event History** section of the **Manage Autoscaling** pane.
 
-![alt-text=""](./images/event-history.png)
+![Event history events list](./images/event-history.png)
 
 ### <a id='manage-notifications'></a> Manage App Autoscaler notifications
 
@@ -179,9 +179,9 @@ App Autoscaler emails or texts its event notifications to all users with the Spa
 To subscribe or unsubscribe from autoscaling event notifications:
 
 1. Go to the **Manage Notifications** page in <%= vars.platform_name %>.
-  If installed, Notifications Management must be available at <code>http<span>s</span>://notifications-ui.SYSTEM-DOMAIN/preferences</code>,
-  where <code>SYSTEM-DOMAIN</code> is your system domain.
+  If installed, Notifications Management must be available at `https://notifications-ui.SYSTEM-DOMAIN/preferences`,
+  where `SYSTEM-DOMAIN` is your system domain.
 
 1. Decide which notifications you want to receive from App Autoscaler.
 
-![alt-text=""](./images/manage-notifications.png)
+![Manage Notifications](./images/manage-notifications.png)
