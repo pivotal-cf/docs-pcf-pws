@@ -1,0 +1,75 @@
+---
+title: Autoscaler Error "Unable to scale due to Cloud Controller error"
+owner: App Autoscaler
+---
+
+<!--- article/Autoscaler-Shows-Error-Unable-to-scale-due-to-Cloud-Controller-error?language=en_US
+--->
+
+In Apps Manager, in the Manage window for your Autoscaler instance, you see the following error in the Autoscaler events:
+
+```
+Unable to scale due to Cloud Controller error.
+```
+
+This error can be caused for a number of reasons. Ultimately, this issue is caused when the autoscaler can not complete the autoscale request.
+
+There are multiple potential problems that could be causing this error, the first step is to determine the actual problem. 
+
+1. To start, get the app’s GUID by running:
+
+    ```
+    cf app <app-name> --guid
+    ```
+
+1. Then search for the `guid` in the autoscaler's logs by running:
+
+    ```
+    cf logs autoscale --recent | grep <app guid>
+    ```
+
+1. Now look for any errors, failures, or incomplete requests containing that `guid`. Refer to the examples below for the kind of errors you might see.
+
+
+## Example 1
+
+* Autoscaler's Manage console in Apps Manager shows `Unable to scale due to Cloud Controller error`.
+
+* We targeted the Autoscale app with `cf target -o system -s autoscaling`.
+
+* We ran  `cf logs autoscale --recent | grep <app guid>` and found the following error:
+
+    ```
+    2017-10-18T08:57:32.86-0700 [APP/PROC/WEB/0] OUT time="2017-10-18T15:57:32Z" 
+    level=error msg="Failed to scale application" app_guid=<guid> 
+    body="{\n  \"code\": 310003,\n  \"description\": \"You have exceeded your space's memory limit.
+    \",\n  \"error_code\": \"CF-SpaceQuotaMemoryLimitExceeded\"\n}\n" code=400 requested_instances=4 
+    ```
+
+* In this case, the bound app was in a space that had a Memory Quota of 10GB. When the Autoscaler attempted to scale up the bound app, we hit the quota limit. There were already 10 app instances running in the space with 1GB of Memory allocated for each.
+
+* To get past a situation such as this, you can increase the space's Memory Quota, or you can run `cf stop <app-name>` on apps running in the space that don't need to be running in order to free some memory.
+
+## Example 2
+
+* Autoscaler's Manage console in Apps Manager shows `Unable to scale due to Cloud Controller error`.
+
+* We targeted the Autoscale app with `cf target -o system -s autoscaling`
+
+* We ran `cf logs autoscale --recent | grep <app guid>` and found the following error:
+
+    ```
+    2017-09-21T12:14:08.99-0400 [APP/PROC/WEB/0] OUT time="2017-09-21T16:14:08Z" 
+    level=warning msg="Failed to get application stats" 
+    app_guid=8473ec5f-2c3b-43de-bfd7-b78ca26eb983 body="{\n  \"description\": 
+    \"Could not fetch stats for stopped app: GetLinkedAccounts\",\n  \"error_code\": 
+    \"CF-AppStoppedStatsError\",\n  \"code\": 200003\n}\n" code=400 
+    ```
+
+* In this case, the bound app was in a non-running state. If the bound app is not running, crashed, or stopped, the Autoscaler can not complete the `/stats` call for it to determine if the app needs scaled up or down.
+
+* To get past a situation such as this, verify that your app is not crashing occasionally by running `cf events <app-name>`. If your app has crashed, you will see entries similar to the following in your cf events output:
+
+    ```
+    2017-09-14T01:56:56.00-0400 app.crash <app-name> index: 3, reason: CRASHED, exit_description: 2 error(s) occurred:
+    ```
