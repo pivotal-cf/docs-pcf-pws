@@ -515,21 +515,29 @@ To configure Autoscaler using a manifest file:
       instance_limits:
         min: SCHEDULED-LOWER-SCALING-LIMIT
         max: SCHEDULED-UPPER-SCALING-LIMIT
+   scaling_factors:
+     up: SCALE-UP-FACTOR
+     down: SCALE-DOWN-FACTOR
     ```
 
     Where:
     <ul>
-      <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances that you want Autoscaler to create for the app by default.</li>
-      <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances that you want Autoscaler to create for the app by default.</li>
-      <li>(Optional) If you include a <code>rules</code> block:
+      <li><code>instance_limits</code></li>
         <ul>
+          <li><code>LOWER-SCALING-LIMIT</code> is the minimum number of instances that you want Autoscaler to create for the app by default.</li>
+          <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances that you want Autoscaler to create for the app by default.</li>
+        </ul>
+      <li><code>rules</code> (Optional)
+        <ul>
+          <li>If you do not want to configure autoscaling rules for an app, omit the block or include an empty one: <code>rules: []</code>. Any pre-existing rules will be deleted when applying the manifest.</li>
           <li><code>RULE-TYPE</code> is the type of autoscaling rule you want Autoscaler to use for autoscaling decisions. For more information about configuring autoscaling rules using a manifest file, see <a href="http-latency.html">Using HTTP Request Latency as a scaling metric</a>, <a href="rabbit-mq.html">Using RabbitMQ queue depth as a scaling metric</a>, and <a href="custom-metrics.html">Using custom scaling metrics</a>.</li>
+          <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler scales the number of app instances down.</li>
+          <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler scales the number of app instances up.</li>
         </ul>
       </li>
-      <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler scales the number of app instances down.</li>
-      <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler scales the number of app instances up.</li>
-      <li>(Optional) If you include a <code>scheduled_limit_changes</code> block:
+      <li><code>scheduled_limit_changes</code> (Optional)
         <ul>
+          <li>If you do not want to configure scheduled limit changes for an app, omit the block or include an empty one: <code>scheduled_limit_changes: []</code>. Any pre-existing scheduled limit changes will be deleted when applying the manifest.</li>
           <li><code>RECURRENCE</code> is the calculated value of the bitmasked days of the week on which you want Autoscaler to re-apply the scheduled limit change. For more information, see <a href="scheduled-limit-changes.html#recurrence-value">Calculating a recurrence schedule value</a> in <em>Scheduled limit changes</em>.</li>
           <li>
             <code>TIME</code> is the time, in UTC timestamp format, at which you want Autoscaler to apply the scheduled limit change. For example, <code>2032-01-01T20:00:00Z</code>.
@@ -540,9 +548,14 @@ To configure Autoscaler using a manifest file:
           <li><code>SCHEDULED-UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app during the scheduled limit change. If the current number of app instances is greater than this number at the time of the scheduled limit change, Autoscaler scales the number of app instances down to this number.</li>
         </ul>
       </li>
+      <li><code>scaling_factors</code> (Optional)
+        <ul>
+          <li>If you do not want to configure scaling factors for an app, omit the block or include an empty one: <code>scaling_factors: {}</code>. Any pre-existing scaling factors will be reset to the default values of <code>1</code> and <code>1</code> when applying the manifest.</li>
+          <li><code>SCALE-UP-FACTOR</code> is the number of app instances by which you want Autoscaler to scale up at a time.</li>
+          <li><code>SCALE-DOWN-FACTOR</code> is the number of app instances by which you want Autoscaler to scale down at a time.</li>
+        </ul>
+      </li>
     </ul>
-
-    You must include both a `rules` block and a `scheduled_limit_changes` block must be present in your Autoscaler manifest. If you do not want to configure autoscaling rules for an app, include an empty `rules` block. If you do not want to configure scheduled limit changes for an app, include an empty `scheduled-limit-changes` block.
 
 2. Apply the manifest file you configured in the previous step to the app you want to scale by running:
 
