@@ -92,6 +92,7 @@ Apps that are bound to App Autoscaler are represented by the App Autoscaler API 
 | **Name** | **Type** | **Description** |
 | ---- | ---- | ----------- |
 | created_at | string | The timestamp for when this object was created |
+| cooldown_period_in_seconds | int | The amount of seconds to wait after scaling before considering for subsequent scaling |
 | enabled | Boolean | Activates or deactivates scaling by App Autoscaler for this app |
 | guid | string | The app GUID from CAPI |
 | instance_limits.max | integer | The maximum instance count that this app is approved |
@@ -145,6 +146,7 @@ PUT /api/v2/apps/:app_guid
 | Parameter | In | Type | Required | Description |
 | --------- | --- | ---- | -------- | ----------- |
 | app_guid | path | string | true | The GUID of the app to update the binding for |
+| cooldown_period_in_seconds | body | int | false | The amount of seconds to wait after scaling before considering for subsequent scaling |
 | enabled | body | Boolean | false | Activates or deactivates  scaling by App Autoscaler for this app |
 | instance_limits.max | body | integer | false | The maximum instance count that this app is approved |
 | instance_limits.min | body | integer | false | The minimum instance count that this app is approved |

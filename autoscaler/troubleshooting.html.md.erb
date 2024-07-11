@@ -311,6 +311,7 @@ If the new app instances that Autoscaler has created are slow to respond to requ
 
 For more information about how Diego runs an app, see [How Diego runs an app](../../concepts/diego/diego-architecture.html#diagram) in _Diego Components and Architecture_. For more information about app health checks, including how to configure health checks and the types of health checks you can configure, see [Using app Health Checks](../../devguide/deploy-apps/healthchecks.html).
 
+Alternatively you can configure the cooldown period for the app to better align with the app's startup time to avoid further scaling actions during that period. Note that the cooldown period does not change the metric interval used to make the scaling decision after the cooldown period has elapsed. So a cooldown period of slightly longer than the actual startup time of the app may provide a better representation of the app's performance for the value used to make the subsequent scaling decision.
 
 ## <a id='one-instance-per-space'></a> One Autoscaler service instance per space
 

@@ -108,12 +108,12 @@ You can view a list of all the apps that are bound to an Autoscaler service inst
     ```
     cf autoscaling-apps
     ```
-    This command returns a list of apps that are bound to Autoscaler, whether autoscaling is configured for those apps, and the autoscaling limits and scaling factors that are configured for them::
+    This command returns a list of apps that are bound to Autoscaler, whether autoscaling is configured for those apps, and the autoscaling limits and scaling factors that are configured for them:
     <pre class="terminal">
     Presenting autoscaler apps in org example-org / space example-space as user
-    Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor
-    example-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4               1                 1
-    example-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40              5                 2
+    Name                  Guid                                      Enabled   Min Instances   Max Instances   Scale Up Factor   Scale Down Factor   Cooldown Period
+    example-app              d0077dc5-34bd-42c7-b377-e0fcb14d67f3      true      1               4               1                 1                   1m30s
+    example-app-2            3f8c6e84-0b6e-4ec9-9335-0aad3979d672      false     10              40              5                 2                   0s
     OK
     </pre>
 
@@ -184,7 +184,7 @@ To configure the upper and lower autoscaling limits for an app:
       <li><code>UPPER-SCALING-LIMIT</code> is the maximum number of instances you want Autoscaler to create for the app.</li>
     </ul>
 
-    For example, if you run the this command, it sets the lower scaling limit for `example-app` to `20` and the upper scaling limit to `100`:
+    For example, if you run the following command, it sets the lower scaling limit for `example-app` to `20` and the upper scaling limit to `100`:
 
     ```
     cf update-autoscaling-limits example-app 20 100
@@ -215,7 +215,7 @@ To configure scaling factors for an app:
       <li><code>SCALE-DOWN-FACTOR</code> is the number of app instances by which you want Autoscaler to scale down at a time.</li>
     </ul>
 
-    For example, if you run the this command, it configures Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
+    For example, if you run the following command, it configures Autoscaler to scale `example-app` up by 20 instances at a time and down by 10 instances at a time:
 
     ```
     cf update-autoscaling-factors example-app 20 10
@@ -227,6 +227,42 @@ To configure scaling factors for an app:
     </pre>
 
 For more information about scaling factors, see [Scaling factors](productionizing-autoscaler.html#scaling-factors) in _Using App Autoscaler in production_.
+
+
+## <a id='configure-cooldown-period'></a> Configure cooldown period
+
+Some apps would like to establish a period of time after a scaling action within which no further scaling action may occcur. Note that this period is only defined after scaling decisions, not standard cf push or cf restart commands. By default there is no cooldown period for an app, so the cli will show a value of <code>0s</code>.
+
+For example, an app configured with a cooldown period of <code>1m</code> and the default scaling interval of <code>35s</code> would scale up once, then skip the next scaling interval's potential scaling decision because the cooldown period of one minute had not yet elapsed from the time of the scale up decision. For the second scaling interval, seventy seconds after the scale up action, App Autoscaler would evaluate the app for scaling given the forty five second cooldown period had elapsed by that point in time.
+
+In addition to the relationship between the startup time for an app and its configured cooldown period, also consider the metric interval for the app. Because the metric interval looks into the past from the time of a scaling interval, it may consider the metrics for an app still starting up in the first scaling interval after a cooldown period. Consider setting cooldown period in accordance with the metric interval to ensure an app with a long startup time does not trigger a false scaling decision based on metrics for an app that was still starting up.
+
+
+To configure the cooldown period for an app:
+
+
+1. In a terminal window, run:
+
+    ```
+    cf update-autoscaling-cooldown APP-NAME COOLDOWN-PERIOD
+    ```
+
+    Where:
+    <ul>
+      <li><code>APP-NAME</code> is the name of the app for which you want to configure scaling factors.</li>
+      <li><code>COOLDOWN-PERIOD</code> is the time duration string (<code>45s</code>, <code>3m</code>,  <code>1h</code>).</li>
+    </ul>
+
+    For example, if you run the following command, it configures Autoscaler to only consider `example-app` for further scaling at least 2m after any autoscaling performed.
+
+    ```
+    cf update-autoscaling-cooldown example-app 2m
+    ```
+    The output looks similar to this:
+    <pre class="terminal">
+    Updated cooldown period for app example-app in org example-org / space example-space as admin
+    OK
+    </pre>
 
 
 ## <a id='autoscaling-rules'></a> Autoscaling rules and scaling metrics

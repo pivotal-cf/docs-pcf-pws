@@ -54,6 +54,8 @@ If the average value for HTTP Request Latency over a 120-second window falls bel
 You can set a maximum and minimum number of instances. For example, if an app exceeds the maximum threshold of selected metric, but the number of
 instances is already at the maximum number of instances, App Autoscaler does not scale up the app.
 
+You can set a period of time after a scaling action within which no further scaling action may be taken to prevent scaling decisions for an app with a slow startup time. App Autoscaler refers to this concept as cooldown period. For example, when an app configured with a cooldown period of <code>5m</code> is scaled by App Autoscaler, App Autoscaler will not consider the app for further scaling decisions until at least five minutes after that scaling event. This helps App Autoscaler avoid overscaling an app while a new instance is still starting up and producing metrics that would otherwise cause further scaling actions.
+
 ### <a id="default-metrics"></a> Default metrics for scaling rules
 
 App Autoscaler includes several default metrics for which you might create scaling rules.
