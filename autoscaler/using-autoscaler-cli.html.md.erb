@@ -231,9 +231,9 @@ For more information about scaling factors, see [Scaling factors](productionizin
 
 ## <a id='configure-cooldown-period'></a> Configure cooldown period
 
-Some apps would like to establish a period of time after a scaling action within which no further scaling action may occcur. Note that this period is only defined after scaling decisions, not standard cf push or cf restart commands. By default there is no cooldown period for an app, so the cli will show a value of <code>0s</code>.
+Apps may benefit from a cooldown period after scaling, during which no further automatic scaling occurs. This cooldown period only applies to actions performed by App Autoscaler, not to manual scaling via `cf push` or `cf scale` commands. By default, apps have no cooldown period, so the CLI command `cf autoscaling-apps` will show a value of `0s`.
 
-For example, an app configured with a cooldown period of <code>1m</code> and the default scaling interval of <code>35s</code> would scale up once, then skip the next scaling interval's potential scaling decision because the cooldown period of one minute had not yet elapsed from the time of the scale up decision. For the second scaling interval, seventy seconds after the scale up action, App Autoscaler would evaluate the app for scaling given the forty five second cooldown period had elapsed by that point in time.
+Consider an app configured with a cooldown period of `60s` and the default 35-second scaling interval. If App Autoscaler scales the app up, the next potential scaling decision (35 seconds later) is skipped because the cooldown period hasn't elapsed. However, at the second interval (70 seconds after the initial scale-up), App Autoscaler reevaluates scaling since the cooldown period has ended.
 
 In addition to the relationship between the startup time for an app and its configured cooldown period, also consider the metric interval for the app. Because the metric interval looks into the past from the time of a scaling interval, it may consider the metrics for an app still starting up in the first scaling interval after a cooldown period. Consider setting cooldown period in accordance with the metric interval to ensure an app with a long startup time does not trigger a false scaling decision based on metrics for an app that was still starting up.
 
@@ -250,10 +250,10 @@ To configure the cooldown period for an app:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to configure scaling factors.</li>
-      <li><code>COOLDOWN-PERIOD</code> is the time duration string (<code>45s</code>, <code>3m</code>,  <code>1h</code>).</li>
+      <li><code>COOLDOWN-PERIOD</code> is the time duration string (<code>45s</code>, <code>3m</code>,  <code>25m30s</code>).</li>
     </ul>
 
-    For example, if you run the following command, it configures Autoscaler to only consider `example-app` for further scaling at least 2m after any autoscaling performed.
+    For example, the following command configures App Autoscaler to only consider `example-app` for further scaling at least two minutes after an autoscaling action is performed:
 
     ```
     cf update-autoscaling-cooldown example-app 2m
