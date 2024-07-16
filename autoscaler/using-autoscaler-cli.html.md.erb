@@ -250,7 +250,7 @@ To configure the cooldown period for an app:
     Where:
     <ul>
       <li><code>APP-NAME</code> is the name of the app for which you want to configure scaling factors.</li>
-      <li><code>COOLDOWN-PERIOD</code> is the time duration string (<code>45s</code>, <code>3m</code>,  <code>25m30s</code>).</li>
+      <li><code>COOLDOWN-PERIOD</code> is the time duration (<code>45s</code>, <code>3m</code>,  <code>25m30s</code>) to wait after scaling, during which no further automatic scaling occurs.</li>
     </ul>
 
     For example, the following command configures App Autoscaler to only consider `example-app` for further scaling at least two minutes after an autoscaling action is performed:
@@ -545,15 +545,16 @@ To configure Autoscaler using a manifest file:
       threshold:
         min: MINIMUM-METRIC-THRESHOLD
         max: MAXIMUM-METRIC-THRESHOLD
+    cooldown_period: COOLDOWN-PERIOD
     scheduled_limit_changes:
     - recurrence: RECURRENCE
       executes_at: "TIME"
       instance_limits:
         min: SCHEDULED-LOWER-SCALING-LIMIT
         max: SCHEDULED-UPPER-SCALING-LIMIT
-   scaling_factors:
-     up: SCALE-UP-FACTOR
-     down: SCALE-DOWN-FACTOR
+    scaling_factors:
+      up: SCALE-UP-FACTOR
+      down: SCALE-DOWN-FACTOR
     ```
 
     Where:
@@ -569,6 +570,12 @@ To configure Autoscaler using a manifest file:
           <li><code>RULE-TYPE</code> is the type of autoscaling rule you want Autoscaler to use for autoscaling decisions. For more information about configuring autoscaling rules using a manifest file, see <a href="http-latency.html">Using HTTP Request Latency as a scaling metric</a>, <a href="rabbit-mq.html">Using RabbitMQ queue depth as a scaling metric</a>, and <a href="custom-metrics.html">Using custom scaling metrics</a>.</li>
           <li><code>MINIMUM-METRIC-THRESHOLD</code> is the minimum scaling metric threshold. If the average value of the scaling metric falls below this number, Autoscaler scales the number of app instances down.</li>
           <li><code>MAXIMUM-METRIC-THRESHOLD</code> is the maximum custom scaling metric threshold. If the average custom scaling metric rises above this number, Autoscaler scales the number of app instances up.</li>
+        </ul>
+      </li>
+      <li><code>cooldown_period</code> (Optional)
+        <ul>
+          <li>If you do not want to configure a cooldown period for an app, omit the block. Any pre-existing cooldown period will be reset to <code>0s</code> when applying the manifest.</li>
+          <li><code>COOLDOWN-PERIOD</code> is the time duration (<code>45s</code>, <code>3m</code>,  <code>25m30s</code>) to wait after scaling, during which no further automatic scaling occurs.</li>
         </ul>
       </li>
       <li><code>scheduled_limit_changes</code> (Optional)
