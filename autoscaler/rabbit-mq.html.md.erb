@@ -3,7 +3,7 @@ title: Use RabbitMQ queue depth as a scaling metric with App Autoscaler
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use the RabbitMQ queue depth metric to scale apps in your VMware TAS for VMs deployment.
+You can configure App Autoscaler to use the RabbitMQ queue depth metric to scale apps in your VMware Tanzu for Cloud Foundry deployment.
 
 RabbitMQ is a message broker that communicates using message queues. Queue depth is the number of messages in a RabbitMQ queue that
 are waiting to be dequeued. You can configure Autoscaler to use RabbitMQ queue depth as the scaling metric for apps that consume messages from RabbitMQ queues for processing. When Autoscaler scales these apps up, they can process these RabbitMQ queues more quickly.
@@ -40,7 +40,7 @@ For the procedures in this section, you must use the App Autoscaler CLI plug-in.
 ### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule using a manifest file
 
 You can configure autoscaling rules through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any
-other existing app manifest files in your TAS for VMs deployment.
+other existing app manifest files in your Tanzu for Cloud Foundry deployment.
 
 To configure an autoscaling rule that defines RabbitMQ queue depth as its scaling metric using a manifest file:
 
@@ -371,7 +371,7 @@ information, see the sections following:
 ### <a id='credentials-credhub'></a> RabbitMQ service binding credentials in runtime CredHub
 
 To receive RabbitMQ queue depth metrics, Autoscaler must retrieve service binding credentials for the RabbitMQ HTTP Management API from
-Cloud Controller. However, when a TAS for VMs deployment is configured to store credentials in runtime CredHub, Autoscaler cannot retrieve service binding credentials from Cloud Controller.
+Cloud Controller. However, when a Tanzu for Cloud Foundry deployment is configured to store credentials in runtime CredHub, Autoscaler cannot retrieve service binding credentials from Cloud Controller.
 
 For more information, see [Autoscaler does not support runtime CredHub](troubleshooting.html#rabbitmq-runtime-credhub) in _Troubleshooting App Autoscaler_.
 

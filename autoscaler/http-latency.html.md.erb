@@ -3,12 +3,12 @@ title: Use HTTP Request Latency as a scaling metric with App Autoscaler
 owner: Autoscaler
 ---
 
-You can configure App Autoscaler to use the HTTP Request Latency metric to scale apps in your VMware TAS for VMs deployment.
+You can configure App Autoscaler to use the HTTP Request Latency metric to scale apps in your VMware Tanzu for Cloud Foundry deployment.
 
 
 ## <a id='overview'></a> HTTP Request Latency Overview
 
-When an HTTP request is made to an app, the Gorouter in VMware Tanzu Application Service for VMs (TAS for VMs) generates several metrics. One of these metrics is `gorouter.latency`, or _HTTP Request Latency_. The HTTP Request Latency metric measures the length of time it takes to process an HTTP request, starting from when the Gorouter receives a request and ending when the Gorouter completes processing the response from the app. This metric includes the length of time it takes all back-end endpoints to respond, including other apps and TAS for VMs components such as Cloud Controller and UAA. Long uploads, downloads, or app responses increase the time.
+When an HTTP request is made to an app, the Gorouter in VMware Tanzu Platform for Cloud Foundry (Tanzu for CF) generates several metrics. One of these metrics is `gorouter.latency`, or _HTTP Request Latency_. The HTTP Request Latency metric measures the length of time it takes to process an HTTP request, starting from when the Gorouter receives a request and ending when the Gorouter completes processing the response from the app. This metric includes the length of time it takes all back-end endpoints to respond, including other apps and Tanzu for Cloud Foundry components such as Cloud Controller and UAA. Long uploads, downloads, or app responses increase the time.
 
 For example, you might have a Service Level Agreement (SLA) specifying that 95% of requests for an app must be processed in less than 300-milliseconds. To help achieve this, you can configure an autoscaling rule for Autoscaler to create additional instances of the app when the HTTP Request Latency metric reaches 250 milliseconds.
 
@@ -25,7 +25,7 @@ For information about use cases that might complicate or prevent you from config
 VMware recommends that you load-test your app to verify that the autoscaling rules you configured are effective. For more information, see [Load-testing your app](productionizing-autoscaler.html#load-testing) in _Using Autoscaler in Production_.
 
 <% if vars.platform_code != 'OFFLINE' %>
-For more information about the HTTP Request Latency metric, see [Router handling latency](../../operating/monitoring/kpi.html#latency) in _Key Performance Indicators_. For more information about how TAS for VMs routes HTTP requests, see [TAS for VMs routing architecture](../../concepts/cf-routing-architecture.html).
+For more information about the HTTP Request Latency metric, see [Router handling latency](../../operating/monitoring/kpi.html#latency) in _Key Performance Indicators_. For more information about how Tanzu for Cloud Foundry routes HTTP requests, see [Tanzu for Cloud Foundry routing architecture](../../concepts/cf-routing-architecture.html).
 <% end %>
 
 
@@ -43,7 +43,7 @@ For the procedures in this section, you must use the App Autoscaler CLI plug-in.
 
 ### <a id='cf-cli-manifest-config'></a> Configure an autoscaling rule by using a manifest file
 
-You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any other existing app manifest files in your TAS for VMs deployment.
+You can configure autoscaling rules declaratively through a manifest file. This manifest file only configures Autoscaler, and does not interfere with any other existing app manifest files in your Tanzu for Cloud Foundry deployment.
 
 To configure an autoscaling rule that defines HTTP Request Latency as its scaling metric using a manifest file:
 
@@ -323,7 +323,7 @@ Other external factors, such as network congestion or database performance, can 
 Autoscaler can only use HTTP Request Latency as a scaling metric for apps that receive requests directly through the Gorouter. Autoscaler does not support
 using HTTP Request Latency as a scaling metric for apps that receive requests from other apps through container-to-container (C2C) networking or TCP routers.
 
-If your app relies on back-end HTTP services that apps in your TAS for VMs deployment must access through C2C networking, the Gorouter does not generate HTTP events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
+If your app relies on back-end HTTP services that apps in your Tanzu for Cloud Foundry deployment must access through C2C networking, the Gorouter does not generate HTTP events for those requests. As a result, Autoscaler cannot scale those HTTP services. For Autoscaler to scale them, you must either use a different default scaling metric or create a custom scaling metric for them.
 
 ### <a id='log-cache-eviction'></a> Log cache ejection
 

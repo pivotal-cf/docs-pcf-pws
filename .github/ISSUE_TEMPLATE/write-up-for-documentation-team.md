@@ -1,13 +1,13 @@
 ---
 name: Write-Up for Documentation Team
-about: Submit content to the TAS Docs team to use in documentation
+about: Submit content to the Tanzu CF Docs team to use in documentation
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-To submit content for the TAS IX team to use in writing documentation:
+To submit content for the Tanzu CF IX team to use in writing documentation:
 
 1. Fill out all fields in "Background Information".
 

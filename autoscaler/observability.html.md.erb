@@ -3,7 +3,7 @@ title: Using debug logs for App Autoscaler
 owner: Autoscaler
 ---
 
-You can monitor App Autoscaler and its supporting VMware Tanzu Application Service for VMs (TAS for VMs) components through debug logging.
+You can monitor App Autoscaler and its supporting VMware Tanzu Platform for Cloud Foundry (Tanzu for CF) components through debug logging.
 
 
 ## <a id='overview'></a> Debug logging in Autoscaler
@@ -14,7 +14,7 @@ You can use the debug logs that Autoscaler generates to:
 
 * See whether developers of your apps are using Autoscaler to scale them, and measure the efficacy of apps that use Autoscaler. For more information, see [Reviewing Autoscaler use](#autoscaler-usage).
 
-* Verify that if TAS for VMs components are failing to sufficiently support Autoscaler. For more information, see [Failure modes](#failure-modes).
+* Verify that if Tanzu for Cloud Foundry components are failing to sufficiently support Autoscaler. For more information, see [Failure modes](#failure-modes).
 
 To configure Autoscaler to record debug logs, see [Configure debug logging for Autoscaler](#allow-debug).
 To review the debug logs for Autoscaler, see [Review Autoscaler debug logs](#review-logs).
@@ -126,11 +126,11 @@ To identify apps that are using Autoscaler through CAPI:
 
 ## <a id='failure-modes'></a> Failure modes
 
-Rather than always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, you can use Autoscaler to provision only the number of instances that your apps require to handle the amount of traffic that you expect at any given time. However, if Autoscaler or the TAS for VMs components that support Autoscaler fail, Autoscaler cannot scale the number of app instances up enough to meet the needs of your apps.
+Rather than always maintaining enough app instances to handle the maximum amount of traffic that you expect for your apps, you can use Autoscaler to provision only the number of instances that your apps require to handle the amount of traffic that you expect at any given time. However, if Autoscaler or the Tanzu for Cloud Foundry components that support Autoscaler fail, Autoscaler cannot scale the number of app instances up enough to meet the needs of your apps.
 
-If you are not using Autoscaler, TAS for VMs component failures might have little impact on your apps. Because Autoscaler depends on TAS for VMs components such as Log Cache, the Cloud Controller, and MySQL to scale apps, using Autoscaler greatly increases the impact of TAS for VMs component failures on those apps.
+If you are not using Autoscaler, Tanzu for Cloud Foundry component failures might have little impact on your apps. Because Autoscaler depends on Tanzu for Cloud Foundry components such as Log Cache, the Cloud Controller, and MySQL to scale apps, using Autoscaler greatly increases the impact of Tanzu for Cloud Foundry component failures on those apps.
 
-This section describes some of the ways in which the TAS for VMs components that support Autoscaler might fail, with examples of the debug log metrics, autoscaling events, and errors in Autoscaler debug logs that might appear when these TAS for VMs components fail.
+This section describes some of the ways in which the Tanzu for Cloud Foundry components that support Autoscaler might fail, with examples of the debug log metrics, autoscaling events, and errors in Autoscaler debug logs that might appear when these Tanzu for Cloud Foundry components fail.
 
 ### <a id='log-cache'></a> Log cache
 
